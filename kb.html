@@ -36,14 +36,14 @@ All rights reserved.
 	
 	<ul class="nav navbar-nav">
 		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Preset <b class="caret"></b></a>
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-keyboard"></i> Preset <b class="caret"></b></a>
 			<ul class="dropdown-menu">
 				<li ng-repeat="(k,v) in layouts"><a ng-click="loadPreset(v)" href="#">{{k}}</a></li>
 			</ul>
 		</li>
 		
 		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Color Swatches <b class="caret"></b></a>
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-th"></i> Color Swatches <b class="caret"></b></a>
 			<ul class="dropdown-menu">
 				<li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
 			</ul>
@@ -109,8 +109,8 @@ All rights reserved.
 	</div>
 	
 	<ul class="nav nav-tabs">
-		<li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab">Properties</a></li>
-		<li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab">Raw data</a></li>
+		<li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab"><i class="icon-edit"></i> Properties</a></li>
+		<li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="icon-code"></i> Raw data</a></li>
 	</ul>
 	<div class='tab-content' ui-keydown="{esc:'focusKb()'}">
 		<div id="properties" ng-class="{hidden:selTab!=0}" class="col-md-12 row">
