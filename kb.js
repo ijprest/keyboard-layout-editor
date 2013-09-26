@@ -26,7 +26,7 @@ TODO / Wishlist
 			return '{'+res.join(',')+'}';
 		}
 		return angular.toJson(obj);	
-	}		
+	}
 	function toJsonPretty(obj) {
 		var res = [];
 		obj.forEach(function(elem) { res.push(toJsonL(elem));	});
@@ -57,10 +57,7 @@ TODO / Wishlist
 		String.prototype.format = function() {
 			var args = arguments;
 			return this.replace(/\{(\d+)\}/g, function(match, number) { 
-				return typeof args[number] !== 'undefined'
-					? args[number]
-					: match
-				;
+				return typeof args[number] !== 'undefined' ? args[number] : match;
 			});
 		};
 	}
@@ -91,6 +88,7 @@ TODO / Wishlist
 		if(row.length>0) { rows.push(row); }
 		return rows;
 	}
+
 	function deserialize(rows) {
 		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false;
 		for(r = 0; r < rows.length; ++r) {
@@ -124,7 +122,6 @@ TODO / Wishlist
 		return keys;
 	}
 	
-	
 	// Some predefined sizes for our caps
 	var sizes = { cap: 54, padding: 2, margin: 6, spacing: 1 };
 	sizes.capsize = function(size) { return (size*sizes.cap) - (2*sizes.spacing); };
@@ -135,17 +132,52 @@ TODO / Wishlist
 	// The main application controller
 	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', function($scope, $http, $location, $timeout, $sce) {
 		var serializedTimer = false;
-		
+
+		// The application version
+		$scope.version = "0.4";
+
+		// The selected tab; 0 == Properties, 1 == Raw Data
 		$scope.selTab = 0;
 	
-		// Load a set of pre-defined layouts
+		// An array used to keep track of the selected keys
+		$scope.selectedKeys = [];
+
+		// A single key selection; if multiple keys are selected, this is the 
+		// most-recently selected one.
+		$scope.multi = {};
+
+		// Helper function to select a single key
+		function selectKey(key,event) { 
+			if(key) {
+				// If CTRL is held down, we toggle the selection state
+				if(event.ctrlKey) {
+					var ndx = $scope.selectedKeys.indexOf(key);
+					if(ndx >= 0) {
+						$scope.selectedKeys.splice(ndx,1);
+					} else {
+						$scope.selectedKeys.push(key);
+						$scope.multi = key;
+					}
+				} else {
+					$scope.selectedKeys = [key];
+					$scope.multi = key;
+				}
+			}
+		};
+
+		// The serialized key data
+		$scope.serialized = "";
+
+		// Known layouts/presets
 		$scope.layouts = {};
-		$http.get('layouts.json').success(function(data) {
-			$scope.layouts = data;
+		$http.get('layouts.json').success(function(data) { 
+			$scope.layouts = data; 
 		});
-	
-		// Load the set of known Signature Plastics colors
+
+		// The currently selected palette
 		$scope.palette = {};
+
+		// The set of known palettes
 		$scope.palettes = {};
 		$http.get('colors.json').success(function(data) {
 			$scope.palettes = data;
@@ -154,6 +186,12 @@ TODO / Wishlist
 					color.css = rgb(color.r,color.g,color.b);
 				});
 			});
+		});
+
+		// A set of "known special" keys
+		$scope.specialKeys = null;
+		$http.get('keys.json').success(function(data) {
+			$scope.specialKeys = data;
 		});
 	
 		// Helper to calculate the height of the keyboard layout; cached to improve performance.
@@ -165,8 +203,9 @@ TODO / Wishlist
 			});
 			$scope.kbHeight = bottom - $('#keyboard').position().top - 10;
 		};
-	
-		$scope.renderKey = function(key) {
+
+		// Given a key, generate the HTML needed to render it	
+		function renderKey(key) {
 			var html = "";
 			var capwidth = sizes.capsize(key.width), capwidth2 = sizes.capsize(key.width2);
 			var capheight = sizes.capsize(key.height), capheight2 = sizes.capsize(key.height2);
@@ -204,7 +243,7 @@ TODO / Wishlist
 		$scope.deserializeAndRender = function(data) {
 			$scope.keys = deserialize(data);
 			$scope.keys.forEach(function(key) {
-				$scope.renderKey(key);
+				renderKey(key);
 			});
 		};
 	
@@ -214,37 +253,18 @@ TODO / Wishlist
 		} else { 
 			$scope.deserializeAndRender([["Num Lock","/","*","-"],["7\nHome","8\n↑","9\nPgUp",{h:2},"+"],["4\n←","5","6\n→"],["1\nEnd","2\n↓","3\nPgDn",{h:2},"Enter"],[{w:2},"0\nIns",".\nDel"]]);
 		}
-	
-		$scope.selectedKeys = [];
-		$scope.selectKey = function(key,event) { 
-			if(key) {
-				if(event.ctrlKey) {
-					var ndx = $scope.selectedKeys.indexOf(key);
-					if(ndx >= 0) {
-						$scope.selectedKeys.splice(ndx,1);
-					} else {
-						$scope.selectedKeys.push(key);
-						$scope.multi = key;
-					}
-				} else {
-					$scope.selectedKeys = [key];
-					$scope.multi = key;
-				}
-			}
-		};
-	
+
 		function updateSerialized() {
 			//$timeout.cancel(serializedTimer); // this is slow, for some reason
 			$scope.deserializeException = "";
 			$scope.serialized = toJsonPretty(serialize($scope.keys));
 		}
 
-		$scope.multi = {};
 		$scope.updateMulti = function(prop,sync) {
 			$scope.selectedKeys.forEach(function(selectedKey) {
 				if(sync) { selectedKey[prop+"2"] = $scope.multi[prop]; }
 				selectedKey[prop] = $scope.multi[prop];
-				$scope.renderKey(selectedKey);
+				renderKey(selectedKey);
 			});
 			updateSerialized();
 		};
@@ -257,7 +277,7 @@ TODO / Wishlist
 				} else {
 					selectedKey.color = color.css;
 				}
-				$scope.renderKey(selectedKey);
+				renderKey(selectedKey);
 			});
 			updateSerialized();
 			$event.preventDefault();
@@ -267,7 +287,7 @@ TODO / Wishlist
 			$scope.selectedKeys.forEach(function(selectedKey) {
 				selectedKey.x = max(0,selectedKey.x + x);
 				selectedKey.y = max(0,selectedKey.y + y);
-				$scope.renderKey(selectedKey);
+				renderKey(selectedKey);
 			});
 			updateSerialized();
 			if(y !== 0) { $scope.calcKbHeight(); }
@@ -278,7 +298,7 @@ TODO / Wishlist
 			$scope.selectedKeys.forEach(function(selectedKey) {
 				selectedKey.width = selectedKey.width2 = max(1,selectedKey.width + x);
 				selectedKey.height = selectedKey.height2 = max(1,selectedKey.height + y);
-				$scope.renderKey(selectedKey);
+				renderKey(selectedKey);
 			});
 			updateSerialized();
 			if(y!==0) { $scope.calcKbHeight(); }
@@ -292,6 +312,7 @@ TODO / Wishlist
 			$scope.deserializeAndRender(preset);
 			updateSerialized();
 		};
+
 		$scope.deleteKeys = function() {
 			$scope.selectedKeys.forEach(function(selectedKey) {
 				var ndx = $scope.keys.indexOf(selectedKey);
@@ -311,7 +332,8 @@ TODO / Wishlist
 			}
 			$('#keyboard').focus();
 		};
-		$scope.addKey = function() {
+
+		$scope.addKey = function(proto) {
 			var xpos = 0, ypos = -1;
 			if($scope.findKeyAfter($scope.multi) || typeof $scope.multi.x === "undefined") {
 				$scope.keys.forEach(function(key) {	ypos = max(ypos,key.y);	});
@@ -324,14 +346,18 @@ TODO / Wishlist
 
 			var color = $scope.multi.color || "#eeeeee";
 			var textColor = $scope.multi.text || "#000000";
-			var newKey = {x:xpos, y:ypos, width:1, height:1, color:color, text:textColor, label:"", label2:"", x2:0, y2:0, width2:1, height2:1, profile:""};
-			$scope.renderKey(newKey);
+			var newKey = {width:1, height:1, color:color, text:textColor, label:"", label2:"", x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:""};
+			$.extend(newKey, proto);
+			newKey.x += xpos;
+			newKey.y += ypos;
+			renderKey(newKey);
 			$scope.keys.push(newKey);
 			updateSerialized();
-			$scope.selectKey(newKey,{});
+			selectKey(newKey,{});
 			$scope.calcKbHeight();
 			$('#keyboard').focus();
 		};
+
 		$scope.addKeys = function(count) {
 			var i;
 			for(i = 0; i < count; ++i) {
@@ -355,68 +381,108 @@ TODO / Wishlist
 		};
 
 		$scope.selRect = { display:"none" };
-		var doingRectSelect = false;
+
+		// Called when the mouse is clicked within #keyboard; we use this to initiate a marquee
+		// selection action.
+		var doingMarqueeSelect = false;
 		$scope.selectClick = function(event) {
+			var kbElem = $("#keyboard");
 			$scope.selRect = { display:"none", x:event.pageX, y:event.pageY, l:event.pageX, t:event.pageY, w:0, h:0 };
-			doingRectSelect = true;
+			$scope.selRect.kb = { 	left: kbElem.position().left + parseInt(kbElem.css('margin-left'),10),
+									top: kbElem.position().top + parseInt(kbElem.css('margin-top'),10),
+									width: kbElem.outerWidth(), 
+									height:kbElem.outerHeight() 
+								};
+			doingMarqueeSelect = true;
 			event.preventDefault();
 		};
+
+		// Called whenever the mouse moves over the document; ideally we'd get mouse-capture on 
+		// mouse-down over #keyboard, but it doesn't look like there's a real way to do that in 
+		// JS/HTML, so we do our best to simulate it.  Also, there doesn't appear to be any way
+		// to recover if the user releases the mouse-button outside of the browser window.
 		$scope.selectMove = function(event) {
-			if(doingRectSelect) {				
-				if(event.pageX < $scope.selRect.x) {
-					$scope.selRect.l = event.pageX;
-					$scope.selRect.w = $scope.selRect.x - event.pageX;
+			if(doingMarqueeSelect) {
+				// Restrict the mouse position to the bounds #keyboard
+				var pageX = min($scope.selRect.kb.left + $scope.selRect.kb.width, max($scope.selRect.kb.left, event.pageX));
+				var pageY = min($scope.selRect.kb.top + $scope.selRect.kb.height, max($scope.selRect.kb.top, event.pageY));
+
+				// Calculate the new marquee rectangle (normalized)
+				if(pageX < $scope.selRect.x) {					
+					$scope.selRect.l = pageX;
+					$scope.selRect.w = $scope.selRect.x - pageX;
 				} else {
 					$scope.selRect.l = $scope.selRect.x;
-					$scope.selRect.w = event.pageX - $scope.selRect.x;
+					$scope.selRect.w = pageX - $scope.selRect.x;
 				}
-				if(event.pageY < $scope.selRect.y) {
-					$scope.selRect.t = event.pageY;
-					$scope.selRect.h = $scope.selRect.y - event.pageY;
+				if(pageY < $scope.selRect.y) {
+					$scope.selRect.t = pageY;
+					$scope.selRect.h = $scope.selRect.y - pageY;
 				} else {
 					$scope.selRect.t = $scope.selRect.y;
-					$scope.selRect.h = event.pageY - $scope.selRect.y;
+					$scope.selRect.h = pageY - $scope.selRect.y;
 				}
+
+				// If the mouse has moved more than our threshold, then display the marquee
 				if($scope.selRect.w + $scope.selRect.h > 5) {
 					$scope.selRect.display = "inherit";
 				}
 			}
 		};
+
+		// Called when the mouse button is released anywhere over the document; see notes above 
+		// about mouse-capture.
 		$scope.selectRelease = function(event) {
-			if(doingRectSelect) {
-				doingRectSelect = false;
+			if(doingMarqueeSelect) {
+				doingMarqueeSelect = false;
+
+				// Clear the array of selected keys if the CTRL isn't held down.
 				if(!event.ctrlKey) {
 					$scope.selectedKeys = [];
 				}
+
+				// Calculate the offset between #keyboard and the mouse-coordinates
 				var kbElem = $("#keyboard");
 				var kbPos = kbElem.position();
 				var offsetx = kbPos.left + parseInt(kbElem.css('padding-left'),10) + parseInt(kbElem.css('margin-left'),10);
 				var offsety = kbPos.top + parseInt(kbElem.css('padding-top'),10) + parseInt(kbElem.css('margin-top'),10);
 
+				// Check to see if the marquee was actually displayed
 				if($scope.selRect.display !== "none") {
 					$scope.selRect.display = "none";
+
+					// Adjust the mouse coordinates to client coordinates
 					$scope.selRect.l -= offsetx;
 					$scope.selRect.t -= offsety;
+
+					// Iterate over all the keys
 					$scope.keys.forEach(function(key) {
+						// Check to see if the key is *entirely within* the marquee rectangle
 						if( key.rect.x >= $scope.selRect.l && key.rect.x+key.rect.w <= $scope.selRect.l+$scope.selRect.w &&
 							key.rect.y >= $scope.selRect.t && key.rect.y+key.rect.h <= $scope.selRect.t+$scope.selRect.h )
 						{
+							// Key is inside the rectangle; select it (if not already selected).
 							if($scope.selectedKeys.indexOf(key) < 0) {
-								$scope.selectKey(key, {ctrlKey:true});
+								selectKey(key, {ctrlKey:true});
 							}
 						}
-					});
+					});					
 				} else {
-					// single-key selection
+					// The marquee wasn't displayed, so we're doing a single-key selection; 
+					// iterate over all the keys.
 					$scope.keys.forEach(function(key) {
+						// Just check to see if the mouse click is within any key rectangle
 						if( key.rect.x <= event.pageX-offsetx && key.rect.x+key.rect.w >= event.pageX-offsetx &&
 							key.rect.y <= event.pageY-offsety && key.rect.y+key.rect.h >= event.pageY-offsety )
 						{
-							$scope.selectKey(key, event);
+							selectKey(key, event);
 						}
 					});
 				}
+
 				event.preventDefault();
+
+				// Focus the keyboard, so keystrokes have the desired effect
 				$('#keyboard').focus();
 			}
 		};
@@ -458,8 +524,8 @@ TODO / Wishlist
 		};
 	
 		// Called on 'j' or 'k' keystrokes; navigates to the next or previous key
-		$scope.prevKey = function() { $scope.selectKey($scope.findKeyBefore($scope.multi) || $scope.keys[0],{}); };
-		$scope.nextKey = function() { $scope.selectKey($scope.findKeyAfter($scope.multi) || $scope.keys[$scope.keys.length-1],{}); };
+		$scope.prevKey = function() { selectKey($scope.findKeyBefore($scope.multi) || $scope.keys[0],{}); };
+		$scope.nextKey = function() { selectKey($scope.findKeyAfter($scope.multi) || $scope.keys[$scope.keys.length-1],{}); };
 
 		$scope.focusKb = function() { $('#keyboard').focus(); };
 		$scope.focusEditor = function() { 

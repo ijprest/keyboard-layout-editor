@@ -1,5 +1,5 @@
 <!-- 
-KEYBOARD LAYOUT EDITOR v0.4
+KEYBOARD LAYOUT EDITOR
 Copyright (C) 2013  Ian Prest
 All rights reserved.
 -->
@@ -19,7 +19,9 @@ All rights reserved.
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="kb.js"></script>
 </head>
-<body ng-controller="kbCtrl">
+<body ng-controller="kbCtrl"
+	 ng-mouseup="selectRelease($event)" 
+	 ng-mousemove="selectMove($event)">
 <div id="wrap">	
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">	
 	<div class="navbar-header">
@@ -67,6 +69,8 @@ All rights reserved.
 			<li><a ng-click="addKeys(5)">Add 5 Keys</a></li>
 			<li><a ng-click="addKeys(10)">Add 10 Keys</a></li>
 			<li><a ng-click="addKeys(25)">Add 25 Keys</a></li>
+			<li class="divider" ng-class="{hidden: !specialKeys}"></li>
+			<li ng-repeat="(k,v) in specialKeys"><a ng-click="addKey(v)">Add '{{k}}' Key</a></li>
 		</ul>
 	</div>
 	<div class="btn-group">
@@ -89,9 +93,7 @@ All rights reserved.
 					 74: 'prevKey()', 
 					 75: 'nextKey()',
 					 113: 'focusEditor()'}" 
-		 ng-mousedown="selectClick($event)" 
-		 ng-mouseup="selectRelease($event)" 
-		 ng-mousemove="selectMove($event)">
+		 ng-mousedown="selectClick($event)">
 	
 		<div ng-repeat="key in keys" 
 			 class="key {{key.profile}}" 
@@ -188,7 +190,7 @@ All rights reserved.
 <div id="footer">
 <div class="container">
 	<p class="text-muted credit">
-		Keyboard Layout Editor v0.4<br/>
+		Keyboard Layout Editor v{{version}}<br/>
 		Copyright &copy; 2013 &mdash; Ian Prest<br/>
 		All rights reserved.
 	</p>
