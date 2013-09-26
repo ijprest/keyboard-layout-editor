@@ -1,15 +1,15 @@
 html, body {
 	height: 100%;
 	font-family: "Segoe UI", "Arial", "Helvetica", sans-serif;		
-}
-.body { 
-	margin: 10px; 
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;	
 	user-select: none;
+}
+.body { 
+	margin: 10px; 
 }
 
 /* Wrapper for page content to push down footer */
