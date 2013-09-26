@@ -1,0 +1,199 @@
+<!-- 
+KEYBOARD LAYOUT EDITOR v0.4
+Copyright (C) 2013  Ian Prest
+All rights reserved.
+-->
+<!DOCTYPE html>
+<html ng-app="kbApp">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen">
+<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="css/hint.min.css">
+<link rel="stylesheet" type="text/css" href="kb.css">
+	
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="js/ui-utils.min.js"></script>
+<script type="text/javascript" src="js/jquery-2.0.2.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="kb.js"></script>
+</head>
+<body ng-controller="kbCtrl">
+<div id="wrap">	
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">	
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="#"><i class="icon-keyboard"></i> keyboard-layout-editor.com</a>		
+	</div>
+	
+	<ul class="nav navbar-nav">
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Preset <b class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li ng-repeat="(k,v) in layouts"><a ng-click="loadPreset(v)" href="#">{{k}}</a></li>
+			</ul>
+		</li>
+		
+		<li class="dropdown">
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">Color Swatches <b class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
+			</ul>
+		</li>	
+	</ul>
+	
+	<div class="collapse navbar-collapse navbar-ex1-collapse">
+		<ul class="nav navbar-nav navbar-right">
+			<li><a ng-href="{{getPermalink()}}">Permalink</a></li>
+		</ul>
+	</div>
+</nav>
+
+<div class="body">
+	
+	<div class="btn-group">
+		<button type="button" class="btn btn-primary" ng-click="addKey()"><i class="glyphicon glyphicon-plus-sign"></i> Add Key</button>
+		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" role="menu">
+			<li><a ng-click="addKeys(1)">Add 1 Key</a></li>
+			<li><a ng-click="addKeys(5)">Add 5 Keys</a></li>
+			<li><a ng-click="addKeys(10)">Add 10 Keys</a></li>
+			<li><a ng-click="addKeys(25)">Add 25 Keys</a></li>
+		</ul>
+	</div>
+	<div class="btn-group">
+		<button type="button" class="btn btn-danger" ng-class="{disabled:selectedKeys.length<1}" ng-click="deleteKeys()"><i class="glyphicon glyphicon-remove-sign"></i> Delete Keys</button>		
+	</div>
+	
+	<div id="keyboard" 
+		 tabindex="0" 
+		 ng-style="{height: kbHeight + 'px'}" 
+		 ui-keydown="{ left:'moveKeys(-.25,0,$event)', 
+					 right:'moveKeys(.25,0,$event)', 
+					 up:'moveKeys(0,-.25,$event)', 
+					 down:'moveKeys(0,.25,$event)', 
+					 'shift-left':'sizeKeys(-.25,0,$event)',
+					 'shift-right':'sizeKeys(.25,0,$event)',
+					 'shift-up':'sizeKeys(0,-.25,$event)',
+					 'shift-down':'sizeKeys(0,.25,$event)',
+					 delete:'deleteKeys()', 
+					 insert:'addKey()',
+					 74: 'prevKey()', 
+					 75: 'nextKey()',
+					 113: 'focusEditor()'}" 
+		 ng-mousedown="selectClick($event)" 
+		 ng-mouseup="selectRelease($event)" 
+		 ng-mousemove="selectMove($event)">
+	
+		<div ng-repeat="key in keys" 
+			 class="key {{key.profile}}" 
+			 ng-mouseover="hoveredKey=key" 
+			 ng-mouseleave="hoveredKey=null" 
+			 ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0}"
+			 ng-bind-html="key.html">
+		</div>
+	
+		<div id="selectionRectangle" ng-style="{display:selRect.display, left:selRect.l+'px', width:selRect.w+'px', top:selRect.t+'px', height:selRect.h+'px'}"></div>
+		<div style='clear:both'></div>
+		{{calcKbHeight()}}
+	</div>
+	
+	<ul class="nav nav-tabs">
+		<li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab">Properties</a></li>
+		<li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab">Raw data</a></li>
+	</ul>
+	<div class='tab-content' ui-keydown="{esc:'focusKb()'}">
+		<div id="properties" ng-class="{hidden:selTab!=0}" class="col-md-12 row">
+
+			<form class="form-horizontal col-md-4 col-lg-4">
+				<div class="control-group">
+					<label class="control-label" for="labeleditor">Top Label:</label>
+					<div class="controls">
+						<input id="labeleditor" size="8" type='text' ng-model="multi.label" ng-change="updateMulti('label')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="labeleditor2">Bottom Label:</label>
+					<div class="controls">
+						<input id="labeleditor2" size="8" type='text' ng-model="multi.label2" ng-change="updateMulti('label2')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="widtheditor">Width:</label>
+					<div class="controls">
+						<input id="widtheditor" size="6" type='number' min='1' max='12' step='.25' ng-model="multi.width" ng-change="updateMulti('width',true)" ng-disabled="selectedKeys.length<1"> / <input size="6" type='number' min='1' max='12' step='.25' ng-model="multi.width2" ng-change="updateMulti('width2')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="heighteditor">Height:</label>
+					<div class="controls">
+						<input id="heighteditor" size="6" type='number' min='1' max='12' step='.25' ng-model="multi.height" ng-change="updateMulti('height',true)" ng-disabled="selectedKeys.length<1"> / <input size="6" type='number' min='1' max='12' step='.25' ng-model="multi.height2" ng-change="updateMulti('height2')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="xeditor">X:</label>
+					<div class="controls">
+						<input id="xeditor" size="6" type='number' min='0' max='36' step='.25' ng-model="multi.x" ng-change="updateMulti('x')" ng-disabled="selectedKeys.length<1"> + <input size="6" type='number' min='-6' max='6' step='.25' ng-model="multi.x2" ng-change="updateMulti('x2')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="yeditor">Y:</label>
+					<div class="controls">
+						<input id="yeditor" size="6" type='number' min='0' max='36' step='.25' ng-model="multi.y" ng-change="updateMulti('y')" ng-disabled="selectedKeys.length<1"> + <input size="6" type='number' min='-6' max='6' step='.25' ng-model="multi.y2" ng-change="updateMulti('y2')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="coloreditor">Key Color:</label>
+					<div class="controls">
+						<input id="coloreditor" size="8" type='text' ng-model="multi.color" ng-change="updateMulti('color')" ng-disabled="selectedKeys.length<1">
+						<input type='color' class="colorpicker" ng-model="multi.color" ng-change="updateMulti('color')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="textcoloreditor">Label Color:</label>
+					<div class="controls">
+						<input id="textcoloreditor" size="8" type='text' ng-model="multi.text" ng-change="updateMulti('text')" ng-disabled="selectedKeys.length<1">
+						<input type='color' class="colorpicker" ng-model="multi.text" ng-change="updateMulti('text')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+			</form>
+
+			<div class="col-md-4 col-lg-4" ng-class="{hidden:!palette.name}">
+				{{palette.name}} <a ng-href='{{palette.href}}' data-hint="{{palette.description}}" class="hint--top hint--rounded" target="_blank">(more info)</a>
+				<ul id="swatches" ng-class="{disabled:selectedKeys.length<1}">
+					<li ng-repeat="color in palette.colors" 
+						 ng-style="{'background-color':color.css}" 
+						 ng-click="clickSwatch(color,$event)"
+						 class="swatch hint--top"
+						 data-hint="{{color.name}}"></li>
+				</ul>
+			</div>
+		</div>
+		<div ng-class="{hidden:selTab!=1}" class="col-md-12">
+			<textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}"></textarea>
+			<div class="alert alert-danger" style='margin-top:1em;margin-bottom:0px' ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
+		</div>
+	</div>	
+</div>
+</div>
+	
+<div id="footer">
+<div class="container">
+	<p class="text-muted credit">
+		Keyboard Layout Editor v0.4<br/>
+		Copyright &copy; 2013 &mdash; Ian Prest<br/>
+		All rights reserved.
+	</p>
+</div>
+</div>	
+	
+</body>
+</html>

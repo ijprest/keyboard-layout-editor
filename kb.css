@@ -1,0 +1,159 @@
+html, body {
+	height: 100%;
+	font-family: "Segoe UI", "Arial", "Helvetica", sans-serif;		
+}
+.body { margin: 10px; }
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+  margin: 0 auto -70px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+  height: 70px;
+  background-color: #f5f5f5;
+}
+
+/* The keyboard background */
+#keyboard {	
+	font-family: "Segoe UI", "Arial", "Helvetica", sans-serif;		
+	padding: 5px;
+	position:relative; 
+	border: solid 1px #ddd; 
+	border-radius: 6px;
+	background-color: #eee;
+	min-height: 64px;
+	-webkit-box-sizing:content-box;
+	-moz-box-sizing:content-box;
+	box-sizing:content-box;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.key { 
+	position: relative; 
+	display:table;
+	-webkit-box-sizing:content-box;
+	-moz-box-sizing:content-box;
+	box-sizing:content-box;
+}
+
+/* The external border of the keycap */
+.keyborder { 
+	position: absolute; 
+	border-radius: 5px; 
+	border: solid 1px black;
+	-webkit-box-sizing:content-box;
+	-moz-box-sizing:content-box;
+	box-sizing:content-box;
+}
+.hover .keyborder { border-color: green; }
+.selected .keyborder { border-color: red; }
+
+/* The sides of the cap (darker) */
+.keybg { 
+	position: absolute; 
+	border-radius: 5px; 
+	-webkit-box-sizing:content-box;
+	-moz-box-sizing:content-box;
+	box-sizing:content-box;
+}
+
+/* The face of the cap */
+.keyfg { 
+	position: absolute; 
+	border-radius: 3px; 	
+	display:table-cell;	
+	-webkit-box-sizing:content-box;
+	-moz-box-sizing:content-box;
+	box-sizing:content-box;
+}
+
+.DCS .keyfg {
+	background: -moz-linear-gradient(left,  rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.1) 100%);
+	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.1)), color-stop(40%,rgba(0,0,0,0)), color-stop(60%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.1)));
+	background: -webkit-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 40%,rgba(0,0,0,0) 60%,rgba(0,0,0,0.1) 100%);
+	background: -o-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 40%,rgba(0,0,0,0) 60%,rgba(0,0,0,0.1) 100%);
+	background: -ms-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 40%,rgba(0,0,0,0) 60%,rgba(0,0,0,0.1) 100%);
+	background: linear-gradient(to right,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 40%,rgba(0,0,0,0) 60%,rgba(0,0,0,0.1) 100%);
+}
+.DSA .keyfg {
+	border-radius: 8px; 
+	margin-top: 3px;
+	background: -moz-radial-gradient(center, ellipse cover,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.15)));
+	background: -webkit-radial-gradient(center, ellipse cover,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.15) 100%);
+	background: -o-radial-gradient(center, ellipse cover,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.15) 100%);
+	background: -ms-radial-gradient(center, ellipse cover,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.15) 100%);
+	background: radial-gradient(ellipse at center,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.15) 100%);
+}
+
+/* Key labels */
+.keylabels {
+	display:table-cell;
+	width:100%;
+	font-size: 12px; 
+	font-family: "Helvetica", "Arial", sans-serif;
+}
+.keylabel {
+	margin-bottom:5px;
+}
+.keylabel2 {
+}
+
+/* color swatches */
+#swatches {
+	list-style-type: none;
+	-webkit-margin-before: 0em;
+	-webkit-margin-after: 0em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	-webkit-padding-start: 0px;
+}
+.swatch { 
+	display: inline-block; 
+	position:relative;
+	width: 16px; 
+	height: 32px; 
+	border:solid 1px #888; 
+	margin-right:-1px;
+	margin-bottom:-6px;	
+	padding:0px;
+}
+#swatches.disabled .swatch {
+	background-color: rgb(235,235,228) !important;
+}
+
+
+/* general styles */
+.hidden { display: none; }
+.error { border: solid 2px rgb(217,83,79); }
+#selectionRectangle { position: fixed; border: dashed 2px red; }
+
+#rawdata { 
+	width: 100%;
+	height: 200px;
+	font-family: "Consolas", "Courier New", "Courier", monospace;
+}
+.tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+#properties.row { padding-left:30px; }
+.form-horizontal .control-label { 
+	float:left; 
+	padding-right: 5px; 
+	padding-top: 3px; 
+	width: 120px;
+}
+.form-horizontal input { margin-bottom: 2px; }
