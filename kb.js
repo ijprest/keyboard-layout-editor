@@ -375,7 +375,7 @@ TODO / Wishlist
 
 			// Get the indicies of all the selected keys
 			var toDelete = $scope.selectedKeys.map(function(key) { return $scope.keys.indexOf(key); });
-			toDelete.sort();
+			toDelete.sort(function(a,b) { return parseInt(a) - parseInt(b); });
 
 			// Figure out which key we're going to select after deletion
 			var toSelectNdx = toDelete[toDelete.length-1]+1;
