@@ -592,6 +592,11 @@ TODO / Wishlist
 				$('#labeleditor').focus().select();
 			}
 		};
+
+		$scope.showHelp = function() {
+			$('#helpDialog').modal('show');
+		};
+
 	}]);
 	
 	// Modernizr-inspired check to see if "color" input fields are supported; 

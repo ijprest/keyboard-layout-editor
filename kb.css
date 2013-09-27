@@ -165,3 +165,6 @@ html, body {
 	width: 120px;
 }
 .form-horizontal input { margin-bottom: 2px; }
+
+.shortcuts tr > td:first-child { text-align:right; padding-right: 6px; padding-top: 3px;}
+.shortcuts .shortcut { background-color: #444; color: white; padding: 1px 6px; border-radius:6px; }

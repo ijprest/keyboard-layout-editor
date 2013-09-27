@@ -21,8 +21,9 @@ All rights reserved.
 </head>
 <body ng-controller="kbCtrl"
 	 ng-mouseup="selectRelease($event)" 
-	 ng-mousemove="selectMove($event)">
-<div id="wrap">	
+	 ng-mousemove="selectMove($event)"
+	 ui-keydown="{'shift-191' : 'showHelp()'}">
+<div id="wrap">
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">	
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -202,9 +203,49 @@ All rights reserved.
 		Copyright &copy; 2013 &mdash; Ian Prest<br/>
 		All rights reserved.
 	</p>
-	<div style="float:right"><br/><br/><a href="https://github.com/ijprest/keyboard-layout-editor"><i class="icon-github"></i> Code hosted on GitHub</a></div>
+	<div style="float:right; text-alignment:right;">
+		<a ng-click="showHelp()"><i class="icon-keyboard"></i> Keyboard shortcuts available</a><br/>
+		<br/>
+		<a href="https://github.com/ijprest/keyboard-layout-editor" target="_blank"><i class="icon-github"></i> Code hosted on GitHub</a>
+	</div>
 </div>
 </div>	
-	
+
+<!-- Modal -->
+<div class="modal fade" id="helpDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">How to use keyboard-layout-editor.com</h4>
+			</div>
+			<div class="modal-body">
+				<h5>Getting Started</h5>
+				<ul>
+					<li>Try loading one of the preset layouts from the dropdown at the top of the page; it will give you a good idea of the editor's capabilities.</li>
+					<li>Select a key in the editor by clicking on it; then try changing the various properties in the property-editor form.</li>
+					<li>You can select multiple keys by holding down CTRL and clicking on them; or you can drag a marquee rectangle around the keys you want to select.</li>
+					<li>Try the keyboard shortcuts (described below); they make editing various properties much quicker.</li>
+					<li>Save your layout by dragging the 'Permalink' (at the top of the page) to your bookmarks list.</li>
+				</ul>
+
+				<h5>Keyboard Shortcuts</h5>
+				<table class='shortcuts' style='margin-bottom:5px;'>
+					<tr><td><span class='shortcut'>?</span></td><td>Show this help dialog</td></tr>
+					<tr><td><span class='shortcut'>↑↓←→</span></td><td>Move the selected keys</td></tr>
+					<tr><td><span class='shortcut'>Shift + ↑↓←→</span></td><td>Resize the selected keys</td></tr>
+					<tr><td><span class='shortcut'>Insert</span></td><td>Add a new key</td></tr>
+					<tr><td><span class='shortcut'>Delete</span></td><td>Delete the selected keys</td></tr>
+					<tr><td><span class='shortcut'>F2</span></td><td>Edit the text of the selected key</td></tr>
+					<tr><td><span class='shortcut'>J</span> / <span class='shortcut'>K</span></td><td>Select the previous / next key in the editor.</td></tr>
+				</table>
+				<P>Note that most of these keys require that the keyboard editor has input focus.</P>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 </body>
 </html>
