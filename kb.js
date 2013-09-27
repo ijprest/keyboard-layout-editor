@@ -154,13 +154,18 @@ TODO / Wishlist
 					var ndx = $scope.selectedKeys.indexOf(key);
 					if(ndx >= 0) {
 						$scope.selectedKeys.splice(ndx,1);
+						if($scope.selectedKeys.length<1) { 
+							$scope.multi = {};
+						} else {
+							$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
+						}
 					} else {
 						$scope.selectedKeys.push(key);
-						$scope.multi = key;
+						$scope.multi = angular.copy(key);
 					}
 				} else {
 					$scope.selectedKeys = [key];
-					$scope.multi = key;
+					$scope.multi = angular.copy(key);
 				}
 			}
 		};
@@ -261,15 +266,58 @@ TODO / Wishlist
 			$scope.serialized = toJsonPretty(serialize($scope.keys));
 		}
 
-		$scope.updateMulti = function(prop,sync) {
-			$scope.selectedKeys.forEach(function(selectedKey) {
-				if(sync) { selectedKey[prop+"2"] = $scope.multi[prop]; }
-				selectedKey[prop] = $scope.multi[prop];
+		function validate(key,prop,value) {
+			var v = {
+				_ : function(key,x) { return x; },
+				x : function(key,x) { return max(0, min(36, x)); },
+				y : function(key,y) { return max(0, min(36, y)); },
+				x2 : function(key,x2) { return max(-key.width, min(key.width, x2)); },
+				y2 : function(key,y2) { return max(-key.height, min(key.height, y2)); },
+				width : function(key,width) { return max(0.5, min(12, width)); },
+				height : function(key,height) { return max(0.5, min(12, height)); },
+				width2 : function(key,width2) { return max(0.5, min(12, width2)); },
+				height2 : function(key,height2) { return max(0.5, min(12, height2)); },
+			};
+			return (v[prop] || v._)(key,value);
+		}
+
+		function update(key,prop,value) {
+			var u = {
+				_ : function(prop,key) { key[prop] = $scope.multi[prop]; },
+				width : function(prop,key) { key.width2 = key.width = $scope.multi.width; },
+				height : function(prop,key) { key.height2 = key.height = $scope.multi.height; },
+			};
+			return (u[prop] || u._)(prop,key);
+		}
+
+		$scope.updateMulti = function(prop) {
+			if($scope.multi[prop] == null) {
+				return;
+			}
+			var valid = validate($scope.multi, prop, $scope.multi[prop]);
+			if(valid !== $scope.multi[prop]) {
+				return;
+			}
+			$scope.selectedKeys.forEach(function(selectedKey) {				
+				update(selectedKey, prop, $scope.multi[prop]);
 				renderKey(selectedKey);
 			});
+			update($scope.multi, prop, $scope.multi[prop]);
 			updateSerialized();
 		};
-		$scope.serialized = toJsonPretty(serialize($scope.keys));	
+
+		$scope.validateMulti = function(prop) {
+			if($scope.multi[prop] == null) { 
+				$scope.multi[prop] = "";
+			}
+			var valid = validate($scope.multi, prop, $scope.multi[prop]);
+			if(valid !== $scope.multi[prop]) {
+				$scope.multi[prop] = valid;
+				$scope.updateMulti(prop);
+			}
+		};
+
+		$scope.serialized = toJsonPretty(serialize($scope.keys));
 	
 		$scope.clickSwatch = function(color,$event) {
 			$scope.selectedKeys.forEach(function(selectedKey) {
@@ -322,6 +370,7 @@ TODO / Wishlist
 				}
 			});
 			$scope.selectedKeys = [];
+			$scope.multi = {};
 			updateSerialized();
 			if($scope.keys.length > 0) {
 				$scope.nextKey();
@@ -440,6 +489,7 @@ TODO / Wishlist
 				// Clear the array of selected keys if the CTRL isn't held down.
 				if(!event.ctrlKey) {
 					$scope.selectedKeys = [];
+					$scope.multi = {};
 				}
 
 				// Calculate the offset between #keyboard and the mouse-coordinates
