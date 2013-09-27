@@ -61,11 +61,15 @@ TODO / Wishlist
 			});
 		};
 	}
+
+	function sortKeys(keys) {
+		keys.sort(function(a,b) { return a.y === b.y ? a.x - b.x : a.y - b.y; });
+	}
 	
 	// Convert between our in-memory format & our serialized format
 	function serialize(keys) {
 		var rows = [], row = [], xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", profile = "";
-		keys.sort(function(a,b) { return a.y === b.y ? a.x - b.x : a.y - b.y; });
+		sortKeys(keys);
 		keys.forEach(function(key) {
 			var props = {}, prop = false;
 			var label = key.label2 ? key.label + "\n" + key.label2 : key.label;
@@ -363,23 +367,40 @@ TODO / Wishlist
 		};
 
 		$scope.deleteKeys = function() {
-			$scope.selectedKeys.forEach(function(selectedKey) {
-				var ndx = $scope.keys.indexOf(selectedKey);
-				if(ndx >= 0) {
-					$scope.keys.splice(ndx,1);
-				}
-			});
-			$scope.selectedKeys = [];
-			$scope.multi = {};
-			updateSerialized();
-			if($scope.keys.length > 0) {
-				$scope.nextKey();
-				if($scope.keys.indexOf($scope.multi) < 0) {
-					$scope.prevKey();
-				}
+			if($scope.selectedKeys<1)
+				return;
+
+			// Sort the keys, so we can easily select the next key after deletion
+			sortKeys($scope.keys);
+
+			// Get the indicies of all the selected keys
+			var toDelete = $scope.selectedKeys.map(function(key) { return $scope.keys.indexOf(key); });
+			toDelete.sort();
+
+			// Figure out which key we're going to select after deletion
+			var toSelectNdx = toDelete[toDelete.length-1]+1;
+			var toSelect = $scope.keys[toSelectNdx];
+
+			// Delete the keys in reverse order so that the indicies remain valid
+			for(var i = toDelete.length-1; i >= 0; --i) {
+				$scope.keys.splice(toDelete[i],1);
+			}
+
+			// Select the next key
+			var ndx = $scope.keys.indexOf(toSelect);
+			if(ndx < 0) { ndx = toDelete[0]-1; }
+			if(ndx < 0) { ndx = 0; }
+			toSelect = $scope.keys[ndx];
+			if(toSelect) {
+				$scope.selectedKeys = [toSelect];
+				$scope.multi = angular.copy(toSelect);
 			} else {
+				$scope.selectedKeys = [];
 				$scope.multi = {};
 			}
+
+			// Update our data
+			updateSerialized();
 			$('#keyboard').focus();
 		};
 
@@ -549,20 +570,6 @@ TODO / Wishlist
 		};
 	
 		// Helper functions to get the key before or after the specified key
-		$scope.findKeyBefore = function(key) {
-			var bestKey, x = -999999, y = -999999;
-			$scope.keys.forEach(function(keyi) {
-				if(keyi.y < key.y || (keyi.y === key.y && keyi.x < key.x)) {
-					var testy = keyi.y - key.y;
-					if(testy > y || (testy === y && keyi.x > x)) {
-						y = testy;
-						x = keyi.x;
-						bestKey = keyi;
-					}
-				}
-			});
-			return bestKey;
-		};
 		$scope.findKeyAfter = function(key) {
 			var bestKey, x = 999999, y = 999999;
 			$scope.keys.forEach(function(keyi) {
@@ -579,8 +586,16 @@ TODO / Wishlist
 		};
 	
 		// Called on 'j' or 'k' keystrokes; navigates to the next or previous key
-		$scope.prevKey = function() { selectKey($scope.findKeyBefore($scope.multi) || $scope.keys[0],{}); };
-		$scope.nextKey = function() { selectKey($scope.findKeyAfter($scope.multi) || $scope.keys[$scope.keys.length-1],{}); };
+		$scope.prevKey = function() { 
+			sortKeys($scope.keys);
+			var ndx = ($scope.selectedKeys.length>0) ? max(0,$scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1])-1) : 0;
+			selectKey($scope.keys[ndx], {});
+		};
+		$scope.nextKey = function() { 
+			sortKeys($scope.keys);
+			var ndx = ($scope.selectedKeys.length>0) ? min($scope.keys.length-1,$scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1])+1) : $scope.keys.length-1;
+			selectKey($scope.keys[ndx], {});
+		};
 
 		$scope.focusKb = function() { $('#keyboard').focus(); };
 		$scope.focusEditor = function() { 
