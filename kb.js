@@ -154,7 +154,7 @@ TODO / Wishlist
 		function selectKey(key,event) { 
 			if(key) {
 				// If CTRL is held down, we toggle the selection state
-				if(event.ctrlKey) {
+				if(event.ctrlKey || event.altKey) {
 					var ndx = $scope.selectedKeys.indexOf(key);
 					if(ndx >= 0) {
 						$scope.selectedKeys.splice(ndx,1);
@@ -380,7 +380,7 @@ TODO / Wishlist
 		$scope.clickSwatch = function(color,$event) {
 			transaction("color-swatch", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					if($event.ctrlKey) {
+					if($event.ctrlKey || event.altKey) {
 						selectedKey.text = color.css;
 					} else {
 						selectedKey.color = color.css;
@@ -567,7 +567,7 @@ TODO / Wishlist
 				doingMarqueeSelect = false;
 
 				// Clear the array of selected keys if the CTRL isn't held down.
-				if(!event.ctrlKey) {
+				if(!event.ctrlKey && !event.altKey) {
 					$scope.selectedKeys = [];
 					$scope.multi = {};
 				}
