@@ -143,6 +143,22 @@
 		// most-recently selected one.
 		$scope.multi = {};
 
+		// Helper function to select/deselect all keys
+		$scope.unselectAll = function() {
+			$scope.selectedKeys = [];
+			$scope.multi = {};
+		};
+		$scope.selectAll = function() {
+			sortKeys($scope.keys);
+			$scope.unselectAll();
+			$scope.keys.forEach(function(key) {
+				$scope.selectedKeys.push(key);				
+			});
+			if($scope.keys.length>0) {
+				$scope.multi = angular.copy($scope.keys[$scope.keys.length-1]);
+			}
+		};
+
 		// Helper function to select a single key
 		function selectKey(key,event) { 
 			if(key) {
@@ -159,8 +175,7 @@
 
 				// If neither CTRL or ALT is held down, clear the existing selection state
 				if(!event.ctrlKey && !event.altKey) {
-					$scope.selectedKeys = [];
-					$scope.multi = {};
+					$scope.unselectAll();
 				}
 
 				// SHIFT held down: toggle the selection everything between the anchor & cursor
@@ -473,8 +488,7 @@
 					$scope.selectedKeys = [toSelect];
 					$scope.multi = angular.copy(toSelect);
 				} else {
-					$scope.selectedKeys = [];
-					$scope.multi = {};
+					$scope.unselectAll();
 				}
 			});
 			$('#keyboard').focus();
@@ -596,8 +610,7 @@
 				if($scope.selRect.display !== "none") {
 					// Clear the array of selected keys if the CTRL isn't held down.
 					if(!event.ctrlKey && !event.altKey) {
-						$scope.selectedKeys = [];
-						$scope.multi = {};
+						$scope.unselectAll();
 					}
 
 					$scope.selRect.display = "none";
@@ -623,8 +636,7 @@
 				} else {
 					// Clear the array of selected keys if the CTRL isn't held down.
 					if(!event.ctrlKey && !event.altKey && !event.shiftKey) {
-						$scope.selectedKeys = [];
-						$scope.multi = {};
+						$scope.unselectAll();
 					}
 
 					// The marquee wasn't displayed, so we're doing a single-key selection; 
@@ -672,16 +684,30 @@
 		};
 	
 		// Called on 'j' or 'k' keystrokes; navigates to the next or previous key
-		$scope.prevKey = function() {
-			sortKeys($scope.keys);
-			var ndx = ($scope.selectedKeys.length>0) ? max(0,$scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1])-1) : 0;
-			selectKey($scope.keys[ndx], {});
+		$scope.prevKey = function(event) {
+			if($scope.keys.length>0) {
+				sortKeys($scope.keys);
+				var ndx = ($scope.selectedKeys.length>0) ? max(0,$scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1])-1) : 0;
+				var selndx = $scope.selectedKeys.indexOf($scope.keys[ndx]);
+				if(event.shiftKey && $scope.keys.length>1 && $scope.selectedKeys.length>0 && selndx>=0) {
+					$scope.selectedKeys.pop(); //deselect the existing cursor
+					$scope.selectedKeys.splice(selndx,1); //make sure the new cursor is at the end of the selection list
+				}
+				selectKey($scope.keys[ndx], {ctrlKey:event.shiftKey});
+			}
 			canCoalesce = false;
 		};
-		$scope.nextKey = function() {
-			sortKeys($scope.keys);
-			var ndx = ($scope.selectedKeys.length>0) ? min($scope.keys.length-1,$scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1])+1) : $scope.keys.length-1;
-			selectKey($scope.keys[ndx], {});
+		$scope.nextKey = function(event) {
+			if($scope.keys.length>0) {
+				sortKeys($scope.keys);
+				var ndx = ($scope.selectedKeys.length>0) ? min($scope.keys.length-1,$scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1])+1) : $scope.keys.length-1;
+				var selndx = $scope.selectedKeys.indexOf($scope.keys[ndx]);
+				if(event.shiftKey && $scope.keys.length>1 && $scope.selectedKeys.length>0 && selndx>=0) {
+					$scope.selectedKeys.pop(); //deselect the existing cursor
+					$scope.selectedKeys.splice(selndx,1); //make sure the new cursor is at the end of the selection list
+				}
+				selectKey($scope.keys[ndx], {ctrlKey:event.shiftKey});
+			}
 			canCoalesce = false;
 		};
 
@@ -699,7 +725,6 @@
 		$scope.showHelp = function() {
 			$('#helpDialog').modal('show');
 		};
-
 	}]);
 	
 	// Modernizr-inspired check to see if "color" input fields are supported; 

@@ -100,9 +100,13 @@ All rights reserved.
 					 'shift-down':'sizeKeys(0,.25,$event)',
 					 delete:'deleteKeys()', 
 					 insert:'addKey()',
-					 74: 'prevKey()', 
-					 75: 'nextKey()',
-					 113: 'focusEditor()'}" 
+					 74: 'prevKey($event)', 
+					 75: 'nextKey($event)',
+					 'shift-74': 'prevKey($event)', 
+					 'shift-75': 'nextKey($event)',
+					 113: 'focusEditor()',
+					 esc: 'unselectAll()',
+					 'ctrl-65': 'selectAll()'}" 
 		 ng-mousedown="selectClick($event)">
 	
 		<div ng-repeat="key in keys" 
@@ -233,7 +237,7 @@ All rights reserved.
 				<ul>
 					<li>Try loading one of the preset layouts from the dropdown at the top of the page; it will give you a good idea of the editor's capabilities.</li>
 					<li>Select a key in the editor by clicking on it; then try changing the various properties in the property-editor form.</li>
-					<li>You can select multiple keys by holding down CTRL and clicking on them; or you can drag a marquee rectangle around the keys you want to select.</li>
+					<li>You can select multiple keys by holding down CTRL and clicking on them, or extend the current selection by SHIFT-clicking on an item.  You can also drag a marquee rectangle around the keys you want to select.</li>
 					<li>Try the keyboard shortcuts (described below); they make editing various properties much quicker.</li>
 					<li>Save your layout by dragging the 'Permalink' (at the top of the page) to your bookmarks list.</li>
 				</ul>
@@ -249,6 +253,7 @@ All rights reserved.
 					<tr><td><span class='shortcut'>J</span> / <span class='shortcut'>K</span></td><td>Select the previous / next key in the editor.</td></tr>
 					<tr><td><span class='shortcut'>Ctrl + Z</span></td><td>Undo</td></tr>
 					<tr><td><span class='shortcut'>Ctrl + Shift + Z</span> or <span class='shortcut'>Ctrl + Y</span></td><td>Redo</td></tr>
+					<tr><td><span class='shortcut'>Ctrl + A</span> / <span class='shortcut'>Esc</span></td><td>Select / Deselect All Keys</td></tr>
 				</table>
 				<P>Note that most of these keys require that the keyboard editor has input focus.</P>
 			</div>
