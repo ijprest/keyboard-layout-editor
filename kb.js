@@ -1,10 +1,3 @@
-/*
-TODO / Wishlist
--- Shift+Click to select a range of keys
--- Cap "styles", referenced by other caps
--- Manual "reflow keys" function
-*/
-
 /*jslint bitwise:true, white:true, plusplus:true, vars:true, browser:true, devel:true, regexp:true */
 /*global angular:true, rison:true, $:true */
 (function () {
@@ -153,22 +146,48 @@ TODO / Wishlist
 		// Helper function to select a single key
 		function selectKey(key,event) { 
 			if(key) {
-				// If CTRL is held down, we toggle the selection state
-				if(event.ctrlKey || event.altKey) {
-					var ndx = $scope.selectedKeys.indexOf(key);
-					if(ndx >= 0) {
-						$scope.selectedKeys.splice(ndx,1);
-						if($scope.selectedKeys.length<1) { 
-							$scope.multi = {};
-						} else {
-							$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
+				// If SHIFT is held down, we want to *extend* the selection from the last 
+				// selected item to the new one.
+				if(event.shiftKey && $scope.selectedKeys.length > 0) {
+					// Get the indicies of all the selected keys
+					var currentSel = $scope.selectedKeys.map(function(key) { return $scope.keys.indexOf(key); });
+					currentSel.sort(function(a,b) { return parseInt(a) - parseInt(b); });
+					var cursor = $scope.keys.indexOf(key);					
+					var anchor = $scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1]);
+					$scope.selectedKeys.pop();
+				}
+
+				// If neither CTRL or ALT is held down, clear the existing selection state
+				if(!event.ctrlKey && !event.altKey) {
+					$scope.selectedKeys = [];
+					$scope.multi = {};
+				}
+
+				// SHIFT held down: toggle the selection everything between the anchor & cursor
+				if(anchor !== undefined && cursor !== undefined) {					
+					if(anchor > cursor) {
+						for(var i = anchor; i >= cursor; --i) {
+							selectKey($scope.keys[i],{ctrlKey:true});
 						}
 					} else {
-						$scope.selectedKeys.push(key);
-						$scope.multi = angular.copy(key);
+						for(var i = anchor; i <= cursor; ++i) {
+							selectKey($scope.keys[i],{ctrlKey:true});
+						}
 					}
-				} else {
-					$scope.selectedKeys = [key];
+					return;
+				}
+
+				// Modify the selection
+				var ndx = $scope.selectedKeys.indexOf(key);
+				if(ndx >= 0) { //deselect
+					$scope.selectedKeys.splice(ndx,1);
+					if($scope.selectedKeys.length<1) { 
+						$scope.multi = {};
+					} else {
+						$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
+					}
+				} else { //select
+					$scope.selectedKeys.push(key);
 					$scope.multi = angular.copy(key);
 				}
 			}
@@ -564,13 +583,8 @@ TODO / Wishlist
 		// about mouse-capture.
 		$scope.selectRelease = function(event) {
 			if(doingMarqueeSelect) {
+				sortKeys($scope.keys);
 				doingMarqueeSelect = false;
-
-				// Clear the array of selected keys if the CTRL isn't held down.
-				if(!event.ctrlKey && !event.altKey) {
-					$scope.selectedKeys = [];
-					$scope.multi = {};
-				}
 
 				// Calculate the offset between #keyboard and the mouse-coordinates
 				var kbElem = $("#keyboard");
@@ -580,6 +594,12 @@ TODO / Wishlist
 
 				// Check to see if the marquee was actually displayed
 				if($scope.selRect.display !== "none") {
+					// Clear the array of selected keys if the CTRL isn't held down.
+					if(!event.ctrlKey && !event.altKey) {
+						$scope.selectedKeys = [];
+						$scope.multi = {};
+					}
+
 					$scope.selRect.display = "none";
 
 					// Adjust the mouse coordinates to client coordinates
@@ -601,6 +621,12 @@ TODO / Wishlist
 						}
 					});					
 				} else {
+					// Clear the array of selected keys if the CTRL isn't held down.
+					if(!event.ctrlKey && !event.altKey && !event.shiftKey) {
+						$scope.selectedKeys = [];
+						$scope.multi = {};
+					}
+
 					// The marquee wasn't displayed, so we're doing a single-key selection; 
 					// iterate over all the keys.
 					$scope.keys.forEach(function(key) {
@@ -610,7 +636,7 @@ TODO / Wishlist
 							(key.rect2.x <= event.pageX-offsetx && key.rect2.x+key.rect2.w >= event.pageX-offsetx &&
 							 key.rect2.y <= event.pageY-offsety && key.rect2.y+key.rect2.h >= event.pageY-offsety) )
 						{
-							selectKey(key, event);
+							selectKey(key, {ctrlKey:event.ctrlKey, altKey:event.altKey, shiftKey:event.shiftKey});
 						}
 					});
 				}
