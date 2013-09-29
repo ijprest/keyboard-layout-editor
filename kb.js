@@ -225,9 +225,9 @@ TODO / Wishlist
 			var innerPadding = (2*sizes.margin) + (2*sizes.padding);
 	
 			// The border
-			html += "<div class='keyborder' style='width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth, capheight, capx, capy);
+			html += "<div class='keyborder' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth, capheight, capx, capy, darkColor);
 			if(jShaped) {
-				html += "<div class='keyborder' style='width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth2, capheight2, capx2, capy2);
+				html += "<div class='keyborder' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth2, capheight2, capx2, capy2, darkColor);
 			}
 			// The key edges
 			html += "<div class='keybg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth,capheight,capx+1,capy+1,darkColor);
