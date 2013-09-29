@@ -270,6 +270,54 @@ TODO / Wishlist
 			$scope.serialized = toJsonPretty(serialize($scope.keys));
 		}
 
+		// Undo/redo support
+		var undoStack = [];
+		var redoStack = [];
+		var canCoalesce = false;
+		$scope.canUndo = function() { return undoStack.length>0; };
+		$scope.canRedo = function() { return redoStack.length>0; };
+
+		function transaction(type, fn) {
+			var trans = undoStack.length>0 ? undoStack[undoStack.length-1] : null;
+			if(trans === null || !canCoalesce || trans.type !== type) {
+				trans = { type:type, original:angular.copy($scope.keys), open:true };
+				undoStack.push(trans);
+			}
+			canCoalesce = true;
+			try {
+				fn();
+			} finally {
+				trans.modified = angular.copy($scope.keys);
+				trans.open = false;
+				redoStack = [];
+				updateSerialized();
+			}
+		}
+
+		$scope.undo = function() { 
+			if($scope.canUndo()) { 
+				var u = undoStack.pop(); 
+				$scope.keys = angular.copy(u.original);
+				updateSerialized();
+				$scope.keys.forEach(function(key) {
+					renderKey(key);
+				});
+				redoStack.push(u); 
+			}
+		};
+
+		$scope.redo = function() { 
+			if($scope.canRedo()) { 
+				var u = redoStack.pop(); 
+				$scope.keys = angular.copy(u.modified); 
+				updateSerialized(); 
+				$scope.keys.forEach(function(key) {
+					renderKey(key);
+				});
+				undoStack.push(u); 
+			}
+		};
+
 		function validate(key,prop,value) {
 			var v = {
 				_ : function(key,x) { return x; },
@@ -295,19 +343,20 @@ TODO / Wishlist
 		}
 
 		$scope.updateMulti = function(prop) {
-			if($scope.multi[prop] == null) {
-				return;
-			}
-			var valid = validate($scope.multi, prop, $scope.multi[prop]);
-			if(valid !== $scope.multi[prop]) {
-				return;
-			}
-			$scope.selectedKeys.forEach(function(selectedKey) {				
-				update(selectedKey, prop, $scope.multi[prop]);
-				renderKey(selectedKey);
+			transaction("update", function() {
+				if($scope.multi[prop] == null) {
+					return;
+				}
+				var valid = validate($scope.multi, prop, $scope.multi[prop]);
+				if(valid !== $scope.multi[prop]) {
+					return;
+				}
+				$scope.selectedKeys.forEach(function(selectedKey) {				
+					update(selectedKey, prop, $scope.multi[prop]);
+					renderKey(selectedKey);
+				});
+				update($scope.multi, prop, $scope.multi[prop]);
 			});
-			update($scope.multi, prop, $scope.multi[prop]);
-			updateSerialized();
 		};
 
 		$scope.validateMulti = function(prop) {
@@ -324,36 +373,39 @@ TODO / Wishlist
 		$scope.serialized = toJsonPretty(serialize($scope.keys));
 	
 		$scope.clickSwatch = function(color,$event) {
-			$scope.selectedKeys.forEach(function(selectedKey) {
-				if($event.ctrlKey) {
-					selectedKey.text = color.css;
-				} else {
-					selectedKey.color = color.css;
-				}
-				renderKey(selectedKey);
+			transaction("color-swatch", function() {
+				$scope.selectedKeys.forEach(function(selectedKey) {
+					if($event.ctrlKey) {
+						selectedKey.text = color.css;
+					} else {
+						selectedKey.color = color.css;
+					}
+					renderKey(selectedKey);
+				});
 			});
-			updateSerialized();
 			$event.preventDefault();
 		};
 	
 		$scope.moveKeys = function(x,y,$event) {
-			$scope.selectedKeys.forEach(function(selectedKey) {
-				selectedKey.x = max(0,selectedKey.x + x);
-				selectedKey.y = max(0,selectedKey.y + y);
-				renderKey(selectedKey);
+			transaction("move", function() {
+				$scope.selectedKeys.forEach(function(selectedKey) {
+					selectedKey.x = max(0,selectedKey.x + x);
+					selectedKey.y = max(0,selectedKey.y + y);
+					renderKey(selectedKey);
+				});
 			});
-			updateSerialized();
 			if(y !== 0) { $scope.calcKbHeight(); }
 			$event.preventDefault();
 		};
 	
 		$scope.sizeKeys = function(x,y,$event) {
-			$scope.selectedKeys.forEach(function(selectedKey) {
-				selectedKey.width = selectedKey.width2 = max(1,selectedKey.width + x);
-				selectedKey.height = selectedKey.height2 = max(1,selectedKey.height + y);
-				renderKey(selectedKey);
+			transaction("size", function() {
+				$scope.selectedKeys.forEach(function(selectedKey) {
+					selectedKey.width = selectedKey.width2 = max(1,selectedKey.width + x);
+					selectedKey.height = selectedKey.height2 = max(1,selectedKey.height + y);
+					renderKey(selectedKey);
+				});
 			});
-			updateSerialized();
 			if(y!==0) { $scope.calcKbHeight(); }
 			$event.preventDefault();
 		};
@@ -362,68 +414,70 @@ TODO / Wishlist
 			$scope.palette = p;
 		};
 		$scope.loadPreset = function(preset) {
-			$scope.deserializeAndRender(preset);
-			updateSerialized();
+			transaction("preset", function() {
+				$scope.deserializeAndRender(preset);
+			});
 		};
 
 		$scope.deleteKeys = function() {
 			if($scope.selectedKeys<1)
 				return;
 
-			// Sort the keys, so we can easily select the next key after deletion
-			sortKeys($scope.keys);
+			transaction('delete', function() {
+				// Sort the keys, so we can easily select the next key after deletion
+				sortKeys($scope.keys);
 
-			// Get the indicies of all the selected keys
-			var toDelete = $scope.selectedKeys.map(function(key) { return $scope.keys.indexOf(key); });
-			toDelete.sort(function(a,b) { return parseInt(a) - parseInt(b); });
+				// Get the indicies of all the selected keys
+				var toDelete = $scope.selectedKeys.map(function(key) { return $scope.keys.indexOf(key); });
+				toDelete.sort(function(a,b) { return parseInt(a) - parseInt(b); });
 
-			// Figure out which key we're going to select after deletion
-			var toSelectNdx = toDelete[toDelete.length-1]+1;
-			var toSelect = $scope.keys[toSelectNdx];
+				// Figure out which key we're going to select after deletion
+				var toSelectNdx = toDelete[toDelete.length-1]+1;
+				var toSelect = $scope.keys[toSelectNdx];
 
-			// Delete the keys in reverse order so that the indicies remain valid
-			for(var i = toDelete.length-1; i >= 0; --i) {
-				$scope.keys.splice(toDelete[i],1);
-			}
+				// Delete the keys in reverse order so that the indicies remain valid
+				for(var i = toDelete.length-1; i >= 0; --i) {
+					$scope.keys.splice(toDelete[i],1);
+				}
 
-			// Select the next key
-			var ndx = $scope.keys.indexOf(toSelect);
-			if(ndx < 0) { ndx = toDelete[0]-1; }
-			if(ndx < 0) { ndx = 0; }
-			toSelect = $scope.keys[ndx];
-			if(toSelect) {
-				$scope.selectedKeys = [toSelect];
-				$scope.multi = angular.copy(toSelect);
-			} else {
-				$scope.selectedKeys = [];
-				$scope.multi = {};
-			}
-
-			// Update our data
-			updateSerialized();
+				// Select the next key
+				var ndx = $scope.keys.indexOf(toSelect);
+				if(ndx < 0) { ndx = toDelete[0]-1; }
+				if(ndx < 0) { ndx = 0; }
+				toSelect = $scope.keys[ndx];
+				if(toSelect) {
+					$scope.selectedKeys = [toSelect];
+					$scope.multi = angular.copy(toSelect);
+				} else {
+					$scope.selectedKeys = [];
+					$scope.multi = {};
+				}
+			});
 			$('#keyboard').focus();
 		};
 
 		$scope.addKey = function(proto) {
-			var xpos = 0, ypos = -1;
-			if($scope.findKeyAfter($scope.multi) || typeof $scope.multi.x === "undefined") {
-				$scope.keys.forEach(function(key) {	ypos = max(ypos,key.y);	});
-				ypos++;
-			} else if($scope.keys.length > 0) {
-				xpos = $scope.multi.x + $scope.multi.width;
-				ypos = $scope.multi.y;
-				if(xpos >= 23) { xpos = 0; ypos++; }
-			}
+			var newKey = null;
+			transaction("add", function() {
+				var xpos = 0, ypos = -1;
+				if($scope.findKeyAfter($scope.multi) || typeof $scope.multi.x === "undefined") {
+					$scope.keys.forEach(function(key) {	ypos = max(ypos,key.y);	});
+					ypos++;
+				} else if($scope.keys.length > 0) {
+					xpos = $scope.multi.x + $scope.multi.width;
+					ypos = $scope.multi.y;
+					if(xpos >= 23) { xpos = 0; ypos++; }
+				}
 
-			var color = $scope.multi.color || "#eeeeee";
-			var textColor = $scope.multi.text || "#000000";
-			var newKey = {width:1, height:1, color:color, text:textColor, label:"", label2:"", x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:""};
-			$.extend(newKey, proto);
-			newKey.x += xpos;
-			newKey.y += ypos;
-			renderKey(newKey);
-			$scope.keys.push(newKey);
-			updateSerialized();
+				var color = $scope.multi.color || "#eeeeee";
+				var textColor = $scope.multi.text || "#000000";
+				newKey = {width:1, height:1, color:color, text:textColor, label:"", label2:"", x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:""};
+				$.extend(newKey, proto);
+				newKey.x += xpos;
+				newKey.y += ypos;
+				renderKey(newKey);
+				$scope.keys.push(newKey);
+			});
 			selectKey(newKey,{});
 			$scope.calcKbHeight();
 			$('#keyboard').focus();
@@ -555,6 +609,7 @@ TODO / Wishlist
 						}
 					});
 				}
+				canCoalesce = false;
 
 				event.preventDefault();
 
@@ -586,15 +641,17 @@ TODO / Wishlist
 		};
 	
 		// Called on 'j' or 'k' keystrokes; navigates to the next or previous key
-		$scope.prevKey = function() { 
+		$scope.prevKey = function() {
 			sortKeys($scope.keys);
 			var ndx = ($scope.selectedKeys.length>0) ? max(0,$scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1])-1) : 0;
 			selectKey($scope.keys[ndx], {});
+			canCoalesce = false;
 		};
-		$scope.nextKey = function() { 
+		$scope.nextKey = function() {
 			sortKeys($scope.keys);
 			var ndx = ($scope.selectedKeys.length>0) ? min($scope.keys.length-1,$scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1])+1) : $scope.keys.length-1;
 			selectKey($scope.keys[ndx], {});
+			canCoalesce = false;
 		};
 
 		$scope.focusKb = function() { $('#keyboard').focus(); };

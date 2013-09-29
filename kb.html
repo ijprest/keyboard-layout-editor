@@ -23,7 +23,10 @@ All rights reserved.
 <body ng-controller="kbCtrl"
 	 ng-mouseup="selectRelease($event)" 
 	 ng-mousemove="selectMove($event)"
-	 ui-keydown="{'shift-191' : 'showHelp()'}">
+	 ui-keydown="{'shift-191' : 'showHelp()',
+	 			  'ctrl-90' : 'undo()',
+	 			  'ctrl-shift-90' : 'redo()',
+	 			  'ctrl-89' : 'redo()' }">
 <div id="wrap">
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">	
 	<div class="navbar-header">
@@ -77,6 +80,10 @@ All rights reserved.
 	</div>
 	<div class="btn-group">
 		<button type="button" class="btn btn-danger" ng-class="{disabled:selectedKeys.length<1}" ng-click="deleteKeys()"><i class="glyphicon glyphicon-remove-sign"></i> Delete Keys</button>		
+	</div>
+	<div class="btn-group">
+		<button type="button" class="btn btn-default" ng-class="{disabled:!canUndo()}" ng-click="undo()"><i class="icon-undo"></i> Undo</button>
+		<button type="button" class="btn btn-default" ng-class="{disabled:!canRedo()}" ng-click="redo()"><i class="icon-undo mirrored" style="display:inline-block;"></i> Redo</button>
 	</div>
 	
 	<div id="keyboard" 
@@ -239,6 +246,8 @@ All rights reserved.
 					<tr><td><span class='shortcut'>Delete</span></td><td>Delete the selected keys</td></tr>
 					<tr><td><span class='shortcut'>F2</span></td><td>Edit the text of the selected key</td></tr>
 					<tr><td><span class='shortcut'>J</span> / <span class='shortcut'>K</span></td><td>Select the previous / next key in the editor.</td></tr>
+					<tr><td><span class='shortcut'>Ctrl + Z</span></td><td>Undo</td></tr>
+					<tr><td><span class='shortcut'>Ctrl + Shift + Z</span> or <span class='shortcut'>Ctrl + Y</span></td><td>Redo</td></tr>
 				</table>
 				<P>Note that most of these keys require that the keyboard editor has input focus.</P>
 			</div>
