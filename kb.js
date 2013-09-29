@@ -258,7 +258,12 @@ TODO / Wishlist
 		};
 	
 		if($location.hash()) {
-			$scope.deserializeAndRender(fromJsonL($location.hash()));
+			var loc = $location.hash();
+			if(loc[0]=='@') {
+				$scope.deserializeAndRender(URLON.parse(encodeURI(loc)));
+			} else {
+				$scope.deserializeAndRender(fromJsonL(loc));
+			}
 			$location.hash("");
 		} else { 
 			$scope.deserializeAndRender([["Num Lock","/","*","-"],["7\nHome","8\n↑","9\nPgUp",{h:2},"+"],["4\n←","5","6\n→"],["1\nEnd","2\n↓","3\nPgDn",{h:2},"Enter"],[{w:2},"0\nIns",".\nDel"]]);
@@ -620,7 +625,7 @@ TODO / Wishlist
 	
 		$scope.getPermalink = function() {
 			var url = $location.absUrl().replace(/##.*$/,"");
-			url += "##" + encodeURIComponent(toJsonL(serialize($scope.keys)));
+			url += "##" + URLON.stringify(serialize($scope.keys));
 			return url;
 		};
 	
