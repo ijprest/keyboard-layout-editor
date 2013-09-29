@@ -131,7 +131,7 @@
 		var serializedTimer = false;
 
 		// The application version
-		$scope.version = "0.4";
+		$scope.version = "0.5";
 
 		// The selected tab; 0 == Properties, 1 == Raw Data
 		$scope.selTab = 0;
