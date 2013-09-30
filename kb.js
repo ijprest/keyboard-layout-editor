@@ -414,7 +414,7 @@
 		$scope.clickSwatch = function(color,$event) {
 			transaction("color-swatch", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					if($event.ctrlKey || event.altKey) {
+					if($event.ctrlKey || $event.altKey) {
 						selectedKey.text = color.css;
 					} else {
 						selectedKey.color = color.css;
