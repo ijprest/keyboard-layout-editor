@@ -169,10 +169,3 @@ html, body {
 
 .shortcuts tr > td:first-child { text-align:right; padding-right: 6px; padding-top: 3px;}
 .shortcuts .shortcut { background-color: #444; color: white; padding: 1px 6px; border-radius:6px; }
-
-.mirrored {
-    transform: matrix(-1, 0, 0, 1, 0, 0);
-    -moz-transform: matrix(-1, 0, 0, 1, 0, 0);
-    -webkit-transform: matrix(-1, 0, 0, 1, 0, 0);
-    -o-transform:matrix(-1, 0, 0, 1, 0, 0);
-}
