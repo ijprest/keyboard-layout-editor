@@ -396,7 +396,7 @@
 					update(selectedKey, prop, $scope.multi[prop]);
 					renderKey(selectedKey);
 				});
-				update($scope.multi, prop, $scope.multi[prop]);
+				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
 			});
 		};
 
@@ -423,6 +423,7 @@
 					}
 					renderKey(selectedKey);
 				});
+				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
 			});
 			$event.preventDefault();
 		};
@@ -434,6 +435,7 @@
 					selectedKey.y = max(0,selectedKey.y + y);
 					renderKey(selectedKey);
 				});
+				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
 			});
 			if(y !== 0) { $scope.calcKbHeight(); }
 			$event.preventDefault();
@@ -446,6 +448,7 @@
 					selectedKey.height = selectedKey.height2 = max(1,selectedKey.height + y);
 					renderKey(selectedKey);
 				});
+				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
 			});
 			if(y!==0) { $scope.calcKbHeight(); }
 			$event.preventDefault();
@@ -500,13 +503,15 @@
 			var newKey = null;
 			transaction("add", function() {
 				var xpos = 0, ypos = -1;
-				if($scope.findKeyAfter($scope.multi) || typeof $scope.multi.x === "undefined") {
-					$scope.keys.forEach(function(key) {	ypos = max(ypos,key.y);	});
-					ypos++;
-				} else if($scope.keys.length > 0) {
+
+				sortKeys($scope.keys);
+				if($scope.selectedKeys.length>0 && $scope.keys.length>0 && $scope.multi.x == $scope.keys[$scope.keys.length-1].x) {
 					xpos = $scope.multi.x + $scope.multi.width;
 					ypos = $scope.multi.y;
 					if(xpos >= 23) { xpos = 0; ypos++; }
+				} else {
+					$scope.keys.forEach(function(key) {	ypos = max(ypos,key.y);	});
+					ypos++;
 				}
 
 				var color = $scope.multi.color || "#eeeeee";
@@ -667,22 +672,6 @@
 			var url = $location.absUrl().replace(/##.*$/,"");
 			url += "##" + URLON.stringify(serialize($scope.keys));
 			return url;
-		};
-	
-		// Helper functions to get the key before or after the specified key
-		$scope.findKeyAfter = function(key) {
-			var bestKey, x = 999999, y = 999999;
-			$scope.keys.forEach(function(keyi) {
-				if(keyi.y > key.y || (keyi.y === key.y && keyi.x > key.x)) {
-					var testy = keyi.y - key.y;
-					if(testy < y || (testy === 0 && keyi.x < x)) {
-						y = testy;
-						x = keyi.x;
-						bestKey = keyi;
-					}
-				}
-			});
-			return bestKey;
 		};
 	
 		// Called on 'j' or 'k' keystrokes; navigates to the next or previous key
