@@ -320,6 +320,9 @@
 			if(trans === null || !canCoalesce || trans.type !== type) {
 				trans = { type:type, original:angular.copy($scope.keys), open:true };
 				undoStack.push(trans);
+				if(undoStack.length>32) {
+					undoStack.shift();
+				}
 			}
 			canCoalesce = true;
 			try {
@@ -344,6 +347,7 @@
 					renderKey(key);
 				});
 				redoStack.push(u); 
+				$scope.unselectAll();
 			}
 		};
 
@@ -356,6 +360,7 @@
 					renderKey(key);
 				});
 				undoStack.push(u); 
+				$scope.unselectAll();
 			}
 		};
 
@@ -384,14 +389,15 @@
 		}
 
 		$scope.updateMulti = function(prop) {
+			if($scope.multi[prop] == null || $scope.selectedKeys.length <= 0) {
+				return;
+			}
+			var valid = validate($scope.multi, prop, $scope.multi[prop]);
+			if(valid !== $scope.multi[prop]) {
+				return;
+			}
+
 			transaction("update", function() {
-				if($scope.multi[prop] == null) {
-					return;
-				}
-				var valid = validate($scope.multi, prop, $scope.multi[prop]);
-				if(valid !== $scope.multi[prop]) {
-					return;
-				}
 				$scope.selectedKeys.forEach(function(selectedKey) {				
 					update(selectedKey, prop, $scope.multi[prop]);
 					renderKey(selectedKey);
@@ -414,6 +420,10 @@
 		$scope.serialized = toJsonPretty(serialize($scope.keys));
 	
 		$scope.clickSwatch = function(color,$event) {
+			$event.preventDefault();
+			if($scope.selectedKeys.length<1) { 
+				return; 
+			}
 			transaction("color-swatch", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					if($event.ctrlKey || $event.altKey) {
@@ -425,10 +435,13 @@
 				});
 				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
 			});
-			$event.preventDefault();
 		};
 	
 		$scope.moveKeys = function(x,y,$event) {
+			$event.preventDefault();
+			if($scope.selectedKeys.length<1) { 
+				return; 
+			}
 			transaction("move", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					selectedKey.x = max(0,selectedKey.x + x);
@@ -438,10 +451,13 @@
 				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
 			});
 			if(y !== 0) { $scope.calcKbHeight(); }
-			$event.preventDefault();
 		};
 	
 		$scope.sizeKeys = function(x,y,$event) {
+			$event.preventDefault();
+			if($scope.selectedKeys.length<1) { 
+				return; 
+			}
 			transaction("size", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					selectedKey.width = selectedKey.width2 = max(1,selectedKey.width + x);
@@ -451,7 +467,6 @@
 				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
 			});
 			if(y!==0) { $scope.calcKbHeight(); }
-			$event.preventDefault();
 		};
 
 		$scope.loadPalette = function(p) {
@@ -499,13 +514,13 @@
 			$('#keyboard').focus();
 		};
 
-		$scope.addKey = function(proto) {
+		$scope.addKey = function(proto, nextline) {
 			var newKey = null;
 			transaction("add", function() {
 				var xpos = 0, ypos = -1;
 
 				sortKeys($scope.keys);
-				if($scope.selectedKeys.length>0 && $scope.keys.length>0 && $scope.multi.x == $scope.keys[$scope.keys.length-1].x) {
+				if(!nextline && $scope.selectedKeys.length>0 && $scope.keys.length>0 && $scope.multi.x == $scope.keys[$scope.keys.length-1].x) {
 					xpos = $scope.multi.x + $scope.multi.width;
 					ypos = $scope.multi.y;
 					if(xpos >= 23) { xpos = 0; ypos++; }
@@ -685,8 +700,8 @@
 					$scope.selectedKeys.splice(selndx,1); //make sure the new cursor is at the end of the selection list
 				}
 				selectKey($scope.keys[ndx], {ctrlKey:event.shiftKey});
+				canCoalesce = false;
 			}
-			canCoalesce = false;
 		};
 		$scope.nextKey = function(event) {
 			if($scope.keys.length>0) {
@@ -698,8 +713,8 @@
 					$scope.selectedKeys.splice(selndx,1); //make sure the new cursor is at the end of the selection list
 				}
 				selectKey($scope.keys[ndx], {ctrlKey:event.shiftKey});
+				canCoalesce = false;
 			}
-			canCoalesce = false;
 		};
 
 		$scope.focusKb = function() { $('#keyboard').focus(); };
@@ -716,6 +731,42 @@
 		$scope.showHelp = function() {
 			$('#helpDialog').modal('show');
 		};
+
+		// Clipboard functions
+		var clipboard = {};
+		$scope.cut = function(event) {
+			if(event) {
+				event.preventDefault();
+			}
+			clipboard = angular.copy($scope.selectedKeys);
+			$scope.deleteKeys();
+		};
+		$scope.copy = function(event) {
+			if(event) {
+				event.preventDefault();
+			}
+			clipboard = angular.copy($scope.selectedKeys);
+		};
+		$scope.paste = function(event) {
+			if(event) {
+				event.preventDefault();
+			}
+			if(clipboard.length<1) {
+				return;
+			}
+			sortKeys(clipboard);
+			transaction("paste", function() {
+				var last = null;
+				clipboard.forEach(function(clipkey) {
+					var key = angular.copy(clipkey);
+					key.x = key.y = null;
+					$scope.addKey(key, last !== null && clipkey.y > last.y);
+					last = clipkey;
+				});
+			});
+		};
+		$scope.canCopy = function() { return $scope.selectedKeys.length > 0; }
+		$scope.canPaste = function() { return clipboard.length > 0; }
 	}]);
 	
 	// Modernizr-inspired check to see if "color" input fields are supported; 

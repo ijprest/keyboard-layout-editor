@@ -12,7 +12,6 @@ All rights reserved.
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="css/hint.min.css">
 <link rel="stylesheet" type="text/css" href="kb.css">
-	
 <script type="text/javascript" src="js/angular.min.js"></script>
 <script type="text/javascript" src="js/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="js/ui-utils.min.js"></script>
@@ -86,6 +85,11 @@ All rights reserved.
 		<button type="button" class="btn btn-default" ng-class="{disabled:!canUndo()}" ng-click="undo()"><i class="icon-undo"></i> Undo</button>
 		<button type="button" class="btn btn-default" ng-class="{disabled:!canRedo()}" ng-click="redo()"><i class="icon-repeat"></i> Redo</button>
 	</div>
+	<div class="btn-group">
+		<button type="button" class="btn btn-default" ng-class="{disabled:!canCopy()}" ng-click="cut()"><i class="icon-cut"></i> Cut</button>
+		<button type="button" class="btn btn-default" ng-class="{disabled:!canCopy()}" ng-click="copy()"><i class="icon-copy"></i> Copy</button>
+		<button type="button" class="btn btn-default" ng-class="{disabled:!canPaste()}" ng-click="paste()"><i class="icon-paste"></i> Paste</button>
+	</div>
 	
 	<div id="keyboard" 
 		 tabindex="0" 
@@ -106,7 +110,10 @@ All rights reserved.
 					 'shift-75': 'nextKey($event)',
 					 113: 'focusEditor()',
 					 esc: 'unselectAll()',
-					 'ctrl-65': 'selectAll()'}" 
+					 'ctrl-65': 'selectAll()',
+					 'ctrl-67 ctrl-45': 'copy($event)',
+					 'ctrl-88 shift-46': 'cut($event)',
+					 'ctrl-86 shift-45': 'paste($event)' }" 
 		 ng-mousedown="selectClick($event)">
 	
 		<div ng-repeat="key in keys" 
@@ -260,8 +267,8 @@ All rights reserved.
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
 			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+		</div>
+	</div>
+</div>
 </body>
 </html>
