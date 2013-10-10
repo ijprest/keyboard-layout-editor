@@ -738,14 +738,18 @@
 			if(event) {
 				event.preventDefault();
 			}
-			clipboard = angular.copy($scope.selectedKeys);
-			$scope.deleteKeys();
+			if($scope.selectedKeys.length>0) {
+				clipboard = angular.copy($scope.selectedKeys);
+				$scope.deleteKeys();
+			}
 		};
 		$scope.copy = function(event) {
 			if(event) {
 				event.preventDefault();
 			}
-			clipboard = angular.copy($scope.selectedKeys);
+			if($scope.selectedKeys.length>0) {
+				clipboard = angular.copy($scope.selectedKeys);
+			}
 		};
 		$scope.paste = function(event) {
 			if(event) {
