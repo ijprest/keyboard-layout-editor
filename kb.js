@@ -314,11 +314,15 @@
 		var canCoalesce = false;
 		$scope.canUndo = function() { return undoStack.length>0; };
 		$scope.canRedo = function() { return redoStack.length>0; };
+		var dirty = false;
+		window.onbeforeunload = function(e) {
+			return dirty ? 'You have made changes to the layout that are not saved.  You can save your layout by bookmarking the \'permalink\' in the application bar.' : null;
+		};
 
 		function transaction(type, fn) {
 			var trans = undoStack.length>0 ? undoStack[undoStack.length-1] : null;
 			if(trans === null || !canCoalesce || trans.type !== type) {
-				trans = { type:type, original:angular.copy($scope.keys), open:true };
+				trans = { type:type, original:angular.copy($scope.keys), open:true, dirty:dirty };
 				undoStack.push(trans);
 				if(undoStack.length>32) {
 					undoStack.shift();
@@ -335,6 +339,7 @@
 				trans.open = false;
 				redoStack = [];
 				updateSerialized();
+				dirty = true;
 			}
 		}
 
@@ -347,6 +352,7 @@
 					renderKey(key);
 				});
 				redoStack.push(u); 
+				dirty = u.dirty;
 				$scope.unselectAll();
 			}
 		};
@@ -360,6 +366,7 @@
 					renderKey(key);
 				});
 				undoStack.push(u); 
+				dirty = u.dirty;
 				$scope.unselectAll();
 			}
 		};
