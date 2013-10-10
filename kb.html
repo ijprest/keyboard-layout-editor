@@ -233,7 +233,7 @@ All rights reserved.
 
 <!-- Modal -->
 <div class="modal fade" id="helpDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog" style='width:70%;left:15%;'>
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -250,19 +250,24 @@ All rights reserved.
 				</ul>
 
 				<h5>Keyboard Shortcuts</h5>
-				<table class='shortcuts' style='margin-bottom:5px;'>
+				<table class='shortcuts col-md-6' style='margin-bottom:5px;'>
 					<tr><td><span class='shortcut'>?</span></td><td>Show this help dialog</td></tr>
 					<tr><td><span class='shortcut'>↑↓←→</span></td><td>Move the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Shift + ↑↓←→</span></td><td>Resize the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Insert</span></td><td>Add a new key</td></tr>
-					<tr><td><span class='shortcut'>Delete</span></td><td>Delete the selected keys</td></tr>
+					<tr><td><span class='shortcut'>Shift&ndash;↑↓←→</span></td><td>Resize the selected keys</td></tr>
+					<tr><td><span class='shortcut'>Ins</span></td><td>Add a new key</td></tr>
+					<tr><td><span class='shortcut'>Del</span></td><td>Delete the selected keys</td></tr>
 					<tr><td><span class='shortcut'>F2</span></td><td>Edit the text of the selected key</td></tr>
 					<tr><td><span class='shortcut'>J</span> / <span class='shortcut'>K</span></td><td>Select the previous / next key in the editor.</td></tr>
-					<tr><td><span class='shortcut'>Ctrl + Z</span></td><td>Undo</td></tr>
-					<tr><td><span class='shortcut'>Ctrl + Shift + Z</span> or <span class='shortcut'>Ctrl + Y</span></td><td>Redo</td></tr>
-					<tr><td><span class='shortcut'>Ctrl + A</span> / <span class='shortcut'>Esc</span></td><td>Select / Deselect All Keys</td></tr>
 				</table>
-				<P>Note that most of these keys require that the keyboard editor has input focus.</P>
+				<table class='shortcuts col-md-6' style='margin-bottom:5px;'>
+					<tr><td><span class='shortcut'>Ctrl&ndash;A</span> / <span class='shortcut'>Esc</span></td><td>Select / Deselect All Keys</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;Z</span></td><td>Undo</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;Shift&ndash;Z</span> or <span class='shortcut'>Ctrl&ndash;Y</span></td><td>Redo</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;X</span> or <span class='shortcut'>Shift&ndash;Del</span></td><td>Cut Selected Keys</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;C</span> or <span class='shortcut'>Ctrl&ndash;Ins</span></td><td>Copy Selected Keys</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;V</span> or <span class='shortcut'>Shift&ndash;Ins</span></td><td>Paste Keys From Clipboard</td></tr>
+				</table>
+				<P style='clear:both'>Note that most of these keys require that the keyboard editor has input focus.</P>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
