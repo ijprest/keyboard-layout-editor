@@ -61,7 +61,7 @@
 	
 	// Convert between our in-memory format & our serialized format
 	function serialize(keys) {
-		var rows = [], row = [], xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", profile = "";
+		var rows = [], row = [], xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", profile = "", ghost = false;
 		sortKeys(keys);
 		keys.forEach(function(key) {
 			var props = {}, prop = false;
@@ -72,6 +72,7 @@
 			xpos += serializeProp("x", key.x-xpos, 0) + key.width;
 			color = serializeProp("c", key.color, color);
 			text = serializeProp("t", key.text, text);
+			ghost = serializeProp("g", key.ghost, ghost);
 			serializeProp("w", key.width, 1);
 			serializeProp("h", key.height, 1);
 			serializeProp("w2", key.width2, key.width);
@@ -80,20 +81,20 @@
 			serializeProp("y2", key.y2, 0);
 			serializeProp("n", key.nub || false, false);
 			if(prop) { row.push(props); }
-			row.push(label);			
+			row.push(label);
 		});
 		if(row.length>0) { rows.push(row); }
 		return rows;
 	}
 
 	function deserialize(rows) {
-		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false;
+		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false;
 		for(r = 0; r < rows.length; ++r) {
 			for(k = 0; k < rows[r].length; ++k) {
 				var key = rows[r][k];
 				if(typeof key === 'string') {
 					var labels = key.split('\n');
-					keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, label:labels[0], label2:labels[1], x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub});
+					keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, label:labels[0], label2:labels[1], x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost});
 					xpos += width;
 					width = height = 1;
 					xpos2 = ypos2 = width2 = height2 = 0;
@@ -111,6 +112,7 @@
 					if(key.w2) { width2 = key.w2; }
 					if(key.h2) { height2 = key.h2; }
 					if(key.n) { nub = key.n; }
+					if(key.g) { ghost = key.g; }
 				}
 			}
 			ypos++;
@@ -257,27 +259,35 @@
 			var jShaped = (capwidth2 !== capwidth) || (capheight2 !== capheight) || (capx2 !== capx) || (capy2 !== capy);
 			var darkColor = darkenColor(key.color);
 			var innerPadding = (2*sizes.margin) + (2*sizes.padding);
-	
+			var borderStyle = "keyborder", bgStyle = "keybg";
+			if(key.ghost) {
+				//darkColor = "#eeeeee";
+				borderStyle += " ghosted";
+				bgStyle += " ghosted";
+			} 
 			// The border
-			html += "<div class='keyborder' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth, capheight, capx, capy, darkColor);
+			html += "<div class='{5}' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth, capheight, capx, capy, darkColor, borderStyle);
 			if(jShaped) {
-				html += "<div class='keyborder' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth2, capheight2, capx2, capy2, darkColor);
+				html += "<div class='{5}' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth2, capheight2, capx2, capy2, darkColor, borderStyle);
 			}
 			// The key edges
-			html += "<div class='keybg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth,capheight,capx+1,capy+1,darkColor);
+			html += "<div class='{5}' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth,capheight,capx+1,capy+1,darkColor,bgStyle);
 			if(jShaped) {
-				html += "<div class='keybg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth2,capheight2,capx2+1,capy2+1,darkColor);
+				html += "<div class='{5}' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth2,capheight2,capx2+1,capy2+1,darkColor,bgStyle);
 			}
-			// The top of the cap
-			html += "<div class='keyfg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;padding:{5}px;'>\n".format(capwidth - innerPadding, capheight - innerPadding, capx + sizes.margin + 1, capy + (sizes.margin/2) + 1, key.color, sizes.padding);
-			if(jShaped) {
-				html += "</div><div class='keyfg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;padding:{5}px;'>\n".format(capwidth2 - innerPadding, capheight2 - innerPadding, capx2 + sizes.margin + 1, capy2 + (sizes.margin/2) + 1, key.color, sizes.padding);
+
+			if(!key.ghost) {
+				// The top of the cap
+				html += "<div class='keyfg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;padding:{5}px;'>\n".format(capwidth - innerPadding, capheight - innerPadding, capx + sizes.margin + 1, capy + (sizes.margin/2) + 1, key.color, sizes.padding);
+				if(jShaped) {
+					html += "</div><div class='keyfg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;padding:{5}px;'>\n".format(capwidth2 - innerPadding, capheight2 - innerPadding, capx2 + sizes.margin + 1, capy2 + (sizes.margin/2) + 1, key.color, sizes.padding);
+				}
+				// The key labels			
+				html += "<div class='keylabels' style='height:{0}px;'>".format(capheight - innerPadding);
+				if(key.label) { html += "<div class='keylabel' style='color:{1};'>{0}</div>\n".format(key.label,key.text); }
+				if(key.label2) { html += "<div class='keylabel2' style='color:{1};'>{0}</div>\n".format(key.label2,key.text); }
+				html += "</div></div>";
 			}
-			// The key labels			
-			html += "<div class='keylabels' style='height:{0}px;'>".format(capheight - innerPadding);
-			if(key.label) { html += "<div class='keylabel' style='color:{1};'>{0}</div>\n".format(key.label,key.text); }
-			if(key.label2) { html += "<div class='keylabel2' style='color:{1};'>{0}</div>\n".format(key.label2,key.text); }
-			html += "</div></div>";
 	
 			key.html = $sce.trustAsHtml(html);
 			key.rect = { x:capx, y:capy, w:capwidth, h:capheight };

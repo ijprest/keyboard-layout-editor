@@ -195,6 +195,12 @@ All rights reserved.
 						<input type='color' class="colorpicker" ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
+				<div class="control-group">
+					<label class="control-label" for="ghosteditor">Ghosted:</label>
+					<div class="controls">
+						<input id="ghosteditor" type="checkbox" ng-model="multi.ghost" ng-change="updateMulti('ghost')" ng-blur="validateMulti('ghost')" ng-disabled="selectedKeys.length<1"> 
+					</div>
+				</div>
 			</form>
 
 			<div class="col-md-4 col-lg-4" ng-class="{hidden:!palette.name}">

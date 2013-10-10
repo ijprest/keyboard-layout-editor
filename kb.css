@@ -65,6 +65,7 @@ html, body {
 }
 .hover .keyborder { border-color: green; }
 .selected .keyborder { border-color: red; }
+.ghosted { opacity: 0.4; }
 
 /* The sides of the cap (darker) */
 .keybg { 
