@@ -99,6 +99,7 @@
 			color = serializeProp("c", key.color, color);
 			text = serializeProp("t", key.text, text);
 			ghost = serializeProp("g", key.ghost, ghost);
+			profile = serializeProp("p", key.profile, profile);
 			serializeProp("w", key.width, 1);
 			serializeProp("h", key.height, 1);
 			serializeProp("w2", key.width2, key.width);
@@ -360,7 +361,6 @@
 			var innerPadding = (2*sizes.margin) + (2*sizes.padding);
 			var borderStyle = "keyborder", bgStyle = "keybg";
 			if(key.ghost) {
-				//darkColor = "#eeeeee";
 				borderStyle += " ghosted";
 				bgStyle += " ghosted";
 			} 
@@ -937,7 +937,7 @@
 				minx = min(minx, key.x -= clipboard[0].x);
 				miny = min(miny, key.y -= clipboard[0].y);
 			});
-			
+
 			// Adjust to make sure nothing < 0
 			clipCopy.forEach(function(key) { 
 				key.x -= minx;
