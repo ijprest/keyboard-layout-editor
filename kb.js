@@ -672,27 +672,30 @@
 			$('#keyboard').focus();
 		};
 
+		function whereToAddNewKeys(nextline) {
+			var xpos = 0, ypos = -1;
+			sortKeys($scope.keys());
+			if(!nextline && $scope.selectedKeys.length>0 && $scope.keys().length>0 && $scope.multi.x == $scope.keys().last().x) {
+				xpos = $scope.multi.x + $scope.multi.width;
+				ypos = $scope.multi.y;
+				if(xpos >= 23) { xpos = 0; ypos++; }
+			} else {
+				$scope.keys().forEach(function(key) { ypos = max(ypos,key.y); });
+				ypos++;
+			}
+			return {x:xpos, y:ypos};
+		}
+
 		$scope.addKey = function(proto, nextline) {
 			var newKey = null;
 			transaction("add", function() {
-				var xpos = 0, ypos = -1;
-
-				sortKeys($scope.keys());
-				if(!nextline && $scope.selectedKeys.length>0 && $scope.keys().length>0 && $scope.multi.x == $scope.keys().last().x) {
-					xpos = $scope.multi.x + $scope.multi.width;
-					ypos = $scope.multi.y;
-					if(xpos >= 23) { xpos = 0; ypos++; }
-				} else {
-					$scope.keys().forEach(function(key) {	ypos = max(ypos,key.y);	});
-					ypos++;
-				}
-
+				var pos = whereToAddNewKeys(nextline);
 				var color = $scope.multi.color || "#eeeeee";
 				var textColor = $scope.multi.text || "#000000";
 				newKey = {width:1, height:1, color:color, text:textColor, labels:[], x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:"", ghost:false};
 				$.extend(newKey, proto);
-				newKey.x += xpos;
-				newKey.y += ypos;
+				newKey.x += pos.x;
+				newKey.y += pos.y;
 				renderKey(newKey);
 				$scope.keys().push(newKey);
 			});
@@ -926,14 +929,34 @@
 				return;
 			}
 			sortKeys(clipboard);
+
+			// Copy the clipboard keys, and adjust them all relative to the first key
+			var clipCopy = angular.copy(clipboard);
+			var minx = 0, miny = 0, singleRow = true;
+			clipCopy.forEach(function(key) { 
+				minx = min(minx, key.x -= clipboard[0].x);
+				miny = min(miny, key.y -= clipboard[0].y);
+			});
+			
+			// Adjust to make sure nothing < 0
+			clipCopy.forEach(function(key) { 
+				key.x -= minx;
+				key.y -= miny;
+				if(key.y>0) { singleRow = false; }
+			});
+
+			// Figure out where to put the keys
+			var pos = whereToAddNewKeys(!singleRow);
+
+			// Perform the transaction
 			transaction("paste", function() {
-				var last = null;
-				clipboard.forEach(function(clipkey) {
-					var key = angular.copy(clipkey);
-					delete key.x;
-					delete key.y;
-					$scope.addKey(key, last !== null && clipkey.y > last.y);
-					last = clipkey;
+				clipCopy.forEach(function(key,i) {
+					key.x += pos.x;
+					key.y += pos.y;
+					renderKey(key);
+					$scope.keys().push(key);
+					$scope.selectedKeys = clipCopy;
+					$scope.multi = angular.copy($scope.selectedKeys.last());
 				});
 			});
 		};
