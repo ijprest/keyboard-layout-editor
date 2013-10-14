@@ -145,13 +145,22 @@ All rights reserved.
 				<div class="control-group">
 					<label class="control-label" for="labeleditor">Top Label:</label>
 					<div class="controls">
-						<input id="labeleditor" size="8" type='text' ng-model="multi.label" ng-change="updateMulti('label')" ng-blur="validateMulti('label')" ng-disabled="selectedKeys.length<1">
+						<input id="labeleditor" size="8" type='text' ng-model="multi.labels[0]" ng-change="updateMulti('labels',0)" ng-blur="validateMulti('labels',0)" ng-disabled="selectedKeys.length<1">
+						<input id="labeleditor3" size="8" type='text' ng-model="multi.labels[2]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="labeleditor2">Bottom Label:</label>
 					<div class="controls">
-						<input id="labeleditor2" size="8" type='text' ng-model="multi.label2" ng-change="updateMulti('label2')" ng-blur="validateMulti('label2')" ng-disabled="selectedKeys.length<1">
+						<input id="labeleditor2" size="8" type='text' ng-model="multi.labels[1]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1">
+						<input id="labeleditor4" size="8" type='text' ng-model="multi.labels[3]" ng-change="updateMulti('labels',3)" ng-blur="validateMulti('labels',3)" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="labeleditor5">Side-Print Label:</label>
+					<div class="controls">
+						<input id="labeleditor5" size="8" type='text' ng-model="multi.labels[4]" ng-change="updateMulti('labels',4)" ng-blur="validateMulti('labels',4)" ng-disabled="selectedKeys.length<1">
+						<input id="labeleditor6" size="8" type='text' ng-model="multi.labels[5]" ng-change="updateMulti('labels',5)" ng-blur="validateMulti('labels',5)" ng-disabled="selectedKeys.length<1" class="hidden">
 					</div>
 				</div>
 				<div class="control-group">

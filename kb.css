@@ -112,11 +112,11 @@ html, body {
 	font-size: 12px; 
 	font-family: "Helvetica", "Arial", sans-serif;
 }
-.keylabel {
-	margin-bottom:5px;
-}
-.keylabel2 {
-}
+.keylabel1 { position: absolute; top: 2px; left: 2px; }
+.keylabel2 { position: absolute; bottom: 2px; left: 2px; }
+.keylabel3 { position: absolute; top: 2px; right: 2px; }
+.keylabel4 { position: absolute; bottom: 2px; right: 2px; }
+.keylabel5 { position: absolute; bottom: -12px; left: 0px; width: 100%; text-align: center; font-size: 10px; }
 
 /* color swatches */
 #swatches {

@@ -57,6 +57,15 @@
 			});
 		};
 	}
+	if(!String.prototype.trimStart) {
+		String.prototype.trimStart = function() { return this.replace(/^\s\s*/, ''); };
+	}
+	if(!String.prototype.trimEnd) {
+		String.prototype.trimEnd = function() { return this.replace(/\s\s*$/, ''); };
+	}
+	if(!String.prototype.trim) {
+		String.prototype.trim = function() { this.trimStart().trimEnd(); };
+	}
 
 	if(!Array.prototype.last) {
 		Array.prototype.last = function() {
@@ -82,7 +91,7 @@
 		sortKeys(keys);
 		keys.forEach(function(key) {
 			var props = {}, prop = false;
-			var label = key.label2 ? key.label + "\n" + key.label2 : key.label;
+			var label = key.labels.join("\n").trimEnd();
 			if(key.y !== ypos) { rows.push(row); row = []; ypos++; xpos = 0; }
 			function serializeProp(nname,val,defval) { if(val !== defval) { props[nname] = val; prop = true; } return val; }
 			ypos += serializeProp("y", key.y-ypos, 0); 
@@ -112,8 +121,7 @@
 				for(k = 0; k < rows[r].length; ++k) {
 					var key = rows[r][k];
 					if(typeof key === 'string') {
-						var labels = key.split('\n');
-						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, label:labels[0], label2:labels[1], x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost});
+						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, labels:key.split('\n'), x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost});
 						xpos += width;
 						width = height = 1;
 						xpos2 = ypos2 = width2 = height2 = 0;
@@ -375,8 +383,11 @@
 				}
 				// The key labels			
 				html += "<div class='keylabels' style='height:{0}px;'>".format(capheight - innerPadding);
-				if(key.label) { html += "<div class='keylabel' style='color:{1};'>{0}</div>\n".format(key.label,key.text); }
-				if(key.label2) { html += "<div class='keylabel2' style='color:{1};'>{0}</div>\n".format(key.label2,key.text); }
+				key.labels.forEach(function(label,i) {
+					if(label) {
+						html += "<div class='keylabel{2}' style='color:{1};'>{0}</div>\n".format(label,key.text,i+1);
+					}
+				});
 				html += "</div></div>";
 			}
 	
@@ -665,7 +676,7 @@
 
 				var color = $scope.multi.color || "#eeeeee";
 				var textColor = $scope.multi.text || "#000000";
-				newKey = {width:1, height:1, color:color, text:textColor, label:"", label2:"", x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:""};
+				newKey = {width:1, height:1, color:color, text:textColor, labels:[], x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:"", ghost:false};
 				$.extend(newKey, proto);
 				newKey.x += xpos;
 				newKey.y += ypos;
@@ -694,7 +705,8 @@
 					$scope.deserializeException = "";
 					transaction("rawdata", function() {
 						$scope.deserializeAndRender(fromJsonPretty($scope.serialized));
-					});					
+					});
+					$scope.unselectAll();
 				} catch(e) {
 					$scope.deserializeException = e.toString();
 				}
