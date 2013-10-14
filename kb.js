@@ -3,10 +3,13 @@
 (function () {
 	"use strict";
 
+	// We need this so we can test locally and still save layouts to AWS
+	var base_href = "http://www.keyboard-layout-editor.com";
+
 	// Helpers 
 	function max(a, b) { return a > b ? a : b; }
 	function min(a, b) { return a < b ? a : b; }
-	
+
 	// Lenient JSON reader/writer
 	function toJsonL(obj) {
 		var res = [], key;
@@ -127,7 +130,7 @@
 	
 	// The angular module for our application
 	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils"]);
-	
+
 	// The main application controller
 	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', function($scope, $http, $location, $timeout, $sce) {
 		var serializedTimer = false;
@@ -159,6 +162,70 @@
 			if($scope.keys.length>0) {
 				$scope.multi = angular.copy($scope.keys[$scope.keys.length-1]);
 			}
+		};
+
+		function saveLayout(layout) {
+			var data = angular.toJson(layout);
+			var fn = CryptoJS.MD5(data).toString();
+
+			// First test to see if the file is already available
+			$http.get(base_href+"/layouts/"+fn).success(function() {
+				$scope.dirty = false;
+				$scope.saved = fn;
+				$location.path("/layouts/"+fn);
+				$location.hash("");
+				$scope.saveError = "";
+			}).error(function() {
+				// Nope... need to upload it
+				var fd = new FormData();
+				fd.append("key", "layouts/"+fn);
+				fd.append("AWSAccessKeyId", "AKIAJSXGG74EMFBC57QQ");
+				fd.append("acl", "public-read");
+				fd.append("success_action_redirect", base_href);
+				fd.append("policy", "eyJleHBpcmF0aW9uIjoiMjAwMTQtMDEtMDFUMDA6MDA6MDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0Ijoid3d3LmtleWJvYXJkLWxheW91dC1lZGl0b3IuY29tIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJsYXlvdXRzLyJdLHsiYWNsIjoicHVibGljLXJlYWQifSx7InN1Y2Nlc3NfYWN0aW9uX3JlZGlyZWN0IjoiaHR0cDovL3d3dy5rZXlib2FyZC1sYXlvdXQtZWRpdG9yLmNvbSJ9LHsiQ29udGVudC1UeXBlIjoiYXBwbGljYXRpb24vanNvbiJ9LFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsODE5Ml1dfQ==");
+				fd.append("signature", "WOsX5QV/y9UlOs2kmtduXYEPeEQ=");
+				fd.append("Content-Type", "application/json");
+				fd.append("file", data);
+				$http.post("http://www.keyboard-layout-editor.com.s3.amazonaws.com/", fd, {
+					headers: {'Content-Type': undefined },
+					transformRequest: angular.identity
+				}).success(function() {
+					$scope.dirty = false;
+					$scope.saved = fn;
+					$location.path("/layouts/"+fn);
+					$location.hash("");
+					$scope.saveError = "";
+				}).error(function(data, status) {
+					if(status == 0) {
+						// We seem to get a 'cancelled' notification even though the POST 
+						// is successful, so we have to double-check.
+						$http.get(base_href+"/layouts/"+fn).success(function() { 
+							$scope.dirty = false; 
+							$scope.saved = fn;
+							$location.path("/layouts/"+fn);
+							$location.hash("");
+							$scope.saveError = "";
+						}).error(function(data, status) {
+							$scope.saved = false;
+							$scope.saveError = status.toString() + " - " + data.toString();
+						});
+					} else {
+						$scope.saved = false;
+						$scope.saveError = status.toString() + " - " + data.toString();
+					}
+				});
+			});
+		}
+		$scope.save = function(event) {
+			if(event) {
+				event.preventDefault();
+			}
+			if($scope.dirty) {
+				saveLayout(serialize($scope.keys));
+			}
+		};
+		$scope.canSave = function() {
+			return $scope.dirty;
 		};
 
 		// Helper function to select a single key
@@ -301,6 +368,13 @@
 			});
 		};
 	
+		function updateSerialized() {
+			//$timeout.cancel(serializedTimer); // this is slow, for some reason
+			$scope.deserializeException = "";
+			$scope.serialized = toJsonPretty(serialize($scope.keys));
+		}
+
+		$scope.deserializeAndRender([]);
 		if($location.hash()) {
 			var loc = $location.hash();
 			if(loc[0]=='@') {
@@ -308,14 +382,16 @@
 			} else {
 				$scope.deserializeAndRender(fromJsonL(loc));
 			}
-		} else { 
+		} else if($location.path().slice(0,9) === '/layouts/') {
+			$http.get(base_href + $location.path()).success(function(data) {
+				$scope.deserializeAndRender(data);
+				updateSerialized();
+			}).error(function() {
+				$scope.loadError = true;
+			});
+		} else {
+			// Some simple default content... just a numpad
 			$scope.deserializeAndRender([["Num Lock","/","*","-"],["7\nHome","8\n↑","9\nPgUp",{h:2},"+"],["4\n←","5","6\n→"],["1\nEnd","2\n↓","3\nPgDn",{h:2},"Enter"],[{w:2},"0\nIns",".\nDel"]]);
-		}
-
-		function updateSerialized() {
-			//$timeout.cancel(serializedTimer); // this is slow, for some reason
-			$scope.deserializeException = "";
-			$scope.serialized = toJsonPretty(serialize($scope.keys));
 		}
 
 		// Undo/redo support
@@ -325,8 +401,10 @@
 		$scope.canUndo = function() { return undoStack.length>0; };
 		$scope.canRedo = function() { return redoStack.length>0; };
 		$scope.dirty = false;
+		$scope.saved = false;
+		$scope.saveError = "";
 		window.onbeforeunload = function(e) {
-			return $scope.dirty ? 'You have made changes to the layout that are not saved.  You can save your layout by bookmarking the \'permalink\' in the application bar.' : null;
+			return $scope.dirty ? 'You have made changes to the layout that are not saved.  You can save your layout to the server by clicking the \'Save\' button.  You can also save your layout locally by bookmarking the \'Permalink\' in the application bar.' : null;
 		};
 
 		function transaction(type, fn) {
@@ -344,12 +422,17 @@
 			} finally {
 				if($location.hash()) {
 					$location.hash("");
-				}				
+				}
+				if($location.path()) {
+					$location.path("");
+				}
 				trans.modified = angular.copy($scope.keys);
 				trans.open = false;
 				redoStack = [];
 				updateSerialized();
 				$scope.dirty = true;
+				$scope.saved = false;
+				$scope.saveError = "";
 			}
 		}
 
@@ -376,7 +459,7 @@
 					renderKey(key);
 				});
 				undoStack.push(u); 
-				$scope.dirty = u.dirty;
+				$scope.dirty = true;
 				$scope.unselectAll();
 			}
 		};
@@ -702,7 +785,7 @@
 		};
 	
 		$scope.getPermalink = function() {
-			var url = $location.absUrl().replace(/##.*$/,"");
+			var url = $location.absUrl().replace(/#.*$/,"");
 			url += "##" + URLON.stringify(serialize($scope.keys));
 			return url;
 		};

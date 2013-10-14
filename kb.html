@@ -18,6 +18,7 @@ All rights reserved.
 <script type="text/javascript" src="js/jquery-2.0.2.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/urlon.js"></script>
+<script type="text/javascript" src="js/md5.js"></script>
 <script type="text/javascript" src="kb.js"></script>
 </head>
 <body ng-controller="kbCtrl"
@@ -26,7 +27,8 @@ All rights reserved.
 	 ui-keydown="{'shift-191' : 'showHelp()',
 	 			  'ctrl-90' : 'undo()',
 	 			  'ctrl-shift-90' : 'redo()',
-	 			  'ctrl-89' : 'redo()' }">
+	 			  'ctrl-89' : 'redo()',
+	 			  'ctrl-83' : 'save($event)' }">
 <div id="wrap">
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">	
 	<div class="navbar-header">
@@ -90,7 +92,9 @@ All rights reserved.
 		<button type="button" class="btn btn-default" ng-class="{disabled:!canCopy()}" ng-click="copy()"><i class="icon-copy"></i> Copy</button>
 		<button type="button" class="btn btn-default" ng-class="{disabled:!canPaste()}" ng-click="paste()"><i class="icon-paste"></i> Paste</button>
 	</div>
-	
+	<div class="btn-group pull-right">
+		<button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()"><i class="icon-save"></i> Save</button>
+	</div>
 	<div id="keyboard" 
 		 tabindex="0" 
 		 ng-style="{height: kbHeight + 'px'}" 
@@ -219,9 +223,23 @@ All rights reserved.
 			<div class="alert alert-danger" style='margin-top:1em;margin-bottom:0px' ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
 		</div>
 	</div>	
+	<P></P>
+	<div ng-class="{hidden:!saved}" class="alert alert-success">
+		<a class="close" href="#" aria-hidden="true" ng-click="saved=false">&times;</a>
+		Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/layouts/{{saved}}">this link</a>.
+	</div>
+	<div ng-class="{hidden:!saveError}" class="alert alert-danger">
+		<a class="close" href="#" aria-hidden="true" ng-click="saveError=''">&times;</a>
+		<P>There was an error saving your layout on the server: {{saveError}}</P>
+		<P>To ensure you don't lose any data, it is recommended that you <a class="alert-link" ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false">bookmark this permalink</a>.</P>
+	</div>
+	<div ng-class="{hidden:!loadError}" class="alert alert-danger">
+		<a class="close" href="#" aria-hidden="true" ng-click="loadError=false">&times;</a>
+		The requested layout does not exist.
+	</div>
 </div>
 </div>
-	
+
 <div id="footer">
 <div class="container">
 	<p class="text-muted credit" style="float:left">
@@ -252,7 +270,8 @@ All rights reserved.
 					<li>Select a key in the editor by clicking on it; then try changing the various properties in the property-editor form.</li>
 					<li>You can select multiple keys by holding down CTRL and clicking on them, or extend the current selection by SHIFT-clicking on an item.  You can also drag a marquee rectangle around the keys you want to select.</li>
 					<li>Try the keyboard shortcuts (described below); they make editing various properties much quicker.</li>
-					<li>Save your layout by dragging the 'Permalink' (at the top of the page) to your bookmarks list.</li>
+					<li>You can save your layout to the server by clicking the 'Save' button on the toolbar.</li>
+					<li>You can save your layout locally by bookmarking the 'Permalink' (at the top of the page) in your bookmarks list.</li>
 				</ul>
 
 				<h5>Keyboard Shortcuts</h5>
@@ -266,12 +285,13 @@ All rights reserved.
 					<tr><td><span class='shortcut'>J</span> / <span class='shortcut'>K</span></td><td>Select the previous / next key in the editor.</td></tr>
 				</table>
 				<table class='shortcuts col-md-6' style='margin-bottom:5px;'>
-					<tr><td><span class='shortcut'>Ctrl&ndash;A</span> / <span class='shortcut'>Esc</span></td><td>Select / Deselect All Keys</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;S</span></td><td>Save your layout (on the server)</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;A</span> / <span class='shortcut'>Esc</span></td><td>Select / deselect all keys</td></tr>
 					<tr><td><span class='shortcut'>Ctrl&ndash;Z</span></td><td>Undo</td></tr>
 					<tr><td><span class='shortcut'>Ctrl&ndash;Shift&ndash;Z</span> or <span class='shortcut'>Ctrl&ndash;Y</span></td><td>Redo</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;X</span> or <span class='shortcut'>Shift&ndash;Del</span></td><td>Cut Selected Keys</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;C</span> or <span class='shortcut'>Ctrl&ndash;Ins</span></td><td>Copy Selected Keys</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;V</span> or <span class='shortcut'>Shift&ndash;Ins</span></td><td>Paste Keys From Clipboard</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;X</span> or <span class='shortcut'>Shift&ndash;Del</span></td><td>Cut the selected keys</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;C</span> or <span class='shortcut'>Ctrl&ndash;Ins</span></td><td>Copy the selected keys</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;V</span> or <span class='shortcut'>Shift&ndash;Ins</span></td><td>Paste keys from the clipboard</td></tr>
 				</table>
 				<P style='clear:both'>Note that most of these keys require that the keyboard editor has input focus.</P>
 			</div>

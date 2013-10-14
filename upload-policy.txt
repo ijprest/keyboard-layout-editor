@@ -1,0 +1,10 @@
+{"expiration": "20014-01-01T00:00:00Z",
+  "conditions": [ 
+    {"bucket": "www.keyboard-layout-editor.com"}, 
+    ["starts-with", "$key", "layouts/"],
+    {"acl": "public-read"},
+    {"success_action_redirect": "http://www.keyboard-layout-editor.com"},
+    {"Content-Type": "application/json"},
+    ["content-length-range", 0, 8192]
+  ]
+}
