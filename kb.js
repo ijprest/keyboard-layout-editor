@@ -493,6 +493,7 @@
 			transaction("preset", function() {
 				$scope.deserializeAndRender(preset);
 			});
+			$scope.dirty = false;
 		};
 
 		$scope.deleteKeys = function() {
