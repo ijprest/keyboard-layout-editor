@@ -115,7 +115,7 @@
 					if(key.w2) { width2 = key.w2; }
 					if(key.h2) { height2 = key.h2; }
 					if(key.n) { nub = key.n; }
-					if(key.g) { ghost = key.g; }
+					if(key.g != null) { ghost = key.g; }
 				}
 			}
 			ypos++;
