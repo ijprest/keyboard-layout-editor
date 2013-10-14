@@ -25,9 +25,6 @@ All rights reserved.
 	 ng-mouseup="selectRelease($event)" 
 	 ng-mousemove="selectMove($event)"
 	 ui-keydown="{'shift-191' : 'showHelp()',
-	 			  'ctrl-90' : 'undo()',
-	 			  'ctrl-shift-90' : 'redo()',
-	 			  'ctrl-89' : 'redo()',
 	 			  'ctrl-83' : 'save($event)' }">
 <div id="wrap">
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">	
@@ -97,7 +94,7 @@ All rights reserved.
 	</div>
 	<div id="keyboard" 
 		 tabindex="0" 
-		 ng-style="{height: kbHeight + 'px'}" 
+		 ng-style="{height: kbHeight + 'px', 'background-color': keyboard.meta.backcolor}" 
 		 ui-keydown="{ left:'moveKeys(-.25,0,$event)', 
 					 right:'moveKeys(.25,0,$event)', 
 					 up:'moveKeys(0,-.25,$event)', 
@@ -117,10 +114,13 @@ All rights reserved.
 					 'ctrl-65': 'selectAll()',
 					 'ctrl-67 ctrl-45': 'copy($event)',
 					 'ctrl-88 shift-46': 'cut($event)',
-					 'ctrl-86 shift-45': 'paste($event)' }" 
+					 'ctrl-86 shift-45': 'paste($event)',
+					 'ctrl-90' : 'undo()',
+					 'ctrl-shift-90' : 'redo()',
+					 'ctrl-89' : 'redo()' }" 
 		 ng-mousedown="selectClick($event)">
 	
-		<div ng-repeat="key in keys" 
+		<div ng-repeat="key in keys()" 
 			 class="key {{key.profile}}" 
 			 ng-mouseover="hoveredKey=key" 
 			 ng-mouseleave="hoveredKey=null" 
@@ -135,11 +135,12 @@ All rights reserved.
 	
 	<ul class="nav nav-tabs">
 		<li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab"><i class="icon-edit"></i> Properties</a></li>
-		<li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="icon-code"></i> Raw data</a></li>
+		<li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="icon-keyboard"></i> Keyboard Properties</a></li>
+		<li ng-class="{active:selTab==2}"><a ng-click="selTab=2" data-toggle="tab"><i class="icon-code"></i> Raw data</a></li>
 	</ul>
 	<div class='tab-content' ui-keydown="{esc:'focusKb()'}">
+		<!-- PROPERTIES EDITOR -->
 		<div id="properties" ng-class="{hidden:selTab!=0}" class="col-md-12 row">
-
 			<form class="form-horizontal col-md-4 col-lg-4">
 				<div class="control-group">
 					<label class="control-label" for="labeleditor">Top Label:</label>
@@ -218,7 +219,22 @@ All rights reserved.
 				</ul>
 			</div>
 		</div>
-		<div ng-class="{hidden:selTab!=1}" class="col-md-12">
+
+		<!-- KEYBOARD PROPERTIES EDITOR -->
+		<div id="kbdproperties" ng-class="{hidden:selTab!=1}" class="col-md-12 row">
+			<form class="form-horizontal col-md-4 col-lg-4">
+				<div class="control-group">
+					<label class="control-label" for="kbdcoloreditor">Keyboard Color:</label>
+					<div class="controls">
+						<input id="kbdcoloreditor" size="8" type='text' ng-model="meta.backcolor" ng-change="updateMeta('backcolor')" ng-blur="validateMeta('backcolor')">
+						<input type='color' class="colorpicker" ng-model="meta.backcolor" ng-change="updateMeta('backcolor')" ng-blur="validateMeta('backcolor')">
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!-- RAW DATA EDITOR -->
+		<div ng-class="{hidden:selTab!=2}" class="col-md-12">
 			<textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}"></textarea>
 			<div class="alert alert-danger" style='margin-top:1em;margin-bottom:0px' ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
 		</div>

@@ -49,7 +49,7 @@
 	}
 	
 	// Simple String.format() implementation
-	if (!String.prototype.format) {
+	if(!String.prototype.format) {
 		String.prototype.format = function() {
 			var args = arguments;
 			return this.replace(/\{(\d+)\}/g, function(match, number) { 
@@ -58,13 +58,27 @@
 		};
 	}
 
+	if(!Array.prototype.last) {
+		Array.prototype.last = function() {
+			return this[this.length-1];
+		}
+	}
+
 	function sortKeys(keys) {
 		keys.sort(function(a,b) { return a.y === b.y ? a.x - b.x : a.y - b.y; });
 	}
 	
 	// Convert between our in-memory format & our serialized format
-	function serialize(keys) {
+	function serialize(keyboard) {
+		var keys = keyboard.keys;
 		var rows = [], row = [], xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", profile = "", ghost = false;
+		if(keyboard.meta) {
+			var meta = angular.copy(keyboard.meta); 
+			if(meta.backcolor === '#eeeeee') { delete meta.backcolor; }
+			if(!$.isEmptyObject(meta)) {
+				rows.push(meta);
+			}
+		}
 		sortKeys(keys);
 		keys.forEach(function(key) {
 			var props = {}, prop = false;
@@ -92,36 +106,41 @@
 
 	function deserialize(rows) {
 		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false;
+		var meta = { backcolor: "#eeeeee" };
 		for(r = 0; r < rows.length; ++r) {
-			for(k = 0; k < rows[r].length; ++k) {
-				var key = rows[r][k];
-				if(typeof key === 'string') {
-					var labels = key.split('\n');
-					keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, label:labels[0], label2:labels[1], x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost});
-					xpos += width;
-					width = height = 1;
-					xpos2 = ypos2 = width2 = height2 = 0;
-					nub = false;
-				} else {
-					if(key.p) { profile = key.p; }
-					if(key.c) { color = key.c; }
-					if(key.t) { text = key.t; }
-					if(key.x) { xpos += key.x; }
-					if(key.y) { ypos += key.y; }
-					if(key.w) { width = key.w; }
-					if(key.h) { height = key.h; }
-					if(key.x2) { xpos2 = key.x2; }
-					if(key.y2) { ypos2 = key.y2; }
-					if(key.w2) { width2 = key.w2; }
-					if(key.h2) { height2 = key.h2; }
-					if(key.n) { nub = key.n; }
-					if(key.g != null) { ghost = key.g; }
+			if(rows[r] instanceof Array) {
+				for(k = 0; k < rows[r].length; ++k) {
+					var key = rows[r][k];
+					if(typeof key === 'string') {
+						var labels = key.split('\n');
+						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, label:labels[0], label2:labels[1], x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost});
+						xpos += width;
+						width = height = 1;
+						xpos2 = ypos2 = width2 = height2 = 0;
+						nub = false;
+					} else {
+						if(key.p) { profile = key.p; }
+						if(key.c) { color = key.c; }
+						if(key.t) { text = key.t; }
+						if(key.x) { xpos += key.x; }
+						if(key.y) { ypos += key.y; }
+						if(key.w) { width = key.w; }
+						if(key.h) { height = key.h; }
+						if(key.x2) { xpos2 = key.x2; }
+						if(key.y2) { ypos2 = key.y2; }
+						if(key.w2) { width2 = key.w2; }
+						if(key.h2) { height2 = key.h2; }
+						if(key.n) { nub = key.n; }
+						if(key.g != null) { ghost = key.g; }
+					}
 				}
+				ypos++;
+			} else if(typeof rows[r] === 'object') {
+				$.extend(meta, rows[r]);
 			}
-			ypos++;
 			xpos = 0;
 		}
-		return keys;
+		return { meta:meta, keys:keys };
 	}
 	
 	// Some predefined sizes for our caps
@@ -138,7 +157,7 @@
 		// The application version
 		$scope.version = "0.6";
 
-		// The selected tab; 0 == Properties, 1 == Raw Data
+		// The selected tab; 0 == Properties, 1 == Kbd Properties, 2 == Raw Data
 		$scope.selTab = 0;
 	
 		// An array used to keep track of the selected keys
@@ -147,6 +166,11 @@
 		// A single key selection; if multiple keys are selected, this is the 
 		// most-recently selected one.
 		$scope.multi = {};
+		$scope.meta = {};
+
+		// The keyboard data
+		$scope.keyboard = { keys: [] };
+		$scope.keys = function(newKeys) { if(newKeys) { $scope.keyboard.keys = newKeys; } return $scope.keyboard.keys; };
 
 		// Helper function to select/deselect all keys
 		$scope.unselectAll = function() {
@@ -154,13 +178,13 @@
 			$scope.multi = {};
 		};
 		$scope.selectAll = function() {
-			sortKeys($scope.keys);
+			sortKeys($scope.keys());
 			$scope.unselectAll();
-			$scope.keys.forEach(function(key) {
+			$scope.keys().forEach(function(key) {
 				$scope.selectedKeys.push(key);				
 			});
-			if($scope.keys.length>0) {
-				$scope.multi = angular.copy($scope.keys[$scope.keys.length-1]);
+			if($scope.keys().length>0) {
+				$scope.multi = angular.copy($scope.keys().last());
 			}
 		};
 
@@ -221,7 +245,7 @@
 				event.preventDefault();
 			}
 			if($scope.dirty) {
-				saveLayout(serialize($scope.keys));
+				saveLayout(serialize($scope.keyboard));
 			}
 		};
 		$scope.canSave = function() {
@@ -235,10 +259,10 @@
 				// selected item to the new one.
 				if(event.shiftKey && $scope.selectedKeys.length > 0) {
 					// Get the indicies of all the selected keys
-					var currentSel = $scope.selectedKeys.map(function(key) { return $scope.keys.indexOf(key); });
+					var currentSel = $scope.selectedKeys.map(function(key) { return $scope.keys().indexOf(key); });
 					currentSel.sort(function(a,b) { return parseInt(a) - parseInt(b); });
-					var cursor = $scope.keys.indexOf(key);					
-					var anchor = $scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1]);
+					var cursor = $scope.keys().indexOf(key);					
+					var anchor = $scope.keys().indexOf($scope.selectedKeys.last());
 					$scope.selectedKeys.pop();
 				}
 
@@ -251,11 +275,11 @@
 				if(anchor !== undefined && cursor !== undefined) {					
 					if(anchor > cursor) {
 						for(var i = anchor; i >= cursor; --i) {
-							selectKey($scope.keys[i],{ctrlKey:true});
+							selectKey($scope.keys()[i],{ctrlKey:true});
 						}
 					} else {
 						for(var i = anchor; i <= cursor; ++i) {
-							selectKey($scope.keys[i],{ctrlKey:true});
+							selectKey($scope.keys()[i],{ctrlKey:true});
 						}
 					}
 					return;
@@ -268,7 +292,7 @@
 					if($scope.selectedKeys.length<1) { 
 						$scope.multi = {};
 					} else {
-						$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
+						$scope.multi = angular.copy($scope.selectedKeys.last());
 					}
 				} else { //select
 					$scope.selectedKeys.push(key);
@@ -301,7 +325,7 @@
 		});
 
 		// A set of "known special" keys
-		$scope.specialKeys = null;
+		$scope.specialKeys = {};
 		$http.get('keys.json').success(function(data) {
 			$scope.specialKeys = data;
 		});
@@ -362,16 +386,17 @@
 		};
 	
 		$scope.deserializeAndRender = function(data) {
-			$scope.keys = deserialize(data);
-			$scope.keys.forEach(function(key) {
+			$scope.keyboard = deserialize(data);
+			$scope.keys().forEach(function(key) {
 				renderKey(key);
 			});
+			$scope.meta = angular.copy($scope.keyboard.meta);
 		};
 	
 		function updateSerialized() {
 			//$timeout.cancel(serializedTimer); // this is slow, for some reason
 			$scope.deserializeException = "";
-			$scope.serialized = toJsonPretty(serialize($scope.keys));
+			$scope.serialized = toJsonPretty(serialize($scope.keyboard));
 		}
 
 		$scope.deserializeAndRender([]);
@@ -408,9 +433,9 @@
 		};
 
 		function transaction(type, fn) {
-			var trans = undoStack.length>0 ? undoStack[undoStack.length-1] : null;
+			var trans = undoStack.length>0 ? undoStack.last() : null;
 			if(trans === null || !canCoalesce || trans.type !== type) {
-				trans = { type:type, original:angular.copy($scope.keys), open:true, dirty:$scope.dirty };
+				trans = { type:type, original:angular.copy($scope.keyboard), open:true, dirty:$scope.dirty };
 				undoStack.push(trans);
 				if(undoStack.length>32) {
 					undoStack.shift();
@@ -426,10 +451,10 @@
 				if($location.path()) {
 					$location.path("");
 				}
-				trans.modified = angular.copy($scope.keys);
+				trans.modified = angular.copy($scope.keyboard);
 				trans.open = false;
 				redoStack = [];
-				updateSerialized();
+				if(type !== 'rawdata') { updateSerialized(); }
 				$scope.dirty = true;
 				$scope.saved = false;
 				$scope.saveError = "";
@@ -439,9 +464,9 @@
 		$scope.undo = function() { 
 			if($scope.canUndo()) { 
 				var u = undoStack.pop(); 
-				$scope.keys = angular.copy(u.original);
+				$scope.keyboard = angular.copy(u.original);
 				updateSerialized();
-				$scope.keys.forEach(function(key) {
+				$scope.keys().forEach(function(key) {
 					renderKey(key);
 				});
 				redoStack.push(u); 
@@ -453,9 +478,9 @@
 		$scope.redo = function() { 
 			if($scope.canRedo()) { 
 				var u = redoStack.pop(); 
-				$scope.keys = angular.copy(u.modified); 
+				$scope.keyboard = angular.copy(u.modified);
 				updateSerialized(); 
-				$scope.keys.forEach(function(key) {
+				$scope.keys().forEach(function(key) {
 					renderKey(key);
 				});
 				undoStack.push(u); 
@@ -502,7 +527,7 @@
 					update(selectedKey, prop, $scope.multi[prop]);
 					renderKey(selectedKey);
 				});
-				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
+				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 		};
 
@@ -517,7 +542,15 @@
 			}
 		};
 
-		$scope.serialized = toJsonPretty(serialize($scope.keys));
+		$scope.updateMeta = function(prop) {
+			transaction("metadata", function() {
+				$scope.keyboard.meta[prop] = $scope.meta[prop];
+			});
+		}
+		$scope.validateMeta = function(prop) {
+		}
+
+		$scope.serialized = toJsonPretty(serialize($scope.keyboard));
 	
 		$scope.clickSwatch = function(color,$event) {
 			$event.preventDefault();
@@ -533,7 +566,7 @@
 					}
 					renderKey(selectedKey);
 				});
-				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
+				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 		};
 	
@@ -548,7 +581,7 @@
 					selectedKey.y = max(0,selectedKey.y + y);
 					renderKey(selectedKey);
 				});
-				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
+				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 			if(y !== 0) { $scope.calcKbHeight(); }
 		};
@@ -564,7 +597,7 @@
 					selectedKey.height = selectedKey.height2 = max(1,selectedKey.height + y);
 					renderKey(selectedKey);
 				});
-				$scope.multi = angular.copy($scope.selectedKeys[$scope.selectedKeys.length-1]);
+				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 			if(y!==0) { $scope.calcKbHeight(); }
 		};
@@ -585,26 +618,26 @@
 
 			transaction('delete', function() {
 				// Sort the keys, so we can easily select the next key after deletion
-				sortKeys($scope.keys);
+				sortKeys($scope.keys());
 
 				// Get the indicies of all the selected keys
-				var toDelete = $scope.selectedKeys.map(function(key) { return $scope.keys.indexOf(key); });
+				var toDelete = $scope.selectedKeys.map(function(key) { return $scope.keys().indexOf(key); });
 				toDelete.sort(function(a,b) { return parseInt(a) - parseInt(b); });
 
 				// Figure out which key we're going to select after deletion
-				var toSelectNdx = toDelete[toDelete.length-1]+1;
-				var toSelect = $scope.keys[toSelectNdx];
+				var toSelectNdx = toDelete.last()+1;
+				var toSelect = $scope.keys()[toSelectNdx];
 
 				// Delete the keys in reverse order so that the indicies remain valid
 				for(var i = toDelete.length-1; i >= 0; --i) {
-					$scope.keys.splice(toDelete[i],1);
+					$scope.keys().splice(toDelete[i],1);
 				}
 
 				// Select the next key
-				var ndx = $scope.keys.indexOf(toSelect);
+				var ndx = $scope.keys().indexOf(toSelect);
 				if(ndx < 0) { ndx = toDelete[0]-1; }
 				if(ndx < 0) { ndx = 0; }
-				toSelect = $scope.keys[ndx];
+				toSelect = $scope.keys()[ndx];
 				if(toSelect) {
 					$scope.selectedKeys = [toSelect];
 					$scope.multi = angular.copy(toSelect);
@@ -620,13 +653,13 @@
 			transaction("add", function() {
 				var xpos = 0, ypos = -1;
 
-				sortKeys($scope.keys);
-				if(!nextline && $scope.selectedKeys.length>0 && $scope.keys.length>0 && $scope.multi.x == $scope.keys[$scope.keys.length-1].x) {
+				sortKeys($scope.keys());
+				if(!nextline && $scope.selectedKeys.length>0 && $scope.keys().length>0 && $scope.multi.x == $scope.keys().last().x) {
 					xpos = $scope.multi.x + $scope.multi.width;
 					ypos = $scope.multi.y;
 					if(xpos >= 23) { xpos = 0; ypos++; }
 				} else {
-					$scope.keys.forEach(function(key) {	ypos = max(ypos,key.y);	});
+					$scope.keys().forEach(function(key) {	ypos = max(ypos,key.y);	});
 					ypos++;
 				}
 
@@ -637,7 +670,7 @@
 				newKey.x += xpos;
 				newKey.y += ypos;
 				renderKey(newKey);
-				$scope.keys.push(newKey);
+				$scope.keys().push(newKey);
 			});
 			selectKey(newKey,{});
 			$scope.calcKbHeight();
@@ -659,7 +692,9 @@
 			serializedTimer = $timeout(function() {
 				try {
 					$scope.deserializeException = "";
-					$scope.deserializeAndRender(fromJsonPretty($scope.serialized));
+					transaction("rawdata", function() {
+						$scope.deserializeAndRender(fromJsonPretty($scope.serialized));
+					});					
 				} catch(e) {
 					$scope.deserializeException = e.toString();
 				}
@@ -720,7 +755,7 @@
 		// about mouse-capture.
 		$scope.selectRelease = function(event) {
 			if(doingMarqueeSelect) {
-				sortKeys($scope.keys);
+				sortKeys($scope.keys());
 				doingMarqueeSelect = false;
 
 				// Calculate the offset between #keyboard and the mouse-coordinates
@@ -743,7 +778,7 @@
 					$scope.selRect.t -= offsety;
 
 					// Iterate over all the keys
-					$scope.keys.forEach(function(key) {
+					$scope.keys().forEach(function(key) {
 						// Check to see if the key is *entirely within* the marquee rectangle
 						if( key.rect.x >= $scope.selRect.l && key.rect.x+key.rect.w <= $scope.selRect.l+$scope.selRect.w &&
 							key.rect.y >= $scope.selRect.t && key.rect.y+key.rect.h <= $scope.selRect.t+$scope.selRect.h &&
@@ -764,7 +799,7 @@
 
 					// The marquee wasn't displayed, so we're doing a single-key selection; 
 					// iterate over all the keys.
-					$scope.keys.forEach(function(key) {
+					$scope.keys().forEach(function(key) {
 						// Just check to see if the mouse click is within any key rectangle
 						if( (key.rect.x <= event.pageX-offsetx && key.rect.x+key.rect.w >= event.pageX-offsetx &&
 							 key.rect.y <= event.pageY-offsety && key.rect.y+key.rect.h >= event.pageY-offsety) ||
@@ -786,34 +821,34 @@
 	
 		$scope.getPermalink = function() {
 			var url = $location.absUrl().replace(/#.*$/,"");
-			url += "##" + URLON.stringify(serialize($scope.keys));
+			url += "##" + URLON.stringify(serialize($scope.keyboard));
 			return url;
 		};
 	
 		// Called on 'j' or 'k' keystrokes; navigates to the next or previous key
 		$scope.prevKey = function(event) {
-			if($scope.keys.length>0) {
-				sortKeys($scope.keys);
-				var ndx = ($scope.selectedKeys.length>0) ? max(0,$scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1])-1) : 0;
-				var selndx = $scope.selectedKeys.indexOf($scope.keys[ndx]);
-				if(event.shiftKey && $scope.keys.length>1 && $scope.selectedKeys.length>0 && selndx>=0) {
+			if($scope.keys().length>0) {
+				sortKeys($scope.keys());
+				var ndx = ($scope.selectedKeys.length>0) ? max(0,$scope.keys().indexOf($scope.selectedKeys.last())-1) : 0;
+				var selndx = $scope.selectedKeys.indexOf($scope.keys()[ndx]);
+				if(event.shiftKey && $scope.keys().length>1 && $scope.selectedKeys.length>0 && selndx>=0) {
 					$scope.selectedKeys.pop(); //deselect the existing cursor
 					$scope.selectedKeys.splice(selndx,1); //make sure the new cursor is at the end of the selection list
 				}
-				selectKey($scope.keys[ndx], {ctrlKey:event.shiftKey});
+				selectKey($scope.keys()[ndx], {ctrlKey:event.shiftKey});
 				canCoalesce = false;
 			}
 		};
 		$scope.nextKey = function(event) {
-			if($scope.keys.length>0) {
-				sortKeys($scope.keys);
-				var ndx = ($scope.selectedKeys.length>0) ? min($scope.keys.length-1,$scope.keys.indexOf($scope.selectedKeys[$scope.selectedKeys.length-1])+1) : $scope.keys.length-1;
-				var selndx = $scope.selectedKeys.indexOf($scope.keys[ndx]);
-				if(event.shiftKey && $scope.keys.length>1 && $scope.selectedKeys.length>0 && selndx>=0) {
+			if($scope.keys().length>0) {
+				sortKeys($scope.keys());
+				var ndx = ($scope.selectedKeys.length>0) ? min($scope.keys().length-1,$scope.keys().indexOf($scope.selectedKeys.last())+1) : $scope.keys().length-1;
+				var selndx = $scope.selectedKeys.indexOf($scope.keys()[ndx]);
+				if(event.shiftKey && $scope.keys().length>1 && $scope.selectedKeys.length>0 && selndx>=0) {
 					$scope.selectedKeys.pop(); //deselect the existing cursor
 					$scope.selectedKeys.splice(selndx,1); //make sure the new cursor is at the end of the selection list
 				}
-				selectKey($scope.keys[ndx], {ctrlKey:event.shiftKey});
+				selectKey($scope.keys()[ndx], {ctrlKey:event.shiftKey});
 				canCoalesce = false;
 			}
 		};
@@ -826,6 +861,12 @@
 					$('#properties').removeClass('hidden');
 				}
 				$('#labeleditor').focus().select();
+			} else {
+				if($scope.selTab !== 1) {
+					$scope.selTab = 1; 
+					$('#kbdproperties').removeClass('hidden');
+				}
+				$('#kbdcoloreditor').focus().select();
 			}
 		};
 
@@ -864,7 +905,8 @@
 				var last = null;
 				clipboard.forEach(function(clipkey) {
 					var key = angular.copy(clipkey);
-					key.x = key.y = null;
+					delete key.x;
+					delete key.y;
 					$scope.addKey(key, last !== null && clipkey.y > last.y);
 					last = clipkey;
 				});
@@ -879,10 +921,12 @@
 	// of the existing text version.
 	$(document).ready(function() {
 		$('.colorpicker').each(function(i,elem) {
+			var old = elem.value;
 			elem.value = ":)";
 			if(elem.value === ":)") {
 				elem.style.display = "none";
 			}
+			elem.value = old;
 		});
 	});
 }());
