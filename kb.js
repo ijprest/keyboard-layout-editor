@@ -586,6 +586,19 @@
 			if($scope.selectedKeys.length<1) { 
 				return; 
 			}
+
+			if(x<0 || y<0) {
+				var canMoveKeys = true;
+				$scope.selectedKeys.forEach(function(selectedKey) {
+					if(selectedKey.x + x < 0 || selectedKey.y + y < 0) {
+						canMoveKeys = false;
+					}
+				});
+				if(!canMoveKeys) {
+					return;
+				}
+			}
+
 			transaction("move", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					selectedKey.x = max(0,selectedKey.x + x);
