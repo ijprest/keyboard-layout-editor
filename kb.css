@@ -110,6 +110,7 @@ html, body {
 	font-family: 'engravers_gothic_fsregular'; /* substitute for Gorton Modified */
 	border-radius: 8px; 
 	margin-top: 3px;
+	font-size: 14px;
 	background: -moz-radial-gradient(center, ellipse cover,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 100%);
 	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.15)));
 	background: -webkit-radial-gradient(center, ellipse cover,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.15) 100%);
@@ -119,15 +120,14 @@ html, body {
 }
 
 /* Key labels */
-.keylabels {
-	display:table-cell;
-	width:100%;
-}
-.keylabel1 { position: absolute; top: 2px; left: 2px; }
-.keylabel2 { position: absolute; bottom: 2px; left: 2px; }
-.keylabel3 { position: absolute; top: 2px; right: 2px; }
-.keylabel4 { position: absolute; bottom: 2px; right: 2px; }
-.keylabel5 { position: absolute; bottom: -12px; left: 0px; width: 100%; text-align: center; font-size: 10px; }
+.keylabels { display: table; }
+.keylabel {	display: table-row; position: absolute;	left:2px; top:2px; right:2px; bottom:2px; }
+.keylabel > div { display: table-cell; }
+.keylabel3>div, .keylabel4>div, .keylabel6>div { text-align: right; }
+.keylabel2>div, .keylabel4>div { vertical-align: bottom; }
+.keylabel5, .keylabel6 { top:100%; margin-top:-3px; font-size: 10px; white-space:nowrap; overflow: hidden;}
+.keylabel1.centerx-true>div, .keylabel2.centerx-true>div, .keylabel5.centerf-true>div { text-align: center; }
+.keylabel1.centery-true>div, .keylabel3.centery-true>div { vertical-align: middle; }
 
 /* color swatches */
 #swatches {
@@ -182,3 +182,4 @@ html, body {
 .shortcuts tr > td:first-child { text-align:right; padding-right: 6px; padding-top: 3px;}
 .shortcuts .shortcut { background-color: #444; color: white; padding: 1px 6px; border-radius:6px; }
 
+.checkbox-label { font-weight: normal; padding-left: 4px; }

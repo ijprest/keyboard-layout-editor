@@ -80,7 +80,7 @@
 	// Convert between our in-memory format & our serialized format
 	function serialize(keyboard) {
 		var keys = keyboard.keys;
-		var rows = [], row = [], xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", profile = "", ghost = false;
+		var rows = [], row = [], xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", profile = "", ghost = false, align = 4;
 		if(keyboard.meta) {
 			var meta = angular.copy(keyboard.meta); 
 			if(meta.backcolor === '#eeeeee') { delete meta.backcolor; }
@@ -94,12 +94,13 @@
 			var label = key.labels.join("\n").trimEnd();
 			if(key.y !== ypos) { rows.push(row); row = []; ypos++; xpos = 0; }
 			function serializeProp(nname,val,defval) { if(val !== defval) { props[nname] = val; prop = true; } return val; }
-			ypos += serializeProp("y", key.y-ypos, 0); 
+			ypos += serializeProp("y", key.y-ypos, 0);
 			xpos += serializeProp("x", key.x-xpos, 0) + key.width;
 			color = serializeProp("c", key.color, color);
 			text = serializeProp("t", key.text, text);
 			ghost = serializeProp("g", key.ghost, ghost);
 			profile = serializeProp("p", key.profile, profile);
+			align = serializeProp("a", key.align, align);
 			serializeProp("w", key.width, 1);
 			serializeProp("h", key.height, 1);
 			serializeProp("w2", key.width2, key.width);
@@ -115,19 +116,20 @@
 	}
 
 	function deserialize(rows) {
-		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false;
+		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false, align = 4;
 		var meta = { backcolor: "#eeeeee" };
 		for(r = 0; r < rows.length; ++r) {
 			if(rows[r] instanceof Array) {
 				for(k = 0; k < rows[r].length; ++k) {
 					var key = rows[r][k];
 					if(typeof key === 'string') {
-						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, labels:key.split('\n'), x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost});
+						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, labels:key.split('\n'), x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost, align:align});
 						xpos += width;
 						width = height = 1;
 						xpos2 = ypos2 = width2 = height2 = 0;
 						nub = false;
 					} else {
+						if(key.a != null) { align = key.a; }
 						if(key.p) { profile = key.p; }
 						if(key.c) { color = key.c; }
 						if(key.t) { text = key.t; }
@@ -350,6 +352,7 @@
 		};
 
 		// Given a key, generate the HTML needed to render it	
+		var noRenderText = [0,2,1,3,0,4];
 		function renderKey(key) {
 			var html = "";
 			var capwidth = sizes.capsize(key.width), capwidth2 = sizes.capsize(key.width2);
@@ -360,6 +363,11 @@
 			var darkColor = darkenColor(key.color);
 			var innerPadding = (2*sizes.margin) + (2*sizes.padding);
 			var borderStyle = "keyborder", bgStyle = "keybg";
+
+			key.centerx = key.align&1 ? true : false;
+			key.centery = key.align&2 ? true : false;
+			key.centerf = key.align&4 ? true : false;
+
 			if(key.ghost) {
 				borderStyle += " ghosted";
 				bgStyle += " ghosted";
@@ -382,10 +390,10 @@
 					html += "</div><div class='keyfg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;padding:{5}px;'>\n".format(capwidth2 - innerPadding, capheight2 - innerPadding, capx2 + sizes.margin + 1, capy2 + (sizes.margin/2) + 1, key.color, sizes.padding);
 				}
 				// The key labels			
-				html += "<div class='keylabels' style='height:{0}px;'>".format(capheight - innerPadding);
+				html += "<div class='keylabels' style='width:{0}px;height:{0}px;'>".format(capwidth - innerPadding,capheight - innerPadding);
 				key.labels.forEach(function(label,i) {
-					if(label) {
-						html += "<div class='keylabel{2}' style='color:{1};'>{0}</div>\n".format(label,key.text,i+1);
+					if(label && !(key.align&noRenderText[i])) {
+						html += "<div class='keylabel keylabel{2} centerx-{5} centery-{6} centerf-{7}' style='color:{1};width:{3}px;height:{4}px;'><div style='width:{3}px;height:{4}px;'>{0}</div></div>\n".format(label,key.text,i+1,capwidth-innerPadding,capheight-innerPadding,key.centerx,key.centery,key.centerf);
 					}
 				});
 				html += "</div></div>";
@@ -517,9 +525,12 @@
 
 		function update(key,prop,value) {
 			var u = {
-				_ : function(prop,key) { key[prop] = $scope.multi[prop]; },
+				_ : function(prop,key) { key[prop] = value; },
 				width : function(prop,key) { key.width2 = key.width = $scope.multi.width; },
 				height : function(prop,key) { key.height2 = key.height = $scope.multi.height; },
+				centerx : function(prop,key) { if(value) { key.align = key.align | 1; } else { key.align = key.align & (~1); } },
+				centery : function(prop,key) { if(value) { key.align = key.align | 2; } else { key.align = key.align & (~2); } },
+				centerf : function(prop,key) { if(value) { key.align = key.align | 4; } else { key.align = key.align & (~4); } },
 			};
 			return (u[prop] || u._)(prop,key);
 		}
