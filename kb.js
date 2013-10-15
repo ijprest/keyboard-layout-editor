@@ -190,7 +190,8 @@
 			$scope.selectedKeys = [];
 			$scope.multi = {};
 		};
-		$scope.selectAll = function() {
+		$scope.selectAll = function(event) {
+			if(event) { event.preventDefault(); }
 			sortKeys($scope.keys());
 			$scope.unselectAll();
 			$scope.keys().forEach(function(key) {
