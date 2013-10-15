@@ -167,6 +167,12 @@ All rights reserved.
 					</div>
 				</div>
 				<div class="control-group">
+					<label class="control-label" for="textsizeeditor">Label Size (1-5):</label>
+					<div class="controls">
+						<input id="textsizeeditor" size="6" type='number' min="1" max="5" ng-model="multi.fontheight" ng-change="updateMulti('fontheight')" ng-blur="validateMulti('fontheight')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
 					<label class="control-label" for="widtheditor">Width:</label>
 					<div class="controls">
 						<input id="widtheditor" size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.width" ng-change="updateMulti('width')" ng-blur="validateMulti('width')" ng-disabled="selectedKeys.length<1">
