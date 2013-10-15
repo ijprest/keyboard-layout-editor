@@ -205,6 +205,12 @@ All rights reserved.
 					</div>
 				</div>
 				<div class="control-group">
+					<label class="control-label" for="profileeditor">Key Profile:</label>
+					<div class="controls">
+						<input id="profileeditor" size="16" type='text' ng-model="multi.profile" ng-change="updateMulti('profile')" ng-blur="validateMulti('profile')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
 					<label class="control-label" for="coloreditor">Key Color:</label>
 					<div class="controls">
 						<input id="coloreditor" size="8" type='text' ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
