@@ -168,7 +168,7 @@
 		var serializedTimer = false;
 
 		// The application version
-		$scope.version = "0.6";
+		$scope.version = "0.7";
 
 		// The selected tab; 0 == Properties, 1 == Kbd Properties, 2 == Raw Data
 		$scope.selTab = 0;
