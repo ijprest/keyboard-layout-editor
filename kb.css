@@ -125,7 +125,7 @@ html, body {
 .DSA .keyfg .keylabels.textsize2 { font-size: 12px; }
 .DSA .keyfg .keylabels.textsize3 { font-size: 14px; }
 .DSA .keyfg .keylabels.textsize4 { font-size: 16px; }
-.DSA .keyfg .keylabels.textsize5 { font-size: 18px; }
+.DSA .keyfg .keylabels.textsize5 { font-size: 22px; }
 
 /* Key labels */
 .keylabels { display: table; }
