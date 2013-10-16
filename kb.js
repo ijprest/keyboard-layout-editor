@@ -524,7 +524,7 @@
 				height : function(key,height) { return max(0.5, min(12, height)); },
 				width2 : function(key,width2) { return max(0.5, min(12, width2)); },
 				height2 : function(key,height2) { return max(0.5, min(12, height2)); },
-				fontheight : function(key,value) { return max(1, min(5, value)); },
+				fontheight : function(key,value) { return max(1, min(9, value)); },
 			};
 			return (v[prop] || v._)(key,value);
 		}
