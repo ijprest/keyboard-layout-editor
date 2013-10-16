@@ -494,6 +494,7 @@
 				redoStack.push(u); 
 				$scope.dirty = u.dirty;
 				$scope.unselectAll();
+				$scope.meta = $scope.keyboard.meta;
 			}
 		};
 
@@ -508,6 +509,7 @@
 				undoStack.push(u); 
 				$scope.dirty = true;
 				$scope.unselectAll();
+				$scope.meta = $scope.keyboard.meta;
 			}
 		};
 
