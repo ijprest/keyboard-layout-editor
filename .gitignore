@@ -2,3 +2,5 @@ mongoose.conf
 mongoose*.exe
 aws-private-key.txt
 fonts/EngraversGothic-Regular-webfont.*
+jsonl.min.js
+jsonl.js

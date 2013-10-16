@@ -28,7 +28,7 @@
 		obj.forEach(function(elem) { res.push(toJsonL(elem));	});
 		return res.join(",\n")+"\n";
 	}	
-	function fromJsonL(json) { return angular.fromJson(json.replace(/([a-z_][a-z_0-9]*)[ \t]*:/ig,"\"$1\":")); }
+	function fromJsonL(json) { return jsonl.parse(json); }
 	function fromJsonPretty(json) { return fromJsonL('['+json+']'); }
 
 	// Darken a color by 20%

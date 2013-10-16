@@ -171,6 +171,11 @@ html, body {
 	height: 200px;
 	font-family: "Consolas", "Courier New", "Courier", monospace;
 }
+#rawdata-error {
+	font-family: "Consolas", "Courier New", "Courier", monospace;
+	white-space: pre;
+}
+
 .tab-content {
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
