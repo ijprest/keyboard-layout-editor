@@ -163,7 +163,7 @@ html, body {
 /* general styles */
 .hidden { display: none; }
 .error { border: solid 2px rgb(217,83,79); }
-#selectionRectangle { position: fixed; border: dashed 2px red; }
+#selectionRectangle { position: absolute; border: dashed 2px red; }
 
 #rawdata { 
 	width: 100%;

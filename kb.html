@@ -129,10 +129,10 @@ All rights reserved.
 			 ng-bind-html="key.html">
 		</div>
 	
-		<div id="selectionRectangle" ng-style="{display:selRect.display, left:selRect.l+'px', width:selRect.w+'px', top:selRect.t+'px', height:selRect.h+'px'}"></div>
 		<div style='clear:both'></div>
 		{{calcKbHeight()}}
 	</div>
+	<div id="selectionRectangle" ng-style="{display:selRect.display, left:selRect.l+'px', width:selRect.w+'px', top:selRect.t+'px', height:selRect.h+'px'}"></div>
 	
 	<ul class="nav nav-tabs">
 		<li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab"><i class="icon-edit"></i> Properties</a></li>
