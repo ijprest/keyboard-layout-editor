@@ -158,6 +158,7 @@ All rights reserved.
 						<input id="labeleditor8" size="6" type='text' ng-model="multi.labels[7]" ng-change="updateMulti('labels',7)" ng-blur="validateMulti('labels',7)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
 						<input id="centery" type="checkbox" ng-model="multi.centery" ng-change="updateMulti('centery')" ng-blur="validateMulti('centery')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centery">Center Y</label>
 					</div>
+				</div>
 				<div class="control-group">
 					<label class="control-label" for="labeleditor2">Bottom Label:</label>
 					<div class="controls">
@@ -174,9 +175,11 @@ All rights reserved.
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="textsizeeditor">Label Size (1-9):</label>
+					<label class="control-label" for="textsizeeditor">Legend Size:</label>
 					<div class="controls">
 						<input id="textsizeeditor" size="6" type='number' min="1" max="9" ng-model="multi.fontheight" ng-change="updateMulti('fontheight')" ng-blur="validateMulti('fontheight')" ng-disabled="selectedKeys.length<1">
+						/
+						<input id="textsizeeditor" size="6" type='number' min="1" max="9" ng-model="multi.fontheight2" ng-change="updateMulti('fontheight2')" ng-blur="validateMulti('fontheight2')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">

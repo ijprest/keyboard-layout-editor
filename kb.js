@@ -80,7 +80,7 @@
 	// Convert between our in-memory format & our serialized format
 	function serialize(keyboard) {
 		var keys = keyboard.keys;
-		var rows = [], row = [], xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", profile = "", ghost = false, align = 4, fontheight = 3;
+		var rows = [], row = [], xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", profile = "", ghost = false, align = 4, fontheight = 3, fontheight2 = 3;
 		if(keyboard.meta) {
 			var meta = angular.copy(keyboard.meta); 
 			if(meta.backcolor === '#eeeeee') { delete meta.backcolor; }
@@ -101,7 +101,12 @@
 			ghost = serializeProp("g", key.ghost, ghost);
 			profile = serializeProp("p", key.profile, profile);
 			align = serializeProp("a", key.align, align);
-			fontheight = serializeProp("f", key.fontheight, fontheight);
+			if(key.fontheight != fontheight) {
+				fontheight = serializeProp("f", key.fontheight, fontheight);
+				fontheight2 = serializeProp("f2", key.fontheight2, fontheight);
+			} else {
+				fontheight2 = serializeProp("f2", key.fontheight2, fontheight2);
+			}
 			serializeProp("w", key.width, 1);
 			serializeProp("h", key.height, 1);
 			serializeProp("w2", key.width2, key.width);
@@ -117,21 +122,22 @@
 	}
 
 	function deserialize(rows) {
-		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false, align = 4, fontheight = 3;
+		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false, align = 4, fontheight = 3, fontheight2 = 3;
 		var meta = { backcolor: "#eeeeee" };
 		for(r = 0; r < rows.length; ++r) {
 			if(rows[r] instanceof Array) {
 				for(k = 0; k < rows[r].length; ++k) {
 					var key = rows[r][k];
 					if(typeof key === 'string') {
-						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, labels:key.split('\n'), x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost, align:align, fontheight:fontheight});
+						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, labels:key.split('\n'), x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost, align:align, fontheight:fontheight, fontheight2:fontheight2});
 						xpos += width;
 						width = height = 1;
 						xpos2 = ypos2 = width2 = height2 = 0;
 						nub = false;
 					} else {
 						if(key.a != null) { align = key.a; }
-						if(key.f) { fontheight = key.f; }
+						if(key.f) { fontheight = fontheight2 = key.f; }
+						if(key.f2) { fontheight2 = key.f2; }
 						if(key.p) { profile = key.p; }
 						if(key.c) { color = key.c; }
 						if(key.t) { text = key.t; }
@@ -393,10 +399,12 @@
 					html += "</div><div class='keyfg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;padding:{5}px;'>\n".format(capwidth2 - innerPadding, capheight2 - innerPadding, capx2 + sizes.margin + 1, capy2 + (sizes.margin/2) + 1, key.color, sizes.padding);
 				}
 				// The key labels			
-				html += "<div class='keylabels textsize{2}' style='width:{0}px;height:{1}px;'>".format(capwidth - innerPadding,capheight - innerPadding, key.fontheight);
+				html += "<div class='keylabels' style='width:{0}px;height:{1}px;'>".format(capwidth - innerPadding,capheight - innerPadding);
 				key.labels.forEach(function(label,i) {
 					if(label && !(key.align&noRenderText[i])) {
-						html += "<div class='keylabel keylabel{2} centerx-{5} centery-{6} centerf-{7}' style='color:{1};width:{3}px;height:{4}px;'><div style='width:{3}px;height:{4}px;'>{0}</div></div>\n".format(label,key.text,i+1,capwidth-innerPadding,capheight-innerPadding,key.centerx,key.centery,key.centerf);
+						html += "<div class='keylabel keylabel{2} centerx-{5} centery-{6} centerf-{7} textsize{8}' style='color:{1};width:{3}px;height:{4}px;'><div style='width:{3}px;height:{4}px;'>{0}</div></div>\n"
+									.format(label, key.text, i+1, capwidth-innerPadding, capheight-innerPadding, 
+											key.centerx, key.centery, key.centerf, i>0 ? key.fontheight2 : key.fontheight);
 					}
 				});
 				html += "</div></div>";
@@ -515,30 +523,32 @@
 
 		function validate(key,prop,value) {
 			var v = {
-				_ : function(key,x) { return x; },
-				x : function(key,x) { return max(0, min(36, x)); },
-				y : function(key,y) { return max(0, min(36, y)); },
-				x2 : function(key,x2) { return max(-key.width, min(key.width, x2)); },
-				y2 : function(key,y2) { return max(-key.height, min(key.height, y2)); },
-				width : function(key,width) { return max(0.5, min(12, width)); },
-				height : function(key,height) { return max(0.5, min(12, height)); },
-				width2 : function(key,width2) { return max(0.5, min(12, width2)); },
-				height2 : function(key,height2) { return max(0.5, min(12, height2)); },
-				fontheight : function(key,value) { return max(1, min(9, value)); },
+				_ : function() { return value; },
+				x : function() { return max(0, min(36, value)); },
+				y : function() { return max(0, min(36, value)); },
+				x2 : function() { return max(-key.width, min(key.width, value)); },
+				y2 : function() { return max(-key.height, min(key.height, value)); },
+				width : function() { return max(0.5, min(12, value)); },
+				height : function() { return max(0.5, min(12, value)); },
+				width2 : function() { return max(0.5, min(12, value)); },
+				height2 : function() { return max(0.5, min(12, value)); },
+				fontheight : function() { return max(1, min(9, value)); },
+				fontheight2 : function() { return max(1, min(9, value)); },
 			};
-			return (v[prop] || v._)(key,value);
+			return (v[prop] || v._)();
 		}
 
 		function update(key,prop,value) {
 			var u = {
-				_ : function(prop,key) { key[prop] = value; },
-				width : function(prop,key) { key.width2 = key.width = $scope.multi.width; },
-				height : function(prop,key) { key.height2 = key.height = $scope.multi.height; },
-				centerx : function(prop,key) { if(value) { key.align = key.align | 1; } else { key.align = key.align & (~1); } },
-				centery : function(prop,key) { if(value) { key.align = key.align | 2; } else { key.align = key.align & (~2); } },
-				centerf : function(prop,key) { if(value) { key.align = key.align | 4; } else { key.align = key.align & (~4); } },
+				_ : function() { key[prop] = value; },
+				width : function() { key.width2 = key.width = value; },
+				height : function() { key.height2 = key.height = value; },
+				centerx : function() { if(value) { key.align = key.align | 1; } else { key.align = key.align & (~1); } },
+				centery : function() { if(value) { key.align = key.align | 2; } else { key.align = key.align & (~2); } },
+				centerf : function() { if(value) { key.align = key.align | 4; } else { key.align = key.align & (~4); } },
+				fontheight : function() { key.fontheight = key.fontheight2 = value; },
 			};
-			return (u[prop] || u._)(prop,key);
+			return (u[prop] || u._)();
 		}
 
 		$scope.updateMulti = function(prop) {
