@@ -152,11 +152,17 @@ All rights reserved.
 					</div>
 				</div>
 				<div class="control-group">
+					<label class="control-label" for="labeleditor7">Center Label:</label>
+					<div class="controls">
+						<input id="labeleditor7" size="6" type='text' ng-model="multi.labels[6]" ng-change="updateMulti('labels',6)" ng-blur="validateMulti('labels',6)" ng-disabled="selectedKeys.length<1 || multi.centery">
+						<input id="labeleditor8" size="6" type='text' ng-model="multi.labels[7]" ng-change="updateMulti('labels',7)" ng-blur="validateMulti('labels',7)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
+						<input id="centery" type="checkbox" ng-model="multi.centery" ng-change="updateMulti('centery')" ng-blur="validateMulti('centery')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centery">Center Y</label>
+					</div>
+				<div class="control-group">
 					<label class="control-label" for="labeleditor2">Bottom Label:</label>
 					<div class="controls">
 						<input id="labeleditor2" size="6" type='text' ng-model="multi.labels[1]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centery">
 						<input id="labeleditor4" size="6" type='text' ng-model="multi.labels[3]" ng-change="updateMulti('labels',3)" ng-blur="validateMulti('labels',3)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
-						<input id="centery" type="checkbox" ng-model="multi.centery" ng-change="updateMulti('centery')" ng-blur="validateMulti('centery')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centery">Center Y</label>
 					</div>
 				</div>
 				<div class="control-group">

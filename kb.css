@@ -128,12 +128,13 @@ html, body {
 
 /* Key labels */
 .keylabels { display: table; }
-.keylabel {	display: table-row; position: absolute;	left:2px; top:2px; right:2px; bottom:2px; }
+.keylabel {	display: table-row; position: absolute;	left:1px; top:1px; right:1px; bottom:1px; }
 .keylabel > div { display: table-cell; }
-.keylabel3>div, .keylabel4>div, .keylabel6>div { text-align: right; }
+.keylabel3>div, .keylabel4>div, .keylabel6>div, .keylabel8>div { text-align: right; }
+.keylabel7>div, .keylabel8>div { vertical-align: middle; }
 .keylabel2>div, .keylabel4>div { vertical-align: bottom; }
 .keylabel5, .keylabel6 { top:100%; margin-top:-3px; font-size: 10px; white-space:nowrap; overflow: hidden;}
-.keylabel1.centerx-true>div, .keylabel2.centerx-true>div, .keylabel5.centerf-true>div { text-align: center; }
+.keylabel1.centerx-true>div, .keylabel2.centerx-true>div, .keylabel5.centerf-true>div, .keylabel7.centerx-true>div { text-align: center; }
 .keylabel1.centery-true>div, .keylabel3.centery-true>div { vertical-align: middle; }
 
 /* color swatches */

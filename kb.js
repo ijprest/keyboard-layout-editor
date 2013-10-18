@@ -355,7 +355,7 @@
 		};
 
 		// Given a key, generate the HTML needed to render it	
-		var noRenderText = [0,2,1,3,0,4];
+		var noRenderText = [0,2,1,3,0,4,2,3];
 		function renderKey(key) {
 			var html = "";
 			var capwidth = sizes.capsize(key.width), capwidth2 = sizes.capsize(key.width2);
