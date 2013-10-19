@@ -114,6 +114,7 @@
 			serializeProp("x2", key.x2, 0);
 			serializeProp("y2", key.y2, 0);
 			serializeProp("n", key.nub || false, false);
+			serializeProp("l", key.stepped || false, false);
 			if(prop) { row.push(props); }
 			row.push(label);
 		});
@@ -122,18 +123,18 @@
 	}
 
 	function deserialize(rows) {
-		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false, align = 4, fontheight = 3, fontheight2 = 3;
+		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false, align = 4, fontheight = 3, fontheight2 = 3, stepped = false;
 		var meta = { backcolor: "#eeeeee" };
 		for(r = 0; r < rows.length; ++r) {
 			if(rows[r] instanceof Array) {
 				for(k = 0; k < rows[r].length; ++k) {
 					var key = rows[r][k];
 					if(typeof key === 'string') {
-						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, labels:key.split('\n'), x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost, align:align, fontheight:fontheight, fontheight2:fontheight2});
+						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, labels:key.split('\n'), x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost, align:align, fontheight:fontheight, fontheight2:fontheight2, stepped:stepped});
 						xpos += width;
 						width = height = 1;
 						xpos2 = ypos2 = width2 = height2 = 0;
-						nub = false;
+						nub = stepped = false;
 					} else {
 						if(key.a != null) { align = key.a; }
 						if(key.f) { fontheight = fontheight2 = key.f; }
@@ -150,6 +151,7 @@
 						if(key.w2) { width2 = key.w2; }
 						if(key.h2) { height2 = key.h2; }
 						if(key.n) { nub = key.n; }
+						if(key.l) { stepped = key.l; }
 						if(key.g != null) { ghost = key.g; }
 					}
 				}
@@ -398,12 +400,20 @@
 
 			if(!key.ghost) {
 				// The top of the cap
+				html += "<div class='keyborder inner' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'></div>\n"
+						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin, capy+(sizes.margin/2), key.color, sizes.padding );
+				if(jShaped && !key.stepped) {
+				 	html += "<div class='keyborder inner' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'></div>\n"
+				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin, capy2+(sizes.margin/2), key.color, sizes.padding );
+				}
+
 				html += "<div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
 						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin+1, capy+(sizes.margin/2)+1, key.color, sizes.padding );
-				if(jShaped) {
-					html += "</div><div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
-							.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin+1, capy2+(sizes.margin/2)+1, key.color, sizes.padding );
+				if(jShaped && !key.stepped) {
+				 	html += "</div><div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
+				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin+1, capy2+(sizes.margin/2)+1, key.color, sizes.padding );
 				}
+
 				// The key labels			
 				html += "<div class='keylabels' style='width:{0}px; height:{1}px;'>".format(capwidth-innerPadding, capheight-innerPadding);
 				key.labels.forEach(function(label,i) {
@@ -443,7 +453,7 @@
 			} else {
 				$scope.deserializeAndRender(fromJsonL(loc));
 			}
-		} else if($location.path().slice(0,9) === '/layouts/') {
+		} else if($location.path()[0] === '/') {
 			$http.get(base_href + $location.path()).success(function(data) {
 				$scope.deserializeAndRender(data);
 				updateSerialized();
@@ -725,7 +735,7 @@
 				var pos = whereToAddNewKeys(nextline);
 				var color = $scope.multi.color || "#eeeeee";
 				var textColor = $scope.multi.text || "#000000";
-				newKey = {width:1, height:1, color:color, text:textColor, labels:[], x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:"", ghost:false, align:4, fontheight:3};
+				newKey = {width:1, height:1, color:color, text:textColor, labels:[], x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:"", ghost:false, align:4, fontheight:3, fontheight2:3, nub:false, stepped:false};
 				$.extend(newKey, proto);
 				newKey.x += pos.x;
 				newKey.y += pos.y;

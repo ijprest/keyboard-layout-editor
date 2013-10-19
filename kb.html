@@ -257,10 +257,15 @@ All rights reserved.
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="ghosteditor">Ghosted:</label>
+					<label class="control-label">Misc:</label>
+
 					<div class="controls hint--top hint--rounded" data-hint="Specify whether the selected keys should be rendered slightly transparently; this is useful to draw attention to the other, non-ghosted keycaps.">
-						<input id="ghosteditor" type="checkbox" ng-model="multi.ghost" ng-change="updateMulti('ghost')" ng-blur="validateMulti('ghost')" ng-disabled="selectedKeys.length<1"> 
+						<input id="ghosteditor" type="checkbox" ng-model="multi.ghost" ng-change="updateMulti('ghost')" ng-blur="validateMulti('ghost')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="ghosteditor">Ghosted</label>
 					</div>
+					<div class="controls hint--top hint--rounded" data-hint="Specify whether the selected keys are 'stepped', i.e., part of the key is at a lower height than the rest.">
+						<input id="steppededitor" type="checkbox" ng-model="multi.stepped" ng-change="updateMulti('stepped')" ng-blur="validateMulti('stepped')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="steppededitor">Stepped</label>
+					</div>
+
 				</div>
 			</form>
 
