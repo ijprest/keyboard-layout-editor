@@ -382,27 +382,33 @@
 				bgStyle += " ghosted";
 			} 
 			// The border
-			html += "<div class='{5}' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth, capheight, capx, capy, darkColor, borderStyle);
+			html += "<div style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4};' class='{5}'></div>\n"
+						.format( capwidth,    capheight,    capx,       capy,      darkColor,             borderStyle );
 			if(jShaped) {
-				html += "<div class='{5}' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth2, capheight2, capx2, capy2, darkColor, borderStyle);
+				html += "<div style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4};' class='{5}'></div>\n"
+							.format( capwidth2,   capheight2,   capx2,      capy2,     darkColor,             borderStyle );
 			}
 			// The key edges
-			html += "<div class='{5}' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth,capheight,capx+1,capy+1,darkColor,bgStyle);
+			html += "<div style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4};' class='{5}'></div>\n"
+						.format( capwidth,    capheight,    capx+1,     capy+1,    darkColor,             bgStyle );
 			if(jShaped) {
-				html += "<div class='{5}' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;'></div>\n".format(capwidth2,capheight2,capx2+1,capy2+1,darkColor,bgStyle);
+				html += "<div style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4};' class='{5}'></div>\n"
+							.format( capwidth2,   capheight2,   capx2+1,    capy2+1,   darkColor,             bgStyle );
 			}
 
 			if(!key.ghost) {
 				// The top of the cap
-				html += "<div class='keyfg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;padding:{5}px;'>\n".format(capwidth - innerPadding, capheight - innerPadding, capx + sizes.margin + 1, capy + (sizes.margin/2) + 1, key.color, sizes.padding);
+				html += "<div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
+						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin+1, capy+(sizes.margin/2)+1, key.color, sizes.padding );
 				if(jShaped) {
-					html += "</div><div class='keyfg' style='background-color:{4};width:{0}px;height:{1}px;left:{2}px;top:{3}px;padding:{5}px;'>\n".format(capwidth2 - innerPadding, capheight2 - innerPadding, capx2 + sizes.margin + 1, capy2 + (sizes.margin/2) + 1, key.color, sizes.padding);
+					html += "</div><div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
+							.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin+1, capy2+(sizes.margin/2)+1, key.color, sizes.padding );
 				}
 				// The key labels			
-				html += "<div class='keylabels' style='width:{0}px;height:{1}px;'>".format(capwidth - innerPadding,capheight - innerPadding);
+				html += "<div class='keylabels' style='width:{0}px; height:{1}px;'>".format(capwidth-innerPadding, capheight-innerPadding);
 				key.labels.forEach(function(label,i) {
 					if(label && !(key.align&noRenderText[i])) {
-						html += "<div class='keylabel keylabel{2} centerx-{5} centery-{6} centerf-{7} textsize{8}' style='color:{1};width:{3}px;height:{4}px;'><div style='width:{3}px;height:{4}px;'>{0}</div></div>\n"
+						html += "<div class='keylabel keylabel{2} centerx-{5} centery-{6} centerf-{7} textsize{8}' style='color:{1};width:{3}px;height:{4}px;'><div style='width:{3}px;max-width:{3}px;height:{4}px;'>{0}</div></div>\n"
 									.format(label, key.text, i+1, capwidth-innerPadding, capheight-innerPadding, 
 											key.centerx, key.centery, key.centerf, i>0 ? key.fontheight2 : key.fontheight);
 					}
