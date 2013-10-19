@@ -1,4 +1,4 @@
 {
-	"ISO Enter" : { "width":1.5, "width2":1.25, "height":1, "height2":2, "x2":0.25, "y2":0 },
+	"ISO Enter" : { "width":1.25, "width2":1.5, "height":2, "height2":1, "x2":-0.25, "y2":0 },
 	"J-shaped Enter" : { "width":1.5, "width2":2.25, "height":2, "height2":1, "x":0.75, "x2":-0.75, "y2":1 }
 }
