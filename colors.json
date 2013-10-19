@@ -2,7 +2,7 @@
 	{
 		"name" : "GMK Color Chips",
 		"href" : "http://geekhack.org/index.php?topic=49374.0",
-		"description" : "These are samples from a picture posted on GeekHack.\nNo attempt at color-correction has been made.",
+		"description" : "These are samples from a picture posted on GeekHack. No attempt at color-correction has been made.",
 		"colors" : [
 			{ "name": "N7", "r":5, "g":133, "b":80 },
 			{ "name": "L9", "r":227, "g":229, "b":216 },
@@ -35,7 +35,7 @@
 	{
 		"name" : "Signature Plastic ABS",
 		"href" : "http://www.keycapsdirect.com/colors.php",
-		"description" : "These are representations of the different ABS plastic colors\navailable for order through Signature Plastics.  For double-shot\nkeycaps, these colors can also be used for the text-legend color.",
+		"description" : "These are representations of the different ABS plastic colors available for order through Signature Plastics.  For double-shot keycaps, these colors can also be used for the text-legend color.",
 		"colors" : [
 			{ "name": "WFK", "r":242, "g":242, "b":242 },
 			{ "name": "WA", "r":238, "g":235, "b":235 },

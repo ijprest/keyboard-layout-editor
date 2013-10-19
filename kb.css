@@ -204,3 +204,8 @@ html, body {
 .shortcuts .shortcut { background-color: #444; color: white; padding: 1px 6px; border-radius:6px; }
 
 .checkbox-label { font-weight: normal; padding-left: 4px; }
+
+/* Tooltip modifications */
+.hint--rounded:after { width: 300px; }
+.hint:after, [data-hint]:after { white-space: pre-line; }
+.hint:before, .hint:after, [data-hint]:before, [data-hint]:after { -webkit-transition: 0.1s ease; -moz-transition: 0.1s ease; transition: 0.1s ease; }

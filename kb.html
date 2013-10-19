@@ -146,37 +146,59 @@ All rights reserved.
 				<div class="control-group">
 					<label class="control-label" for="labeleditor">Top Label:</label>
 					<div class="controls">
-						<input id="labeleditor" size="6" type='text' ng-model="multi.labels[0]" ng-change="updateMulti('labels',0)" ng-blur="validateMulti('labels',0)" ng-disabled="selectedKeys.length<1">
-						<input id="labeleditor3" size="6" type='text' ng-model="multi.labels[2]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centerx">
-						<input id="centerx" type="checkbox" ng-model="multi.centerx" ng-change="updateMulti('centerx')" ng-blur="validateMulti('centerx')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centerx">Center X</label>
+						<div data-hint="Specify the primary text of the keycap; typically displayed top-left, unless the centering options are used." class="hint--top hint--rounded">
+							<input id="labeleditor" size="6" type='text' ng-model="multi.labels[0]" ng-change="updateMulti('labels',0)" ng-blur="validateMulti('labels',0)" ng-disabled="selectedKeys.length<1">
+						</div>
+						<div data-hint="Specify secondary text for the keycap; typically displayed top-right." class="hint--top hint--rounded">
+							<input id="labeleditor3" size="6" type='text' ng-model="multi.labels[2]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centerx">
+						</div>
+						<div data-hint="Center the keycap text horizontally; the labels that would normally be left-aligned will be centered instead." class="hint--top hint--rounded">
+							<input id="centerx" type="checkbox" ng-model="multi.centerx" ng-change="updateMulti('centerx')" ng-blur="validateMulti('centerx')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centerx">Center X</label>
+						</div>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="labeleditor7">Center Label:</label>
 					<div class="controls">
-						<input id="labeleditor7" size="6" type='text' ng-model="multi.labels[6]" ng-change="updateMulti('labels',6)" ng-blur="validateMulti('labels',6)" ng-disabled="selectedKeys.length<1 || multi.centery">
-						<input id="labeleditor8" size="6" type='text' ng-model="multi.labels[7]" ng-change="updateMulti('labels',7)" ng-blur="validateMulti('labels',7)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
-						<input id="centery" type="checkbox" ng-model="multi.centery" ng-change="updateMulti('centery')" ng-blur="validateMulti('centery')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centery">Center Y</label>
+						<div data-hint="Specify secondary text for the keycap; typically displayed center-left.  You can specify a horizontal rule with <hr>." class="hint--top hint--rounded">
+							<input id="labeleditor7" size="6" type='text' ng-model="multi.labels[6]" ng-change="updateMulti('labels',6)" ng-blur="validateMulti('labels',6)" ng-disabled="selectedKeys.length<1 || multi.centery">
+						</div>
+						<div data-hint="Specify secondary text for the keycap; typically displayed center-right." class="hint--top hint--rounded">
+							<input id="labeleditor8" size="6" type='text' ng-model="multi.labels[7]" ng-change="updateMulti('labels',7)" ng-blur="validateMulti('labels',7)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
+						</div>
+						<div data-hint="Center the keycap text vertically; the labels that would normally be top-aligned will be centered instead." class="hint--top hint--rounded">
+							<input id="centery" type="checkbox" ng-model="multi.centery" ng-change="updateMulti('centery')" ng-blur="validateMulti('centery')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centery">Center Y</label>
+						</div>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="labeleditor2">Bottom Label:</label>
 					<div class="controls">
-						<input id="labeleditor2" size="6" type='text' ng-model="multi.labels[1]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centery">
-						<input id="labeleditor4" size="6" type='text' ng-model="multi.labels[3]" ng-change="updateMulti('labels',3)" ng-blur="validateMulti('labels',3)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
+						<div data-hint="Specify secondary text for the keycap; typically displayed bottom-left." class="hint--top hint--rounded">
+							<input id="labeleditor2" size="6" type='text' ng-model="multi.labels[1]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centery">
+						</div>
+						<div data-hint="Specify secondary text for the keycap; typically displayed bottom-right." class="hint--top hint--rounded">
+							<input id="labeleditor4" size="6" type='text' ng-model="multi.labels[3]" ng-change="updateMulti('labels',3)" ng-blur="validateMulti('labels',3)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
+						</div>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="labeleditor5">Side-Print Label:</label>
 					<div class="controls">
-						<input id="labeleditor5" size="6" type='text' ng-model="multi.labels[4]" ng-change="updateMulti('labels',4)" ng-blur="validateMulti('labels',4)" ng-disabled="selectedKeys.length<1">
-						<input id="labeleditor6" size="6" type='text' ng-model="multi.labels[5]" ng-change="updateMulti('labels',5)" ng-blur="validateMulti('labels',5)" ng-disabled="selectedKeys.length<1 || multi.centerf">
-						<input id="centerf" type="checkbox" ng-model="multi.centerf" ng-change="updateMulti('centerf')" ng-blur="validateMulti('centerf')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centerf">Center</label>
+						<div data-hint="Specify the primary side-printed text for the keycap." class="hint--top hint--rounded">
+							<input id="labeleditor5" size="6" type='text' ng-model="multi.labels[4]" ng-change="updateMulti('labels',4)" ng-blur="validateMulti('labels',4)" ng-disabled="selectedKeys.length<1">
+						</div>
+						<div data-hint="Specify secondary side-printed text for the keycap." class="hint--top hint--rounded">
+							<input id="labeleditor6" size="6" type='text' ng-model="multi.labels[5]" ng-change="updateMulti('labels',5)" ng-blur="validateMulti('labels',5)" ng-disabled="selectedKeys.length<1 || multi.centerf">
+						</div>
+						<div data-hint="Center the side-printed text." class="hint--top hint--rounded">
+							<input id="centerf" type="checkbox" ng-model="multi.centerf" ng-change="updateMulti('centerf')" ng-blur="validateMulti('centerf')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centerf">Center</label>
+						</div>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="textsizeeditor">Legend Size:</label>
-					<div class="controls">
+					<div class="controls hint--top hint--rounded" data-hint="Specify the primary and secondary sizes for the keycap legends. The primary size affects only the primary text legend, while the secondary size is applied to all other legends.">
 						<input id="textsizeeditor" size="6" type='number' min="1" max="9" ng-model="multi.fontheight" ng-change="updateMulti('fontheight')" ng-blur="validateMulti('fontheight')" ng-disabled="selectedKeys.length<1">
 						/
 						<input id="textsizeeditor" size="6" type='number' min="1" max="9" ng-model="multi.fontheight2" ng-change="updateMulti('fontheight2')" ng-blur="validateMulti('fontheight2')" ng-disabled="selectedKeys.length<1">
@@ -184,7 +206,7 @@ All rights reserved.
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="widtheditor">Width:</label>
-					<div class="controls">
+					<div class="controls hint--top hint--rounded" data-hint="Specify the primary and secondary widths for the keycap. The secondary width is used to specify the size of non-rectangular keys.">
 						<input id="widtheditor" size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.width" ng-change="updateMulti('width')" ng-blur="validateMulti('width')" ng-disabled="selectedKeys.length<1">
 						/
 						<input size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.width2" ng-change="updateMulti('width2')" ng-blur="validateMulti('width2')" ng-disabled="selectedKeys.length<1">
@@ -192,7 +214,7 @@ All rights reserved.
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="heighteditor">Height:</label>
-					<div class="controls">
+					<div class="controls hint--top hint--rounded" data-hint="Specify the primary and secondary heights for the keycap. The secondary height is used to specify the size of non-rectangular keys.">
 						<input id="heighteditor" size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.height" ng-change="updateMulti('height')" ng-blur="validateMulti('height')" ng-disabled="selectedKeys.length<1">
 						/
 						<input size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.height2" ng-change="updateMulti('height2')" ng-blur="validateMulti('height2')" ng-disabled="selectedKeys.length<1">
@@ -200,7 +222,7 @@ All rights reserved.
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="xeditor">X:</label>
-					<div class="controls">
+					<div class="controls hint--top hint--rounded" data-hint="Specify the X position of the keycap. An X-offset can also be specified to indicate how non-rectangular keys should be displayed.">
 						<input id="xeditor" size="6" type='number' min='0' max='36' step='.25' ng-model="multi.x" ng-change="updateMulti('x')" ng-blur="validateMulti('x')" ng-disabled="selectedKeys.length<1">
 						+
 						<input size="6" type='number' min='-6' max='6' step='.25' ng-model="multi.x2" ng-change="updateMulti('x2')" ng-blur="validateMulti('x2')" ng-disabled="selectedKeys.length<1">
@@ -208,35 +230,35 @@ All rights reserved.
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="yeditor">Y:</label>
-					<div class="controls">
+					<div class="controls hint--top hint--rounded" data-hint="Specify the Y position of the keycap. A Y-offset can also be specified to indicate how non-rectangular keys should be displayed.">
 						<input id="yeditor" size="6" type='number' min='0' max='36' step='.25' ng-model="multi.y" ng-change="updateMulti('y')" ng-blur="validateMulti('y')" ng-disabled="selectedKeys.length<1">
 						+
 						<input size="6" type='number' min='-6' max='6' step='.25' ng-model="multi.y2" ng-change="updateMulti('y2')" ng-blur="validateMulti('y2')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
-					<label class="control-label" for="profileeditor">Key Profile:</label>
-					<div class="controls">
+					<label class="control-label" for="profileeditor">Profile / Row:</label>
+					<div class="controls hint--top hint--rounded" data-hint="Specify the profile and (optionally) the row-number of the selected keys, e.g., 'DCS R1', 'DSA', etc.">
 						<input id="profileeditor" size="16" type='text' ng-model="multi.profile" ng-change="updateMulti('profile')" ng-blur="validateMulti('profile')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="coloreditor">Key Color:</label>
-					<div class="controls">
+					<div class="controls hint--top hint--rounded" data-hint="Specify the color to use for the background of the selected keycaps.">
 						<input id="coloreditor" size="8" type='text' ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
 						<input type='color' class="colorpicker" ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="textcoloreditor">Label Color:</label>
-					<div class="controls">
+					<div class="controls hint--top hint--rounded" data-hint="Specify the color to use for the legend text on the selected keycaps.">
 						<input id="textcoloreditor" size="8" type='text' ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
 						<input type='color' class="colorpicker" ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="ghosteditor">Ghosted:</label>
-					<div class="controls">
+					<div class="controls hint--top hint--rounded" data-hint="Specify whether the selected keys should be rendered slightly transparently; this is useful to draw attention to the other, non-ghosted keycaps.">
 						<input id="ghosteditor" type="checkbox" ng-model="multi.ghost" ng-change="updateMulti('ghost')" ng-blur="validateMulti('ghost')" ng-disabled="selectedKeys.length<1"> 
 					</div>
 				</div>
