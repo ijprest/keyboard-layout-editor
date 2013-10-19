@@ -98,15 +98,15 @@ html, body {
 	-moz-box-sizing:content-box;
 	box-sizing:content-box;
 }
-.keyfg .keylabel.textsize1 { font-size: 8px; }
-.keyfg .keylabel.textsize2 { font-size: 10px; }
-.keyfg .keylabel.textsize3 { font-size: 12px; }
-.keyfg .keylabel.textsize4 { font-size: 14px; }
-.keyfg .keylabel.textsize5 { font-size: 16px; }
-.keyfg .keylabel.textsize6 { font-size: 18px; }
-.keyfg .keylabel.textsize7 { font-size: 20px; }
-.keyfg .keylabel.textsize8 { font-size: 22px; }
-.keyfg .keylabel.textsize9 { font-size: 24px; }
+.keyfg .keylabel.textsize1 { font-size: 8px; line-height: 1em; }
+.keyfg .keylabel.textsize2 { font-size: 10px; line-height: 1em; }
+.keyfg .keylabel.textsize3 { font-size: 12px; line-height: 1em; }
+.keyfg .keylabel.textsize4 { font-size: 14px; line-height: 1em; }
+.keyfg .keylabel.textsize5 { font-size: 16px; line-height: 1em; }
+.keyfg .keylabel.textsize6 { font-size: 18px; line-height: 1em; }
+.keyfg .keylabel.textsize7 { font-size: 20px; line-height: 1em; }
+.keyfg .keylabel.textsize8 { font-size: 22px; line-height: 1em; }
+.keyfg .keylabel.textsize9 { font-size: 24px; line-height: 1em; }
 .keyfg .keylabel hr { display: inline; }
 .keyfg .keylabel hr:before { 
 	position: relative; 
@@ -124,6 +124,7 @@ html, body {
 	background: -ms-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 40%,rgba(0,0,0,0) 60%,rgba(0,0,0,0.1) 100%);
 	background: linear-gradient(to right,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 40%,rgba(0,0,0,0) 60%,rgba(0,0,0,0.1) 100%);
 }
+.DSA .keyborder.inner  { margin-top: 3px; border-radius: 8px; }
 .DSA .keyfg {
 	font-family: 'engravers_gothic_fsregular'; /* substitute for Gorton Modified */
 	border-radius: 8px; 

@@ -6,10 +6,6 @@
 	// We need this so we can test locally and still save layouts to AWS
 	var base_href = "http://www.keyboard-layout-editor.com";
 
-	// Helpers 
-	function max(a, b) { return a > b ? a : b; }
-	function min(a, b) { return a < b ? a : b; }
-
 	// Lenient JSON reader/writer
 	function toJsonL(obj) {
 		var res = [], key;
@@ -359,7 +355,7 @@
 		$scope.calcKbHeight = function() {
 			var bottom = 0;
 			$(".keyborder").each(function(i,e) {
-				bottom = max(bottom, $(e).offset().top + $(e).outerHeight());
+				bottom = Math.max(bottom, $(e).offset().top + $(e).outerHeight());
 			});
 			$scope.kbHeight = bottom - $('#keyboard').position().top - 10;
 		};
@@ -409,12 +405,12 @@
 				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin, capy2+(sizes.margin/2), key.color, sizes.padding );
 				}
 
-				html += "<div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
-						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin+1, capy+(sizes.margin/2)+1, key.color, sizes.padding );
 				if(jShaped && !key.stepped) {
-				 	html += "</div><div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
+				 	html += "<div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
 				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin+1, capy2+(sizes.margin/2)+1, key.color, sizes.padding );
 				}
+				html += "</div><div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
+						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin+1, capy+(sizes.margin/2)+1, key.color, sizes.padding );
 
 				// The key labels			
 				html += "<div class='keylabels' style='width:{0}px; height:{1}px;'>".format(capwidth-innerPadding, capheight-innerPadding);
@@ -543,16 +539,16 @@
 		function validate(key,prop,value) {
 			var v = {
 				_ : function() { return value; },
-				x : function() { return max(0, min(36, value)); },
-				y : function() { return max(0, min(36, value)); },
-				x2 : function() { return max(-key.width, min(key.width, value)); },
-				y2 : function() { return max(-key.height, min(key.height, value)); },
-				width : function() { return max(0.5, min(12, value)); },
-				height : function() { return max(0.5, min(12, value)); },
-				width2 : function() { return max(0.5, min(12, value)); },
-				height2 : function() { return max(0.5, min(12, value)); },
-				fontheight : function() { return max(1, min(9, value)); },
-				fontheight2 : function() { return max(1, min(9, value)); },
+				x : function() { return Math.max(0, Math.min(36, value)); },
+				y : function() { return Math.max(0, Math.min(36, value)); },
+				x2 : function() { return Math.max(-Math.abs(key.width-key.width2), Math.min(Math.abs(key.width-key.width2), value)); },
+				y2 : function() { return Math.max(-Math.abs(key.height-key.height2), Math.min(Math.abs(key.height-key.height2), value)); },
+				width : function() { return Math.max(0.5, Math.min(12, value)); },
+				height : function() { return Math.max(0.5, Math.min(12, value)); },
+				width2 : function() { return Math.max(0.5, Math.min(12, value)); },
+				height2 : function() { return Math.max(0.5, Math.min(12, value)); },
+				fontheight : function() { return Math.max(1, Math.min(9, value)); },
+				fontheight2 : function() { return Math.max(1, Math.min(9, value)); },
 			};
 			return (v[prop] || v._)();
 		}
@@ -650,8 +646,8 @@
 
 			transaction("move", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					selectedKey.x = max(0,selectedKey.x + x);
-					selectedKey.y = max(0,selectedKey.y + y);
+					selectedKey.x = Math.max(0,selectedKey.x + x);
+					selectedKey.y = Math.max(0,selectedKey.y + y);
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -666,8 +662,8 @@
 			}
 			transaction("size", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					selectedKey.width = selectedKey.width2 = max(1,selectedKey.width + x);
-					selectedKey.height = selectedKey.height2 = max(1,selectedKey.height + y);
+					selectedKey.width = selectedKey.width2 = Math.max(1,selectedKey.width + x);
+					selectedKey.height = selectedKey.height2 = Math.max(1,selectedKey.height + y);
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -737,7 +733,7 @@
 				ypos = $scope.multi.y;
 				if(xpos >= 23) { xpos = 0; ypos++; }
 			} else {
-				$scope.keys().forEach(function(key) { ypos = max(ypos,key.y); });
+				$scope.keys().forEach(function(key) { ypos = Math.max(ypos,key.y); });
 				ypos++;
 			}
 			return {x:xpos, y:ypos};
@@ -810,8 +806,8 @@
 		$scope.selectMove = function(event) {
 			if(doingMarqueeSelect) {
 				// Restrict the mouse position to the bounds #keyboard
-				var pageX = min($scope.selRect.kb.left + $scope.selRect.kb.width, max($scope.selRect.kb.left, event.pageX));
-				var pageY = min($scope.selRect.kb.top + $scope.selRect.kb.height, max($scope.selRect.kb.top, event.pageY));
+				var pageX = Math.min($scope.selRect.kb.left + $scope.selRect.kb.width, Math.max($scope.selRect.kb.left, event.pageX));
+				var pageY = Math.min($scope.selRect.kb.top + $scope.selRect.kb.height, Math.max($scope.selRect.kb.top, event.pageY));
 
 				// Calculate the new marquee rectangle (normalized)
 				if(pageX < $scope.selRect.x) {					
@@ -914,7 +910,7 @@
 		$scope.prevKey = function(event) {
 			if($scope.keys().length>0) {
 				sortKeys($scope.keys());
-				var ndx = ($scope.selectedKeys.length>0) ? max(0,$scope.keys().indexOf($scope.selectedKeys.last())-1) : 0;
+				var ndx = ($scope.selectedKeys.length>0) ? Math.max(0,$scope.keys().indexOf($scope.selectedKeys.last())-1) : 0;
 				var selndx = $scope.selectedKeys.indexOf($scope.keys()[ndx]);
 				if(event.shiftKey && $scope.keys().length>1 && $scope.selectedKeys.length>0 && selndx>=0) {
 					$scope.selectedKeys.pop(); //deselect the existing cursor
@@ -927,7 +923,7 @@
 		$scope.nextKey = function(event) {
 			if($scope.keys().length>0) {
 				sortKeys($scope.keys());
-				var ndx = ($scope.selectedKeys.length>0) ? min($scope.keys().length-1,$scope.keys().indexOf($scope.selectedKeys.last())+1) : $scope.keys().length-1;
+				var ndx = ($scope.selectedKeys.length>0) ? Math.min($scope.keys().length-1,$scope.keys().indexOf($scope.selectedKeys.last())+1) : $scope.keys().length-1;
 				var selndx = $scope.selectedKeys.indexOf($scope.keys()[ndx]);
 				if(event.shiftKey && $scope.keys().length>1 && $scope.selectedKeys.length>0 && selndx>=0) {
 					$scope.selectedKeys.pop(); //deselect the existing cursor
@@ -991,8 +987,8 @@
 			var clipCopy = angular.copy(clipboard);
 			var minx = 0, miny = 0, singleRow = true;
 			clipCopy.forEach(function(key) { 
-				minx = min(minx, key.x -= clipboard[0].x);
-				miny = min(miny, key.y -= clipboard[0].y);
+				minx = Math.min(minx, key.x -= clipboard[0].x);
+				miny = Math.min(miny, key.y -= clipboard[0].y);
 			});
 
 			// Adjust to make sure nothing < 0
