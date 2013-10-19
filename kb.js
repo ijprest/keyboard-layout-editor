@@ -636,7 +636,10 @@
 			if(x<0 || y<0) {
 				var canMoveKeys = true;
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					if(selectedKey.x + x < 0 || selectedKey.y + y < 0) {
+					if(selectedKey.x + x < 0 || 
+					   selectedKey.y + y < 0 || 
+					   selectedKey.x + selectedKey.x2 + x < 0 || 
+					   selectedKey.y + selectedKey.y2 + y < 0) {
 						canMoveKeys = false;
 					}
 				});
