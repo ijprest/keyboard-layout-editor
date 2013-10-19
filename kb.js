@@ -328,8 +328,10 @@
 
 		// Known layouts/presets
 		$scope.layouts = {};
+		$scope.samples = {};
 		$http.get('layouts.json').success(function(data) { 
-			$scope.layouts = data; 
+			$scope.layouts = data.presets;
+			$scope.samples = data.samples;
 		});
 
 		// The currently selected palette
@@ -458,7 +460,7 @@
 				$scope.deserializeAndRender(data);
 				updateSerialized();
 			}).error(function() {
-				$scope.loadError = true;
+				$scope.loadError = true;				
 			});
 		} else {
 			// Some simple default content... just a numpad
@@ -504,6 +506,7 @@
 				$scope.dirty = true;
 				$scope.saved = false;
 				$scope.saveError = "";
+				$scope.loadError = false;
 			}
 		}
 
@@ -677,6 +680,14 @@
 				$scope.deserializeAndRender(preset);
 			});
 			$scope.dirty = false;
+		};
+		$scope.loadSample = function(sample) {
+			$http.get(base_href + sample).success(function(data) {
+				$scope.loadPreset(data);
+				$location.path(sample);
+			}).error(function() {
+				$scope.loadError = true;
+			});
 		};
 
 		$scope.deleteKeys = function() {

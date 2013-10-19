@@ -44,6 +44,8 @@ All rights reserved.
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-keyboard"></i> Preset <b class="caret"></b></a>
 			<ul class="dropdown-menu">
 				<li ng-repeat="(k,v) in layouts"><a ng-click="loadPreset(v)" href="#">{{k}}</a></li>
+				<li class="divider" ng-class="{hidden: !specialKeys}"></li>
+				<li ng-repeat="(k,v) in samples"><a ng-click="loadSample(v)" href="#">{{k}}</a></li>
 			</ul>
 		</li>
 		
