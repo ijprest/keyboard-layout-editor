@@ -951,8 +951,11 @@
 			}
 		};
 
-		$scope.showHelp = function() {
-			$('#helpDialog').modal('show');
+		$scope.showHelp = function(event) {
+			if(event.srcElement.nodeName !== "INPUT" && event.srcElement.nodeName !== "TEXTAREA") {
+				event.preventDefault();
+				$('#helpDialog').modal('show');
+			}
 		};
 
 		// Clipboard functions
