@@ -417,7 +417,6 @@
 				key.labels.forEach(function(label,i) {
 					if(label && label !== "" && !(key.align&noRenderText[i])) {
 						var sanitizedLabel = $sanitize(label.replace(/<([^a-zA-Z\/]|$)/,"&lt;$1"));
-						console.log(sanitizedLabel);
 						html += "<div class='keylabel keylabel{2} centerx-{5} centery-{6} centerf-{7} textsize{8}' style='color:{1};width:{3}px;height:{4}px;'><div style='width:{3}px;max-width:{3}px;height:{4}px;'>{0}</div></div>\n"
 									.format(sanitizedLabel, key.text, i+1, capwidth-innerPadding, capheight-innerPadding, 
 											key.centerx, key.centery, key.centerf, i>0 ? key.fontheight2 : key.fontheight);
@@ -564,6 +563,16 @@
 				centery : function() { if(value) { key.align = key.align | 2; } else { key.align = key.align & (~2); } },
 				centerf : function() { if(value) { key.align = key.align | 4; } else { key.align = key.align & (~4); } },
 				fontheight : function() { key.fontheight = key.fontheight2 = value; },
+				stepped : function() {
+					key[prop] = value;
+					if(value && key.width === key.width2) {
+						if(key.width > 1) {
+							key.width = Math.max(1, key.width-0.5);
+						} else {
+							key.width2 = key.width+0.5;
+						}
+					}
+				},
 			};
 			return (u[prop] || u._)();
 		}

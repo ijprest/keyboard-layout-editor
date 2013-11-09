@@ -208,7 +208,7 @@ All rights reserved.
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="widtheditor">Width:</label>
-					<div class="controls hint--top hint--rounded" data-hint="Specify the primary and secondary widths for the keycap. The secondary width is used to specify the size of non-rectangular keys.">
+					<div class="controls hint--top hint--rounded" data-hint="Specify the primary and secondary widths for the keycap. The secondary width is used to specify the size of non-rectangular or stepped keys.">
 						<input id="widtheditor" size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.width" ng-change="updateMulti('width')" ng-blur="validateMulti('width')" ng-disabled="selectedKeys.length<1">
 						/
 						<input size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.width2" ng-change="updateMulti('width2')" ng-blur="validateMulti('width2')" ng-disabled="selectedKeys.length<1">
@@ -216,7 +216,7 @@ All rights reserved.
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="heighteditor">Height:</label>
-					<div class="controls hint--top hint--rounded" data-hint="Specify the primary and secondary heights for the keycap. The secondary height is used to specify the size of non-rectangular keys.">
+					<div class="controls hint--top hint--rounded" data-hint="Specify the primary and secondary heights for the keycap. The secondary height is used to specify the size of non-rectangular or stepped keys.">
 						<input id="heighteditor" size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.height" ng-change="updateMulti('height')" ng-blur="validateMulti('height')" ng-disabled="selectedKeys.length<1">
 						/
 						<input size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.height2" ng-change="updateMulti('height2')" ng-blur="validateMulti('height2')" ng-disabled="selectedKeys.length<1">
@@ -264,7 +264,7 @@ All rights reserved.
 					<div class="controls hint--top hint--rounded" data-hint="Specify whether the selected keys should be rendered slightly transparently; this is useful to draw attention to the other, non-ghosted keycaps.">
 						<input id="ghosteditor" type="checkbox" ng-model="multi.ghost" ng-change="updateMulti('ghost')" ng-blur="validateMulti('ghost')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="ghosteditor">Ghosted</label>
 					</div>
-					<div class="controls hint--top hint--rounded" data-hint="Specify whether the selected keys are 'stepped', i.e., part of the key is at a lower height than the rest.">
+					<div class="controls hint--top hint--rounded" data-hint="Specify whether the selected keys are 'stepped', i.e., part of the key is at a lower height than the rest.  The secondary 'width' indicates the width of the stepped part.">
 						<input id="steppededitor" type="checkbox" ng-model="multi.stepped" ng-change="updateMulti('stepped')" ng-blur="validateMulti('stepped')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="steppededitor">Stepped</label>
 					</div>
 
