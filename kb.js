@@ -756,6 +756,17 @@ var $color = {};
 		$scope.loadPalette = function(p) {
 			$scope.palette = p;
 		};
+		$scope.colorName = function(color) {
+			if(color && $scope.palette.colors) {
+				for (var i = 0; i < $scope.palette.colors.length; i++) {
+					if($scope.palette.colors[i].css === color) {
+						return $scope.palette.colors[i].name;
+					}
+				}
+			}
+			return "";
+		};
+
 		$scope.loadPreset = function(preset) {
 			transaction("preset", function() {
 				$scope.deserializeAndRender(preset);

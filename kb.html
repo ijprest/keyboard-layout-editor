@@ -240,7 +240,7 @@ All rights reserved.
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="profileeditor">Profile / Row:</label>
-					<div class="controls hint--top hint--rounded" data-hint="Specify the profile and (optionally) the row-number of the selected keys, e.g., 'DCS R1', 'DSA', etc.">
+					<div class="controls hint--top hint--rounded" data-hint="Specify the profile and (optionally) the row-number of the selected keys, e.g., 'DCS R1', 'DSA', 'DSA SPACE', etc.">
 						<input id="profileeditor" size="16" type='text' ng-model="multi.profile" ng-change="updateMulti('profile')" ng-blur="validateMulti('profile')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
@@ -249,6 +249,7 @@ All rights reserved.
 					<div class="controls hint--top hint--rounded" data-hint="Specify the color to use for the background of the selected keycaps.">
 						<input id="coloreditor" size="8" type='text' ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
 						<input type='color' class="colorpicker" ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
+						{{colorName(multi.color)}}
 					</div>
 				</div>
 				<div class="control-group">
@@ -256,6 +257,7 @@ All rights reserved.
 					<div class="controls hint--top hint--rounded" data-hint="Specify the color to use for the legend text on the selected keycaps.">
 						<input id="textcoloreditor" size="8" type='text' ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
 						<input type='color' class="colorpicker" ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
+						{{colorName(multi.text)}}
 					</div>
 				</div>
 				<div class="control-group">
@@ -278,7 +280,11 @@ All rights reserved.
 						 ng-style="{'background-color':color.css}" 
 						 ng-click="clickSwatch(color,$event)"
 						 class="swatch hint--top"
-						 data-hint="{{color.name}}"></li>
+						 ng-class="{'selected-bg': color.css === multi.color, 'selected-fg': color.css === multi.text}"
+						 data-hint="{{color.name}}">
+							 <div class='highlight fg'></div>
+							 <div class='highlight bg'></div>
+					</li>
 				</ul>
 				<div class="alert alert-warning alert-dismissable" style="margin-top:10px;"><a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
 					<i class="icon-exclamation-sign"></i>

@@ -179,7 +179,9 @@ html, body {
 #swatches.disabled .swatch {
 	background-color: rgb(235,235,228) !important;
 }
-
+.swatch .highlight { display:none; }
+.swatch.selected-bg .highlight.bg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px black; background: white; opacity; 0.75; position:absolute; left:7px; top:23px; }
+.swatch.selected-fg .highlight.fg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px white; background: black; opacity; 0.75; position:absolute; left:1px; top:23px; }
 
 /* general styles */
 .hidden { display: none; }
