@@ -1,5 +1,85 @@
 /*jslint bitwise:true, white:true, plusplus:true, vars:true, browser:true, devel:true, regexp:true */
 /*global angular:true, rison:true, $:true */
+var $color = {};
+(function () {
+	function Lab (l, a, b) { this.l = l; this.a = a; this.b = b; }
+	$color.Lab = function (l,a,b) { return new Lab(l,a,b); };
+
+	function XYZ (x, y, z) { this.x = x; this.y = y; this.z = z; }
+	$color.XYZ = function (l,a,b) { return new XYZ(x, y, z); };
+
+	function sRGBLinear (r, g, b) { this.r = r; this.g = g; this.b = b; }
+	$color.sRGBLinear = function (r,g,b) { return new sRGBLinear(r,g,b); };
+
+	function sRGBPrime (r, g, b) { this.r = r; this.g = g; this.b = b; }
+	$color.sRGBPrime = function (r,g,b) { return new sRGBPrime(r,g,b); };
+
+	function sRGB8 (r, g, b) { this.r = r; this.g = g; this.b = b; }
+	$color.sRGB8 = function (r,g,b) { return new sRGB8(r,g,b); };
+	$color.hex = function(color) { var num = parseInt(color.slice(1), 16); return new sRGB8((num >> 16) & 0xff, (num >> 8) & 0xff, num & 0xFF); };
+
+	var D65 = new XYZ(0.9504, 1.0000, 1.0888);
+
+	Lab.prototype.XYZ = function () { 
+		var p = (this.l + 16.0) / 116.0;
+		var x_part = p + this.a / 500.0;
+		var z_part = (p - this.b / 200.0);
+		return new XYZ( D65.x * x_part * x_part * x_part, 
+						D65.y * p * p * p,
+						D65.z * z_part * z_part * z_part);
+	};
+	Lab.prototype.sRGB8 = function () { return this.XYZ().sRGBLinear().sRGBPrime().sRGB8(); };
+
+	function _XYZf(t) { if (t > 0.008856) { return Math.pow(t, 1.0/3.0); } else { return 7.787 * t + 16.0/116.0; } }
+	XYZ.prototype.Lab = function () {
+		var x_xn = this.x / D65.x;
+		var y_yn = this.y / D65.y;
+		var z_zn = this.z / D65.z;
+
+		var f_x_xn = _XYZf(x_xn);
+		var f_y_yn = _XYZf(y_yn);
+		var f_z_zn = _XYZf(z_zn);
+
+		return new Lab( y_yn > 0.008856 ? 116.8 * Math.pow(y_yn, 1.0/3.0) - 16 : 903.3 * y_yn,
+						500.0 * (f_x_xn - f_y_yn),
+						200.0 * (f_y_yn - f_z_zn) );
+	};
+
+	var XYZ_TO_RGB = [
+		[ 3.240479, -1.537150, -0.498535],
+		[-0.969256,  1.875992,  0.041556],
+		[ 0.055648, -0.204043,  1.057311]
+	];
+
+	XYZ.prototype.sRGBLinear = function () {
+		return new sRGBLinear( this.x * XYZ_TO_RGB[0][0] + this.y * XYZ_TO_RGB[0][1] + this.z * XYZ_TO_RGB[0][2],
+							   this.x * XYZ_TO_RGB[1][0] + this.y * XYZ_TO_RGB[1][1] + this.z * XYZ_TO_RGB[1][2],
+							   this.x * XYZ_TO_RGB[2][0] + this.y * XYZ_TO_RGB[2][1] + this.z * XYZ_TO_RGB[2][2] );
+	};
+
+	var RGB_TO_XYZ = [
+		[0.412453, 0.357580, 0.180423],
+		[0.212671, 0.715160, 0.072169],
+		[0.019334, 0.119193, 0.950227]
+	];
+
+	sRGBLinear.prototype.XYZ = function () {
+		return new XYZ( this.r * RGB_TO_XYZ[0][0] + this.g * RGB_TO_XYZ[0][1] + this.b * RGB_TO_XYZ[0][2],
+						this.r * RGB_TO_XYZ[1][0] + this.g * RGB_TO_XYZ[1][1] + this.b * RGB_TO_XYZ[1][2],
+						this.r * RGB_TO_XYZ[2][0] + this.g * RGB_TO_XYZ[2][1] + this.b * RGB_TO_XYZ[2][2] );
+	};
+
+	var ALPHA = 0.055;
+	function _linearToLog(c) { if ( c <= 0.0031308) { return 12.92 * c; } else { return (1 + ALPHA) * Math.pow(c, 1/2.4) - ALPHA; } }
+	function _logToLinear(c) { if ( c <= 0.04045) { return c / 12.92; } else { return Math.pow((c + ALPHA) / (1 + ALPHA), 2.4); } }
+	sRGBLinear.prototype.sRGBPrime = function () { return new sRGBPrime(_linearToLog(this.r), _linearToLog(this.g), _linearToLog(this.b)); };
+	sRGBPrime.prototype.sRGBLinear = function () { return new sRGBLinear(_logToLinear(this.r), _logToLinear(this.g), _logToLinear(this.b)); };
+	sRGBPrime.prototype.sRGB8 = function () { return new sRGB8(this.r * 255.0, this.g * 255.0, this.b * 255.0); };
+	sRGB8.prototype.sRGBPrime = function () { return new sRGBPrime(this.r/255.0, this.g/255.0, this.b/255.0); };
+	sRGB8.prototype.Lab = function () { return this.sRGBPrime().sRGBLinear().XYZ().Lab(); };
+	sRGB8.prototype.hex = function () { return "#" + (0x1000000 + (((Math.min(this.r,0xff)&0xff) << 16) + ((Math.min(this.g,0xff)&0xff) << 8) + (Math.min(this.b,0xff)&0xff))).toString(16).slice(1); };
+})();
+
 (function () {
 	"use strict";
 
@@ -27,21 +107,11 @@
 	function fromJsonL(json) { return jsonl.parse(json); }
 	function fromJsonPretty(json) { return fromJsonL('['+json+']'); }
 
-	// Darken a color by 20%
-	function darkenColor(color) {
-		var num = parseInt(color.slice(1), 16),
-			R = ((num >> 16) & 0xff) * 0.8,
-			G = ((num >> 8) & 0xff) * 0.8,
-			B = (num & 0xFF) * 0.8;
-		return "#" + (0x1000000 + (((R & 0xff) << 16) + ((G & 0xff) << 8) + (B & 0xff))).toString(16).slice(1);
-	}
-	
-	// Convert RGB values to a CSS-color string
-	function rgb(r, g, b) {
-		r = r.toString(16); while(r.length<2) { r = "0"+r; }
-		g = g.toString(16); while(g.length<2) { g = "0"+g; }
-		b = b.toString(16); while(b.length<2) { b = "0"+b; }
-		return "#"+r+g+b;
+	// Lighten a color by the specified amount
+	function lightenColor(color,mod) { 
+		var c = $color.sRGB8(color.r,color.g,color.b).Lab();
+		c.l = Math.min(100,c.l*mod);
+		return c.sRGB8();
 	}
 	
 	// Simple String.format() implementation
@@ -76,7 +146,7 @@
 	// Convert between our in-memory format & our serialized format
 	function serialize(keyboard) {
 		var keys = keyboard.keys;
-		var rows = [], row = [], xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", profile = "", ghost = false, align = 4, fontheight = 3, fontheight2 = 3;
+		var rows = [], row = [], xpos = 0, ypos = 0, color = "#cccccc", text = "#000000", profile = "", ghost = false, align = 4, fontheight = 3, fontheight2 = 3;
 		if(keyboard.meta) {
 			var meta = angular.copy(keyboard.meta); 
 			if(meta.backcolor === '#eeeeee') { delete meta.backcolor; }
@@ -119,7 +189,7 @@
 	}
 
 	function deserialize(rows) {
-		var xpos = 0, ypos = 0, color = "#eeeeee", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false, align = 4, fontheight = 3, fontheight2 = 3, stepped = false;
+		var xpos = 0, ypos = 0, color = "#cccccc", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false, align = 4, fontheight = 3, fontheight2 = 3, stepped = false;
 		var meta = { backcolor: "#eeeeee" };
 		for(r = 0; r < rows.length; ++r) {
 			if(rows[r] instanceof Array) {
@@ -339,7 +409,7 @@
 			$scope.palettes = data;
 			$scope.palettes.forEach(function(palette) {
 				palette.colors.forEach(function(color) {
-					color.css = rgb(color.r,color.g,color.b);
+					color.css = $color.sRGB8(color.r,color.g,color.b).hex();
 				});
 			});
 		});
@@ -369,7 +439,8 @@
 			var capx = sizes.capsize(key.x) + sizes.margin, capx2 = sizes.capsize(key.x+key.x2)+sizes.margin;
 			var capy = sizes.capsize(key.y) + sizes.margin, capy2 = sizes.capsize(key.y+key.y2)+sizes.margin;
 			var jShaped = (capwidth2 !== capwidth) || (capheight2 !== capheight) || (capx2 !== capx) || (capy2 !== capy);
-			var darkColor = darkenColor(key.color);
+			var darkColor = key.color;
+			var lightColor = lightenColor($color.hex(key.color), 1.2).hex();
 			var innerPadding = (2*sizes.margin) + (2*sizes.padding);
 			var borderStyle = "keyborder", bgStyle = "keybg";
 
@@ -399,18 +470,18 @@
 			if(!key.ghost) {
 				// The top of the cap
 				html += "<div class='keyborder inner' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'></div>\n"
-						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin, capy+(sizes.margin/2), key.color, sizes.padding );
+						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin, capy+(sizes.margin/2), lightColor, sizes.padding );
 				if(jShaped && !key.stepped) {
 				 	html += "<div class='keyborder inner' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'></div>\n"
-				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin, capy2+(sizes.margin/2), key.color, sizes.padding );
+				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin, capy2+(sizes.margin/2), lightColor, sizes.padding );
 				}
 
 				if(jShaped && !key.stepped) {
 				 	html += "<div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
-				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin+1, capy2+(sizes.margin/2)+1, key.color, sizes.padding );
+				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin+1, capy2+(sizes.margin/2)+1, lightColor, sizes.padding );
 				}
 				html += "</div><div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
-						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin+1, capy+(sizes.margin/2)+1, key.color, sizes.padding );
+						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin+1, capy+(sizes.margin/2)+1, lightColor, sizes.padding );
 
 				// The key labels			
 				html += "<div class='keylabels' style='width:{0}px; height:{1}px;'>".format(capwidth-innerPadding, capheight-innerPadding);
@@ -754,7 +825,7 @@
 			var newKey = null;
 			transaction("add", function() {
 				var pos = whereToAddNewKeys(nextline);
-				var color = $scope.multi.color || "#eeeeee";
+				var color = $scope.multi.color || "#cccccc";
 				var textColor = $scope.multi.text || "#000000";
 				newKey = {width:1, height:1, color:color, text:textColor, labels:[], x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:"", ghost:false, align:4, fontheight:3, fontheight2:3, nub:false, stepped:false};
 				$.extend(newKey, proto);

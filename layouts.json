@@ -28,8 +28,6 @@
 
 	"samples" : {
 		"GB: CCnG" : "/samples/gb-ccng",
-		"GB: HyperFuse" : "/samples/gb-hyperfuse",
-		"GB: Calm Depths" : "/samples/gb-calm-depths",
 		"GB: Retro DSA" : "/samples/gb-retro-dsa",
 		"Stealth Black" : "/samples/stealth-black",
 		"Televideo TS-800a" : "/samples/televideo-ts-800a"
