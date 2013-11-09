@@ -557,8 +557,8 @@
 		function update(key,prop,value) {
 			var u = {
 				_ : function() { key[prop] = value; },
-				width : function() { key.width2 = key.width = value; },
-				height : function() { key.height2 = key.height = value; },
+				width : function() { key.width = value; if(!key.stepped || key.width > key.width2) key.width2 = value; },
+				height : function() { key.height = value; if(!key.stepped || key.height > key.height2) key.height2 = value; },
 				centerx : function() { if(value) { key.align = key.align | 1; } else { key.align = key.align & (~1); } },
 				centery : function() { if(value) { key.align = key.align | 2; } else { key.align = key.align & (~2); } },
 				centerf : function() { if(value) { key.align = key.align | 4; } else { key.align = key.align & (~4); } },
@@ -673,8 +673,8 @@
 			}
 			transaction("size", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					selectedKey.width = selectedKey.width2 = Math.max(1,selectedKey.width + x);
-					selectedKey.height = selectedKey.height2 = Math.max(1,selectedKey.height + y);
+					update(selectedKey, 'width', Math.max(1,selectedKey.width + x));
+					update(selectedKey, 'height', Math.max(1,selectedKey.height + y));
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
