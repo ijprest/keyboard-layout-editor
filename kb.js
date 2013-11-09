@@ -168,7 +168,7 @@
 	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils"]);
 
 	// The main application controller
-	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', function($scope, $http, $location, $timeout, $sce) {
+	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', function($scope, $http, $location, $timeout, $sce, $sanitize) {
 		var serializedTimer = false;
 
 		// The application version
@@ -417,7 +417,7 @@
 				key.labels.forEach(function(label,i) {
 					if(label && !(key.align&noRenderText[i])) {
 						html += "<div class='keylabel keylabel{2} centerx-{5} centery-{6} centerf-{7} textsize{8}' style='color:{1};width:{3}px;height:{4}px;'><div style='width:{3}px;max-width:{3}px;height:{4}px;'>{0}</div></div>\n"
-									.format(label, key.text, i+1, capwidth-innerPadding, capheight-innerPadding, 
+									.format($sanitize(label), key.text, i+1, capwidth-innerPadding, capheight-innerPadding, 
 											key.centerx, key.centery, key.centerf, i>0 ? key.fontheight2 : key.fontheight);
 					}
 				});
