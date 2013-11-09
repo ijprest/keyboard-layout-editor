@@ -692,7 +692,7 @@
 			$scope.dirty = false;
 		};
 		$scope.loadSample = function(sample) {
-			$http.get(base_href + sample).success(function(data) {
+			$http.get(sample).success(function(data) {
 				$scope.loadPreset(data);
 				$location.path(sample);
 			}).error(function() {
