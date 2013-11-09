@@ -124,8 +124,8 @@ html, body {
 	background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
 	background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
 }
-.DSA .keyborder.inner  { margin-top: 3px; border-radius: 8px; }
-.DSA .keyfg {
+.DSA .keyborder.inner, .SA .keyborder.inner { margin-top: 3px; border-radius: 8px; }
+.DSA .keyfg, .SA .keyfg {
 	font-family: 'engravers_gothic_fsregular'; /* substitute for Gorton Modified */
 	border-radius: 8px; 
 	margin-top: 3px;
@@ -136,7 +136,7 @@ html, body {
 	background: -ms-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
 	background: radial-gradient(ellipse at center,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
 }
-.DCS.SPACE .keyfg, .DSA.SPACE .keyfg {
+.DCS.SPACE .keyfg, .DSA.SPACE .keyfg, .SA.SPACE .keyfg {
 	background: -moz-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0,0,0,0.1)), color-stop(20%, rgba(0,0,0,0)), color-stop(40%, rgba(0,0,0,0)), color-stop(100%, rgba(0,0,0,0.1)));
 	background: -webkit-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
@@ -153,7 +153,7 @@ html, body {
 .keylabel7>div, .keylabel8>div { vertical-align: middle; }
 .keylabel2>div, .keylabel4>div { vertical-align: bottom; }
 .keylabel5, .keylabel6 { top:100%; margin-top:0px; font-size: 10px !important; white-space:nowrap; overflow: hidden;}
-.DSA .keylabel5, .DSA .keylabel6 { margin-top:-1px; font-size: 9px !important; }
+.DSA .keylabel5, .DSA .keylabel6, .SA .keylabel5, .SA .keylabel6 { margin-top:-1px; font-size: 9px !important; }
 .keylabel1.centerx-true>div, .keylabel2.centerx-true>div, .keylabel5.centerf-true>div, .keylabel7.centerx-true>div { text-align: center; }
 .keylabel1.centery-true>div, .keylabel3.centery-true>div { vertical-align: middle; }
 
