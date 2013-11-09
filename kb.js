@@ -476,12 +476,16 @@ var $color = {};
 				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin, capy2+(sizes.margin/2), lightColor, sizes.padding );
 				}
 
+				var maxWidth = capwidth-(2*sizes.margin);
+				var maxHeight = capheight-(2*sizes.margin);
 				if(jShaped && !key.stepped) {
-				 	html += "<div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
-				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin+1, capy2+(sizes.margin/2)+1, lightColor, sizes.padding );
+					maxWidth = Math.max(capwidth,capwidth2)-(2*sizes.margin);
+					maxHeight = Math.max(capheight,capheight2)-(2*sizes.margin);
+				 	html += "<div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px; background-size:{6}px {7}px; background-position:{8}px {9}px;'>\n"
+				 			.format( capwidth2-innerPadding, capheight2-innerPadding, capx2+sizes.margin+1, capy2+(sizes.margin/2)+1, lightColor, sizes.padding, maxWidth, maxHeight, Math.min(capx,capx2)-capx2, Math.min(capy,capy2)-capy2 );
 				}
-				html += "</div><div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px;'>\n"
-						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin+1, capy+(sizes.margin/2)+1, lightColor, sizes.padding );
+				html += "</div><div class='keyfg' style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4}; padding:{5}px; background-size:{6}px {7}px; background-position:{8}px {9}px;'>\n"
+						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin+1, capy+(sizes.margin/2)+1, lightColor, sizes.padding, maxWidth, maxHeight, Math.min(capx,capx2)-capx, Math.min(capy,capy2)-capy );
 
 				// The key labels			
 				var textColor = lightenColor($color.hex(key.text), 1.2).hex();
@@ -851,7 +855,8 @@ var $color = {};
 				var pos = whereToAddNewKeys(nextline);
 				var color = $scope.multi.color || "#cccccc";
 				var textColor = $scope.multi.text || "#000000";
-				newKey = {width:1, height:1, color:color, text:textColor, labels:[], x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:"", ghost:false, align:4, fontheight:3, fontheight2:3, nub:false, stepped:false};
+				var profile = $scope.multi.profile || "";
+				newKey = {width:1, height:1, color:color, text:textColor, labels:[], x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:profile, ghost:false, align:4, fontheight:3, fontheight2:3, nub:false, stepped:false};
 				$.extend(newKey, proto);
 				newKey.x += pos.x;
 				newKey.y += pos.y;
