@@ -152,7 +152,8 @@ html, body {
 .keylabel3>div, .keylabel4>div, .keylabel6>div, .keylabel8>div { text-align: right; }
 .keylabel7>div, .keylabel8>div { vertical-align: middle; }
 .keylabel2>div, .keylabel4>div { vertical-align: bottom; }
-.keylabel5, .keylabel6 { top:100%; margin-top:-3px; font-size: 10px !important; white-space:nowrap; overflow: hidden;}
+.keylabel5, .keylabel6 { top:100%; margin-top:0px; font-size: 10px !important; white-space:nowrap; overflow: hidden;}
+.DSA .keylabel5, .keylabel6 { margin-top:-1px; font-size: 9px !important; }
 .keylabel1.centerx-true>div, .keylabel2.centerx-true>div, .keylabel5.centerf-true>div, .keylabel7.centerx-true>div { text-align: center; }
 .keylabel1.centery-true>div, .keylabel3.centery-true>div { vertical-align: middle; }
 
