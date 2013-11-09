@@ -484,12 +484,13 @@ var $color = {};
 						.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin+1, capy+(sizes.margin/2)+1, lightColor, sizes.padding );
 
 				// The key labels			
+				var textColor = lightenColor($color.hex(key.text), 1.2).hex();
 				html += "<div class='keylabels' style='width:{0}px; height:{1}px;'>".format(capwidth-innerPadding, capheight-innerPadding);
 				key.labels.forEach(function(label,i) {
 					if(label && label !== "" && !(key.align&noRenderText[i])) {
 						var sanitizedLabel = $sanitize(label.replace(/<([^a-zA-Z\/]|$)/,"&lt;$1"));
 						html += "<div class='keylabel keylabel{2} centerx-{5} centery-{6} centerf-{7} textsize{8}' style='color:{1};width:{3}px;height:{4}px;'><div style='width:{3}px;max-width:{3}px;height:{4}px;'>{0}</div></div>\n"
-									.format(sanitizedLabel, key.text, i+1, capwidth-innerPadding, capheight-innerPadding, 
+									.format(sanitizedLabel, i===4||i===5 ? key.text : textColor, i+1, capwidth-innerPadding, capheight-innerPadding, 
 											key.centerx, key.centery, key.centerf, i>0 ? key.fontheight2 : key.fontheight);
 					}
 				});
@@ -681,11 +682,23 @@ var $color = {};
 			transaction("metadata", function() {
 				$scope.keyboard.meta[prop] = $scope.meta[prop];
 			});
-		}
+		};
 		$scope.validateMeta = function(prop) {
-		}
+		};
 
 		$scope.serialized = toJsonPretty(serialize($scope.keyboard));
+
+		$scope.swapColors = function() {
+			transaction("swapColors", function() {
+				$scope.selectedKeys.forEach(function(selectedKey) {
+					var temp = selectedKey.color;
+					selectedKey.color = selectedKey.text;
+					selectedKey.text = temp;
+					renderKey(selectedKey);
+				});
+				$scope.multi = angular.copy($scope.selectedKeys.last());
+			});
+		};
 	
 		$scope.clickSwatch = function(color,$event) {
 			$event.preventDefault();

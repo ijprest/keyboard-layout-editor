@@ -246,10 +246,13 @@ All rights reserved.
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="coloreditor">Key Color:</label>
-					<div class="controls hint--top hint--rounded" data-hint="Specify the color to use for the background of the selected keycaps.">
-						<input id="coloreditor" size="8" type='text' ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
-						<input type='color' class="colorpicker" ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
+					<div class="controls">
+						<div class="hint--top hint--rounded" data-hint="Specify the color to use for the background of the selected keycaps.">
+							<input id="coloreditor" size="8" type='text' ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
+							<input type='color' class="colorpicker" ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
+						</div>
 						{{colorName(multi.color)}}
+						<button id="swap-colors" class="btn btn-default hint--top hint--rounded" ng-click="swapColors()" ng-disabled="selectedKeys.length<1" data-hint="Swap the text and keycap colors."><i class="icon-random"></i></button>
 					</div>
 				</div>
 				<div class="control-group">
