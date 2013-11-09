@@ -224,7 +224,5 @@ html, body {
 .hint:after, [data-hint]:after { white-space: pre-line; }
 .hint:before, .hint:after, [data-hint]:before, [data-hint]:after { -webkit-transition: 0.1s ease; -moz-transition: 0.1s ease; transition: 0.1s ease; }
 
-#swap-colors {
-	position: relative;
-	top: 15px;
-}
+#swap-colors { position: relative; top: 15px; }
+.color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }

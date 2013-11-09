@@ -251,7 +251,7 @@ All rights reserved.
 							<input id="coloreditor" size="8" type='text' ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
 							<input type='color' class="colorpicker" ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
 						</div>
-						{{colorName(multi.color)}}
+						<div class="color-name">{{colorName(multi.color)}}</div>
 						<button id="swap-colors" class="btn btn-default hint--top hint--rounded" ng-click="swapColors()" ng-disabled="selectedKeys.length<1" data-hint="Swap the text and keycap colors."><i class="icon-random"></i></button>
 					</div>
 				</div>
@@ -260,7 +260,7 @@ All rights reserved.
 					<div class="controls hint--top hint--rounded" data-hint="Specify the color to use for the legend text on the selected keycaps.">
 						<input id="textcoloreditor" size="8" type='text' ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
 						<input type='color' class="colorpicker" ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
-						{{colorName(multi.text)}}
+						<div class="color-name">{{colorName(multi.text)}}</div>
 					</div>
 				</div>
 				<div class="control-group">
