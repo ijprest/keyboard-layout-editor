@@ -731,7 +731,7 @@
 			var xpos = 0, ypos = -1;
 			sortKeys($scope.keys());
 			if(!nextline && $scope.selectedKeys.length>0 && $scope.keys().length>0 && $scope.multi.x == $scope.keys().last().x) {
-				xpos = $scope.multi.x + $scope.multi.width;
+				xpos = $scope.multi.x + Math.max($scope.multi.width, $scope.multi.width2 || 0);
 				ypos = $scope.multi.y;
 				if(xpos >= 23) { xpos = 0; ypos++; }
 			} else {
