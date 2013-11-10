@@ -9,7 +9,7 @@ var $serial = {};
 	$serial.toJsonL = function(obj) {
 		var res = [], key;
 		if(obj instanceof Array) {
-			obj.forEach(function(elem) { res.push($serial.toJsonL(elem));	});
+			obj.forEach(function(elem) { res.push($serial.toJsonL(elem)); });
 			return '['+res.join(',')+']';
 		}		
 		if(typeof obj === 'object') {

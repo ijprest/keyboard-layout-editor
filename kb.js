@@ -166,10 +166,10 @@
 		$scope.kbHeight = 0;
 		$scope.calcKbHeight = function() {
 			var bottom = 0;
-			$(".keyborder").each(function(i,e) {
-				bottom = Math.max(bottom, $(e).offset().top + $(e).outerHeight());
+			$scope.keys().forEach(function(key) {
+				bottom = Math.max(bottom, key.renderBottom);
 			});
-			$scope.kbHeight = bottom - $('#keyboard').position().top - 10;
+			$scope.kbHeight = bottom + 8;
 		};
 
 		// Given a key, generate the HTML needed to render it	

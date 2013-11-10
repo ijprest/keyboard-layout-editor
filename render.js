@@ -86,6 +86,7 @@ var $renderKey = {};
 
 		key.rect = { x:capx, y:capy, w:capwidth, h:capheight };
 		key.rect2 = { x:capx2, y:capy2, w:capwidth2, h:capheight2 };
+		key.renderBottom = Math.max(capy + capheight, capy2 + capheight2);
 		return html;
 	};
 }());
