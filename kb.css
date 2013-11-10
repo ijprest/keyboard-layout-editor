@@ -218,7 +218,7 @@ html, body {
 .form-horizontal input { margin-bottom: 2px; }
 
 .shortcuts tr > td:first-child { text-align:right; padding-right: 6px; padding-top: 3px;}
-.shortcuts .shortcut { background-color: #444; color: white; padding: 1px 6px; border-radius:6px; }
+.shortcuts .shortcut { background-color: #444; color: white; padding: 1px 6px; border-radius:6px; font-family: "Consolas", "Courier New", "Courier", monospace; }
 
 .checkbox-label { font-weight: normal; padding-left: 4px; }
 
