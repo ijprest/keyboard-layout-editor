@@ -6,143 +6,13 @@
 	// We need this so we can test locally and still save layouts to AWS
 	var base_href = "http://www.keyboard-layout-editor.com";
 
-	// Lenient JSON reader/writer
-	function toJsonL(obj) {
-		var res = [], key;
-		if(obj instanceof Array) {
-			obj.forEach(function(elem) { res.push(toJsonL(elem));	});
-			return '['+res.join(',')+']';
-		}		
-		if(typeof obj === 'object') {
-			for(key in obj) {	if(obj.hasOwnProperty(key)) { res.push(key+':'+toJsonL(obj[key])); } }
-			return '{'+res.join(',')+'}';
-		}
-		return angular.toJson(obj);	
-	}
 	function toJsonPretty(obj) {
 		var res = [];
-		obj.forEach(function(elem) { res.push(toJsonL(elem));	});
+		obj.forEach(function(elem) { res.push($serial.toJsonL(elem));	});
 		return res.join(",\n")+"\n";
 	}	
-	function fromJsonL(json) { return jsonl.parse(json); }
-	function fromJsonPretty(json) { return fromJsonL('['+json+']'); }
+	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
 
-	// Simple String.format() implementation
-	if(!String.prototype.format) {
-		String.prototype.format = function() {
-			var args = arguments;
-			return this.replace(/\{(\d+)\}/g, function(match, number) { 
-				return typeof args[number] !== 'undefined' ? args[number] : match;
-			});
-		};
-	}
-	if(!String.prototype.trimStart) {
-		String.prototype.trimStart = function() { return this.replace(/^\s\s*/, ''); };
-	}
-	if(!String.prototype.trimEnd) {
-		String.prototype.trimEnd = function() { return this.replace(/\s\s*$/, ''); };
-	}
-	if(!String.prototype.trim) {
-		String.prototype.trim = function() { this.trimStart().trimEnd(); };
-	}
-
-	if(!Array.prototype.last) {
-		Array.prototype.last = function() {
-			return this[this.length-1];
-		}
-	}
-
-	function sortKeys(keys) {
-		keys.sort(function(a,b) { return a.y === b.y ? a.x - b.x : a.y - b.y; });
-	}
-	
-	// Convert between our in-memory format & our serialized format
-	function serialize(keyboard) {
-		var keys = keyboard.keys;
-		var rows = [], row = [], xpos = 0, ypos = 0, color = "#cccccc", text = "#000000", profile = "", ghost = false, align = 4, fontheight = 3, fontheight2 = 3;
-		if(keyboard.meta) {
-			var meta = angular.copy(keyboard.meta); 
-			if(meta.backcolor === '#eeeeee') { delete meta.backcolor; }
-			if(!$.isEmptyObject(meta)) {
-				rows.push(meta);
-			}
-		}
-		sortKeys(keys);
-		keys.forEach(function(key) {
-			var props = {}, prop = false;
-			var label = key.labels.join("\n").trimEnd();
-			if(key.y !== ypos) { rows.push(row); row = []; ypos++; xpos = 0; }
-			function serializeProp(nname,val,defval) { if(val !== defval) { props[nname] = val; prop = true; } return val; }
-			ypos += serializeProp("y", key.y-ypos, 0);
-			xpos += serializeProp("x", key.x-xpos, 0) + key.width;
-			color = serializeProp("c", key.color, color);
-			text = serializeProp("t", key.text, text);
-			ghost = serializeProp("g", key.ghost, ghost);
-			profile = serializeProp("p", key.profile, profile);
-			align = serializeProp("a", key.align, align);
-			if(key.fontheight != fontheight) {
-				fontheight = serializeProp("f", key.fontheight, fontheight);
-				fontheight2 = serializeProp("f2", key.fontheight2, fontheight);
-			} else {
-				fontheight2 = serializeProp("f2", key.fontheight2, fontheight2);
-			}
-			serializeProp("w", key.width, 1);
-			serializeProp("h", key.height, 1);
-			serializeProp("w2", key.width2, key.width);
-			serializeProp("h2", key.height2, key.height);
-			serializeProp("x2", key.x2, 0);
-			serializeProp("y2", key.y2, 0);
-			serializeProp("n", key.nub || false, false);
-			serializeProp("l", key.stepped || false, false);
-			if(prop) { row.push(props); }
-			row.push(label);
-		});
-		if(row.length>0) { rows.push(row); }
-		return rows;
-	}
-
-	function deserialize(rows) {
-		var xpos = 0, ypos = 0, color = "#cccccc", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false, align = 4, fontheight = 3, fontheight2 = 3, stepped = false;
-		var meta = { backcolor: "#eeeeee" };
-		for(r = 0; r < rows.length; ++r) {
-			if(rows[r] instanceof Array) {
-				for(k = 0; k < rows[r].length; ++k) {
-					var key = rows[r][k];
-					if(typeof key === 'string') {
-						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, labels:key.split('\n'), x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost, align:align, fontheight:fontheight, fontheight2:fontheight2, stepped:stepped});
-						xpos += width;
-						width = height = 1;
-						xpos2 = ypos2 = width2 = height2 = 0;
-						nub = stepped = false;
-					} else {
-						if(key.a != null) { align = key.a; }
-						if(key.f) { fontheight = fontheight2 = key.f; }
-						if(key.f2) { fontheight2 = key.f2; }
-						if(key.p) { profile = key.p; }
-						if(key.c) { color = key.c; }
-						if(key.t) { text = key.t; }
-						if(key.x) { xpos += key.x; }
-						if(key.y) { ypos += key.y; }
-						if(key.w) { width = key.w; }
-						if(key.h) { height = key.h; }
-						if(key.x2) { xpos2 = key.x2; }
-						if(key.y2) { ypos2 = key.y2; }
-						if(key.w2) { width2 = key.w2; }
-						if(key.h2) { height2 = key.h2; }
-						if(key.n) { nub = key.n; }
-						if(key.l) { stepped = key.l; }
-						if(key.g != null) { ghost = key.g; }
-					}
-				}
-				ypos++;
-			} else if(typeof rows[r] === 'object') {
-				$.extend(meta, rows[r]);
-			}
-			xpos = 0;
-		}
-		return { meta:meta, keys:keys };
-	}
-	
 	// The angular module for our application
 	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils"]);
 
@@ -175,7 +45,7 @@
 		};
 		$scope.selectAll = function(event) {
 			if(event) { event.preventDefault(); }
-			sortKeys($scope.keys());
+			$serial.sortKeys($scope.keys());
 			$scope.unselectAll();
 			$scope.keys().forEach(function(key) {
 				$scope.selectedKeys.push(key);				
@@ -242,7 +112,7 @@
 				event.preventDefault();
 			}
 			if($scope.dirty) {
-				saveLayout(serialize($scope.keyboard));
+				saveLayout($serial.serialize($scope.keyboard));
 			}
 		};
 		$scope.canSave = function() {
@@ -345,7 +215,7 @@
 		}
 
 		$scope.deserializeAndRender = function(data) {
-			$scope.keyboard = deserialize(data);
+			$scope.keyboard = $serial.deserialize(data);
 			$scope.keys().forEach(function(key) {
 				renderKey(key);
 			});
@@ -355,7 +225,7 @@
 		function updateSerialized() {
 			//$timeout.cancel(serializedTimer); // this is slow, for some reason
 			$scope.deserializeException = "";
-			$scope.serialized = toJsonPretty(serialize($scope.keyboard));
+			$scope.serialized = toJsonPretty($serial.serialize($scope.keyboard));
 		}
 
 		$scope.deserializeAndRender([]);
@@ -364,7 +234,7 @@
 			if(loc[0]=='@') {
 				$scope.deserializeAndRender(URLON.parse(encodeURI(loc)));
 			} else {
-				$scope.deserializeAndRender(fromJsonL(loc));
+				$scope.deserializeAndRender($serial.fromJsonL(loc));
 			}
 		} else if($location.path()[0] === '/') {
 			$http.get(base_href + $location.path()).success(function(data) {
@@ -528,7 +398,7 @@
 		$scope.validateMeta = function(prop) {
 		};
 
-		$scope.serialized = toJsonPretty(serialize($scope.keyboard));
+		$scope.serialized = toJsonPretty($serial.serialize($scope.keyboard));
 
 		$scope.swapColors = function() {
 			transaction("swapColors", function() {
@@ -643,7 +513,7 @@
 
 			transaction('delete', function() {
 				// Sort the keys, so we can easily select the next key after deletion
-				sortKeys($scope.keys());
+				$serial.sortKeys($scope.keys());
 
 				// Get the indicies of all the selected keys
 				var toDelete = $scope.selectedKeys.map(function(key) { return $scope.keys().indexOf(key); });
@@ -675,7 +545,7 @@
 
 		function whereToAddNewKeys(nextline) {
 			var xpos = 0, ypos = -1;
-			sortKeys($scope.keys());
+			$serial.sortKeys($scope.keys());
 			if(!nextline && $scope.selectedKeys.length>0 && $scope.keys().length>0 && $scope.multi.x == $scope.keys().last().x) {
 				xpos = $scope.multi.x + Math.max($scope.multi.width, $scope.multi.width2 || 0);
 				ypos = $scope.multi.y;
@@ -785,7 +655,7 @@
 		// about mouse-capture.
 		$scope.selectRelease = function(event) {
 			if(doingMarqueeSelect) {
-				sortKeys($scope.keys());
+				$serial.sortKeys($scope.keys());
 				doingMarqueeSelect = false;
 
 				// Calculate the offset between #keyboard and the mouse-coordinates
@@ -851,14 +721,14 @@
 	
 		$scope.getPermalink = function() {
 			var url = $location.absUrl().replace(/#.*$/,"");
-			url += "##" + URLON.stringify(serialize($scope.keyboard));
+			url += "##" + URLON.stringify($serial.serialize($scope.keyboard));
 			return url;
 		};
 	
 		// Called on 'j' or 'k' keystrokes; navigates to the next or previous key
 		$scope.prevKey = function(event) {
 			if($scope.keys().length>0) {
-				sortKeys($scope.keys());
+				$serial.sortKeys($scope.keys());
 				var ndx = ($scope.selectedKeys.length>0) ? Math.max(0,$scope.keys().indexOf($scope.selectedKeys.last())-1) : 0;
 				var selndx = $scope.selectedKeys.indexOf($scope.keys()[ndx]);
 				if(event.shiftKey && $scope.keys().length>1 && $scope.selectedKeys.length>0 && selndx>=0) {
@@ -871,7 +741,7 @@
 		};
 		$scope.nextKey = function(event) {
 			if($scope.keys().length>0) {
-				sortKeys($scope.keys());
+				$serial.sortKeys($scope.keys());
 				var ndx = ($scope.selectedKeys.length>0) ? Math.min($scope.keys().length-1,$scope.keys().indexOf($scope.selectedKeys.last())+1) : $scope.keys().length-1;
 				var selndx = $scope.selectedKeys.indexOf($scope.keys()[ndx]);
 				if(event.shiftKey && $scope.keys().length>1 && $scope.selectedKeys.length>0 && selndx>=0) {
@@ -933,7 +803,7 @@
 			if(clipboard.length<1) {
 				return;
 			}
-			sortKeys(clipboard);
+			$serial.sortKeys(clipboard);
 
 			// Copy the clipboard keys, and adjust them all relative to the first key
 			var clipCopy = angular.copy(clipboard);
