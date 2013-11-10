@@ -22,8 +22,11 @@ var $serial = {};
 
 	// function to sort the key array
 	$serial.sortKeys = function(keys) {
-		keys.sort(function(a,b) { 
-			return (a.y - b.y) ||
+		keys.sort(function(a,b) {
+			return ((a.rotation_angle+360)%360 - (b.rotation_angle+360)%360) || 
+				   (a.rotation_x - b.rotation_x) || 
+				   (a.rotation_y - b.rotation_y) || 
+				   (a.y - b.y) ||
 				   (a.x - b.x);
 		});
 	};
@@ -34,6 +37,7 @@ var $serial = {};
 			width: 1, height: 1, width2: 1, height2: 1,				// size
 			color: "#cccccc", text: "#000000",						// colors
 			labels:[], align: 4, fontheight: 3, fontheight2: 3,		// label properties	
+			rotation_angle: 0, rotation_x: 0, rotation_y: 0,		// rotation
 			profile: "", nub: false, ghost: false, stepped: false	// misc
 		};
 	};
@@ -43,6 +47,8 @@ var $serial = {};
 		var keys = keyboard.keys;
 		var rows = [], row = [];
 		var current = $serial.defaultKeyProps();
+		var rowmeta = {r:0,rx:0,ry:0};
+		var lastrowmeta = angular.copy(rowmeta);
 		if(keyboard.meta) {
 			var meta = angular.copy(keyboard.meta); 
 			if(meta.backcolor === '#eeeeee') { delete meta.backcolor; }
@@ -50,13 +56,30 @@ var $serial = {};
 				rows.push(meta);
 			}
 		}
+		function pushRow() {
+			if(rowmeta.r != lastrowmeta.r || rowmeta.rx != lastrowmeta.rx || rowmeta.ry != lastrowmeta.ry) {
+				rows.push(rowmeta);
+				lastrowmeta = angular.copy(rowmeta);
+			}
+			rows.push(row);
+			current.y++; 
+			current.x = rowmeta.rx;
+			row = []; 
+		};
+
 		$serial.sortKeys(keys);
 		keys.forEach(function(key) {
 			var props = {};
 			var label = key.labels.join("\n").trimEnd();
 
 			// start a new row when necessary
-			if(key.y !== current.y) { rows.push(row); row = []; current.y++; current.x = 0; }
+			if((row.length>0) && (key.y !== current.y || key.rotation_angle != rowmeta.r || key.rotation_x != rowmeta.rx || key.rotation_y != rowmeta.ry)) { 
+				pushRow();
+			}
+
+			if(key.rotation_angle != rowmeta.r) { rowmeta.r = key.rotation_angle; }
+			if(key.rotation_x != rowmeta.rx) { current.x = rowmeta.rx = key.rotation_x; }
+			if(key.rotation_y != rowmeta.ry) { current.y = rowmeta.ry = key.rotation_y; }
 
 			function serializeProp(nname,val,defval) { 
 				if(val !== defval) { 
@@ -89,7 +112,7 @@ var $serial = {};
 			if(!jQuery.isEmptyObject(props)) { row.push(props); }
 			row.push(label);
 		});
-		if(row.length>0) { rows.push(row); }
+		if(row.length>0) { pushRow(); }
 		return rows;
 	}
 

@@ -190,6 +190,18 @@ html, body {
 .hidden { display: none; }
 .error { border: solid 2px rgb(217,83,79); }
 #selectionRectangle { position: absolute; border: dashed 2px red; }
+#rotationCrosshairs { 	
+	display: none;
+	position: absolute;
+	margin: 0px;
+	padding: 0px;
+	font-size: 25px;
+	line-height: 23px;
+	width: 25px;
+	height: 25px;
+	color: black;
+	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
 
 #rawdata { 
 	width: 100%;

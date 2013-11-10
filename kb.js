@@ -167,12 +167,13 @@
 		$scope.calcKbHeight = function() {
 			var bottom = 0;
 			$scope.keys().forEach(function(key) {
-				bottom = Math.max(bottom, key.renderBottom);
+				bottom = Math.max(bottom, key.rectTrans.y2);
 			});
 			$scope.kbHeight = bottom + 8;
 		};
 
 		// Given a key, generate the HTML needed to render it	
+		$scope.rotationStyle = $renderKey.getKeyRotationStyles;
 		function renderKey(key) {
 			key.html = $sce.trustAsHtml($renderKey.html(key,$sanitize));
 		}
@@ -298,6 +299,9 @@
 				height2 : function() { return Math.max(0.5, Math.min(12, value)); },
 				fontheight : function() { return Math.max(1, Math.min(9, value)); },
 				fontheight2 : function() { return Math.max(1, Math.min(9, value)); },
+				rotation_angle : function() { return Math.max(-180, Math.min(180, value)); },
+				rotation_x : function() { return Math.max(0, Math.min(36, value)); },
+				rotation_y : function() { return Math.max(0, Math.min(36, value)); },
 			};
 			return (v[prop] || v._)();
 		}
@@ -321,6 +325,7 @@
 						}
 					}
 				},
+				rotation_angle : function() { key.rotation_angle = value; key.rotation_x = $scope.multi.rotation_x; key.rotation_y = $scope.multi.rotation_y; },
 			};
 			return (u[prop] || u._)();
 		}
@@ -440,6 +445,37 @@
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 			if(y!==0) { $scope.calcKbHeight(); }
+		};
+		$scope.rotateKeys = function(angle,$event) {
+			$event.preventDefault();
+			if($scope.selectedKeys.length<1) { 
+				return; 
+			}
+			transaction("rotate", function() {
+				$scope.selectedKeys.forEach(function(selectedKey) {
+					var newangle = (selectedKey.rotation_angle+angle+360)%360;
+					while(newangle > 180) { newangle -= 360; }
+					update(selectedKey, 'rotation_angle', newangle);
+					renderKey(selectedKey);
+				});
+				$scope.multi = angular.copy($scope.selectedKeys.last());
+			});
+			$scope.calcKbHeight();
+		};
+		$scope.moveCenterKeys = function(x,y,$event) {
+			$event.preventDefault();
+			if($scope.selectedKeys.length<1) { 
+				return; 
+			}
+			transaction("moveCenter", function() {
+				$scope.selectedKeys.forEach(function(selectedKey) {
+					update(selectedKey, 'rotation_x', validate(selectedKey, 'rotation_x', $scope.multi.rotation_x + x));
+					update(selectedKey, 'rotation_y', validate(selectedKey, 'rotation_y', $scope.multi.rotation_y + y));
+					renderKey(selectedKey);
+				});
+				$scope.multi = angular.copy($scope.selectedKeys.last());
+			});
+			$scope.calcKbHeight();
 		};
 
 		$scope.loadPalette = function(p) {
@@ -802,8 +838,11 @@
 				});
 			});
 		};
-		$scope.canCopy = function() { return $scope.selectedKeys.length > 0; }
-		$scope.canPaste = function() { return clipboard.length > 0; }
+		$scope.canCopy = function() { return $scope.selectedKeys.length > 0; };
+		$scope.canPaste = function() { return clipboard.length > 0; };
+
+		$scope.keyboardTop = function() { var kbElem = $("#keyboard"); return kbElem.position().top + parseInt(kbElem.css('margin-top'),10); };
+		$scope.keyboardLeft = function() { var kbElem = $("#keyboard"); return kbElem.position().left + parseInt(kbElem.css('margin-left'),10); };
 	}]);
 	
 	// Modernizr-inspired check to see if "color" input fields are supported; 

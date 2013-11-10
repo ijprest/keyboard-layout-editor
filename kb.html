@@ -110,6 +110,12 @@ All rights reserved.
 					 'shift-right':'sizeKeys(.25,0,$event)',
 					 'shift-up':'sizeKeys(0,-.25,$event)',
 					 'shift-down':'sizeKeys(0,.25,$event)',
+					 'pageup':'rotateKeys(-15,$event)',
+					 'pagedown':'rotateKeys(15,$event)',
+					 'ctrl-left':'moveCenterKeys(-.25,0,$event)', 
+					 'ctrl-right':'moveCenterKeys(.25,0,$event)', 
+					 'ctrl-up':'moveCenterKeys(0,-.25,$event)', 
+					 'ctrl-down':'moveCenterKeys(0,.25,$event)', 
 					 delete:'deleteKeys()', 
 					 insert:'addKey()',
 					 74: 'prevKey($event)', 
@@ -129,6 +135,7 @@ All rights reserved.
 	
 		<div ng-repeat="key in keys()" 
 			 class="key {{key.profile}}" 
+			 style="{{rotationStyle(key)}}"
 			 ng-mouseover="hoveredKey=key" 
 			 ng-mouseleave="hoveredKey=null" 
 			 ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0}"
@@ -139,6 +146,7 @@ All rights reserved.
 		{{calcKbHeight()}}
 	</div>
 	<div id="selectionRectangle" ng-style="{display:selRect.display, left:selRect.l+'px', width:selRect.w+'px', top:selRect.t+'px', height:selRect.h+'px'}"></div>
+	<div id="rotationCrosshairs" ng-style="{display:multi.crosshairs, left:(keyboardLeft()+multi.crosshairs_x-5)+'px', top:(keyboardTop()+multi.crosshairs_y-7)+'px'}"><i class="icon-screenshot"></i></div>
 	
 	<ul class="nav nav-tabs">
 		<li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab"><i class="fa fa-edit"></i> Properties</a></li>
@@ -268,6 +276,14 @@ All rights reserved.
 					</div>
 				</div>
 				<div class="control-group">
+					<label class="control-label" for="angleeditor">Rotation:</label>
+					<div class="controls hint--top hint--rounded" data-hint="Specify the angle (in degrees) by which to rotate the keycaps, and the x &amp; y coordinates of the center of rotation.">
+						<input id="angleeditor" size="3" type="number" min="-180" max="180" step="15" ng-model="multi.rotation_angle" ng-change="updateMulti('rotation_angle')" ng-blur="validateMulti('rotation_angle')" ng-disabled="selectedKeys.length<1">&#176;
+						<input id="rotxeditor" size="3" type="number" min="0" max="36" step=".25" ng-model="multi.rotation_x" ng-change="updateMulti('rotation_x')" ng-blur="validateMulti('rotation_x')" ng-disabled="selectedKeys.length<1">, 
+						<input id="rotxeditor" size="3" type="number" min="0" max="36" step=".25" ng-model="multi.rotation_y" ng-change="updateMulti('rotation_y')" ng-blur="validateMulti('rotation_y')" ng-disabled="selectedKeys.length<1">
+					</div>
+				</div>
+				<div class="control-group">
 					<label class="control-label">Misc:</label>
 
 					<div class="controls hint--top hint--rounded" data-hint="Specify whether the selected keys should be rendered slightly transparently; this is useful to draw attention to the other, non-ghosted keycaps.">
@@ -375,6 +391,8 @@ All rights reserved.
 					<tr><td><span class='shortcut'>?</span></td><td>Show this help dialog</td></tr>
 					<tr><td><span class='shortcut'>↑↓←→</span></td><td>Move the selected keys</td></tr>
 					<tr><td><span class='shortcut'>Shift&ndash;↑↓←→</span></td><td>Resize the selected keys</td></tr>
+					<tr><td><span class='shortcut'>Ctrl&ndash;↑↓←→</span></td><td>Move the center of rotation for the selected keys</td></tr>
+					<tr><td><span class='shortcut'>PgUp</span> / <span class='shortcut'>PgDn</span></td><td>Change the angle of rotation for the selected keys</td></tr>
 					<tr><td><span class='shortcut'>Ins</span></td><td>Add a new key</td></tr>
 					<tr><td><span class='shortcut'>Del</span></td><td>Delete the selected keys</td></tr>
 					<tr><td><span class='shortcut'>F2</span></td><td>Edit the text of the selected key</td></tr>

@@ -12,6 +12,16 @@ var $renderKey = {};
 		c.l = Math.min(100,c.l*mod);
 		return c.sRGB8();
 	}
+
+	$renderKey.getKeyRotationStyles = function(key) {
+		if(key.rotation_angle == 0) {
+			return "";
+		}
+		var angle = key.rotation_angle.toString() + "deg";
+		var origin = (sizes.capsize(key.rotation_x) + sizes.margin).toString() + "px " + (sizes.capsize(key.rotation_y) + sizes.margin).toString() + "px";
+		return "transform: rotate("+angle+"); -ms-transform: rotate("+angle+"); -webkit-transform: rotate("+angle+"); " + 
+		       "transform-origin: "+origin+"; -ms-transform-origin: "+origin+"; -webkit-transform-origin: "+origin+";";		
+	};
 	
 	// Given a key, generate the HTML needed to render it	
 	var noRenderText = [0,2,1,3,0,4,2,3];
@@ -84,9 +94,46 @@ var $renderKey = {};
 			html += "</div></div>";
 		}
 
-		key.rect = { x:capx, y:capy, w:capwidth, h:capheight };
-		key.rect2 = { x:capx2, y:capy2, w:capwidth2, h:capheight2 };
-		key.renderBottom = Math.max(capy + capheight, capy2 + capheight2);
+		key.rect = { x:capx, y:capy, w:capwidth, h:capheight, x2:capx+capwidth, y2:capy+capheight };
+		key.rect2 = { x:capx2, y:capy2, w:capwidth2, h:capheight2, x2:capx2+capwidth2, y2:capy2+capheight2 };
+		key.rectMax = { x:Math.min(capx,capx2), y:Math.min(capy,capy2), x2:Math.max(capx+capwidth,capx2+capwidth2), y2:Math.max(capy+capheight,capy2+capheight2) };
+		key.rectMax.w = key.rectMax.x2 - key.rectMax.x;
+		key.rectMax.h = key.rectMax.y2 - key.rectMax.y;
+
+		// Rotation matrix about the origin
+		var origin_x = sizes.capsize(key.rotation_x)+sizes.margin;
+		var origin_y = sizes.capsize(key.rotation_y)+sizes.margin;
+		var mat = Math.transMatrix(origin_x, origin_y).mult(Math.rotMatrix(key.rotation_angle)).mult(Math.transMatrix(-origin_x, -origin_y));
+
+		// Construct the *eight* corner points, transform them, and determine the transformed bbox.
+		key.rectTrans = { x:9999999, y:9999999, x2:-9999999, y2:-9999999 };
+		var corners = [ 
+			{x:key.rect.x, y:key.rect.y}, 
+			{x:key.rect.x, y:key.rect.y2}, 
+			{x:key.rect.x2, y:key.rect.y}, 
+			{x:key.rect.x2, y:key.rect.y2},
+			{x:key.rect2.x, y:key.rect2.y}, 
+			{x:key.rect2.x, y:key.rect2.y2}, 
+			{x:key.rect2.x2, y:key.rect2.y}, 
+			{x:key.rect2.x2, y:key.rect2.y2},
+		];
+		for(var i = 0; i < corners.length; ++i) {
+			corners[i] = mat.transformPt(corners[i]); 
+			key.rectTrans.x = Math.min(key.rectTrans.x, corners[i].x);
+			key.rectTrans.y = Math.min(key.rectTrans.y, corners[i].y);
+			key.rectTrans.x2 = Math.max(key.rectTrans.x2, corners[i].x);
+			key.rectTrans.y2 = Math.max(key.rectTrans.y2, corners[i].y);
+		}
+		key.rectTrans.w = key.rectTrans.x2 - key.rectTrans.x;
+		key.rectTrans.h = key.rectTrans.y2 - key.rectTrans.y;
+
+		key.crosshairs = "none";
+		if(key.rotation_x || key.rotation_y || key.rotation_angle) {
+			key.crosshairs_x = sizes.capsize(key.rotation_x) + sizes.margin;
+			key.crosshairs_y = sizes.capsize(key.rotation_y) + sizes.margin;
+			key.crosshairs = "block";
+		}
+
 		return html;
 	};
 }());
