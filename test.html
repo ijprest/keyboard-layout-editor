@@ -1,0 +1,24 @@
+<html>
+<head>
+<script>
+
+var keys = [];
+for(var i = 15; i >= 1; --i) {
+	keys.push({x:i,y:0});
+}
+
+keys.sort(function(a,b) { 
+	console.log(a,b,a.y-b.y,a.x-b.x,(a.y - b.y) || (a.x - b.x));
+	return (a.y - b.y) ||
+	(a.x - b.x);
+});
+
+keys.forEach(function(key,i) { console.log(i, key.y, key.x); });
+
+
+
+</script>
+</head>
+<body>
+</body>
+</html>

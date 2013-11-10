@@ -22,13 +22,27 @@ var $serial = {};
 
 	// function to sort the key array
 	$serial.sortKeys = function(keys) {
-		keys.sort(function(a,b) { return a.y === b.y ? a.x - b.x : a.y - b.y; });
+		keys.sort(function(a,b) { 
+			return (a.y - b.y) ||
+				   (a.x - b.x);
+		});
 	};
 
+	$serial.defaultKeyProps = function() {
+		return {
+			x: 0, y: 0, x2: 0, y2: 0,								// position
+			width: 1, height: 1, width2: 1, height2: 1,				// size
+			color: "#cccccc", text: "#000000",						// colors
+			labels:[], align: 4, fontheight: 3, fontheight2: 3,		// label properties	
+			profile: "", nub: false, ghost: false, stepped: false	// misc
+		};
+	};
+	
 	// Convert between our in-memory format & our serialized format
 	$serial.serialize = function(keyboard) {
 		var keys = keyboard.keys;
-		var rows = [], row = [], xpos = 0, ypos = 0, color = "#cccccc", text = "#000000", profile = "", ghost = false, align = 4, fontheight = 3, fontheight2 = 3;
+		var rows = [], row = [];
+		var current = $serial.defaultKeyProps();
 		if(keyboard.meta) {
 			var meta = angular.copy(keyboard.meta); 
 			if(meta.backcolor === '#eeeeee') { delete meta.backcolor; }
@@ -38,22 +52,31 @@ var $serial = {};
 		}
 		$serial.sortKeys(keys);
 		keys.forEach(function(key) {
-			var props = {}, prop = false;
+			var props = {};
 			var label = key.labels.join("\n").trimEnd();
-			if(key.y !== ypos) { rows.push(row); row = []; ypos++; xpos = 0; }
-			function serializeProp(nname,val,defval) { if(val !== defval) { props[nname] = val; prop = true; } return val; }
-			ypos += serializeProp("y", key.y-ypos, 0);
-			xpos += serializeProp("x", key.x-xpos, 0) + key.width;
-			color = serializeProp("c", key.color, color);
-			text = serializeProp("t", key.text, text);
-			ghost = serializeProp("g", key.ghost, ghost);
-			profile = serializeProp("p", key.profile, profile);
-			align = serializeProp("a", key.align, align);
-			if(key.fontheight != fontheight) {
-				fontheight = serializeProp("f", key.fontheight, fontheight);
-				fontheight2 = serializeProp("f2", key.fontheight2, fontheight);
+
+			// start a new row when necessary
+			if(key.y !== current.y) { rows.push(row); row = []; current.y++; current.x = 0; }
+
+			function serializeProp(nname,val,defval) { 
+				if(val !== defval) { 
+					props[nname] = val; 
+				} 
+				return val; 
+			}
+
+			current.y += serializeProp("y", key.y-current.y, 0);
+			current.x += serializeProp("x", key.x-current.x, 0) + key.width;
+			current.color = serializeProp("c", key.color, current.color);
+			current.text = serializeProp("t", key.text, current.text);
+			current.ghost = serializeProp("g", key.ghost, current.ghost);
+			current.profile = serializeProp("p", key.profile, current.profile);
+			current.align = serializeProp("a", key.align, current.align);
+			if(key.fontheight != current.fontheight) {
+				current.fontheight = serializeProp("f", key.fontheight, current.fontheight);
+				current.fontheight2 = serializeProp("f2", key.fontheight2, current.fontheight);
 			} else {
-				fontheight2 = serializeProp("f2", key.fontheight2, fontheight2);
+				current.fontheight2 = serializeProp("f2", key.fontheight2, current.fontheight2);
 			}
 			serializeProp("w", key.width, 1);
 			serializeProp("h", key.height, 1);
@@ -63,7 +86,7 @@ var $serial = {};
 			serializeProp("y2", key.y2, 0);
 			serializeProp("n", key.nub || false, false);
 			serializeProp("l", key.stepped || false, false);
-			if(prop) { row.push(props); }
+			if(!jQuery.isEmptyObject(props)) { row.push(props); }
 			row.push(label);
 		});
 		if(row.length>0) { rows.push(row); }
@@ -71,43 +94,52 @@ var $serial = {};
 	}
 
 	$serial.deserialize = function(rows) {
-		var xpos = 0, ypos = 0, color = "#cccccc", text = "#000000", keys = [], width=1, height=1, xpos2=0, ypos2=0, width2=0, height2=0, profile = "", r, k, nub = false, ghost = false, align = 4, fontheight = 3, fontheight2 = 3, stepped = false;
+		// Initialize with defaults
+		var current = $serial.defaultKeyProps();
 		var meta = { backcolor: "#eeeeee" };
-		for(r = 0; r < rows.length; ++r) {
+		var keys = [];
+		for(var r = 0; r < rows.length; ++r) {
 			if(rows[r] instanceof Array) {
-				for(k = 0; k < rows[r].length; ++k) {
+				for(var k = 0; k < rows[r].length; ++k) {
 					var key = rows[r][k];
 					if(typeof key === 'string') {
-						keys.push({x:xpos, y:ypos, width:width, height:height, profile:profile, color:color, text:text, labels:key.split('\n'), x2:xpos2, y2:ypos2, width2:width2===0?width:width2, height2:height2===0?height:height2, nub:nub, ghost:ghost, align:align, fontheight:fontheight, fontheight2:fontheight2, stepped:stepped});
-						xpos += width;
-						width = height = 1;
-						xpos2 = ypos2 = width2 = height2 = 0;
-						nub = stepped = false;
+						var newKey = angular.copy(current);
+						newKey.width2 = newKey.width2 === 0 ? current.width : current.width2;
+						newKey.height2 = newKey.height2 === 0 ? current.height : current.height2;
+						newKey.labels = key.split('\n');
+						keys.push(newKey);
+
+						// Set up for the next key
+						current.x += current.width;
+						current.width = current.height = 1;
+						current.x2 = current.y2 = current.width2 = current.height2 = 0;
+						current.nub = current.stepped = false;
 					} else {
-						if(key.a != null) { align = key.a; }
-						if(key.f) { fontheight = fontheight2 = key.f; }
-						if(key.f2) { fontheight2 = key.f2; }
-						if(key.p) { profile = key.p; }
-						if(key.c) { color = key.c; }
-						if(key.t) { text = key.t; }
-						if(key.x) { xpos += key.x; }
-						if(key.y) { ypos += key.y; }
-						if(key.w) { width = key.w; }
-						if(key.h) { height = key.h; }
-						if(key.x2) { xpos2 = key.x2; }
-						if(key.y2) { ypos2 = key.y2; }
-						if(key.w2) { width2 = key.w2; }
-						if(key.h2) { height2 = key.h2; }
-						if(key.n) { nub = key.n; }
-						if(key.l) { stepped = key.l; }
-						if(key.g != null) { ghost = key.g; }
+						if(key.a != null) { current.align = key.a; }
+						if(key.f) { current.fontheight = current.fontheight2 = key.f; }
+						if(key.f2) { current.fontheight2 = key.f2; }
+						if(key.p) { current.profile = key.p; }
+						if(key.c) { current.color = key.c; }
+						if(key.t) { current.text = key.t; }
+						if(key.x) { current.x += key.x; }
+						if(key.y) { current.y += key.y; }
+						if(key.w) { current.width = key.w; }
+						if(key.h) { current.height = key.h; }
+						if(key.x2) { current.x2 = key.x2; }
+						if(key.y2) { current.y2 = key.y2; }
+						if(key.w2) { current.width2 = key.w2; }
+						if(key.h2) { current.height2 = key.h2; }
+						if(key.n) { current.nub = key.n; }
+						if(key.l) { current.stepped = key.l; }
+						if(key.g != null) { current.ghost = key.g; }
 					}
 				}
-				ypos++;
+				// End of the row
+				current.y++;
 			} else if(typeof rows[r] === 'object') {
 				$.extend(meta, rows[r]);
 			}
-			xpos = 0;
+			current.x = 0;
 		}
 		return { meta:meta, keys:keys };
 	}

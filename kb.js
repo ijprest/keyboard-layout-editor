@@ -132,6 +132,7 @@
 
 		// The serialized key data
 		$scope.serialized = "";
+		$scope.serializedRaw = "";
 
 		// Known layouts/presets
 		$scope.layouts = {};
@@ -187,7 +188,8 @@
 		function updateSerialized() {
 			//$timeout.cancel(serializedTimer); // this is slow, for some reason
 			$scope.deserializeException = "";
-			$scope.serialized = toJsonPretty($serial.serialize($scope.keyboard));
+			$scope.serializedRaw = $serial.serialize($scope.keyboard);
+			$scope.serialized = toJsonPretty($scope.serializedRaw);
 		}
 
 		$scope.deserializeAndRender([]);
@@ -360,7 +362,7 @@
 		$scope.validateMeta = function(prop) {
 		};
 
-		$scope.serialized = toJsonPretty($serial.serialize($scope.keyboard));
+		updateSerialized();
 
 		$scope.swapColors = function() {
 			transaction("swapColors", function() {
@@ -523,10 +525,12 @@
 			var newKey = null;
 			transaction("add", function() {
 				var pos = whereToAddNewKeys(nextline);
-				var color = $scope.multi.color || "#cccccc";
-				var textColor = $scope.multi.text || "#000000";
-				var profile = $scope.multi.profile || "";
-				newKey = {width:1, height:1, color:color, text:textColor, labels:[], x:0, y:0, x2:0, y2:0, width2:1, height2:1, profile:profile, ghost:false, align:4, fontheight:3, fontheight2:3, nub:false, stepped:false};
+				newKey = $serial.defaultKeyProps();
+				if($scope.selectedKeys.length>0) {
+					newKey.color = $scope.multi.color;
+					newKey.text = $scope.multi.text;
+					newKey.profile = $scope.multi.profile;
+				}
 				$.extend(newKey, proto);
 				newKey.x += pos.x;
 				newKey.y += pos.y;
@@ -555,6 +559,7 @@
 					$scope.deserializeException = "";
 					transaction("rawdata", function() {
 						$scope.deserializeAndRender(fromJsonPretty($scope.serialized));
+						$scope.serializedRaw = '['+$scope.serialized+']';
 					});
 					$scope.unselectAll();
 				} catch(e) {
@@ -683,7 +688,7 @@
 	
 		$scope.getPermalink = function() {
 			var url = $location.absUrl().replace(/#.*$/,"");
-			url += "##" + URLON.stringify($serial.serialize($scope.keyboard));
+			url += "##" + URLON.stringify($scope.serializedRaw);
 			return url;
 		};
 	
