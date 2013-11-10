@@ -2,6 +2,9 @@ var $serial = {};
 (function () {
 	"use strict";
 
+	// We need this so we can test locally and still save layouts to AWS
+	$serial.base_href = "http://www.keyboard-layout-editor.com";
+
 	// Lenient JSON reader/writer
 	$serial.toJsonL = function(obj) {
 		var res = [], key;
@@ -109,4 +112,35 @@ var $serial = {};
 		return { meta:meta, keys:keys };
 	}
 	
+	$serial.saveLayout = function($http, layout, success, error) {
+		var data = angular.toJson(layout);
+		var fn = CryptoJS.MD5(data).toString();
+
+		// First test to see if the file is already available
+		$http.get($serial.base_href+"/layouts/"+fn).success(function() { success(fn); }).error(function() {
+			// Nope... need to upload it
+			var fd = new FormData();
+			fd.append("key", "layouts/"+fn);
+			fd.append("AWSAccessKeyId", "AKIAJSXGG74EMFBC57QQ");
+			fd.append("acl", "public-read");
+			fd.append("success_action_redirect", $serial.base_href);
+			fd.append("policy", "eyJleHBpcmF0aW9uIjoiMjAwMTQtMDEtMDFUMDA6MDA6MDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0Ijoid3d3LmtleWJvYXJkLWxheW91dC1lZGl0b3IuY29tIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJsYXlvdXRzLyJdLHsiYWNsIjoicHVibGljLXJlYWQifSx7InN1Y2Nlc3NfYWN0aW9uX3JlZGlyZWN0IjoiaHR0cDovL3d3dy5rZXlib2FyZC1sYXlvdXQtZWRpdG9yLmNvbSJ9LHsiQ29udGVudC1UeXBlIjoiYXBwbGljYXRpb24vanNvbiJ9LFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsODE5Ml1dfQ==");
+			fd.append("signature", "WOsX5QV/y9UlOs2kmtduXYEPeEQ=");
+			fd.append("Content-Type", "application/json");
+			fd.append("file", data);
+			$http.post("http://www.keyboard-layout-editor.com.s3.amazonaws.com/", fd, {
+				headers: {'Content-Type': undefined },
+				transformRequest: angular.identity
+			}).success(function() { success(fn); }).error(function(data, status) {
+				if(status == 0) {
+					// We seem to get a 'cancelled' notification even though the POST 
+					// is successful, so we have to double-check.
+					$http.get($serial.base_href+"/layouts/"+fn).success(function() { success(fn); }).error(error);
+				} else {
+					error(data,status);
+				}
+			});
+		});
+	};
+
 }());

@@ -3,9 +3,6 @@
 (function () {
 	"use strict";
 
-	// We need this so we can test locally and still save layouts to AWS
-	var base_href = "http://www.keyboard-layout-editor.com";
-
 	function toJsonPretty(obj) {
 		var res = [];
 		obj.forEach(function(elem) { res.push($serial.toJsonL(elem));	});
@@ -56,56 +53,21 @@
 		};
 
 		function saveLayout(layout) {
-			var data = angular.toJson(layout);
-			var fn = CryptoJS.MD5(data).toString();
-
-			// First test to see if the file is already available
-			$http.get(base_href+"/layouts/"+fn).success(function() {
-				$scope.dirty = false;
-				$scope.saved = fn;
-				$location.path("/layouts/"+fn);
-				$location.hash("");
-				$scope.saveError = "";
-			}).error(function() {
-				// Nope... need to upload it
-				var fd = new FormData();
-				fd.append("key", "layouts/"+fn);
-				fd.append("AWSAccessKeyId", "AKIAJSXGG74EMFBC57QQ");
-				fd.append("acl", "public-read");
-				fd.append("success_action_redirect", base_href);
-				fd.append("policy", "eyJleHBpcmF0aW9uIjoiMjAwMTQtMDEtMDFUMDA6MDA6MDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0Ijoid3d3LmtleWJvYXJkLWxheW91dC1lZGl0b3IuY29tIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJsYXlvdXRzLyJdLHsiYWNsIjoicHVibGljLXJlYWQifSx7InN1Y2Nlc3NfYWN0aW9uX3JlZGlyZWN0IjoiaHR0cDovL3d3dy5rZXlib2FyZC1sYXlvdXQtZWRpdG9yLmNvbSJ9LHsiQ29udGVudC1UeXBlIjoiYXBwbGljYXRpb24vanNvbiJ9LFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsODE5Ml1dfQ==");
-				fd.append("signature", "WOsX5QV/y9UlOs2kmtduXYEPeEQ=");
-				fd.append("Content-Type", "application/json");
-				fd.append("file", data);
-				$http.post("http://www.keyboard-layout-editor.com.s3.amazonaws.com/", fd, {
-					headers: {'Content-Type': undefined },
-					transformRequest: angular.identity
-				}).success(function() {
+			$serial.saveLayout($http, layout, 
+				function(fn) { 
+					//success
 					$scope.dirty = false;
 					$scope.saved = fn;
 					$location.path("/layouts/"+fn);
 					$location.hash("");
 					$scope.saveError = "";
-				}).error(function(data, status) {
-					if(status == 0) {
-						// We seem to get a 'cancelled' notification even though the POST 
-						// is successful, so we have to double-check.
-						$http.get(base_href+"/layouts/"+fn).success(function() { 
-							$scope.dirty = false; 
-							$scope.saved = fn;
-							$location.path("/layouts/"+fn);
-							$location.hash("");
-							$scope.saveError = "";
-						}).error(function(data, status) {
-							$scope.saved = false;
-							$scope.saveError = status.toString() + " - " + data.toString();
-						});
-					} else {
-						$scope.saved = false;
-						$scope.saveError = status.toString() + " - " + data.toString();
-					}
-				});
-			});
+				},
+				function(data,status) { 
+					// error
+					$scope.saved = false;
+					$scope.saveError = status.toString() + " - " + data.toString();
+				}
+			);
 		}
 		$scope.save = function(event) {
 			if(event) {
@@ -237,7 +199,7 @@
 				$scope.deserializeAndRender($serial.fromJsonL(loc));
 			}
 		} else if($location.path()[0] === '/') {
-			$http.get(base_href + $location.path()).success(function(data) {
+			$http.get($serial.base_href + $location.path()).success(function(data) {
 				$scope.deserializeAndRender(data);
 				updateSerialized();
 			}).error(function() {
