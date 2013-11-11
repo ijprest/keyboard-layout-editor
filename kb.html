@@ -40,12 +40,12 @@ All rights reserved.
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="#"><i class="icon-keyboard"></i> keyboard-layout-editor.com</a>		
+		<a class="navbar-brand" href="#"><i class="fa fa-keyboard-o"></i> keyboard-layout-editor.com</a>		
 	</div>
 	
 	<ul class="nav navbar-nav">
 		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-keyboard"></i> Preset <b class="caret"></b></a>
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-keyboard-o"></i> Preset <b class="caret"></b></a>
 			<ul class="dropdown-menu">
 				<li ng-repeat="(k,v) in layouts"><a ng-click="loadPreset(v)" href="#">{{k}}</a></li>
 				<li class="divider" ng-class="{hidden: !specialKeys}"></li>
@@ -54,7 +54,7 @@ All rights reserved.
 		</li>
 		
 		<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-th"></i> Color Swatches <b class="caret"></b></a>
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-th"></i> Color Swatches <b class="caret"></b></a>
 			<ul class="dropdown-menu">
 				<li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
 			</ul>
@@ -63,7 +63,7 @@ All rights reserved.
 	
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav navbar-right">
-			<li><a ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false"><i class="icon-link"></i> Permalink</a></li>
+			<li><a ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false"><i class="fa fa-link"></i> Permalink</a></li>
 		</ul>
 	</div>
 </nav>
@@ -71,7 +71,7 @@ All rights reserved.
 <div class="body">
 	
 	<div class="btn-group">
-		<button type="button" class="btn btn-primary" ng-click="addKey()"><i class="glyphicon glyphicon-plus-sign"></i> Add Key</button>
+		<button type="button" class="btn btn-primary" ng-click="addKey()"><i class="fa fa-plus-circle"></i> Add Key</button>
 		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 			<span class="caret"></span>
 		</button>
@@ -85,19 +85,19 @@ All rights reserved.
 		</ul>
 	</div>
 	<div class="btn-group">
-		<button type="button" class="btn btn-danger" ng-class="{disabled:selectedKeys.length<1}" ng-click="deleteKeys()"><i class="glyphicon glyphicon-remove-sign"></i> Delete Keys</button>		
+		<button type="button" class="btn btn-danger" ng-class="{disabled:selectedKeys.length<1}" ng-click="deleteKeys()"><i class="fa fa-minus-circle"></i> Delete Keys</button>		
 	</div>
 	<div class="btn-group">
-		<button type="button" class="btn btn-default" ng-class="{disabled:!canUndo()}" ng-click="undo()"><i class="icon-undo"></i> Undo</button>
-		<button type="button" class="btn btn-default" ng-class="{disabled:!canRedo()}" ng-click="redo()"><i class="icon-repeat"></i> Redo</button>
+		<button type="button" class="btn btn-default" ng-class="{disabled:!canUndo()}" ng-click="undo()"><i class="fa fa-undo"></i> Undo</button>
+		<button type="button" class="btn btn-default" ng-class="{disabled:!canRedo()}" ng-click="redo()"><i class="fa fa-repeat"></i> Redo</button>
 	</div>
 	<div class="btn-group">
-		<button type="button" class="btn btn-default" ng-class="{disabled:!canCopy()}" ng-click="cut()"><i class="icon-cut"></i> Cut</button>
-		<button type="button" class="btn btn-default" ng-class="{disabled:!canCopy()}" ng-click="copy()"><i class="icon-copy"></i> Copy</button>
-		<button type="button" class="btn btn-default" ng-class="{disabled:!canPaste()}" ng-click="paste()"><i class="icon-paste"></i> Paste</button>
+		<button type="button" class="btn btn-default" ng-class="{disabled:!canCopy()}" ng-click="cut()"><i class="fa fa-cut"></i> Cut</button>
+		<button type="button" class="btn btn-default" ng-class="{disabled:!canCopy()}" ng-click="copy()"><i class="fa fa-copy"></i> Copy</button>
+		<button type="button" class="btn btn-default" ng-class="{disabled:!canPaste()}" ng-click="paste()"><i class="fa fa-paste"></i> Paste</button>
 	</div>
 	<div class="btn-group pull-right">
-		<button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()"><i class="icon-save"></i> Save</button>
+		<button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()"><i class="fa fa-save"></i> Save</button>
 	</div>
 	<div id="keyboard" 
 		 tabindex="0" 
@@ -141,9 +141,9 @@ All rights reserved.
 	<div id="selectionRectangle" ng-style="{display:selRect.display, left:selRect.l+'px', width:selRect.w+'px', top:selRect.t+'px', height:selRect.h+'px'}"></div>
 	
 	<ul class="nav nav-tabs">
-		<li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab"><i class="icon-edit"></i> Properties</a></li>
-		<li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="icon-keyboard"></i> Keyboard Properties</a></li>
-		<li ng-class="{active:selTab==2}"><a ng-click="selTab=2" data-toggle="tab"><i class="icon-code"></i> Raw data</a></li>
+		<li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab"><i class="fa fa-edit"></i> Properties</a></li>
+		<li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="fa fa-keyboard-o"></i> Keyboard Properties</a></li>
+		<li ng-class="{active:selTab==2}"><a ng-click="selTab=2" data-toggle="tab"><i class="fa fa-code"></i> Raw data</a></li>
 	</ul>
 	<div class='tab-content' ui-keydown="{esc:'focusKb()'}">
 		<!-- PROPERTIES EDITOR -->
@@ -256,7 +256,7 @@ All rights reserved.
 							<input type='color' class="colorpicker" ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
 						</div>
 						<div class="color-name">{{colorName(multi.color)}}</div>
-						<button id="swap-colors" class="btn btn-default hint--top hint--rounded" ng-click="swapColors()" ng-disabled="selectedKeys.length<1" data-hint="Swap the text and keycap colors."><i class="icon-random"></i></button>
+						<button id="swap-colors" class="btn btn-default hint--top hint--rounded" ng-click="swapColors()" ng-disabled="selectedKeys.length<1" data-hint="Swap the text and keycap colors."><i class="fa fa-random"></i></button>
 					</div>
 				</div>
 				<div class="control-group">
@@ -294,7 +294,7 @@ All rights reserved.
 					</li>
 				</ul>
 				<div class="alert alert-warning alert-dismissable" style="margin-top:10px;"><a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
-					<i class="icon-exclamation-sign"></i>
+					<i class="fa fa-info-circle"></i>
 					Click on a swatch to set the color of the selected key(s), or Ctrl+Click to set the text color.
 				</div>
 			</div>
@@ -344,9 +344,9 @@ All rights reserved.
 		All rights reserved.
 	</p>
 	<div style="float:right; text-alignment:right;">
-		<a href="#" ng-click="showHelp($event)"><i class="icon-keyboard"></i> Keyboard shortcuts available</a><br/>
-		<a href="https://github.com/ijprest/keyboard-layout-editor/issues" target="_blank"><i class="icon-bug"></i> Found a bug?</a><br/>
-		<a href="https://github.com/ijprest/keyboard-layout-editor" target="_blank"><i class="icon-github"></i> Code hosted on GitHub</a><br/>
+		<a href="#" ng-click="showHelp($event)"><i class="fa fa-keyboard-o"></i> Keyboard shortcuts available</a><br/>
+		<a href="https://github.com/ijprest/keyboard-layout-editor/issues" target="_blank"><i class="fa fa-bug"></i> Found a bug?</a><br/>
+		<a href="https://github.com/ijprest/keyboard-layout-editor" target="_blank"><i class="fa fa-github"></i> Code hosted on GitHub</a><br/>
 	</div>
 </div>
 </div>	
