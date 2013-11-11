@@ -167,7 +167,7 @@
 		$scope.calcKbHeight = function() {
 			var bottom = 0;
 			$scope.keys().forEach(function(key) {
-				bottom = Math.max(bottom, key.rectTrans.y2);
+				bottom = Math.max(bottom, key.bbox.y2);
 			});
 			$scope.kbHeight = bottom + 8;
 		};
@@ -683,10 +683,8 @@
 					// Iterate over all the keys
 					$scope.keys().forEach(function(key) {
 						// Check to see if the key is *entirely within* the marquee rectangle
-						if( key.rect.x >= $scope.selRect.l && key.rect.x+key.rect.w <= $scope.selRect.l+$scope.selRect.w &&
-							key.rect.y >= $scope.selRect.t && key.rect.y+key.rect.h <= $scope.selRect.t+$scope.selRect.h &&
-							key.rect2.x >= $scope.selRect.l && key.rect2.x+key.rect2.w <= $scope.selRect.l+$scope.selRect.w &&
-							key.rect2.y >= $scope.selRect.t && key.rect2.y+key.rect2.h <= $scope.selRect.t+$scope.selRect.h )
+						if( key.bbox.x >= $scope.selRect.l && key.bbox.x+key.bbox.w <= $scope.selRect.l+$scope.selRect.w &&
+							key.bbox.y >= $scope.selRect.t && key.bbox.y+key.bbox.h <= $scope.selRect.t+$scope.selRect.h )
 						{
 							// Key is inside the rectangle; select it (if not already selected).
 							if($scope.selectedKeys.indexOf(key) < 0) {
@@ -703,11 +701,17 @@
 					// The marquee wasn't displayed, so we're doing a single-key selection; 
 					// iterate over all the keys.
 					$scope.keys().forEach(function(key) {
+						// Rotate the mouse coordinates into transformed key-space, if necessary
+						var pt = { x:event.pageX-offsetx, y:event.pageY-offsety };
+						if(key.rotation_angle) {
+							pt = key.mat.transformPt(pt);
+						}
+
 						// Just check to see if the mouse click is within any key rectangle
-						if( (key.rect.x <= event.pageX-offsetx && key.rect.x+key.rect.w >= event.pageX-offsetx &&
-							 key.rect.y <= event.pageY-offsety && key.rect.y+key.rect.h >= event.pageY-offsety) ||
-							(key.rect2.x <= event.pageX-offsetx && key.rect2.x+key.rect2.w >= event.pageX-offsetx &&
-							 key.rect2.y <= event.pageY-offsety && key.rect2.y+key.rect2.h >= event.pageY-offsety) )
+						if( (key.rect.x <= pt.x && key.rect.x+key.rect.w >= pt.x &&
+							 key.rect.y <= pt.y && key.rect.y+key.rect.h >= pt.y) ||
+							(key.rect2.x <= pt.x && key.rect2.x+key.rect2.w >= pt.x &&
+							 key.rect2.y <= pt.y && key.rect2.y+key.rect2.h >= pt.y) )
 						{
 							selectKey(key, {ctrlKey:event.ctrlKey, altKey:event.altKey, shiftKey:event.shiftKey});
 						}

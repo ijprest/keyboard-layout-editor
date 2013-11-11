@@ -103,10 +103,10 @@ var $renderKey = {};
 		// Rotation matrix about the origin
 		var origin_x = sizes.capsize(key.rotation_x)+sizes.margin;
 		var origin_y = sizes.capsize(key.rotation_y)+sizes.margin;
-		var mat = Math.transMatrix(origin_x, origin_y).mult(Math.rotMatrix(key.rotation_angle)).mult(Math.transMatrix(-origin_x, -origin_y));
+		key.mat = Math.transMatrix(origin_x, origin_y).mult(Math.rotMatrix(key.rotation_angle)).mult(Math.transMatrix(-origin_x, -origin_y));
 
 		// Construct the *eight* corner points, transform them, and determine the transformed bbox.
-		key.rectTrans = { x:9999999, y:9999999, x2:-9999999, y2:-9999999 };
+		key.bbox = { x:9999999, y:9999999, x2:-9999999, y2:-9999999 };
 		var corners = [ 
 			{x:key.rect.x, y:key.rect.y}, 
 			{x:key.rect.x, y:key.rect.y2}, 
@@ -118,22 +118,26 @@ var $renderKey = {};
 			{x:key.rect2.x2, y:key.rect2.y2},
 		];
 		for(var i = 0; i < corners.length; ++i) {
-			corners[i] = mat.transformPt(corners[i]); 
-			key.rectTrans.x = Math.min(key.rectTrans.x, corners[i].x);
-			key.rectTrans.y = Math.min(key.rectTrans.y, corners[i].y);
-			key.rectTrans.x2 = Math.max(key.rectTrans.x2, corners[i].x);
-			key.rectTrans.y2 = Math.max(key.rectTrans.y2, corners[i].y);
+			corners[i] = key.mat.transformPt(corners[i]); 
+			key.bbox.x = Math.min(key.bbox.x, corners[i].x);
+			key.bbox.y = Math.min(key.bbox.y, corners[i].y);
+			key.bbox.x2 = Math.max(key.bbox.x2, corners[i].x);
+			key.bbox.y2 = Math.max(key.bbox.y2, corners[i].y);
 		}
-		key.rectTrans.w = key.rectTrans.x2 - key.rectTrans.x;
-		key.rectTrans.h = key.rectTrans.y2 - key.rectTrans.y;
+		key.bbox.w = key.bbox.x2 - key.bbox.x;
+		key.bbox.h = key.bbox.y2 - key.bbox.y;
 
+		// Keep an inverse transformation matrix so that we can transform mouse
+		// coordinates into key-space.
+		key.mat = Math.transMatrix(origin_x, origin_y).mult(Math.rotMatrix(-key.rotation_angle)).mult(Math.transMatrix(-origin_x, -origin_y));
+
+		// Determine the location of the rotation crosshairs for the key
 		key.crosshairs = "none";
 		if(key.rotation_x || key.rotation_y || key.rotation_angle) {
 			key.crosshairs_x = sizes.capsize(key.rotation_x) + sizes.margin;
 			key.crosshairs_y = sizes.capsize(key.rotation_y) + sizes.margin;
 			key.crosshairs = "block";
 		}
-
 		return html;
 	};
 }());
