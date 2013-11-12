@@ -32,7 +32,7 @@
 		$scope.meta = {};
 
 		// The keyboard data
-		$scope.keyboard = { keys: [] };
+		$scope.keyboard = { keys: [], meta: {} };
 		$scope.keys = function(newKeys) { if(newKeys) { $scope.keyboard.keys = newKeys; } return $scope.keyboard.keys; };
 
 		// Helper function to select/deselect all keys
@@ -551,7 +551,11 @@
 				ypos = $scope.multi.y;
 				if(xpos >= 23) { xpos = 0; ypos++; }
 			} else {
-				$scope.keys().forEach(function(key) { ypos = Math.max(ypos,key.y); });
+				$scope.keys().forEach(function(key) { 
+					if(key.rotation_angle == $scope.multi.rotation_angle && key.rotation_x == $scope.multi.rotation_x && key.rotation_y == $scope.multi.rotation_y) {
+						ypos = Math.max(ypos,key.y); 
+					}
+				});
 				ypos++;
 			}
 			return {x:xpos, y:ypos};
@@ -566,6 +570,9 @@
 					newKey.color = $scope.multi.color;
 					newKey.text = $scope.multi.text;
 					newKey.profile = $scope.multi.profile;
+					newKey.rotation_angle = $scope.multi.rotation_angle;
+					newKey.rotation_x = $scope.multi.rotation_x;
+					newKey.rotation_y = $scope.multi.rotation_y;
 				}
 				$.extend(newKey, proto);
 				newKey.x += pos.x;

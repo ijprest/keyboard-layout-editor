@@ -31,96 +31,102 @@ var $serial = {};
 		});
 	};
 
-	$serial.defaultKeyProps = function() {
-		return {
-			x: 0, y: 0, x2: 0, y2: 0,								// position
-			width: 1, height: 1, width2: 1, height2: 1,				// size
-			color: "#cccccc", text: "#000000",						// colors
-			labels:[], align: 4, fontheight: 3, fontheight2: 3,		// label properties	
-			rotation_angle: 0, rotation_x: 0, rotation_y: 0,		// rotation
-			profile: "", nub: false, ghost: false, stepped: false	// misc
-		};
+	var _defaultKeyProps = {
+		x: 0, y: 0, x2: 0, y2: 0,								// position
+		width: 1, height: 1, width2: 1, height2: 1,				// size
+		color: "#cccccc", text: "#000000",						// colors
+		labels:[], align: 4, fontheight: 3, fontheight2: 3,		// label properties	
+		rotation_angle: 0, rotation_x: 0, rotation_y: 0,		// rotation
+		profile: "", nub: false, ghost: false, stepped: false	// misc
 	};
+	var _defaultMetaData = { backcolor: '#eeeeee' };
+	$serial.defaultKeyProps = function() { return angular.copy(_defaultKeyProps); };
+	$serial.defaultMetaData = function() { return angular.copy(_defaultMetaData); };
 	
 	// Convert between our in-memory format & our serialized format
+	function serializeProp(props, nname, val, defval) { if(val !== defval) { props[nname] = val; } return val; }
 	$serial.serialize = function(keyboard) {
 		var keys = keyboard.keys;
 		var rows = [], row = [];
 		var current = $serial.defaultKeyProps();
-		var rowmeta = {r:0,rx:0,ry:0};
-		var lastrowmeta = angular.copy(rowmeta);
-		if(keyboard.meta) {
-			var meta = angular.copy(keyboard.meta); 
-			if(meta.backcolor === '#eeeeee') { delete meta.backcolor; }
-			if(!$.isEmptyObject(meta)) {
-				rows.push(meta);
-			}
-		}
-		function pushRow() {
-			if(rowmeta.r != lastrowmeta.r || rowmeta.rx != lastrowmeta.rx || rowmeta.ry != lastrowmeta.ry) {
-				rows.push(rowmeta);
-				lastrowmeta = angular.copy(rowmeta);
-			}
-			rows.push(row);
-			current.y++; 
-			current.x = rowmeta.rx;
-			row = []; 
-		};
+		var cluster = {r:0, rx:0, ry:0};
 
+		// Serialize metadata
+		var meta = {};
+		for(var metakey in keyboard.meta) {
+			serializeProp(meta, metakey, keyboard.meta[metakey], _defaultMetaData[metakey]);
+		}
+		if(!$.isEmptyObject(meta)) {
+			rows.push(meta);
+		}
+
+		// Serialize row/key-data
 		$serial.sortKeys(keys);
 		keys.forEach(function(key) {
 			var props = {};
 			var label = key.labels.join("\n").trimEnd();
 
 			// start a new row when necessary
-			if((row.length>0) && (key.y !== current.y || key.rotation_angle != rowmeta.r || key.rotation_x != rowmeta.rx || key.rotation_y != rowmeta.ry)) { 
-				pushRow();
+			if(row.length>0 && (key.y !== current.y || key.rotation_angle != cluster.r || key.rotation_x != cluster.rx || key.rotation_y != cluster.ry)) { 
+				// Push the old row
+				rows.push(row);
+				row = [];
+
+				// Set up for the new row
+				if(key.rotation_angle != cluster.r || key.rotation_x != cluster.rx || key.rotation_y != cluster.ry) {
+					cluster.r = key.rotation_angle;
+					cluster.rx = key.rotation_x;
+					cluster.ry = key.rotation_y;					
+					current.x = cluster.rx;
+					current.y = cluster.ry;
+				} else {
+					current.x = cluster.rx;
+					current.y++;
+				}
 			}
 
-			if(key.rotation_angle != rowmeta.r) { rowmeta.r = key.rotation_angle; }
-			if(key.rotation_x != rowmeta.rx) { current.x = rowmeta.rx = key.rotation_x; }
-			if(key.rotation_y != rowmeta.ry) { current.y = rowmeta.ry = key.rotation_y; }
-
-			function serializeProp(nname,val,defval) { 
-				if(val !== defval) { 
-					props[nname] = val; 
-				} 
-				return val; 
-			}
-
-			current.y += serializeProp("y", key.y-current.y, 0);
-			current.x += serializeProp("x", key.x-current.x, 0) + key.width;
-			current.color = serializeProp("c", key.color, current.color);
-			current.text = serializeProp("t", key.text, current.text);
-			current.ghost = serializeProp("g", key.ghost, current.ghost);
-			current.profile = serializeProp("p", key.profile, current.profile);
-			current.align = serializeProp("a", key.align, current.align);
+			current.rotation_angle = serializeProp(props, "r", key.rotation_angle, current.rotation_angle);
+			current.rotation_x = serializeProp(props, "rx", key.rotation_x, current.rotation_x);
+			current.rotation_y = serializeProp(props, "ry", key.rotation_y, current.rotation_y);
+			current.y += serializeProp(props, "y", key.y-current.y, 0);
+			current.x += serializeProp(props, "x", key.x-current.x, 0) + key.width;
+			current.color = serializeProp(props, "c", key.color, current.color);
+			current.text = serializeProp(props, "t", key.text, current.text);
+			current.ghost = serializeProp(props, "g", key.ghost, current.ghost);
+			current.profile = serializeProp(props, "p", key.profile, current.profile);
+			current.align = serializeProp(props, "a", key.align, current.align);
 			if(key.fontheight != current.fontheight) {
-				current.fontheight = serializeProp("f", key.fontheight, current.fontheight);
-				current.fontheight2 = serializeProp("f2", key.fontheight2, current.fontheight);
+				current.fontheight = serializeProp(props, "f", key.fontheight, current.fontheight);
+				current.fontheight2 = serializeProp(props, "f2", key.fontheight2, current.fontheight);
 			} else {
-				current.fontheight2 = serializeProp("f2", key.fontheight2, current.fontheight2);
+				current.fontheight2 = serializeProp(props, "f2", key.fontheight2, current.fontheight2);
 			}
-			serializeProp("w", key.width, 1);
-			serializeProp("h", key.height, 1);
-			serializeProp("w2", key.width2, key.width);
-			serializeProp("h2", key.height2, key.height);
-			serializeProp("x2", key.x2, 0);
-			serializeProp("y2", key.y2, 0);
-			serializeProp("n", key.nub || false, false);
-			serializeProp("l", key.stepped || false, false);
+			serializeProp(props, "w", key.width, 1);
+			serializeProp(props, "h", key.height, 1);
+			serializeProp(props, "w2", key.width2, key.width);
+			serializeProp(props, "h2", key.height2, key.height);
+			serializeProp(props, "x2", key.x2, 0);
+			serializeProp(props, "y2", key.y2, 0);
+			serializeProp(props, "n", key.nub || false, false);
+			serializeProp(props, "l", key.stepped || false, false);
 			if(!jQuery.isEmptyObject(props)) { row.push(props); }
 			row.push(label);
 		});
-		if(row.length>0) { pushRow(); }
+		if(row.length>0) {
+			rows.push(row);
+		}
 		return rows;
 	}
 
+	function dserializeError(msg,data) {
+		throw "Error: " + msg + (data ? (":\n  " + $serial.toJsonL(data)) : "");
+	}
 	$serial.deserialize = function(rows) {
 		// Initialize with defaults
 		var current = $serial.defaultKeyProps();
 		var meta = { backcolor: "#eeeeee" };
 		var keys = [];
+		var cluster = { x: 0, y: 0 };
 		for(var r = 0; r < rows.length; ++r) {
 			if(rows[r] instanceof Array) {
 				for(var k = 0; k < rows[r].length; ++k) {
@@ -138,6 +144,9 @@ var $serial = {};
 						current.x2 = current.y2 = current.width2 = current.height2 = 0;
 						current.nub = current.stepped = false;
 					} else {
+						if(key.r != null) { if(k!=0) {dserializeError("'r' can only be used on the first key in a row", key);} current.rotation_angle = key.r; }
+						if(key.rx != null) { if(k!=0) {dserializeError("'rx' can only be used on the first key in a row", key);} current.rotation_x = cluster.x = key.rx; $.extend(current, cluster); }
+						if(key.ry != null) { if(k!=0) {dserializeError("ry' can only be used on the first key in a row", key);} current.rotation_y = cluster.y = key.ry; $.extend(current, cluster); }
 						if(key.a != null) { current.align = key.a; }
 						if(key.f) { current.fontheight = current.fontheight2 = key.f; }
 						if(key.f2) { current.fontheight2 = key.f2; }
@@ -157,12 +166,14 @@ var $serial = {};
 						if(key.g != null) { current.ghost = key.g; }
 					}
 				}
+
 				// End of the row
 				current.y++;
 			} else if(typeof rows[r] === 'object') {
+				if(r != 0) { throw "Error: keyboard metadata must the be first element:\n  "+$serial.toJsonL(rows[r]); }
 				$.extend(meta, rows[r]);
 			}
-			current.x = 0;
+			current.x = current.rotation_x;
 		}
 		return { meta:meta, keys:keys };
 	}
