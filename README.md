@@ -19,7 +19,7 @@ is an attempt to render these custom keycap sets as accurately as possible
 History
 -------
 
-___Version 0.10:___ (not yet released)
+___Version 0.10:___ Nov 12, 2013
 * Added support for rotated key clusters.
   * Each key has a rotation angle and center-of-rotation.
   * Keys with the same angle/CoR are grouped together into a "custer" for the
