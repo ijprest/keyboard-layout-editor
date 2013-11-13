@@ -20,6 +20,19 @@ History
 -------
 
 ___Version 0.10:___ (not yet released)
+* Added support for rotated key clusters.
+  * Each key has a rotation angle and center-of-rotation.
+  * Keys with the same angle/CoR are grouped together into a "custer" for the
+    purposes of sorting the keys, and in the serialized format; e.g., 
+    navigating to the next/previous key will go through all the keys in the 
+    current cluster before moving on to the next cluster.
+  * Crosshairs-indicator displays in the editor to let you know where your 
+    center-of-rotation is.
+  * Keyboard:  Ctrl+Arrows to modify the center-of-rotation; PgUp/PgDn to 
+    modify the rotation angle.
+  * __CAUTION:__ it's really easy to get confused, and end up with keys 
+    outside the visible area; I recommend setting your center-of-rotation 
+    _before_ rotating the keys.  But you can always "undo" if you mess up.
 * Added rendering rules for the SA keycap profile.
   * Currently renders exactly like DSA.
 * Fixed the rendering of profile-gradients on non-rectangular keys.
@@ -27,6 +40,7 @@ ___Version 0.10:___ (not yet released)
   * Works about as well as possible on DSA/SA. Doesn't look jarring, at least.
 * Added a "center-stepped" key to the "Add Key" dropdown menu.
 * Some performance improvements.
+* Added a new preset: ErgoDox
 * Added a new sample: Symbolics PN 364000
 * Fixed the usual smattering of bugs, and no doubt introduced a bunch more...
 
