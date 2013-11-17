@@ -1,0 +1,20 @@
+Open($1);
+
+Select(0uE600); Import("font-src/logo-windows-7.svg",0,16);
+Select(0uE601); Import("font-src/logo-windows-8.svg",0,16);
+Select(0uE602); Import("font-src/logo-apple.svg",0,16);
+Select(0uE603); Import("font-src/logo-apple-outline.svg",0,16);
+Select(0uE604); Import("font-src/logo-vim.svg",0,16);
+Select(0uE605); Import("font-src/logo-commodore.svg",0,16);
+Select(0uE606); Import("font-src/logo-amiga.svg",0,16);
+Select(0uE607); Import("font-src/logo-ubuntu_cof.svg",0,16);
+Select(0uE608); Import("font-src/logo-ubuntu_cof-circle.svg",0,16);
+Select(0uE609); Import("font-src/logo-linux-tux.svg",0,16);
+Select(0uE60A); Import("font-src/logo-linux-tux-ibm.svg",0,16);
+Select(0uE60B); Import("font-src/logo-linux-tux-ibm-invert.svg",0,16);
+
+Select(0uE700); Import("font-src/community-hapster.svg",0,16);
+Select(0uE701); Import("font-src/community-awesome.svg",0,16);
+Select(0uE702); Import("font-src/community-awesome-invert.svg",0,16);
+
+Generate($2);
