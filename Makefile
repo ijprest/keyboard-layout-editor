@@ -38,4 +38,4 @@ fonts/$(1): font-src/$(basename $(1)).sfd font-src/$(basename $(1)).pe $(2)
 endef
 CUSTOM_FONT = $(eval $(call _CUSTOM_FONT,$(1).ttf,$(2)))$(eval $(call _CUSTOM_FONT,$(1).eot,$(2)))$(eval $(call _CUSTOM_FONT,$(1).svg,$(2)))$(eval $(call _CUSTOM_FONT,$(1).woff,$(2)))
 
-$(call CUSTOM_FONT,kbd-custom)
+$(call CUSTOM_FONT,kbd-custom,$(kbd-custom-glyphs))
