@@ -97,10 +97,16 @@ All rights reserved.
 		<button type="button" class="btn btn-default" ng-class="{disabled:!canPaste()}" ng-click="paste()"><i class="fa fa-paste"></i> Paste</button>
 	</div>
 	<div class="btn-group pull-right">
-		<button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()"><i class="fa fa-save"></i> Save</button>
-	</div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()"><i class="fa fa-save"></i> Save</button>
+    </div>
+    <div class="btn-group">
+      <button type="button" class="btn btn-default" ng-click="renderSvg = !renderSvg">SVG</button>
+    </div>
+  </div>
 	<div id="keyboard" 
 		 tabindex="0" 
+     ng-hide="renderSvg"
 		 ng-style="{height: kbHeight + 'px', 'background-color': keyboard.meta.backcolor}" 
 		 ui-keydown="{ left:'moveKeys(-.25,0,$event)', 
 					 right:'moveKeys(.25,0,$event)', 
@@ -141,8 +147,17 @@ All rights reserved.
 			 ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0}"
 			 ng-bind-html="key.html">
 		</div>
+  </div>
+
+  <svg width="1000" height="1000" ng-show="renderSvg">
+    <g ng-repeat="key in keys()" 
+			 ng-mouseover="hoveredKey=key" 
+			 ng-mouseleave="hoveredKey=null" 
+			 ng-bind-html="key.svg">
+		</g>
+  </svg>
 	
-		<div style='clear:both'></div>
+  <div style='clear:both'></div>
 		{{calcKbHeight()}}
 	</div>
 	<div id="selectionRectangle" ng-style="{display:selRect.display, left:selRect.l+'px', width:selRect.w+'px', top:selRect.t+'px', height:selRect.h+'px'}"></div>

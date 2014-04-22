@@ -35,6 +35,8 @@
 		$scope.keyboard = { keys: [], meta: {} };
 		$scope.keys = function(newKeys) { if(newKeys) { $scope.keyboard.keys = newKeys; } return $scope.keyboard.keys; };
 
+    $scope.renderSvg = false;
+
 		// Helper function to select/deselect all keys
 		$scope.unselectAll = function() {
 			$scope.selectedKeys = [];
@@ -174,8 +176,19 @@
 
 		// Given a key, generate the HTML needed to render it	
 		$scope.rotationStyle = $renderKey.getKeyRotationStyles;
+
+    $scope.$watch('renderSvg', function(newV, oldV) {
+      console.log('toggle redraw:', $scope.renderSvg);
+    });
+
 		function renderKey(key) {
+      if ($scope.renderSvg) {
+        console.log('render svg');
+      } else {
+        console.log('render something else');
+      }
 			key.html = $sce.trustAsHtml($renderKey.html(key,$sanitize));
+			key.svg = $sce.trustAsHtml($renderKey.svg(key,$sanitize));
 		}
 
 		$scope.deserializeAndRender = function(data) {

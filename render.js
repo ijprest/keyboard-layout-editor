@@ -140,4 +140,34 @@ var $renderKey = {};
 		}
 		return html;
 	};
+
+	var hole_sizes = { cap: 19.05, margin: 0, gutter: 1, hole: 14 };
+	hole_sizes.origin = function(size) { return (size* (hole_sizes.cap + hole_sizes.gutter))};
+	hole_sizes.offset = function(size) { return (size*hole_sizes.cap)/2.0 - (hole_sizes.hole/2.0) + (size * hole_sizes.gutter/2.0)};
+
+	$renderKey.svg = function(key, $sanitize) {
+		var svg = "";
+		var capwidth = hole_sizes.cap * key.width;
+		var capheight = hole_sizes.cap * key.height;
+		var capx = hole_sizes.origin(key.x) + hole_sizes.margin +  (hole_sizes.gutter * key.width)/2.0; 
+		var capy = hole_sizes.origin(key.y) + hole_sizes.margin +  (hole_sizes.gutter * key.height)/2.0; 
+		var holex = hole_sizes.origin(key.x) + hole_sizes.margin + hole_sizes.offset(key.width); 
+		var holey = hole_sizes.origin(key.y) + hole_sizes.margin + hole_sizes.offset(key.height); 
+
+		var darkColor = key.color;
+		var lightColor = lightenColor($color.hex(key.color), 1.2).hex();
+		var borderStyle = "keyborder", bgStyle = "keybg";
+
+		key.centerx = key.align&1 ? true : false;
+		key.centery = key.align&2 ? true : false;
+		key.centerf = key.align&4 ? true : false;
+
+		// The hole
+		svg += '<rect width="{0}" height="{1}" x="{2}" y="{3}" stroke="black" stroke-width=".1mm" fill="{4}"/>\n'
+					.format( hole_sizes.hole,  hole_sizes.hole,  holex,      holey, darkColor);
+    // the outline of the cap edge.
+		svg += '<rect width="{0}" height="{1}" x="{2}" y="{3}" stroke="black" stroke-width=".1mm" fill="none"/>\n'
+					.format( capwidth,  capheight,  capx,      capy);
+		return svg;
+	}; 
 }());
