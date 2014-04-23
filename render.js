@@ -144,6 +144,9 @@ var $renderKey = {};
 	var hole_sizes = { cap: 19.05, margin: 0, gutter: 1, hole: 14 };
 	hole_sizes.origin = function(size) { return (size* (hole_sizes.cap + hole_sizes.gutter))};
 	hole_sizes.offset = function(size) { return (size*hole_sizes.cap)/2.0 - (hole_sizes.hole/2.0) + (size * hole_sizes.gutter/2.0)};
+  hole_sizes.cap_center = function(size) { return((size * hole_sizes.cap + size*hole_sizes.gutter/2.0)/2.0)}
+
+	sizes.capsize = function(size) { return (size*sizes.cap) - (2*sizes.spacing); };
 
 	$renderKey.svg = function(key, $sanitize) {
 		var svg = "";
@@ -163,11 +166,13 @@ var $renderKey = {};
 		key.centerf = key.align&4 ? true : false;
 
 		// The hole
-		svg += '<rect width="{0}" height="{1}" x="{2}" y="{3}" stroke="black" stroke-width=".1mm" fill="{4}"/>\n'
-					.format( hole_sizes.hole,  hole_sizes.hole,  holex,      holey, darkColor);
+		svg += '<rect transform="translate({0} {1}) rotate({2} 7 7)" width="{3}" height="{3}" x="0" y="0" stroke="black" stroke-width=".1mm" fill="{4}"/>\n'
+					.format( holex, holey, key.rotation_angle, hole_sizes.hole, darkColor);
     // the outline of the cap edge.
-		svg += '<rect width="{0}" height="{1}" x="{2}" y="{3}" stroke="black" stroke-width=".1mm" fill="none"/>\n'
-					.format( capwidth,  capheight,  capx,      capy);
+		svg += '<rect transform="translate({0}, {1}) rotate({2} {3} {4})" width="{5}" height="{6}" x="0" y="0" stroke="black" stroke-width=".1mm" fill="none"/>\n'
+					.format( capx, capy, 
+              key.rotation_angle, hole_sizes.cap_center(key.width), hole_sizes.cap_center(key.height), 
+              capwidth,  capheight);
 		return svg;
 	}; 
 }());
