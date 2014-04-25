@@ -1,3 +1,18 @@
+This fork
+=========
+This is a fork of the keyboard layout editor that allows easy export of 
+layouts as SVGs, ready to be cut/milled/whatever.  By default, it renders
+holes for the keyswitches compatible with CherryMX switches, with an option
+for the flanged holes that allow enthusiasts to modify their springs.
+
+However, the complications with spacebars, etc., make it very challenging to
+support all possible arrangements.  Still remaining/to be implemented:
+
+* Stepped Keys
+* Spacebar options
+* ISO style enter
+* stabilizers for keys larger than some number of units.
+
 keyboard-layout-editor
 ======================
 
