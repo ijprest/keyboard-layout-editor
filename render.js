@@ -6,6 +6,11 @@ var $renderKey = {};
 	var sizes = { cap: 54, padding: 2, margin: 6, spacing: 1 };
 	sizes.capsize = function(size) { return (size*sizes.cap) - (2*sizes.spacing); };
 
+  var magicShape = ("M{0} {1} h1 v-1 h3.5 v1 h5.05 v-1 h3.5 v1 h1" + // top contour
+                             "v1 h1 v3.5 h-1 v5.05 h1 v3.5 h-1 v1" + // right
+                             "h-1 v1 h-3.5 v-1 h-5.05 v1 h-3.5 v-1 h-1" + //bottom
+                             "v-1 h-1 v-3.5 h1 v-5.05 h-1 v-3.5 h1 v-1");
+
 	// Lighten a color by the specified amount
 	function lightenColor(color,mod) { 
 		var c = $color.sRGB8(color.r,color.g,color.b).Lab();
@@ -141,19 +146,19 @@ var $renderKey = {};
 		return html;
 	};
 
-	var hole_sizes = { cap: 19.05, margin: 0, gutter: 1, hole: 14 };
+	var hole_sizes = { cap: 19.05, margin: 20, gutter: 1, hole: 14 };
 	hole_sizes.origin = function(size) { return (size* (hole_sizes.cap + hole_sizes.gutter))};
 	hole_sizes.offset = function(size) { return (size*hole_sizes.cap)/2.0 - (hole_sizes.hole/2.0) + (size * hole_sizes.gutter/2.0)};
   hole_sizes.cap_center = function(size) { return((size * hole_sizes.cap + size*hole_sizes.gutter/2.0)/2.0)}
 
 	sizes.capsize = function(size) { return (size*sizes.cap) - (2*sizes.spacing); };
 
-	$renderKey.svg = function(key, $sanitize) {
+	$renderKey.svg = function(key, fancy, $sanitize) {
 		var svg = "";
 		var capwidth = hole_sizes.cap * key.width;
 		var capheight = hole_sizes.cap * key.height;
-		var capx = hole_sizes.origin(key.x) + hole_sizes.margin +  (hole_sizes.gutter * key.width)/2.0; 
-		var capy = hole_sizes.origin(key.y) + hole_sizes.margin +  (hole_sizes.gutter * key.height)/2.0; 
+		var capx = hole_sizes.origin(key.x) + hole_sizes.margin; 
+		var capy = hole_sizes.origin(key.y) + hole_sizes.margin; 
 		var holex = hole_sizes.origin(key.x) + hole_sizes.margin + hole_sizes.offset(key.width); 
 		var holey = hole_sizes.origin(key.y) + hole_sizes.margin + hole_sizes.offset(key.height); 
 
@@ -166,19 +171,23 @@ var $renderKey = {};
 		key.centerf = key.align&4 ? true : false;
 
 		// The hole
-		svg += '<rect transform="translate({0} {1}) rotate({2} {3} {4})" width="{5}" height="{5}" x="0" y="0" stroke="black" stroke-width=".1mm" fill="lightgrey"/>\n'
-					.format( holex, holey, key.rotation_angle, 
-              hole_sizes.origin(key.rotation_x) + hole_sizes.margin + (hole_sizes.gutter * key.width)/2.0 - holex, 
-              hole_sizes.origin(key.rotation_y) + hole_sizes.margin + (hole_sizes.gutter * key.height)/2.0 - holey,
-              hole_sizes.hole, darkColor 
-              );
-    // the outline of the cap edge.
-		svg += '<rect transform="translate({0}, {1}) rotate({2} {3} {4})" width="{5}" height="{6}" x="0" y="0" stroke="black" stroke-width=".1mm" fill="none"/>\n'
-					.format( capx, capy, 
+    svg += '<g transform="translate({0} {1}) rotate({2} {3} {4})">\n'.format( capx, capy,
               key.rotation_angle, 
               hole_sizes.origin(key.rotation_x) + hole_sizes.margin + (hole_sizes.gutter * key.width)/2.0 - capx,
-              hole_sizes.origin(key.rotation_y) + hole_sizes.margin + (hole_sizes.gutter * key.height)/2.0 - capy, 
-              capwidth,  capheight);
+              hole_sizes.origin(key.rotation_y) + hole_sizes.margin + (hole_sizes.gutter * key.height)/2.0 - capy);
+
+    if (fancy) { 
+      svg += '<path d="{0}" fill="lightgrey" stroke="black" stroke-width=".1mm"/>'.format(
+          magicShape.format(
+              hole_sizes.offset(key.width), hole_sizes.offset(key.height)));
+    } else {
+      svg += '<rect width="{0}" height="{0}" x="{1}" y="{2}" stroke="black" stroke-width=".1mm" fill="lightgrey"/>\n'
+            .format(hole_sizes.hole, hole_sizes.offset(key.width), hole_sizes.offset(key.height));
+    }
+    // the outline of the cap edge.
+		svg += '<rect width="{0}" height="{1}" x="{2}" y="{3}" stroke="black" stroke-width=".1mm" fill="none"/>\n'
+					.format(capwidth,  capheight, (hole_sizes.gutter * key.width)/2.0, (hole_sizes.gutter * key.height)/2.0);
+    svg += '</g>\n';
 		return svg;
 	}; 
 }());
