@@ -241,3 +241,24 @@ html, body {
 
 #swap-colors { position: relative; top: 15px; }
 .color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }
+
+
+/* Only show the keyboard layout itself when printing */
+@media print {
+  html, body { overflow:hidden; height:100%; margin: 0 !important; padding: 0 !important; }
+  #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog { display: none; margin: 0 !important; padding: 0 !important; }
+  div.body { margin: 0 !important; padding: 0 !important; }
+  #keyboard { 
+  	border: none; 
+  	background-color: inherit !important; 
+  	transform:scale(0.75,0.75); 
+  	-moz-transform:scale(0,75,0.75); 
+  	-ms-transform:scale(0,75,0.75); 
+  	-webkit-transform:scale(0.75,0.75); 
+  	position: absolute !important;
+  	left: 0px; 
+  	top: 0px;
+  	padding-left: 0px; padding-top: 0px;
+  }
+}
+
