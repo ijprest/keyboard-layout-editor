@@ -153,7 +153,7 @@ var $renderKey = {};
 
 	sizes.capsize = function(size) { return (size*sizes.cap) - (2*sizes.spacing); };
 
-	$renderKey.svg = function(key, fancy, $sanitize) {
+	$renderKey.svg = function(key, fancy, showOutlines, $sanitize) {
 		var svg = "";
 		var capwidth = hole_sizes.cap * key.width;
 		var capheight = hole_sizes.cap * key.height;
@@ -185,8 +185,10 @@ var $renderKey = {};
             .format(hole_sizes.hole, hole_sizes.offset(key.width), hole_sizes.offset(key.height));
     }
     // the outline of the cap edge.
-		svg += '<rect width="{0}" height="{1}" x="{2}" y="{3}" stroke="black" stroke-width=".1mm" fill="none"/>\n'
-					.format(capwidth,  capheight, (hole_sizes.gutter * key.width)/2.0, (hole_sizes.gutter * key.height)/2.0);
+    if (showOutlines) {
+      svg += '<rect width="{0}" height="{1}" x="{2}" y="{3}" stroke="black" stroke-width=".1mm" fill="none"/>\n'
+            .format(capwidth,  capheight, (hole_sizes.gutter * key.width)/2.0, (hole_sizes.gutter * key.height)/2.0);
+    }
     svg += '</g>\n';
 		return svg;
 	}; 

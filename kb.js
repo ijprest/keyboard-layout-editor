@@ -37,6 +37,7 @@
 
     $scope.renderSvg = false;
     $scope.fancySvg = false;
+    $scope.showKeyOutlines = true;
 
 		// Helper function to select/deselect all keys
 		$scope.unselectAll = function() {
@@ -184,9 +185,15 @@
 			});
     });
 
+    $scope.$watch('showKeyOutlines', function(newV, oldV) {
+			$scope.keys().forEach(function(key) {
+				renderKey(key);
+			});
+    }); 
+
 		function renderKey(key) {
 			key.html = $sce.trustAsHtml($renderKey.html(key,$sanitize));
-			key.svg = $sce.trustAsHtml($renderKey.svg(key, $scope.fancySvg, $sanitize));
+			key.svg = $sce.trustAsHtml($renderKey.svg(key, $scope.fancySvg, $scope.showKeyOutlines, $sanitize));
 		}
 
 		$scope.deserializeAndRender = function(data) {
