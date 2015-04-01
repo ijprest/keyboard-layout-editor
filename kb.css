@@ -163,6 +163,16 @@ html, body {
 	background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
 	background-repeat: no-repeat;
 }
+.DSA.DISH .keyfg, .DSA.HOMING .keyfg {
+	background: -moz-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
+	background: -webkit-gradient(radial, center center, 50%, center center, 60%, from(rgba(0,0,0,0.1)), to(rgba(0,0,0,0.04)));
+	background: -webkit-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
+	background: -o-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
+	background: -ms-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
+	background: radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
+	background-repeat: no-repeat;
+}
+
 span.PETSCII { 
 	font-family: "C64 Pro Mono";
 	font-size: 6px !important;
