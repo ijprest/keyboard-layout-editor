@@ -298,5 +298,23 @@
 			{ "name": "YCJ", "r": 232, "g": 169, "b": 0 },
 			{ "name": "YR", "r": 255, "g": 193, "b": 0 }
 		]
+	},
+	{
+		"name" : "WASD keyboards",
+		"href" : "http://www.wasdkeyboards.com/index.php/products/sampler-kit/wasd-sampler-kit-o-ring-keycaps.html",
+		"description" : "These are the 11 colors and their RGB codes, taken from the HTML code of the shop pages.",
+		"colors" : [
+			{ "name": "black", "r":26, "g":26, "b":26},
+			{ "name": "white", "r":255, "g":255, "b":255},
+			{ "name": "gray", "r":208, "g":204, "b":192},
+			{ "name": "dark-gray", "r":150, "g":147, "b":142},
+			{ "name": "red", "r":193, "g":56, "b":40},
+			{ "name": "blue", "r":94, "g":177, "b":231},
+			{ "name": "green", "r":29, "g":182, "b":58},
+			{ "name": "yellow", "r":248, "g":214, "b":21},
+			{ "name": "orange", "r":246, "g":127, "b":0},
+			{ "name": "pink", "r":251, "g":187, "b":201},
+			{ "name": "purple", "r":172, "g":151, "b":216}
+		]
 	}
 ]
