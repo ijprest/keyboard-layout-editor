@@ -1,12 +1,11 @@
-<!-- 
-KEYBOARD LAYOUT EDITOR
-Copyright (C) 2013  Ian Prest
-All rights reserved.
+<!--
+D1SC0tech Editor
+Forked from keyboard-layout-editor by Ian Prest
 -->
 <!DOCTYPE html>
 <html ng-app="kbApp">
 <head>
-<title>Keyboard Layout Editor</title>
+<title>D1SC0tech Editor</title>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen">
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
@@ -27,12 +26,12 @@ All rights reserved.
 <script type="text/javascript" src="kb.js"></script>
 </head>
 <body ng-controller="kbCtrl"
-	 ng-mouseup="selectRelease($event)" 
+	 ng-mouseup="selectRelease($event)"
 	 ng-mousemove="selectMove($event)"
 	 ui-keydown="{'shift-191' : 'showHelp($event)',
 	 			  'ctrl-83' : 'save($event)' }">
 <div id="wrap">
-<nav class="navbar navbar-inverse navbar-static-top" role="navigation">	
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 			<span class="sr-only">Toggle navigation</span>
@@ -40,27 +39,29 @@ All rights reserved.
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="#"><i class="fa fa-keyboard-o"></i> keyboard-layout-editor.com</a>		
+		<a class="navbar-brand" href="#"><i class="fa fa-keyboard-o"></i> editor.d1sc0te.ch</a>
 	</div>
-	
+
 	<ul class="nav navbar-nav">
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-keyboard-o"></i> Preset <b class="caret"></b></a>
 			<ul class="dropdown-menu">
+				<li>Keyboard Layouts</li>
 				<li ng-repeat="(k,v) in layouts"><a ng-click="loadPreset(v)" href="#">{{k}}</a></li>
 				<li class="divider" ng-class="{hidden: !specialKeys}"></li>
+				<li>Keysets</li>
 				<li ng-repeat="(k,v) in samples"><a ng-click="loadSample(v)" href="#">{{k}}</a></li>
 			</ul>
 		</li>
-		
+
 		<li class="dropdown">
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-th"></i> Color Swatches <b class="caret"></b></a>
 			<ul class="dropdown-menu">
 				<li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
 			</ul>
-		</li>	
+		</li>
 	</ul>
-	
+
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav navbar-right">
 			<li><a ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false"><i class="fa fa-link"></i> Permalink</a></li>
@@ -69,7 +70,7 @@ All rights reserved.
 </nav>
 
 <div class="body">
-	
+
 	<div class="btn-group">
 		<button type="button" class="btn btn-primary" ng-click="addKey()"><i class="fa fa-plus-circle"></i> Add Key</button>
 		<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -85,7 +86,7 @@ All rights reserved.
 		</ul>
 	</div>
 	<div class="btn-group">
-		<button type="button" class="btn btn-danger" ng-class="{disabled:selectedKeys.length<1}" ng-click="deleteKeys()"><i class="fa fa-minus-circle"></i> Delete Keys</button>		
+		<button type="button" class="btn btn-danger" ng-class="{disabled:selectedKeys.length<1}" ng-click="deleteKeys()"><i class="fa fa-minus-circle"></i> Delete Keys</button>
 	</div>
 	<div class="btn-group">
 		<button type="button" class="btn btn-default" ng-class="{disabled:!canUndo()}" ng-click="undo()"><i class="fa fa-undo"></i> Undo</button>
@@ -99,28 +100,28 @@ All rights reserved.
 	<div class="btn-group pull-right">
 		<button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()"><i class="fa fa-save"></i> Save</button>
 	</div>
-	<div id="keyboard" 
-		 tabindex="0" 
-		 ng-style="{height: kbHeight + 'px', 'background-color': keyboard.meta.backcolor}" 
-		 ui-keydown="{ left:'moveKeys(-.25,0,$event)', 
-					 right:'moveKeys(.25,0,$event)', 
-					 up:'moveKeys(0,-.25,$event)', 
-					 down:'moveKeys(0,.25,$event)', 
+	<div id="keyboard"
+		 tabindex="0"
+		 ng-style="{height: kbHeight + 'px', 'background-color': keyboard.meta.backcolor}"
+		 ui-keydown="{ left:'moveKeys(-.25,0,$event)',
+					 right:'moveKeys(.25,0,$event)',
+					 up:'moveKeys(0,-.25,$event)',
+					 down:'moveKeys(0,.25,$event)',
 					 'shift-left':'sizeKeys(-.25,0,$event)',
 					 'shift-right':'sizeKeys(.25,0,$event)',
 					 'shift-up':'sizeKeys(0,-.25,$event)',
 					 'shift-down':'sizeKeys(0,.25,$event)',
 					 'pageup':'rotateKeys(-15,$event)',
 					 'pagedown':'rotateKeys(15,$event)',
-					 'ctrl-left':'moveCenterKeys(-.25,0,$event)', 
-					 'ctrl-right':'moveCenterKeys(.25,0,$event)', 
-					 'ctrl-up':'moveCenterKeys(0,-.25,$event)', 
-					 'ctrl-down':'moveCenterKeys(0,.25,$event)', 
-					 delete:'deleteKeys()', 
+					 'ctrl-left':'moveCenterKeys(-.25,0,$event)',
+					 'ctrl-right':'moveCenterKeys(.25,0,$event)',
+					 'ctrl-up':'moveCenterKeys(0,-.25,$event)',
+					 'ctrl-down':'moveCenterKeys(0,.25,$event)',
+					 delete:'deleteKeys()',
 					 insert:'addKey()',
-					 74: 'prevKey($event)', 
+					 74: 'prevKey($event)',
 					 75: 'nextKey($event)',
-					 'shift-74': 'prevKey($event)', 
+					 'shift-74': 'prevKey($event)',
 					 'shift-75': 'nextKey($event)',
 					 113: 'focusEditor()',
 					 esc: 'unselectAll()',
@@ -130,24 +131,24 @@ All rights reserved.
 					 'ctrl-86 shift-45': 'paste($event)',
 					 'ctrl-90' : 'undo()',
 					 'ctrl-shift-90' : 'redo()',
-					 'ctrl-89' : 'redo()' }" 
+					 'ctrl-89' : 'redo()' }"
 		 ng-mousedown="selectClick($event)">
-	
-		<div ng-repeat="key in keys()" 
-			 class="key {{key.profile}}" 
+
+		<div ng-repeat="key in keys()"
+			 class="key {{key.profile}}"
 			 style="{{rotationStyle(key)}}"
-			 ng-mouseover="hoveredKey=key" 
-			 ng-mouseleave="hoveredKey=null" 
+			 ng-mouseover="hoveredKey=key"
+			 ng-mouseleave="hoveredKey=null"
 			 ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0}"
 			 ng-bind-html="key.html">
 		</div>
-	
+
 		<div style='clear:both'></div>
 		{{calcKbHeight()}}
 	</div>
 	<div id="selectionRectangle" ng-style="{display:selRect.display, left:selRect.l+'px', width:selRect.w+'px', top:selRect.t+'px', height:selRect.h+'px'}"></div>
 	<div id="rotationCrosshairs" ng-style="{display:multi.crosshairs, left:(keyboardLeft()+multi.crosshairs_x-5)+'px', top:(keyboardTop()+multi.crosshairs_y-7)+'px'}"><i class="fa fa-crosshairs"></i></div>
-	
+
 	<ul class="nav nav-tabs">
 		<li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab"><i class="fa fa-edit"></i> Properties</a></li>
 		<li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="fa fa-keyboard-o"></i> Keyboard Properties</a></li>
@@ -279,7 +280,7 @@ All rights reserved.
 					<label class="control-label" for="angleeditor">Rotation:</label>
 					<div class="controls hint--top hint--rounded" data-hint="Specify the angle (in degrees) by which to rotate the keycaps, and the x &amp; y coordinates of the center of rotation.">
 						<input id="angleeditor" size="3" type="number" min="-180" max="180" step="15" ng-model="multi.rotation_angle" ng-change="updateMulti('rotation_angle')" ng-blur="validateMulti('rotation_angle')" ng-disabled="selectedKeys.length<1">&#176;
-						<input id="rotxeditor" size="3" type="number" min="0" max="36" step=".25" ng-model="multi.rotation_x" ng-change="updateMulti('rotation_x')" ng-blur="validateMulti('rotation_x')" ng-disabled="selectedKeys.length<1">, 
+						<input id="rotxeditor" size="3" type="number" min="0" max="36" step=".25" ng-model="multi.rotation_x" ng-change="updateMulti('rotation_x')" ng-blur="validateMulti('rotation_x')" ng-disabled="selectedKeys.length<1">,
 						<input id="rotxeditor" size="3" type="number" min="0" max="36" step=".25" ng-model="multi.rotation_y" ng-change="updateMulti('rotation_y')" ng-blur="validateMulti('rotation_y')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
@@ -299,8 +300,8 @@ All rights reserved.
 			<div class="col-md-4 col-lg-4" ng-class="{hidden:!palette.name}">
 				{{palette.name}} <a ng-href='{{palette.href}}' data-hint="{{palette.description}}" class="hint--top hint--rounded" target="_blank">(more info)</a>
 				<ul id="swatches" ng-class="{disabled:selectedKeys.length<1}">
-					<li ng-repeat="color in palette.colors" 
-						 ng-style="{'background-color':color.css}" 
+					<li ng-repeat="color in palette.colors"
+						 ng-style="{'background-color':color.css}"
 						 ng-click="clickSwatch(color,$event)"
 						 class="swatch hint--top"
 						 ng-class="{'selected-bg': color.css === multi.color, 'selected-fg': color.css === multi.text}"
@@ -334,7 +335,7 @@ All rights reserved.
 			<textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}"></textarea>
 			<div id="rawdata-error" class="alert alert-danger" style='margin-top:1em;margin-bottom:0px' ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
 		</div>
-	</div>	
+	</div>
 	<P></P>
 	<div ng-class="{hidden:!saved}" class="alert alert-success">
 		<a class="close" href="#" aria-hidden="true" ng-click="saved=false">&times;</a>
@@ -355,17 +356,16 @@ All rights reserved.
 <div id="footer">
 <div class="container">
 	<p class="text-muted credit" style="float:left">
-		Keyboard Layout Editor v{{version}}<br/>
-		Copyright &copy; 2013 &mdash; Ian Prest<br/>
-		All rights reserved.
+		D1SC0tech Editor v{{version}}<br/>
+		Forked from keyboard-layout-editor by Ian Prest
 	</p>
 	<div style="float:right; text-alignment:right;">
 		<a href="#" ng-click="showHelp($event)"><i class="fa fa-keyboard-o"></i> Keyboard shortcuts available</a><br/>
-		<a href="https://github.com/ijprest/keyboard-layout-editor/issues" target="_blank"><i class="fa fa-bug"></i> Found a bug?</a><br/>
-		<a href="https://github.com/ijprest/keyboard-layout-editor" target="_blank"><i class="fa fa-github"></i> Code hosted on GitHub</a><br/>
+		<a href="https://github.com/d1sc0tech/keyboard-layout-editor/issues" target="_blank"><i class="fa fa-bug"></i> Found a bug?</a><br/>
+		<a href="https://github.com/d1sc0tech/keyboard-layout-editor" target="_blank"><i class="fa fa-github"></i> Code hosted on GitHub</a><br/>
 	</div>
 </div>
-</div>	
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="helpDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -373,7 +373,7 @@ All rights reserved.
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title">How to use keyboard-layout-editor.com</h4>
+				<h4 class="modal-title">How to use editor.d1sc0te.ch</h4>
 			</div>
 			<div class="modal-body">
 				<h5>Getting Started</h5>
