@@ -47,10 +47,10 @@ Forked from keyboard-layout-editor by Ian Prest
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-keyboard-o"></i> Preset <b class="caret"></b></a>
 			<ul class="dropdown-menu">
 				<li>Keyboard Layouts</li>
-				<li ng-repeat="(k,v) in layouts"><a ng-click="loadPreset(v)" href="#">{{k}}</a></li>
+				<li ng-repeat="(k,v) in layouts"><a ng-click="loadKeyset(v)" href="#">{{k}}</a></li> <!-- Should be loadLayout(v) -->
 				<li class="divider" ng-class="{hidden: !specialKeys}"></li>
 				<li>Keysets</li>
-				<li ng-repeat="(k,v) in samples"><a ng-click="loadSample(v)" href="#">{{k}}</a></li>
+				<li ng-repeat="(k,v) in keysets"><a ng-click="loadKeyset(v)" href="#">{{k}}</a></li>
 			</ul>
 		</li>
 
@@ -339,7 +339,7 @@ Forked from keyboard-layout-editor by Ian Prest
 	<P></P>
 	<div ng-class="{hidden:!saved}" class="alert alert-success">
 		<a class="close" href="#" aria-hidden="true" ng-click="saved=false">&times;</a>
-		Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/layouts/{{saved}}">this link</a>.
+		Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/saves/{{saved}}">this link</a>.
 	</div>
 	<div ng-class="{hidden:!saveError}" class="alert alert-danger">
 		<a class="close" href="#" aria-hidden="true" ng-click="saveError=''">&times;</a>
@@ -378,7 +378,7 @@ Forked from keyboard-layout-editor by Ian Prest
 			<div class="modal-body">
 				<h5>Getting Started</h5>
 				<ul>
-					<li>Try loading one of the preset layouts from the dropdown at the top of the page; it will give you a good idea of the editor's capabilities.</li>
+					<li>Try loading one of the presets from the dropdown at the top of the page; it will give you a good idea of the editor's capabilities.</li>
 					<li>Select a key in the editor by clicking on it; then try changing the various properties in the property-editor form.</li>
 					<li>You can select multiple keys by holding down CTRL and clicking on them, or extend the current selection by SHIFT-clicking on an item.  You can also drag a marquee rectangle around the keys you want to select.</li>
 					<li>Try the keyboard shortcuts (described below); they make editing various properties much quicker.</li>

@@ -11,21 +11,21 @@ var $serial = {};
 		if(obj instanceof Array) {
 			obj.forEach(function(elem) { res.push($serial.toJsonL(elem)); });
 			return '['+res.join(',')+']';
-		}		
+		}
 		if(typeof obj === 'object') {
 			for(key in obj) {	if(obj.hasOwnProperty(key)) { res.push(key+':'+$serial.toJsonL(obj[key])); } }
 			return '{'+res.join(',')+'}';
 		}
-		return angular.toJson(obj);	
+		return angular.toJson(obj);
 	};
 	$serial.fromJsonL = function(json) { return jsonl.parse(json); };
 
 	// function to sort the key array
 	$serial.sortKeys = function(keys) {
 		keys.sort(function(a,b) {
-			return ((a.rotation_angle+360)%360 - (b.rotation_angle+360)%360) || 
-				   (a.rotation_x - b.rotation_x) || 
-				   (a.rotation_y - b.rotation_y) || 
+			return ((a.rotation_angle+360)%360 - (b.rotation_angle+360)%360) ||
+				   (a.rotation_x - b.rotation_x) ||
+				   (a.rotation_y - b.rotation_y) ||
 				   (a.y - b.y) ||
 				   (a.x - b.x);
 		});
@@ -35,14 +35,14 @@ var $serial = {};
 		x: 0, y: 0, x2: 0, y2: 0,								// position
 		width: 1, height: 1, width2: 1, height2: 1,				// size
 		color: "#cccccc", text: "#000000",						// colors
-		labels:[], align: 4, fontheight: 3, fontheight2: 3,		// label properties	
+		labels:[], align: 4, fontheight: 3, fontheight2: 3,		// label properties
 		rotation_angle: 0, rotation_x: 0, rotation_y: 0,		// rotation
 		profile: "", nub: false, ghost: false, stepped: false	// misc
 	};
 	var _defaultMetaData = { backcolor: '#eeeeee' };
 	$serial.defaultKeyProps = function() { return angular.copy(_defaultKeyProps); };
 	$serial.defaultMetaData = function() { return angular.copy(_defaultMetaData); };
-	
+
 	// Convert between our in-memory format & our serialized format
 	function serializeProp(props, nname, val, defval) { if(val !== defval) { props[nname] = val; } return val; }
 	$serial.serialize = function(keyboard) {
@@ -67,7 +67,7 @@ var $serial = {};
 			var label = key.labels.join("\n").trimEnd();
 
 			// start a new row when necessary
-			if(row.length>0 && (key.y !== current.y || key.rotation_angle != cluster.r || key.rotation_x != cluster.rx || key.rotation_y != cluster.ry)) { 
+			if(row.length>0 && (key.y !== current.y || key.rotation_angle != cluster.r || key.rotation_x != cluster.rx || key.rotation_y != cluster.ry)) {
 				// Push the old row
 				rows.push(row);
 				row = [];
@@ -76,7 +76,7 @@ var $serial = {};
 				if(key.rotation_angle != cluster.r || key.rotation_x != cluster.rx || key.rotation_y != cluster.ry) {
 					cluster.r = key.rotation_angle;
 					cluster.rx = key.rotation_x;
-					cluster.ry = key.rotation_y;					
+					cluster.ry = key.rotation_y;
 					current.x = cluster.rx;
 					current.y = cluster.ry;
 				} else {
@@ -177,16 +177,16 @@ var $serial = {};
 		}
 		return { meta:meta, keys:keys };
 	}
-	
+
 	$serial.saveLayout = function($http, layout, success, error) {
 		var data = angular.toJson(layout);
 		var fn = CryptoJS.MD5(data).toString();
 
 		// First test to see if the file is already available
-		$http.get($serial.base_href+"/layouts/"+fn).success(function() { success(fn); }).error(function() {
+		$http.get($serial.base_href+"/saves/"+fn).success(function() { success(fn); }).error(function() {
 			// Nope... need to upload it
 			var fd = new FormData();
-			fd.append("key", "layouts/"+fn);
+			fd.append("key", "saves/"+fn);
 			fd.append("AWSAccessKeyId", "AKIAJSXGG74EMFBC57QQ");
 			fd.append("acl", "public-read");
 			fd.append("success_action_redirect", $serial.base_href);
@@ -199,9 +199,9 @@ var $serial = {};
 				transformRequest: angular.identity
 			}).success(function() { success(fn); }).error(function(data, status) {
 				if(status == 0) {
-					// We seem to get a 'cancelled' notification even though the POST 
+					// We seem to get a 'cancelled' notification even though the POST
 					// is successful, so we have to double-check.
-					$http.get($serial.base_href+"/layouts/"+fn).success(function() { success(fn); }).error(error);
+					$http.get($serial.base_href+"/saves/"+fn).success(function() { success(fn); }).error(error);
 				} else {
 					error(data,status);
 				}

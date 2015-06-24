@@ -58,7 +58,7 @@
 					//success
 					$scope.dirty = false;
 					$scope.saved = fn;
-					$location.path("/layouts/"+fn);
+					$location.path("/saves/"+fn);
 					$location.hash("");
 					$scope.saveError = "";
 				},
@@ -134,12 +134,12 @@
 		$scope.serialized = "";
 		$scope.serializedRaw = "";
 
-		// Known layouts/presets
+		// Known layouts/keysets
 		$scope.layouts = {};
-		$scope.samples = {};
+		$scope.keysets = {};
 		$http.get('layouts.json').success(function(data) {
-			$scope.layouts = data.presets;
-			$scope.samples = data.samples;
+			$scope.layouts = data.layouts;
+			$scope.keysets = data.keysets;
 		});
 
 		// The currently selected palette
@@ -492,16 +492,17 @@
 			return "";
 		};
 
-		$scope.loadPreset = function(preset) {
-			transaction("preset", function() {
-				$scope.deserializeAndRender(preset);
+		// TODO: fix these two functions
+		$scope.loadLayout = function(layout) {
+			transaction("layout", function() {
+				$scope.deserializeAndRender(layout);
 			});
 			$scope.dirty = false;
 		};
-		$scope.loadSample = function(sample) {
-			$http.get(sample).success(function(data) {
-				$scope.loadPreset(data);
-				$location.path(sample);
+		$scope.loadKeyset = function(keyset) {
+			$http.get(keyset).success(function(data) {
+				$scope.loadLayout(data);
+				$location.path(keyset);
 			}).error(function() {
 				$scope.loadError = true;
 			});
