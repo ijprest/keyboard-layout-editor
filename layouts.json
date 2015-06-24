@@ -87,10 +87,10 @@
 	},
 
 	"samples" : {
-		"GB: CCnG" : "/samples/gb-ccng",
-		"GB: Retro DSA" : "/samples/gb-retro-dsa",
-		"Stealth Black" : "/samples/stealth-black",
-		"Televideo TS-800a" : "/samples/televideo-ts-800a",
-		"Symbolics PN 364000" : "/samples/symbolics-364000"
+		"GB: CCnG" : "samples/gb-ccng",
+		"GB: Retro DSA" : "samples/gb-retro-dsa",
+		"Stealth Black" : "samples/stealth-black",
+		"Televideo TS-800a" : "samples/televideo-ts-800a",
+		"Symbolics PN 364000" : "samples/symbolics-364000"
 	}
 }
