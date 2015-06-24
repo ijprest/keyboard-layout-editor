@@ -20,7 +20,7 @@ exports.grammar = {
         "rules": [
             ["\\s+", "/* skip whitespace */"],
             ["{int}{frac}?{exp}?\\b", "return 'NUMBER';"],
-            ["\"(?:{esc}[\"bfnrt/{esc}]|{esc}u[a-fA-F0-9]{4}|[^\"{esc}])*\"", "yytext = yytext.substr(1, yyleng-2); return 'STRING';"],
+            ["\"(?:{esc}[\"bfnrt/{esc}]|{esc}u[a-fA-F0-9]{4}|[^\"{esc}]|\\(|\\))*\"", "yytext = yytext.substr(1, yyleng-2); return 'STRING';"],
             ["\\{", "return '{'"],
             ["\\}", "return '}'"],
             ["\\[", "return '['"],
