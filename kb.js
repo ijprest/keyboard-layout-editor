@@ -191,7 +191,6 @@
 			$scope.deserializeException = "";
 			$scope.serializedRaw = $serial.serialize($scope.keyboard);
 			$scope.serialized = toJsonPretty($scope.serializedRaw);
-			$scope.serializedRaw = $scope.serialized;
 		}
 
 		$scope.deserializeAndRender([]);
