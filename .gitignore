@@ -4,3 +4,5 @@ aws-private-key.txt
 fonts/EngraversGothic-Regular-webfont.*
 fonts/kbd-custom.*
 *~
+
+*.log
