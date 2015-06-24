@@ -3,7 +3,7 @@
 //   node jsonl_grammar.js > js/jsonl.js
 //   uglify js/jsonl.js > js/jsonl.min.js
 //
-var Generator = require("/jison/lib/jison").Generator;
+var Generator = require("/usr/local/lib/node_modules/jison/lib/jison").Generator;
 
 exports.grammar = {
     "comment": "ECMA-262 5th Edition, 15.12.1 The JSON Grammar. Parses JSON strings into objects.",
@@ -20,7 +20,7 @@ exports.grammar = {
         "rules": [
             ["\\s+", "/* skip whitespace */"],
             ["{int}{frac}?{exp}?\\b", "return 'NUMBER';"],
-            ["\"(?:{esc}[\"bfnrt/{esc}]|{esc}u[a-fA-F0-9]{4}|[^\"{esc}]|\\(|\\))*\"", "yytext = eval(yytext); return 'STRING';"],
+            ["\"(?:{esc}[\"bfnrt/{esc}]|{esc}u[a-fA-F0-9]{4}|[^\"{esc}])*\"", "yytext = yytext.substr(1, yyleng-2); return 'STRING';"],
             ["\\{", "return '{'"],
             ["\\}", "return '}'"],
             ["\\[", "return '['"],
@@ -29,16 +29,15 @@ exports.grammar = {
             [":", "return ':'"],
             ["true\\b", "return 'TRUE'"],
             ["false\\b", "return 'FALSE'"],
-            ["null\\b", "return 'NULL'"],
-            ["[_a-zA-Z][_a-zA-Z0-9]*", "return 'IDENTIFIER'" ]
+            ["null\\b", "return 'NULL'"]
         ]
     },
 
-    "tokens": "STRING NUMBER { } [ ] , : TRUE FALSE NULL IDENTIFIER",
+    "tokens": "STRING NUMBER { } [ ] , : TRUE FALSE NULL",
     "start": "JSONText",
 
     "bnf": {
-        "JSONString": [[ "STRING", "$$ = yytext.replace(/\\(\\|")/g, "$"+"1").replace(/\\n/g,'\n').replace(/\\r/g,'\r').replace(/\\t/g,'\t').replace(/\\v/g,'\v').replace(/\\f/g,'\f').replace(/\\b/g,'\b');" ]],
+        "JSONString": [[ "STRING", "$$ = yytext;" ]],
 
         "JSONNumber": [[ "NUMBER", "$$ = Number(yytext);" ]],
 
