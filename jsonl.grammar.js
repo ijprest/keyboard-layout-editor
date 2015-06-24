@@ -1,12 +1,12 @@
 //
 // compile with:
-//   node jsonl_grammar.js > js/jsonl.js 
-//   uglify js/jsonl.js > js/jsonl.min.js 
+//   node jsonl_grammar.js > js/jsonl.js
+//   uglify js/jsonl.js > js/jsonl.min.js
 //
 var Generator = require("/jison/lib/jison").Generator;
 
 exports.grammar = {
-    "comment": "ECMA-262 5th Edition, 15.12.1 The JSON Grammar. Parses JSON strings into objects. This parser supports a 'lenient' version of JSON that doesn't require quotes around identifiers.",
+    "comment": "ECMA-262 5th Edition, 15.12.1 The JSON Grammar. Parses JSON strings into objects.",
     "author": "Zach Carter; Ian Prest",
 
     "lex": {
@@ -38,10 +38,8 @@ exports.grammar = {
     "start": "JSONText",
 
     "bnf": {
-        "JSONString": [[ "STRING", "$$ = yytext;" ]],
-        "JSONIdentifier": [[ "STRING", "$$ = yytext;" ],
-                           [ "IDENTIFIER", "$$ = yytext;" ]],
-        
+        "JSONString": [[ "STRING", "$$ = yytext.replace(/\\(\\|")/g, "$"+"1").replace(/\\n/g,'\n').replace(/\\r/g,'\r').replace(/\\t/g,'\t').replace(/\\v/g,'\v').replace(/\\f/g,'\f').replace(/\\b/g,'\b');" ]],
+
         "JSONNumber": [[ "NUMBER", "$$ = Number(yytext);" ]],
 
         "JSONNullLiteral": [[ "NULL", "$$ = null;" ]],
@@ -62,7 +60,7 @@ exports.grammar = {
         "JSONObject": [[ "{ }", "$$ = {};" ],
                        [ "{ JSONMemberList }", "$$ = $2;" ]],
 
-        "JSONMember": [[ "JSONIdentifier : JSONValue", "$$ = [$1, $3];" ]],
+        "JSONMember": [[ "JSONString : JSONValue", "$$ = [$1, $3];" ]],
 
         "JSONMemberList": [[ "JSONMember", "$$ = {}; $$[$1[0]] = $1[1];" ],
                            [ "JSONMemberList , JSONMember", "$$ = $1; $1[$3[0]] = $3[1];" ]],
@@ -84,4 +82,3 @@ exports.main = function main (args) {
 
 if (require.main === module)
     exports.main();
-

@@ -3,5 +3,4 @@ mongoose*.exe
 aws-private-key.txt
 fonts/EngraversGothic-Regular-webfont.*
 fonts/kbd-custom.*
-jsonl.js
 *~
