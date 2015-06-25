@@ -128,7 +128,7 @@
 					$scope.multi = angular.copy(key);
 				}
 			}
-		};
+		}
 
 		// The serialized key data
 		$scope.serialized = "";

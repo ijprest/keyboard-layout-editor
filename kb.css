@@ -1,27 +1,27 @@
 @font-face {
-	font-family: 'engravers_gothic_fsregular';
-	src: url('fonts/EngraversGothic-Regular-webfont.eot');
-	src: url('fonts/EngraversGothic-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/EngraversGothic-Regular-webfont.woff') format('woff'),
-		 url('fonts/EngraversGothic-Regular-webfont.ttf') format('truetype'),
-		 url('fonts/EngraversGothic-Regular-webfont.svg#engravers_gothic_fsregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
+  font-family: 'engravers_gothic_fsregular';
+  src: url('fonts/EngraversGothic-Regular-webfont.eot');
+  src: url('fonts/EngraversGothic-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/EngraversGothic-Regular-webfont.woff') format('woff'),
+    url('fonts/EngraversGothic-Regular-webfont.ttf') format('truetype'),
+    url('fonts/EngraversGothic-Regular-webfont.svg#engravers_gothic_fsregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 html, body {
-	height: 100%;
-	font-family: "Segoe UI", "Arial", "Helvetica", sans-serif;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	cursor: default;
+  height: 100%;
+  font-family: "Segoe UI", "Arial", "Helvetica", sans-serif;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
 }
 .body {
-	margin: 10px;
+  margin: 10px;
 }
 
 /* Wrapper for page content to push down footer */
@@ -43,35 +43,35 @@ html, body {
 
 /* The keyboard background */
 #keyboard {
-	padding: 5px;
-	position:relative;
-	border: solid 1px #ddd;
-	border-radius: 6px;
-	background-color: #eee;
-	min-height: 64px;
-	-webkit-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	box-sizing:content-box;
-	margin-top: 10px;
-	margin-bottom: 10px;
+  padding: 5px;
+  position:relative;
+  border: solid 1px #ddd;
+  border-radius: 6px;
+  background-color: #eee;
+  min-height: 64px;
+  -webkit-box-sizing:content-box;
+  -moz-box-sizing:content-box;
+  box-sizing:content-box;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .key {
-	position: relative;
-	display:table;
-	-webkit-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	box-sizing:content-box;
+  position: relative;
+  display:table;
+  -webkit-box-sizing:content-box;
+  -moz-box-sizing:content-box;
+  box-sizing:content-box;
 }
 
 /* The external border of the keycap */
 .keyborder {
-	position: absolute;
-	border-radius: 5px;
-	border: solid 1px black;
-	-webkit-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	box-sizing:content-box;
+  position: absolute;
+  border-radius: 5px;
+  border: solid 1px black;
+  -webkit-box-sizing:content-box;
+  -moz-box-sizing:content-box;
+  box-sizing:content-box;
 }
 .keyborder.inner { opacity: 0.1; }
 
@@ -81,22 +81,22 @@ html, body {
 
 /* The sides of the cap (darker) */
 .keybg {
-	position: absolute;
-	border-radius: 5px;
-	-webkit-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	box-sizing:content-box;
+  position: absolute;
+  border-radius: 5px;
+  -webkit-box-sizing:content-box;
+  -moz-box-sizing:content-box;
+  box-sizing:content-box;
 }
 
 /* The face of the cap */
 .keyfg {
-	font-family: "Helvetica", "Arial", sans-serif;
-	position: absolute;
-	border-radius: 3px;
-	display:table-cell;
-	-webkit-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	box-sizing:content-box;
+  font-family: "Helvetica", "Arial", sans-serif;
+  position: absolute;
+  border-radius: 3px;
+  display:table-cell;
+  -webkit-box-sizing:content-box;
+  -moz-box-sizing:content-box;
+  box-sizing:content-box;
 }
 .keyfg .keylabel.textsize1 { font-size: 8px; line-height: 1em; }
 .keyfg .keylabel.textsize2 { font-size: 10px; line-height: 1em; }
@@ -109,52 +109,52 @@ html, body {
 .keyfg .keylabel.textsize9 { font-size: 24px; line-height: 1em; }
 .keyfg .keylabel hr { display: inline; }
 .keyfg .keylabel hr:before {
-	position: relative;
-	display: block;
-	overflow: hidden;
-	white-space: nowrap;
-	content: "\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500";
+  position: relative;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  content: "\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500";
 }
 
 .DCS .keyfg {
-	background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0) 100%);
-	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(40%,rgba(0,0,0,0.1)), color-stop(60%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0)));
-	background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
-	background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
-	background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
-	background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
-	background-repeat: no-repeat;
+  background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0) 100%);
+  background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(40%,rgba(0,0,0,0.1)), color-stop(60%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0)));
+  background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
+  background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
+  background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
+  background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
+  background-repeat: no-repeat;
 }
 .DSA .keyborder.inner, .SA .keyborder.inner { margin-top: 3px; border-radius: 8px; }
 .DSA .keyfg, .SA .keyfg {
-	font-family: 'engravers_gothic_fsregular', "Arial", "Helvetica", sans-serif; /* substitute for Gorton Modified */
-	border-radius: 8px;
-	margin-top: 3px;
-	background: -moz-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.1) 10%, rgba(0,0,0,0) 100%);
-	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(0,0,0,0.1)), color-stop(10%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0)));
-	background: -webkit-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
-	background: -o-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
-	background: -ms-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
-	background: radial-gradient(ellipse at center,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
-	background-repeat: no-repeat;
+  font-family: 'engravers_gothic_fsregular', "Arial", "Helvetica", sans-serif; /* substitute for Gorton Modified */
+  border-radius: 8px;
+  margin-top: 3px;
+  background: -moz-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.1) 10%, rgba(0,0,0,0) 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(0,0,0,0.1)), color-stop(10%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0)));
+  background: -webkit-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
+  background: -o-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
+  background: -ms-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
+  background: radial-gradient(ellipse at center,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
+  background-repeat: no-repeat;
 }
 .DCS.SPACE .keyfg, .DSA.SPACE .keyfg, .SA.SPACE .keyfg {
-	background: -moz-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0,0,0,0.1)), color-stop(20%, rgba(0,0,0,0)), color-stop(40%, rgba(0,0,0,0)), color-stop(100%, rgba(0,0,0,0.1)));
-	background: -webkit-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
-	background: -o-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
-	background: -ms-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
-	background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
-	background-repeat: no-repeat;
+  background: -moz-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0,0,0,0.1)), color-stop(20%, rgba(0,0,0,0)), color-stop(40%, rgba(0,0,0,0)), color-stop(100%, rgba(0,0,0,0.1)));
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
+  background: -o-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
+  background: -ms-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
+  background-repeat: no-repeat;
 }
 .DSA.DISH .keyfg, .DSA.HOMING .keyfg {
-	background: -moz-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
-	background: -webkit-gradient(radial, center center, 50%, center center, 60%, from(rgba(0,0,0,0.1)), to(rgba(0,0,0,0.04)));
-	background: -webkit-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
-	background: -o-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
-	background: -ms-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
-	background: radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
-	background-repeat: no-repeat;
+  background: -moz-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
+  background: -webkit-gradient(radial, center center, 50%, center center, 60%, from(rgba(0,0,0,0.1)), to(rgba(0,0,0,0.04)));
+  background: -webkit-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
+  background: -o-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
+  background: -ms-radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
+  background: radial-gradient(circle, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.04) 60%);
+  background-repeat: no-repeat;
 }
 
 /* Key labels */
@@ -171,70 +171,70 @@ html, body {
 
 /* color swatches */
 #swatches {
-	list-style-type: none;
-	-webkit-margin-before: 0em;
-	-webkit-margin-after: 0em;
-	-webkit-margin-start: 0px;
-	-webkit-margin-end: 0px;
-	-webkit-padding-start: 0px;
+  list-style-type: none;
+  -webkit-margin-before: 0em;
+  -webkit-margin-after: 0em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 0px;
 }
 .swatch {
-	display: inline-block;
-	position:relative;
-	width: 16px;
-	height: 32px;
-	border:solid 1px #888;
-	margin-right:-1px;
-	margin-bottom:-6px;
-	padding:0px;
+  display: inline-block;
+  position:relative;
+  width: 16px;
+  height: 32px;
+  border:solid 1px #888;
+  margin-right:-1px;
+  margin-bottom:-6px;
+  padding:0px;
 }
 #swatches.disabled .swatch {
-	background-color: rgb(235,235,228) !important;
+  background-color: rgb(235,235,228) !important;
 }
 .swatch .highlight { display:none; }
-.swatch.selected-bg .highlight.bg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px black; background: white; opacity; 0.75; position:absolute; left:7px; top:23px; }
-.swatch.selected-fg .highlight.fg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px white; background: black; opacity; 0.75; position:absolute; left:1px; top:23px; }
+.swatch.selected-bg .highlight.bg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px black; background: white; opacity: 0.75; position:absolute; left:7px; top:23px; }
+.swatch.selected-fg .highlight.fg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px white; background: black; opacity: 0.75; position:absolute; left:1px; top:23px; }
 
 /* general styles */
 .hidden { display: none; }
 .error { border: solid 2px rgb(217,83,79); }
 #selectionRectangle { position: absolute; border: dashed 2px red; }
 #rotationCrosshairs {
-	display: none;
-	position: absolute;
-	margin: 0px;
-	padding: 0px;
-	font-size: 25px;
-	line-height: 23px;
-	width: 25px;
-	height: 25px;
-	color: black;
-	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  display: none;
+  position: absolute;
+  margin: 0px;
+  padding: 0px;
+  font-size: 25px;
+  line-height: 23px;
+  width: 25px;
+  height: 25px;
+  color: black;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 #rawdata {
-	width: 100%;
-	height: 200px;
-	font-family: "Consolas", "Courier New", "Courier", monospace;
+  width: 100%;
+  height: 200px;
+  font-family: "Consolas", "Courier New", "Courier", monospace;
 }
 #rawdata-error {
-	font-family: "Consolas", "Courier New", "Courier", monospace;
-	white-space: pre;
+  font-family: "Consolas", "Courier New", "Courier", monospace;
+  white-space: pre;
 }
 
 .tab-content {
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    padding-top: 15px;
-    padding-bottom: 15px;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 #properties.row { padding-left:30px; }
 .form-horizontal .control-label {
-	float:left;
-	padding-right: 5px;
-	padding-top: 3px;
-	width: 120px;
+  float:left;
+  padding-right: 5px;
+  padding-top: 3px;
+  width: 120px;
 }
 .form-horizontal input { margin-bottom: 2px; }
 
@@ -258,15 +258,15 @@ html, body {
   #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog { display: none; margin: 0 !important; padding: 0 !important; }
   div.body { margin: 0 !important; padding: 0 !important; }
   #keyboard {
-  	border: none;
-  	background-color: inherit !important;
-  	transform:scale(0.75,0.75);
-  	-moz-transform:scale(0,75,0.75);
-  	-ms-transform:scale(0,75,0.75);
-  	-webkit-transform:scale(0.75,0.75);
-  	position: absolute !important;
-  	left: 0px;
-  	top: 0px;
-  	padding-left: 0px; padding-top: 0px;
+    border: none;
+    background-color: inherit !important;
+    transform:scale(0.75,0.75);
+    -moz-transform:scale(0,75,0.75);
+    -ms-transform:scale(0,75,0.75);
+    -webkit-transform:scale(0.75,0.75);
+    position: absolute !important;
+    left: 0px;
+    top: 0px;
+    padding-left: 0px; padding-top: 0px;
   }
 }

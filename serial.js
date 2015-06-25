@@ -116,7 +116,7 @@ var $serial = {};
 			rows.push(row);
 		}
 		return rows;
-	}
+	};
 
 	function dserializeError(msg,data) {
 		throw "Error: " + msg + (data ? (":\n  " + $serial.toJsonL(data)) : "");
@@ -176,7 +176,7 @@ var $serial = {};
 			current.x = current.rotation_x;
 		}
 		return { meta:meta, keys:keys };
-	}
+	};
 
 	$serial.saveLayout = function($http, layout, success, error) {
 		var data = angular.toJson(layout);

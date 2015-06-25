@@ -26,10 +26,10 @@ Forked from keyboard-layout-editor by Ian Prest
 <script type="text/javascript" src="kb.js"></script>
 </head>
 <body ng-controller="kbCtrl"
-	 ng-mouseup="selectRelease($event)"
-	 ng-mousemove="selectMove($event)"
-	 ui-keydown="{'shift-191' : 'showHelp($event)',
-	 			  'ctrl-83' : 'save($event)' }">
+	ng-mouseup="selectRelease($event)"
+	ng-mousemove="selectMove($event)"
+	ui-keydown="{'shift-191' : 'showHelp($event)',
+							'ctrl-83' : 'save($event)' }">
 <div id="wrap">
 <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
 	<div class="navbar-header">
@@ -101,49 +101,49 @@ Forked from keyboard-layout-editor by Ian Prest
 		<button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()"><i class="fa fa-save"></i> Save</button>
 	</div>
 	<div id="keyboard"
-		 tabindex="0"
-		 ng-style="{height: kbHeight + 'px', 'background-color': keyboard.meta.backcolor}"
-		 ui-keydown="{ left:'moveKeys(-.25,0,$event)',
-					 right:'moveKeys(.25,0,$event)',
-					 up:'moveKeys(0,-.25,$event)',
-					 down:'moveKeys(0,.25,$event)',
-					 'shift-left':'sizeKeys(-.25,0,$event)',
-					 'shift-right':'sizeKeys(.25,0,$event)',
-					 'shift-up':'sizeKeys(0,-.25,$event)',
-					 'shift-down':'sizeKeys(0,.25,$event)',
-					 'pageup':'rotateKeys(-15,$event)',
-					 'pagedown':'rotateKeys(15,$event)',
-					 'ctrl-left':'moveCenterKeys(-.25,0,$event)',
-					 'ctrl-right':'moveCenterKeys(.25,0,$event)',
-					 'ctrl-up':'moveCenterKeys(0,-.25,$event)',
-					 'ctrl-down':'moveCenterKeys(0,.25,$event)',
-					 delete:'deleteKeys()',
-					 insert:'addKey()',
-					 74: 'prevKey($event)',
-					 75: 'nextKey($event)',
-					 'shift-74': 'prevKey($event)',
-					 'shift-75': 'nextKey($event)',
-					 113: 'focusEditor()',
-					 esc: 'unselectAll()',
-					 'ctrl-65': 'selectAll($event)',
-					 'ctrl-67 ctrl-45': 'copy($event)',
-					 'ctrl-88 shift-46': 'cut($event)',
-					 'ctrl-86 shift-45': 'paste($event)',
-					 'ctrl-90' : 'undo()',
-					 'ctrl-shift-90' : 'redo()',
-					 'ctrl-89' : 'redo()' }"
-		 ng-mousedown="selectClick($event)">
+		tabindex="0"
+		ng-style="{height: kbHeight + 'px', 'background-color': keyboard.meta.backcolor}"
+		ui-keydown="{ left:'moveKeys(-.25,0,$event)',
+									right:'moveKeys(.25,0,$event)',
+									up:'moveKeys(0,-.25,$event)',
+									down:'moveKeys(0,.25,$event)',
+									'shift-left':'sizeKeys(-.25,0,$event)',
+									'shift-right':'sizeKeys(.25,0,$event)',
+									'shift-up':'sizeKeys(0,-.25,$event)',
+									'shift-down':'sizeKeys(0,.25,$event)',
+									'pageup':'rotateKeys(-15,$event)',
+									'pagedown':'rotateKeys(15,$event)',
+									'ctrl-left':'moveCenterKeys(-.25,0,$event)',
+									'ctrl-right':'moveCenterKeys(.25,0,$event)',
+									'ctrl-up':'moveCenterKeys(0,-.25,$event)',
+									'ctrl-down':'moveCenterKeys(0,.25,$event)',
+									delete:'deleteKeys()',
+									insert:'addKey()',
+									74: 'prevKey($event)',
+									75: 'nextKey($event)',
+									'shift-74': 'prevKey($event)',
+									'shift-75': 'nextKey($event)',
+									113: 'focusEditor()',
+									esc: 'unselectAll()',
+									'ctrl-65': 'selectAll($event)',
+									'ctrl-67 ctrl-45': 'copy($event)',
+									'ctrl-88 shift-46': 'cut($event)',
+									'ctrl-86 shift-45': 'paste($event)',
+									'ctrl-90' : 'undo()',
+									'ctrl-shift-90' : 'redo()',
+									'ctrl-89' : 'redo()' }"
+		ng-mousedown="selectClick($event)">
 
 		<div ng-repeat="key in keys()"
-			 class="key {{key.profile}}"
-			 style="{{rotationStyle(key)}}"
-			 ng-mouseover="hoveredKey=key"
-			 ng-mouseleave="hoveredKey=null"
-			 ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0}"
-			 ng-bind-html="key.html">
+			class="key {{key.profile}}"
+			style="{{rotationStyle(key)}}"
+			ng-mouseover="hoveredKey=key"
+			ng-mouseleave="hoveredKey=null"
+			ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0}"
+			ng-bind-html="key.html">
 		</div>
 
-		<div style='clear:both'></div>
+		<div style="clear:both"></div>
 		{{calcKbHeight()}}
 	</div>
 	<div id="selectionRectangle" ng-style="{display:selRect.display, left:selRect.l+'px', width:selRect.w+'px', top:selRect.t+'px', height:selRect.h+'px'}"></div>
@@ -154,7 +154,7 @@ Forked from keyboard-layout-editor by Ian Prest
 		<li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="fa fa-keyboard-o"></i> Keyboard Properties</a></li>
 		<li ng-class="{active:selTab==2}"><a ng-click="selTab=2" data-toggle="tab"><i class="fa fa-code"></i> Raw data</a></li>
 	</ul>
-	<div class='tab-content' ui-keydown="{esc:'focusKb()'}">
+	<div class="tab-content" ui-keydown="{esc:'focusKb()'}">
 		<!-- PROPERTIES EDITOR -->
 		<div id="properties" ng-class="{hidden:selTab!=0}" class="col-md-12 row">
 			<form class="form-horizontal col-md-4 col-lg-4">
@@ -162,10 +162,10 @@ Forked from keyboard-layout-editor by Ian Prest
 					<label class="control-label" for="labeleditor">Top Label:</label>
 					<div class="controls">
 						<div data-hint="Specify the primary text of the keycap; typically displayed top-left, unless the centering options are used." class="hint--top hint--rounded">
-							<input id="labeleditor" size="6" type='text' ng-model="multi.labels[0]" ng-change="updateMulti('labels',0)" ng-blur="validateMulti('labels',0)" ng-disabled="selectedKeys.length<1">
+							<input id="labeleditor" size="6" type="text" ng-model="multi.labels[0]" ng-change="updateMulti('labels',0)" ng-blur="validateMulti('labels',0)" ng-disabled="selectedKeys.length<1">
 						</div>
 						<div data-hint="Specify secondary text for the keycap; typically displayed top-right." class="hint--top hint--rounded">
-							<input id="labeleditor3" size="6" type='text' ng-model="multi.labels[2]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centerx">
+							<input id="labeleditor3" size="6" type="text" ng-model="multi.labels[2]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centerx">
 						</div>
 						<div data-hint="Center the keycap text horizontally; the labels that would normally be left-aligned will be centered instead." class="hint--top hint--rounded">
 							<input id="centerx" type="checkbox" ng-model="multi.centerx" ng-change="updateMulti('centerx')" ng-blur="validateMulti('centerx')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centerx">Center X</label>
@@ -176,10 +176,10 @@ Forked from keyboard-layout-editor by Ian Prest
 					<label class="control-label" for="labeleditor7">Center Label:</label>
 					<div class="controls">
 						<div data-hint="Specify secondary text for the keycap; typically displayed center-left.  You can specify a horizontal rule with <hr>." class="hint--top hint--rounded">
-							<input id="labeleditor7" size="6" type='text' ng-model="multi.labels[6]" ng-change="updateMulti('labels',6)" ng-blur="validateMulti('labels',6)" ng-disabled="selectedKeys.length<1 || multi.centery">
+							<input id="labeleditor7" size="6" type="text" ng-model="multi.labels[6]" ng-change="updateMulti('labels',6)" ng-blur="validateMulti('labels',6)" ng-disabled="selectedKeys.length<1 || multi.centery">
 						</div>
 						<div data-hint="Specify secondary text for the keycap; typically displayed center-right." class="hint--top hint--rounded">
-							<input id="labeleditor8" size="6" type='text' ng-model="multi.labels[7]" ng-change="updateMulti('labels',7)" ng-blur="validateMulti('labels',7)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
+							<input id="labeleditor8" size="6" type="text" ng-model="multi.labels[7]" ng-change="updateMulti('labels',7)" ng-blur="validateMulti('labels',7)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
 						</div>
 						<div data-hint="Center the keycap text vertically; the labels that would normally be top-aligned will be centered instead." class="hint--top hint--rounded">
 							<input id="centery" type="checkbox" ng-model="multi.centery" ng-change="updateMulti('centery')" ng-blur="validateMulti('centery')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centery">Center Y</label>
@@ -190,10 +190,10 @@ Forked from keyboard-layout-editor by Ian Prest
 					<label class="control-label" for="labeleditor2">Bottom Label:</label>
 					<div class="controls">
 						<div data-hint="Specify secondary text for the keycap; typically displayed bottom-left." class="hint--top hint--rounded">
-							<input id="labeleditor2" size="6" type='text' ng-model="multi.labels[1]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centery">
+							<input id="labeleditor2" size="6" type="text" ng-model="multi.labels[1]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centery">
 						</div>
 						<div data-hint="Specify secondary text for the keycap; typically displayed bottom-right." class="hint--top hint--rounded">
-							<input id="labeleditor4" size="6" type='text' ng-model="multi.labels[3]" ng-change="updateMulti('labels',3)" ng-blur="validateMulti('labels',3)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
+							<input id="labeleditor4" size="6" type="text" ng-model="multi.labels[3]" ng-change="updateMulti('labels',3)" ng-blur="validateMulti('labels',3)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
 						</div>
 					</div>
 				</div>
@@ -201,10 +201,10 @@ Forked from keyboard-layout-editor by Ian Prest
 					<label class="control-label" for="labeleditor5">Side-Print Label:</label>
 					<div class="controls">
 						<div data-hint="Specify the primary side-printed text for the keycap." class="hint--top hint--rounded">
-							<input id="labeleditor5" size="6" type='text' ng-model="multi.labels[4]" ng-change="updateMulti('labels',4)" ng-blur="validateMulti('labels',4)" ng-disabled="selectedKeys.length<1">
+							<input id="labeleditor5" size="6" type="text" ng-model="multi.labels[4]" ng-change="updateMulti('labels',4)" ng-blur="validateMulti('labels',4)" ng-disabled="selectedKeys.length<1">
 						</div>
 						<div data-hint="Specify secondary side-printed text for the keycap." class="hint--top hint--rounded">
-							<input id="labeleditor6" size="6" type='text' ng-model="multi.labels[5]" ng-change="updateMulti('labels',5)" ng-blur="validateMulti('labels',5)" ng-disabled="selectedKeys.length<1 || multi.centerf">
+							<input id="labeleditor6" size="6" type="text" ng-model="multi.labels[5]" ng-change="updateMulti('labels',5)" ng-blur="validateMulti('labels',5)" ng-disabled="selectedKeys.length<1 || multi.centerf">
 						</div>
 						<div data-hint="Center the side-printed text." class="hint--top hint--rounded">
 							<input id="centerf" type="checkbox" ng-model="multi.centerf" ng-change="updateMulti('centerf')" ng-blur="validateMulti('centerf')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centerf">Center</label>
@@ -214,55 +214,55 @@ Forked from keyboard-layout-editor by Ian Prest
 				<div class="control-group">
 					<label class="control-label" for="textsizeeditor">Legend Size:</label>
 					<div class="controls hint--top hint--rounded" data-hint="Specify the primary and secondary sizes for the keycap legends. The primary size affects only the primary text legend, while the secondary size is applied to all other legends.">
-						<input id="textsizeeditor" size="6" type='number' min="1" max="9" ng-model="multi.fontheight" ng-change="updateMulti('fontheight')" ng-blur="validateMulti('fontheight')" ng-disabled="selectedKeys.length<1">
+						<input id="textsizeeditor" size="6" type="number" min="1" max="9" ng-model="multi.fontheight" ng-change="updateMulti('fontheight')" ng-blur="validateMulti('fontheight')" ng-disabled="selectedKeys.length<1">
 						/
-						<input id="textsizeeditor" size="6" type='number' min="1" max="9" ng-model="multi.fontheight2" ng-change="updateMulti('fontheight2')" ng-blur="validateMulti('fontheight2')" ng-disabled="selectedKeys.length<1">
+						<input size="6" type="number" min="1" max="9" ng-model="multi.fontheight2" ng-change="updateMulti('fontheight2')" ng-blur="validateMulti('fontheight2')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="widtheditor">Width:</label>
 					<div class="controls hint--top hint--rounded" data-hint="Specify the primary and secondary widths for the keycap. The secondary width is used to specify the size of non-rectangular or stepped keys.">
-						<input id="widtheditor" size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.width" ng-change="updateMulti('width')" ng-blur="validateMulti('width')" ng-disabled="selectedKeys.length<1">
+						<input id="widtheditor" size="6" type="number" min="0.5" max="12" step=".25" ng-model="multi.width" ng-change="updateMulti('width')" ng-blur="validateMulti('width')" ng-disabled="selectedKeys.length<1">
 						/
-						<input size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.width2" ng-change="updateMulti('width2')" ng-blur="validateMulti('width2')" ng-disabled="selectedKeys.length<1">
+						<input size="6" type="number" min="0.5" max="12" step=".25" ng-model="multi.width2" ng-change="updateMulti('width2')" ng-blur="validateMulti('width2')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="heighteditor">Height:</label>
 					<div class="controls hint--top hint--rounded" data-hint="Specify the primary and secondary heights for the keycap. The secondary height is used to specify the size of non-rectangular or stepped keys.">
-						<input id="heighteditor" size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.height" ng-change="updateMulti('height')" ng-blur="validateMulti('height')" ng-disabled="selectedKeys.length<1">
+						<input id="heighteditor" size="6" type="number" min="0.5" max="12" step=".25" ng-model="multi.height" ng-change="updateMulti('height')" ng-blur="validateMulti('height')" ng-disabled="selectedKeys.length<1">
 						/
-						<input size="6" type='number' min='0.5' max='12' step='.25' ng-model="multi.height2" ng-change="updateMulti('height2')" ng-blur="validateMulti('height2')" ng-disabled="selectedKeys.length<1">
+						<input size="6" type="number" min="0.5" max="12" step=".25" ng-model="multi.height2" ng-change="updateMulti('height2')" ng-blur="validateMulti('height2')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="xeditor">X:</label>
 					<div class="controls hint--top hint--rounded" data-hint="Specify the X position of the keycap. An X-offset can also be specified to indicate how non-rectangular keys should be displayed.">
-						<input id="xeditor" size="6" type='number' min='0' max='36' step='.25' ng-model="multi.x" ng-change="updateMulti('x')" ng-blur="validateMulti('x')" ng-disabled="selectedKeys.length<1">
+						<input id="xeditor" size="6" type="number" min="0" max="36" step=".25" ng-model="multi.x" ng-change="updateMulti('x')" ng-blur="validateMulti('x')" ng-disabled="selectedKeys.length<1">
 						+
-						<input size="6" type='number' min='-6' max='6' step='.25' ng-model="multi.x2" ng-change="updateMulti('x2')" ng-blur="validateMulti('x2')" ng-disabled="selectedKeys.length<1">
+						<input size="6" type="number" min="-6" max="6" step=".25" ng-model="multi.x2" ng-change="updateMulti('x2')" ng-blur="validateMulti('x2')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="yeditor">Y:</label>
 					<div class="controls hint--top hint--rounded" data-hint="Specify the Y position of the keycap. A Y-offset can also be specified to indicate how non-rectangular keys should be displayed.">
-						<input id="yeditor" size="6" type='number' min='0' max='36' step='.25' ng-model="multi.y" ng-change="updateMulti('y')" ng-blur="validateMulti('y')" ng-disabled="selectedKeys.length<1">
+						<input id="yeditor" size="6" type="number" min="0" max="36" step=".25" ng-model="multi.y" ng-change="updateMulti('y')" ng-blur="validateMulti('y')" ng-disabled="selectedKeys.length<1">
 						+
-						<input size="6" type='number' min='-6' max='6' step='.25' ng-model="multi.y2" ng-change="updateMulti('y2')" ng-blur="validateMulti('y2')" ng-disabled="selectedKeys.length<1">
+						<input size="6" type="number" min="-6" max="6" step=".25" ng-model="multi.y2" ng-change="updateMulti('y2')" ng-blur="validateMulti('y2')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="profileeditor">Profile / Row:</label>
 					<div class="controls hint--top hint--rounded" data-hint="Specify the profile and (optionally) the row-number of the selected keys, e.g., 'DCS R1', 'DSA', 'DSA SPACE', etc.">
-						<input id="profileeditor" size="16" type='text' ng-model="multi.profile" ng-change="updateMulti('profile')" ng-blur="validateMulti('profile')" ng-disabled="selectedKeys.length<1">
+						<input id="profileeditor" size="16" type="text" ng-model="multi.profile" ng-change="updateMulti('profile')" ng-blur="validateMulti('profile')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="coloreditor">Key Color:</label>
 					<div class="controls">
 						<div class="hint--top hint--rounded" data-hint="Specify the color to use for the background of the selected keycaps.">
-							<input id="coloreditor" size="8" type='text' ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
-							<input type='color' class="colorpicker" ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
+							<input id="coloreditor" size="8" type="text" ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
+							<input type="color" class="colorpicker" ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
 						</div>
 						<div class="color-name">{{colorName(multi.color)}}</div>
 						<button id="swap-colors" class="btn btn-default hint--top hint--rounded" ng-click="swapColors()" ng-disabled="selectedKeys.length<1" data-hint="Swap the text and keycap colors."><i class="fa fa-random"></i></button>
@@ -271,8 +271,8 @@ Forked from keyboard-layout-editor by Ian Prest
 				<div class="control-group">
 					<label class="control-label" for="textcoloreditor">Label Color:</label>
 					<div class="controls hint--top hint--rounded" data-hint="Specify the color to use for the legend text on the selected keycaps.">
-						<input id="textcoloreditor" size="8" type='text' ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
-						<input type='color' class="colorpicker" ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
+						<input id="textcoloreditor" size="8" type="text" ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
+						<input type="color" class="colorpicker" ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
 						<div class="color-name">{{colorName(multi.text)}}</div>
 					</div>
 				</div>
@@ -281,7 +281,7 @@ Forked from keyboard-layout-editor by Ian Prest
 					<div class="controls hint--top hint--rounded" data-hint="Specify the angle (in degrees) by which to rotate the keycaps, and the x &amp; y coordinates of the center of rotation.">
 						<input id="angleeditor" size="3" type="number" min="-180" max="180" step="15" ng-model="multi.rotation_angle" ng-change="updateMulti('rotation_angle')" ng-blur="validateMulti('rotation_angle')" ng-disabled="selectedKeys.length<1">&#176;
 						<input id="rotxeditor" size="3" type="number" min="0" max="36" step=".25" ng-model="multi.rotation_x" ng-change="updateMulti('rotation_x')" ng-blur="validateMulti('rotation_x')" ng-disabled="selectedKeys.length<1">,
-						<input id="rotxeditor" size="3" type="number" min="0" max="36" step=".25" ng-model="multi.rotation_y" ng-change="updateMulti('rotation_y')" ng-blur="validateMulti('rotation_y')" ng-disabled="selectedKeys.length<1">
+						<input id="rotyeditor" size="3" type="number" min="0" max="36" step=".25" ng-model="multi.rotation_y" ng-change="updateMulti('rotation_y')" ng-blur="validateMulti('rotation_y')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
 				<div class="control-group">
@@ -298,16 +298,16 @@ Forked from keyboard-layout-editor by Ian Prest
 			</form>
 
 			<div class="col-md-4 col-lg-4" ng-class="{hidden:!palette.name}">
-				{{palette.name}} <a ng-href='{{palette.href}}' data-hint="{{palette.description}}" class="hint--top hint--rounded" target="_blank">(more info)</a>
+				{{palette.name}} <a ng-href="{{palette.href}}" data-hint="{{palette.description}}" class="hint--top hint--rounded" target="_blank">(more info)</a>
 				<ul id="swatches" ng-class="{disabled:selectedKeys.length<1}">
 					<li ng-repeat="color in palette.colors"
-						 ng-style="{'background-color':color.css}"
-						 ng-click="clickSwatch(color,$event)"
-						 class="swatch hint--top"
-						 ng-class="{'selected-bg': color.css === multi.color, 'selected-fg': color.css === multi.text}"
-						 data-hint="{{color.name}}">
-							 <div class='highlight fg'></div>
-							 <div class='highlight bg'></div>
+						ng-style="{'background-color':color.css}"
+						ng-click="clickSwatch(color,$event)"
+						class="swatch hint--top"
+						ng-class="{'selected-bg': color.css === multi.color, 'selected-fg': color.css === multi.text}"
+						data-hint="{{color.name}}">
+							<div class="highlight fg"></div>
+							<div class="highlight bg"></div>
 					</li>
 				</ul>
 				<div class="alert alert-warning alert-dismissable" style="margin-top:10px;"><a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
@@ -323,8 +323,8 @@ Forked from keyboard-layout-editor by Ian Prest
 				<div class="control-group">
 					<label class="control-label" for="kbdcoloreditor">Keyboard Color:</label>
 					<div class="controls">
-						<input id="kbdcoloreditor" size="8" type='text' ng-model="meta.backcolor" ng-change="updateMeta('backcolor')" ng-blur="validateMeta('backcolor')">
-						<input type='color' class="colorpicker" ng-model="meta.backcolor" ng-change="updateMeta('backcolor')" ng-blur="validateMeta('backcolor')">
+						<input id="kbdcoloreditor" size="8" type="text" ng-model="meta.backcolor" ng-change="updateMeta('backcolor')" ng-blur="validateMeta('backcolor')">
+						<input type="color" class="colorpicker" ng-model="meta.backcolor" ng-change="updateMeta('backcolor')" ng-blur="validateMeta('backcolor')">
 					</div>
 				</div>
 			</form>
@@ -333,18 +333,18 @@ Forked from keyboard-layout-editor by Ian Prest
 		<!-- RAW DATA EDITOR -->
 		<div ng-class="{hidden:selTab!=2}" class="col-md-12">
 			<textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}"></textarea>
-			<div id="rawdata-error" class="alert alert-danger" style='margin-top:1em;margin-bottom:0px' ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
+			<div id="rawdata-error" class="alert alert-danger" style="margin-top:1em;margin-bottom:0px" ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
 		</div>
 	</div>
-	<P></P>
+	<p></p>
 	<div ng-class="{hidden:!saved}" class="alert alert-success">
 		<a class="close" href="#" aria-hidden="true" ng-click="saved=false">&times;</a>
 		Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/saves/{{saved}}">this link</a>.
 	</div>
 	<div ng-class="{hidden:!saveError}" class="alert alert-danger">
 		<a class="close" href="#" aria-hidden="true" ng-click="saveError=''">&times;</a>
-		<P>There was an error saving your layout on the server: {{saveError}}</P>
-		<P>To ensure you don't lose any data, it is recommended that you <a class="alert-link" ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false">bookmark this permalink</a>.</P>
+		<p>There was an error saving your layout on the server: {{saveError}}</p>
+		<p>To ensure you don't lose any data, it is recommended that you <a class="alert-link" ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false">bookmark this permalink</a>.</p>
 	</div>
 	<div ng-class="{hidden:!loadError}" class="alert alert-danger">
 		<a class="close" href="#" aria-hidden="true" ng-click="loadError=false">&times;</a>
@@ -369,7 +369,7 @@ Forked from keyboard-layout-editor by Ian Prest
 
 <!-- Modal -->
 <div class="modal fade" id="helpDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog" style='width:70%;left:15%;'>
+	<div class="modal-dialog" style="width:70%;left:15%;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -387,27 +387,27 @@ Forked from keyboard-layout-editor by Ian Prest
 				</ul>
 
 				<h5>Keyboard Shortcuts</h5>
-				<table class='shortcuts col-md-6' style='margin-bottom:5px;'>
-					<tr><td><span class='shortcut'>?</span></td><td>Show this help dialog</td></tr>
-					<tr><td><span class='shortcut'>↑↓←→</span></td><td>Move the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Shift&ndash;↑↓←→</span></td><td>Resize the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;↑↓←→</span></td><td>Move the center of rotation for the selected keys</td></tr>
-					<tr><td><span class='shortcut'>PgUp</span> / <span class='shortcut'>PgDn</span></td><td>Change the angle of rotation for the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Ins</span></td><td>Add a new key</td></tr>
-					<tr><td><span class='shortcut'>Del</span></td><td>Delete the selected keys</td></tr>
-					<tr><td><span class='shortcut'>F2</span></td><td>Edit the text of the selected key</td></tr>
-					<tr><td><span class='shortcut'>J</span> / <span class='shortcut'>K</span></td><td>Select the previous / next key in the editor.</td></tr>
+				<table class="shortcuts col-md-6" style="margin-bottom:5px;">
+					<tr><td><span class="shortcut">?</span></td><td>Show this help dialog</td></tr>
+					<tr><td><span class="shortcut">↑↓←→</span></td><td>Move the selected keys</td></tr>
+					<tr><td><span class="shortcut">Shift&ndash;↑↓←→</span></td><td>Resize the selected keys</td></tr>
+					<tr><td><span class="shortcut">Ctrl&ndash;↑↓←→</span></td><td>Move the center of rotation for the selected keys</td></tr>
+					<tr><td><span class="shortcut">PgUp</span> / <span class="shortcut">PgDn</span></td><td>Change the angle of rotation for the selected keys</td></tr>
+					<tr><td><span class="shortcut">Ins</span></td><td>Add a new key</td></tr>
+					<tr><td><span class="shortcut">Del</span></td><td>Delete the selected keys</td></tr>
+					<tr><td><span class="shortcut">F2</span></td><td>Edit the text of the selected key</td></tr>
+					<tr><td><span class="shortcut">J</span> / <span class="shortcut">K</span></td><td>Select the previous / next key in the editor.</td></tr>
 				</table>
-				<table class='shortcuts col-md-6' style='margin-bottom:5px;'>
-					<tr><td><span class='shortcut'>Ctrl&ndash;S</span></td><td>Save your layout (on the server)</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;A</span> / <span class='shortcut'>Esc</span></td><td>Select / deselect all keys</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;Z</span></td><td>Undo</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;Shift&ndash;Z</span> or <span class='shortcut'>Ctrl&ndash;Y</span></td><td>Redo</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;X</span> or <span class='shortcut'>Shift&ndash;Del</span></td><td>Cut the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;C</span> or <span class='shortcut'>Ctrl&ndash;Ins</span></td><td>Copy the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;V</span> or <span class='shortcut'>Shift&ndash;Ins</span></td><td>Paste keys from the clipboard</td></tr>
+				<table class="shortcuts col-md-6" style="margin-bottom:5px;">
+					<tr><td><span class="shortcut">Ctrl&ndash;S</span></td><td>Save your layout (on the server)</td></tr>
+					<tr><td><span class="shortcut">Ctrl&ndash;A</span> / <span class="shortcut">Esc</span></td><td>Select / deselect all keys</td></tr>
+					<tr><td><span class="shortcut">Ctrl&ndash;Z</span></td><td>Undo</td></tr>
+					<tr><td><span class="shortcut">Ctrl&ndash;Shift&ndash;Z</span> or <span class="shortcut">Ctrl&ndash;Y</span></td><td>Redo</td></tr>
+					<tr><td><span class="shortcut">Ctrl&ndash;X</span> or <span class="shortcut">Shift&ndash;Del</span></td><td>Cut the selected keys</td></tr>
+					<tr><td><span class="shortcut">Ctrl&ndash;C</span> or <span class="shortcut">Ctrl&ndash;Ins</span></td><td>Copy the selected keys</td></tr>
+					<tr><td><span class="shortcut">Ctrl&ndash;V</span> or <span class="shortcut">Shift&ndash;Ins</span></td><td>Paste keys from the clipboard</td></tr>
 				</table>
-				<P style='clear:both'>Note that most of these keys require that the keyboard editor has input focus.</P>
+				<p style="clear:both">Note that most of these keys require that the keyboard editor has input focus.</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>

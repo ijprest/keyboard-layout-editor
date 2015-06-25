@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <script>
@@ -7,7 +8,7 @@ for(var i = 15; i >= 1; --i) {
 	keys.push({x:i,y:0});
 }
 
-keys.sort(function(a,b) { 
+keys.sort(function(a,b) {
 	console.log(a,b,a.y-b.y,a.x-b.x,(a.y - b.y) || (a.x - b.x));
 	return (a.y - b.y) ||
 	(a.x - b.x);
