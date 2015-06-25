@@ -1,6 +1,8 @@
 #D1SC0tech Editor
 ######A fork of [keyboard-layout-editor](https://github.com/ijprest/keyboard-layout-editor) by Ian Prest
 
+[![Join the chat at https://gitter.im/D1SC0tech/keyboard-layout-editor](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/D1SC0tech/keyboard-layout-editor?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [D1SC0tech Editor](http://editor.d1sc0te.ch) is a web
 application for designing custom layouts for mechanical keyboards.
 
