@@ -1,0 +1,14 @@
+{
+  "name": "urlon",
+  "homepage": "https://github.com/vjeux/urlon",
+  "_release": "d61369643d",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "d61369643d6a3aa382e8d1ae14e42cb077fa7c87"
+  },
+  "_source": "git://github.com/vjeux/urlon.git",
+  "_target": "*",
+  "_originalSource": "vjeux/urlon",
+  "_direct": true
+}

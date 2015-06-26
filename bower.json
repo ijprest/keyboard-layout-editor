@@ -1,0 +1,17 @@
+{
+  "name": "keyboard-layout-editor",
+  "version": "0.0.1",
+  "homepage": "https://github.com/D1SC0tech/keyboard-layout-editor",
+  "authors": [
+    "Ian Prest",
+    "Jordi Orlando <jordi.orlando@gmail.com>"
+  ],
+  "license": "TBD",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

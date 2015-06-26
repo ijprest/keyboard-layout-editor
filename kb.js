@@ -190,7 +190,7 @@
 			//$timeout.cancel(serializedTimer); // this is slow, for some reason
 			$scope.deserializeException = "";
 			$scope.serializedRaw = $serial.serialize($scope.keyboard);
-			$scope.serialized = toJsonPretty($scope.serializedRaw);
+			//$scope.serialized = toJsonPretty($scope.serializedRaw);
 		}
 
 		$scope.deserializeAndRender([]);
@@ -199,7 +199,7 @@
 			if(loc[0]=='@') {
 				$scope.deserializeAndRender(URLON.parse(encodeURI(loc)));
 			} else {
-				$scope.deserializeAndRender($serial.fromJsonL(loc));
+				$scope.deserializeAndRender(JSON.parse(loc));
 			}
 		} else if($location.path()[0] === '/') {
 			$http.get($serial.base_href + $location.path()).success(function(data) {
@@ -602,8 +602,9 @@
 				try {
 					$scope.deserializeException = "";
 					transaction("rawdata", function() {
-						$scope.deserializeAndRender(fromJsonPretty($scope.serialized));
-						$scope.serializedRaw = '['+$scope.serialized+']';
+						$scope.deserializeAndRender($scope.serializedRaw);
+						//$scope.deserializeAndRender(fromJsonPretty($scope.serialized));
+						//$scope.serializedRaw = '['+$scope.serialized+']';
 					});
 					$scope.unselectAll();
 				} catch(e) {

@@ -1,0 +1,15 @@
+{
+  "name": "color-js",
+  "homepage": "https://github.com/brehaut/color-js",
+  "version": "1.0.1",
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.1",
+    "commit": "48bf44960325075e5e8547f985b06dd73d027450"
+  },
+  "_source": "git://github.com/brehaut/color-js.git",
+  "_target": "~1.0.1",
+  "_originalSource": "color-js",
+  "_direct": true
+}

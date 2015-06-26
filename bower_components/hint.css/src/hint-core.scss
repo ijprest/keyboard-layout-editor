@@ -1,0 +1,72 @@
+/**
+ * source: hint-core.scss
+ *
+ * Defines the basic styling for the tooltip.
+ * Each tooltip is made of 2 parts:
+ * 	1) body (:after)
+ * 	2) arrow (:before)
+ *
+ * Classes added:
+ * 	1) hint
+ */
+
+.hint, [data-hint] {
+	position: relative;
+	display: inline-block;
+
+	&:before, &:after {
+		position: absolute;
+
+		// HACK: Trigger hardware accelerated rendering, otherwise transform was not
+		// working on a hidden element
+		@include vendor('transform', translate3d(0, 0, 0));
+
+		// HACK: visibility is set to hidden because IE & Opera don't support
+		// pointer-events on HTML content yet because of which hovering a hidden tooltip
+		// shows the tooltip.
+		visibility: hidden;
+		opacity: 0;
+		z-index: $zIndex;
+		// shouldn't receive pointer events, otherwise even hovering tooltip will make it appear
+		pointer-events: none;
+
+		@include vendor('transition', 0.3s ease);
+		@include vendor('transition-delay', $hideDelay);
+	}
+
+	&:hover:before, &:hover:after,
+	&:focus:before, &:focus:after {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	&:hover:before, &:hover:after {
+		// $showDelay will apply as soon as element is hovered.
+		@include vendor('transition-delay', $showDelay);
+	}
+
+	/**
+	 * tooltip arrow
+	 */
+	&:before {
+		content: '';
+		position: absolute;
+		background: transparent;
+		border: $arrowBorderWidth solid transparent;
+		// move z-index 1 up than :after so that it shows over box-shadow
+		z-index: $zIndex + 1;
+	}
+
+	/**
+	 * tooltip body
+	 */
+	&:after {
+		content: attr(data-hint); // The magic!
+		background: $defaultColor;
+		color: white;
+		padding: $verticalPadding $horizontalPadding;
+		font-size: $fontSize;
+		line-height: $fontSize; // Vertical centering.
+		white-space: nowrap; // Prevent breaking to new line.
+	}
+}

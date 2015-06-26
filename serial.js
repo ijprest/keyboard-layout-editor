@@ -180,7 +180,11 @@ var $serial = {};
 
 	$serial.saveLayout = function($http, layout, success, error) {
 		var data = angular.toJson(layout);
-		var fn = CryptoJS.MD5(data).toString();
+		var blob = new Blob([data], {type: "text/plain;charset=utf-8"});
+		saveAs(blob, "layout.json");
+		var md = forge.md.md5.create();
+		md.update(data);
+		var fn = md.digest().toString();
 
 		// First test to see if the file is already available
 		$http.get($serial.base_href+"/saves/"+fn).success(function() { success(fn); }).error(function() {
