@@ -137,7 +137,7 @@
 		// Known layouts/keysets
 		$scope.layouts = {};
 		$scope.keysets = {};
-		$http.get('layouts.json').success(function(data) {
+		$http.get('presets.json').success(function(data) {
 			$scope.layouts = data.layouts;
 			$scope.keysets = data.keysets;
 		});
