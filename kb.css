@@ -1,4 +1,4 @@
-@font-face {
+/*@font-face {
   font-family: 'engravers_gothic_fsregular';
   src: url('fonts/EngraversGothic-Regular-webfont.eot');
   src: url('fonts/EngraversGothic-Regular-webfont.eot?#iefix') format('embedded-opentype'),
@@ -7,11 +7,22 @@
     url('fonts/EngraversGothic-Regular-webfont.svg#engravers_gothic_fsregular') format('svg');
   font-weight: normal;
   font-style: normal;
+}*/
+
+@font-face {
+  font-family: 'copperplate-gothic-condensed';
+  src: url('fonts/Copperplate-Gothic-Condensed.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
+
+/*font-family: 'Inconsolata' ;
+font-family: 'Droid Sans Mono', ;*/
 
 html, body {
   height: 100%;
-  font-family: "Segoe UI", "Arial", "Helvetica", sans-serif;
+  /*font-family: "Segoe UI", "Arial", "Helvetica", sans-serif;*/
+  font-family: 'Droid Sans', sans-serif;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -90,7 +101,8 @@ html, body {
 
 /* The face of the cap */
 .keyfg {
-  font-family: "Helvetica", "Arial", sans-serif;
+  /*font-family: "Helvetica", "Arial", sans-serif;*/
+  font-family: 'Droid Sans', sans-serif;
   position: absolute;
   border-radius: 3px;
   display:table-cell;
@@ -127,7 +139,9 @@ html, body {
 }
 .DSA .keyborder.inner, .SA .keyborder.inner { margin-top: 3px; border-radius: 8px; }
 .DSA .keyfg, .SA .keyfg {
-  font-family: 'engravers_gothic_fsregular', "Arial", "Helvetica", sans-serif; /* substitute for Gorton Modified */
+  /* substitute for Gorton Modified */
+  /*font-family: 'engravers_gothic_fsregular', "Arial", "Helvetica", sans-serif;*/
+  font-family: 'copperplate-gothic-condensed', serif;
   border-radius: 8px;
   margin-top: 3px;
   background: -moz-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.1) 10%, rgba(0,0,0,0) 100%);
@@ -159,13 +173,29 @@ html, body {
 
 /* Key labels */
 .keylabels { display: table; }
-.keylabel { display: table-row; position: absolute; left:2px; top:2px; right:2px; bottom:2px; }
+.keylabel {
+  display: table-row;
+  position: absolute;
+  left:2px;
+  top:2px;
+  right:2px;
+  bottom:2px;
+}
 .keylabel > div { display: table-cell; }
 .keylabel3>div, .keylabel4>div, .keylabel6>div, .keylabel8>div { text-align: right; }
 .keylabel7>div, .keylabel8>div { vertical-align: middle; }
 .keylabel2>div, .keylabel4>div { vertical-align: bottom; }
-.keylabel5, .keylabel6 { top:100%; margin-top:0px; font-size: 10px !important; white-space:nowrap; overflow: hidden;}
-.DSA .keylabel5, .DSA .keylabel6, .SA .keylabel5, .SA .keylabel6 { margin-top:-1px; font-size: 9px !important; }
+.keylabel5, .keylabel6 {
+  top:100%;
+  margin-top:0px;
+  font-size: 10px !important;
+  white-space:nowrap;
+  overflow: hidden;
+}
+.DSA .keylabel5, .DSA .keylabel6, .SA .keylabel5, .SA .keylabel6 {
+  margin-top:-1px;
+  font-size: 9px !important;
+}
 .keylabel1.centerx-true>div, .keylabel2.centerx-true>div, .keylabel5.centerf-true>div, .keylabel7.centerx-true>div { text-align: center; }
 .keylabel1.centery-true>div, .keylabel3.centery-true>div { vertical-align: middle; }
 
@@ -192,13 +222,38 @@ html, body {
   background-color: rgb(235,235,228) !important;
 }
 .swatch .highlight { display:none; }
-.swatch.selected-bg .highlight.bg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px black; background: white; opacity: 0.75; position:absolute; left:7px; top:23px; }
-.swatch.selected-fg .highlight.fg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px white; background: black; opacity: 0.75; position:absolute; left:1px; top:23px; }
+.swatch.selected-bg .highlight.bg {
+  display:block;
+  z-index:100;
+  width: 6px;
+  height: 6px;
+  border: solid 1px black;
+  background: white;
+  opacity: 0.75;
+  position:absolute;
+  left:7px;
+  top:23px;
+}
+.swatch.selected-fg .highlight.fg {
+  display:block;
+  z-index:100;
+  width: 6px;
+  height: 6px;
+  border: solid 1px white;
+  background: black;
+  opacity: 0.75;
+  position:absolute;
+  left:1px;
+  top:23px;
+}
 
 /* general styles */
 .hidden { display: none; }
 .error { border: solid 2px rgb(217,83,79); }
-#selectionRectangle { position: absolute; border: dashed 2px red; }
+#selectionRectangle {
+  position: absolute;
+  border: dashed 2px red;
+}
 #rotationCrosshairs {
   display: none;
   position: absolute;
@@ -215,10 +270,12 @@ html, body {
 #rawdata {
   width: 100%;
   height: 200px;
-  font-family: "Consolas", "Courier New", "Courier", monospace;
+  /*font-family: "Consolas", "Courier New", "Courier", monospace;*/
+  font-family: 'Inconsolata', monospace;
 }
 #rawdata-error {
-  font-family: "Consolas", "Courier New", "Courier", monospace;
+  /*font-family: "Consolas", "Courier New", "Courier", monospace;*/
+  font-family: 'Inconsolata', monospace;
   white-space: pre;
 }
 
@@ -238,25 +295,61 @@ html, body {
 }
 .form-horizontal input { margin-bottom: 2px; }
 
-.shortcuts tr > td:first-child { text-align:right; padding-right: 6px; padding-top: 3px;}
-.shortcuts .shortcut { background-color: #444; color: white; padding: 1px 6px; border-radius:6px; font-family: "Consolas", "Courier New", "Courier", monospace; }
+.shortcuts tr > td:first-child {
+  text-align:right;
+  padding-right: 6px;
+  padding-top: 3px;
+}
+.shortcuts .shortcut {
+  background-color: #444; color: white; padding: 1px 6px;
+  border-radius:6px;
+  /*font-family: "Consolas", "Courier New", "Courier", monospace;*/
+  font-family: 'Inconsolata', monospace;
+}
 
-.checkbox-label { font-weight: normal; padding-left: 4px; }
+.checkbox-label {
+  font-weight: normal;
+  padding-left: 4px;
+}
 
 /* Tooltip modifications */
 .hint--rounded:after { width: 300px; }
 .hint:after, [data-hint]:after { white-space: pre-line; }
-.hint:before, .hint:after, [data-hint]:before, [data-hint]:after { -webkit-transition: 0.1s ease; -moz-transition: 0.1s ease; transition: 0.1s ease; }
+.hint:before, .hint:after, [data-hint]:before, [data-hint]:after {
+  -webkit-transition: 0.1s ease;
+  -moz-transition: 0.1s ease;
+  transition: 0.1s ease;
+}
 
-#swap-colors { position: relative; top: 15px; }
-.color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }
+#swap-colors {
+  position: relative;
+  top: 15px;
+}
+.color-name {
+  display: inline-block;
+  min-width: 3em;
+  font-size: 10px;
+  white-space: nowrap;
+}
 
 
 /* Only show the keyboard layout itself when printing */
 @media print {
-  html, body { overflow:hidden; height:100%; margin: 0 !important; padding: 0 !important; }
-  #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog { display: none; margin: 0 !important; padding: 0 !important; }
-  div.body { margin: 0 !important; padding: 0 !important; }
+  html, body {
+    overflow:hidden;
+    height:100%;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog {
+    display: none;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  div.body {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
   #keyboard {
     border: none;
     background-color: inherit !important;
