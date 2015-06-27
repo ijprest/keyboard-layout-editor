@@ -6,7 +6,7 @@
 	function toJsonPretty(obj) {
 		var res = [];
 		obj.forEach(function(elem) { res.push(angular.toJson(elem));	});
-		return res.join(",\n")+"\n";
+		return "[\n"+res.join(",\n")+"\n]\n";
 	}
 	function fromJsonPretty(json) { return JSON.parse(json); }
 
