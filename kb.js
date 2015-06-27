@@ -85,8 +85,8 @@
       if(event) {
         event.preventDefault();
       }
-      
-      var blob = new Blob([$scope.serializedRaw], {type: "text/plain;charset=utf-8"});
+
+      var blob = new Blob([JSON.parse($scope.serializedRaw)], {type: "text/plain;charset=utf-8"});
       saveAs(blob, "layout.json");
     };
 
