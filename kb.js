@@ -3,7 +3,11 @@
 (function () {
 	"use strict";
 
-	function toJsonPretty(obj) { return angular.toJson(obj); }
+	function toJsonPretty(obj) {
+		var res = [];
+		obj.forEach(function(elem) { res.push(angular.toJson(elem));	});
+		return res.join(",\n")+"\n";
+	}
 	function fromJsonPretty(json) { return JSON.parse(json); }
 
 	// The angular module for our application
