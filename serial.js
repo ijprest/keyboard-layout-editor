@@ -6,7 +6,7 @@ var $serial = {};
 	$serial.base_href = "http://www.keyboard-layout-editor.com";
 
 	// Lenient JSON reader/writer
-	$serial.toJsonL = function(obj) {
+	/*$serial.toJsonL = function(obj) {
 		var res = [], key;
 		if(obj instanceof Array) {
 			obj.forEach(function(elem) { res.push($serial.toJsonL(elem)); });
@@ -18,7 +18,7 @@ var $serial = {};
 		}
 		return angular.toJson(obj);
 	};
-	$serial.fromJsonL = function(json) { return jsonl.parse(json); };
+	$serial.fromJsonL = function(json) { return jsonl.parse(json); };*/
 
 	// function to sort the key array
 	$serial.sortKeys = function(keys) {

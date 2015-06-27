@@ -3,12 +3,12 @@
 (function () {
 	"use strict";
 
-	function toJsonPretty(obj) {
+	/*function toJsonPretty(obj) {
 		var res = [];
 		obj.forEach(function(elem) { res.push($serial.toJsonL(elem));	});
 		return res.join(",\n")+"\n";
 	}
-	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
+	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }*/
 
 	// The angular module for our application
 	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils"]);
@@ -210,7 +210,7 @@
 			});
 		} else {
 			// Some simple default content... just a numpad
-			$scope.deserializeAndRender([["Num Lock","/","*","-"],["7\nHome","8\n↑","9\nPgUp",{h:2},"+"],["4\n←","5","6\n→"],["1\nEnd","2\n↓","3\nPgDn",{h:2},"Enter"],[{w:2},"0\nIns",".\nDel"]]);
+			$scope.deserializeAndRender([["Num Lock","/","*","-"],["7\nHome","8\n↑","9\nPgUp",{"h":2},"+"],["4\n←","5","6\n→"],["1\nEnd","2\n↓","3\nPgDn",{"h":2},"Enter"],[{"w":2},"0\nIns",".\nDel"]]);
 		}
 
 		// Undo/redo support
