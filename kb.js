@@ -35,6 +35,10 @@
     $scope.keyboard = { keys: [], meta: {} };
     $scope.keys = function(newKeys) { if(newKeys) { $scope.keyboard.keys = newKeys; } return $scope.keyboard.keys; };
 
+    $scope.renderSvg = false;
+    $scope.fancySvg = false;
+    $scope.showKeyOutlines = true;
+
     // Helper function to select/deselect all keys
     $scope.unselectAll = function() {
       $scope.selectedKeys = [];
@@ -58,7 +62,7 @@
           //success
           $scope.dirty = false;
           $scope.saved = fn;
-          $location.path("/saves/"+fn);
+          $location.path("saves/"+fn); // TODO: should this be "/saves/"?
           $location.hash("");
           $scope.saveError = "";
         },
@@ -183,8 +187,22 @@
 
     // Given a key, generate the HTML needed to render it
     $scope.rotationStyle = $renderKey.getKeyRotationStyles;
+
+    $scope.$watch('fancySvg', function(newV, oldV) {
+      $scope.keys().forEach(function(key) {
+        renderKey(key);
+      });
+    });
+
+    $scope.$watch('showKeyOutlines', function(newV, oldV) {
+      $scope.keys().forEach(function(key) {
+        renderKey(key);
+      });
+    });
+
     function renderKey(key) {
       key.html = $sce.trustAsHtml($renderKey.html(key,$sanitize));
+      key.svg = $sce.trustAsHtml($renderKey.svg(key, $scope.fancySvg, $scope.showKeyOutlines, $sanitize));
     }
 
     $scope.deserializeAndRender = function(data) {
@@ -408,7 +426,65 @@
       });
     };
 
-    $scope.moveKeys = function(x,y,$event) {
+    $scope.makePaletteFromKeys = function(event) {
+      if (event) {
+        event.preventDefault();
+        }
+        var unselect = false;
+        if($scope.selectedKeys.length<1) {
+          $scope.selectAll();
+          unselect = true;
+        }
+
+        var colors = {};
+        // Get the unique colors of selected keys.
+        $scope.selectedKeys.forEach(function(selectedKey) {
+          colors[selectedKey.color] = null;
+          colors[selectedKey.text] = null;
+        });
+        // Build palette.
+        var p = {
+          "name": "Custom palette",
+          "description": "This is a custom palette generated from existing colors in the keyboard layout.",
+          "href": $scope.getPermalink(),
+          "colors": []
+        };
+        // Build colors.
+        for (var prop in colors) {
+          if (colors.hasOwnProperty(prop) && prop[0] == '#') {
+            var color = null;
+            // Look for the color in the current palette, and use it if found,
+            // in order to keep the name.
+            if ($scope.palette && $scope.palette.colors) {
+              for (var i = 0, len = $scope.palette.colors.length; i < len; ++i) {
+                if ($scope.palette.colors[i].css == prop) {
+                  color = $scope.palette.colors[i];
+                  break;
+                }
+              }
+            }
+            if (color == null) {
+              // Make a new color.
+              color = $color.sRGB8(parseInt(prop.slice(1,3), 16),
+              parseInt(prop.slice(3,5), 16),
+              parseInt(prop.slice(5,7), 16));
+              color.css = color.hex();
+              color.name = color.css;
+            }
+            if (color) {
+              p.colors.push(color);
+            }
+          }
+        }
+        p.colors.sort(function(a, b) { return a.name.localeCompare(b.name); });
+        $scope.loadPalette(p);
+
+        if (unselect) {
+          $scope.unselectAll();
+        }
+    };
+
+    $scope.moveKeys = function(x,y,$event) {//alert(x);alert(y);
       $event.preventDefault();
       if($scope.selectedKeys.length<1) {
         return;
@@ -508,7 +584,7 @@
       });
       $scope.dirty = false;
     };
-    $scope.loadKeyset = function(keyset) {
+    $scope.loadPreset = function(keyset) {
       $http.get(keyset).success(function(data) {
         $scope.loadLayout(data);
         $location.path(keyset);
@@ -601,6 +677,18 @@
         $scope.addKey();
       }
     };
+
+    $scope.setStepSize = function(step) {
+      $scope.StepSize = step;
+      //alert($scope.StepSize);
+    };
+    $scope.setStepSize(0.25); // default
+
+    $scope.setRotateDegrees = function(step) {
+      $scope.RotateDegrees = step;
+      //alert($scope.RotateDegrees);
+    };
+    $scope.setRotateDegrees(15); // default
 
     $scope.deserializeException = "";
     $scope.updateFromSerialized = function() {
