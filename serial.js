@@ -3,7 +3,7 @@ var $serial = {};
 	"use strict";
 
 	// We need this so we can test locally and still save layouts to AWS
-	$serial.base_href = "http://www.keyboard-layout-editor.com";
+	$serial.base_href = "http://d1sc0tech.github.io/keyboard-layout-editor";
 
 	// Lenient JSON reader/writer
 	/*$serial.toJsonL = function(obj) {
@@ -17,8 +17,7 @@ var $serial = {};
 			return '{'+res.join(',')+'}';
 		}
 		return angular.toJson(obj);
-	};
-	$serial.fromJsonL = function(json) { return jsonl.parse(json); };*/
+	};*/
 
 	// function to sort the key array
 	$serial.sortKeys = function(keys) {
