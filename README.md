@@ -3,7 +3,7 @@
 
 [![Join the chat at https://gitter.im/D1SC0tech/keyboard-layout-editor](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/D1SC0tech/keyboard-layout-editor?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[D1SC0tech Editor](http://editor.d1sc0te.ch) is a web
+[D1SC0tech Editor](http://d1sc0tech.github.io/keyboard-layout-editor/kb.html) is a web
 application for designing custom layouts for mechanical keyboards.
 
 TODO:
