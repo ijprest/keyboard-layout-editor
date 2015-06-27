@@ -332,7 +332,7 @@ Forked from keyboard-layout-editor by Ian Prest
 
 		<!-- RAW DATA EDITOR -->
 		<div ng-class="{hidden:selTab!=2}" class="col-md-12">
-			<textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}"></textarea>
+			<textarea id="rawdata" spellcheck="false" ng-model="serializedRaw" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}"></textarea>
 			<div id="rawdata-error" class="alert alert-danger" style="margin-top:1em;margin-bottom:0px" ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
 		</div>
 	</div>
