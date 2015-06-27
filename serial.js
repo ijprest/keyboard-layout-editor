@@ -5,20 +5,6 @@ var $serial = {};
   // We need this so we can test locally and still save layouts to AWS
   $serial.base_href = "http://d1sc0tech.github.io/keyboard-layout-editor";
 
-  // Lenient JSON reader/writer
-  /*$serial.toJsonL = function(obj) {
-    var res = [], key;
-    if(obj instanceof Array) {
-      obj.forEach(function(elem) { res.push($serial.toJsonL(elem)); });
-      return '['+res.join(',')+']';
-    }
-    if(typeof obj === 'object') {
-      for(key in obj) {	if(obj.hasOwnProperty(key)) { res.push(key+':'+$serial.toJsonL(obj[key])); } }
-      return '{'+res.join(',')+'}';
-    }
-    return angular.toJson(obj);
-  };*/
-
   // function to sort the key array
   $serial.sortKeys = function(keys) {
     keys.sort(function(a,b) {
