@@ -81,7 +81,11 @@
       return $scope.dirty;
     };
 
-    $scope.saveFile = function() {
+    $scope.saveFile = function(event) {
+      if(event) {
+        event.preventDefault();
+      }
+      
       var blob = new Blob([$scope.serializedRaw], {type: "text/plain;charset=utf-8"});
       saveAs(blob, "layout.json");
     };
