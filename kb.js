@@ -75,9 +75,9 @@
       }
       if($scope.dirty) {
         //saveLayout($serial.serialize($scope.keyboard));
-        var blob = new Blob([$scope.serializedRaw], {type: "text/plain;charset=utf-8"});
-        saveAs(blob, "layout.json");
       }
+      var blob = new Blob([$scope.serializedRaw], {type: "text/plain;charset=utf-8"});
+      saveAs(blob, "layout.json");
     };
     $scope.canSave = function() {
       return $scope.dirty;
