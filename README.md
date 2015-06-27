@@ -6,6 +6,14 @@
 [D1SC0tech Editor](http://d1sc0tech.github.io/keyboard-layout-editor/kb.html) is a web
 application for designing custom layouts for mechanical keyboards.
 
+###Credits:
+- @ijprest for the original project and all the work that went into it
+- @amj for a bunch of great SVG code
+- @BlueNalgene for the Commodore layout
+- @domgetter for the Atreus layout
+- @gcollic for the WASD Keyboards palette
+- @rswiernik for some standard layouts
+
 TODO:
 - [ ] Add load/save buttons for JSON files, and remove the server save (for now)
 - [ ] Format raw data as correct JSON (names must be escaped)
