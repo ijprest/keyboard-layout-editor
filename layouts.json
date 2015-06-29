@@ -69,6 +69,9 @@
 		"GB: Retro DSA" : "/samples/gb-retro-dsa",
 		"Stealth Black" : "/samples/stealth-black",
 		"Televideo TS-800a" : "/samples/televideo-ts-800a",
-		"Symbolics PN 364000" : "/samples/symbolics-364000"
+		"Symbolics PN 364000" : "/samples/symbolics-364000",
+		"Default 60%" : "/samples/60percent",
+		"Keycool 84" : "/sample/keycool84",
+		"Leopold FC660m" : "/sample/fc660m"
 	}	
 }
