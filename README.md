@@ -267,3 +267,9 @@ ___Version 0.1:___ Sept 18, 2013
     version is optimized for size, and the in-memory format for rendering.
   * The non-rectangular keys were an interesting problem. My solution is
     workable, but they're cumbersome and non-intuitive to edit.
+
+Contributors
+------------
+Special thanks to the following contributors:
+* [gcolic](https://github.com/gcollic): for WASD color preset file
+* [domgetter](https://github.com/domgetter), [rswiernik](https://github.com/rswiernik): for various keyboard-layout samples
