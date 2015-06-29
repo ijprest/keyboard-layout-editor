@@ -1,12 +1,12 @@
 //
 // compile with:
-//   node jsonl_grammar.js > js/jsonl.js 
-//   uglify js/jsonl.js > js/jsonl.min.js 
+//   node jsonl_grammar.js > js/jsonl.js
+//   uglify js/jsonl.js > js/jsonl.min.js
 //
-var Generator = require("/jison/lib/jison").Generator;
+var Generator = require("/usr/local/lib/node_modules/jison/lib/jison").Generator;
 
 exports.grammar = {
-    "comment": "ECMA-262 5th Edition, 15.12.1 The JSON Grammar. Parses JSON strings into objects. This parser supports a 'lenient' version of JSON that doesn't require quotes around identifiers.",
+    "comment": "ECMA-262 5th Edition, 15.12.1 The JSON Grammar. Parses JSON strings into objects.",
     "author": "Zach Carter; Ian Prest",
 
     "lex": {
@@ -20,7 +20,7 @@ exports.grammar = {
         "rules": [
             ["\\s+", "/* skip whitespace */"],
             ["{int}{frac}?{exp}?\\b", "return 'NUMBER';"],
-            ["\"(?:{esc}[\"bfnrt/{esc}]|{esc}u[a-fA-F0-9]{4}|[^\"{esc}]|\\(|\\))*\"", "yytext = eval(yytext); return 'STRING';"],
+            ["\"(?:{esc}[\"bfnrt/{esc}]|{esc}u[a-fA-F0-9]{4}|[^\"{esc}]|\\(|\\))*\"", "yytext = yytext.substr(1, yyleng-2); return 'STRING';"],
             ["\\{", "return '{'"],
             ["\\}", "return '}'"],
             ["\\[", "return '['"],
@@ -29,19 +29,16 @@ exports.grammar = {
             [":", "return ':'"],
             ["true\\b", "return 'TRUE'"],
             ["false\\b", "return 'FALSE'"],
-            ["null\\b", "return 'NULL'"],
-            ["[_a-zA-Z][_a-zA-Z0-9]*", "return 'IDENTIFIER'" ]
+            ["null\\b", "return 'NULL'"]
         ]
     },
 
-    "tokens": "STRING NUMBER { } [ ] , : TRUE FALSE NULL IDENTIFIER",
+    "tokens": "STRING NUMBER { } [ ] , : TRUE FALSE NULL",
     "start": "JSONText",
 
     "bnf": {
         "JSONString": [[ "STRING", "$$ = yytext;" ]],
-        "JSONIdentifier": [[ "STRING", "$$ = yytext;" ],
-                           [ "IDENTIFIER", "$$ = yytext;" ]],
-        
+
         "JSONNumber": [[ "NUMBER", "$$ = Number(yytext);" ]],
 
         "JSONNullLiteral": [[ "NULL", "$$ = null;" ]],
@@ -62,7 +59,7 @@ exports.grammar = {
         "JSONObject": [[ "{ }", "$$ = {};" ],
                        [ "{ JSONMemberList }", "$$ = $2;" ]],
 
-        "JSONMember": [[ "JSONIdentifier : JSONValue", "$$ = [$1, $3];" ]],
+        "JSONMember": [[ "JSONString : JSONValue", "$$ = [$1, $3];" ]],
 
         "JSONMemberList": [[ "JSONMember", "$$ = {}; $$[$1[0]] = $1[1];" ],
                            [ "JSONMemberList , JSONMember", "$$ = $1; $1[$3[0]] = $3[1];" ]],
@@ -84,4 +81,3 @@ exports.main = function main (args) {
 
 if (require.main === module)
     exports.main();
-

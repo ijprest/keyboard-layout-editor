@@ -1,38 +1,5 @@
 [
 	{
-		"name" : "GMK Color Chips",
-		"href" : "http://geekhack.org/index.php?topic=49374.0",
-		"description" : "These are samples from a picture posted on GeekHack. No attempt at color-correction has been made.",
-		"colors" : [
-			{ "name": "N7", "r":5, "g":133, "b":80 },
-			{ "name": "L9", "r":227, "g":229, "b":216 },
-			{ "name": "V1", "r":238, "g":73, "b":66 },
-			{ "name": "V4", "r":2, "g":85, "b":187 },
-			{ "name": "U9", "r":185, "g":186, "b":180 },
-			{ "name": "V0", "r":168, "g":174, "b":172 },
-			{ "name": "2M", "r":215, "g":225, "b":235 },
-			{ "name": "2B", "r":133, "g":138, "b":141 },
-			{ "name": "CV", "r":253, "g":231, "b":49 },
-			{ "name": "BJ", "r":154, "g":151, "b":144 },
-			{ "name": "N5", "r":0, "g":141, "b":234 },
-			{ "name": "P2", "r":252, "g":174, "b":92 },
-			{ "name": "L2", "r":247, "g":244, "b":230 },
-			{ "name": "N2", "r":159, "g":169, "b":179 },
-			{ "name": "AE", "r":101, "g":175, "b":76 },
-			{ "name": "N8", "r":81, "g":74, "b":56 },
-			{ "name": "CB", "r":167, "g":163, "b":152 },
-			{ "name": "N3", "r":37, "g":57, "b":40 },
-			{ "name": "CC", "r":108, "g":115, "b":107 },
-			{ "name": "L6", "r":201, "g":194, "b":176 },
-			{ "name": "3C", "r":216, "g":151, "b":147 },
-			{ "name": "3A", "r":135, "g":188, "b":158 },
-			{ "name": "3B", "r":129, "g":162, "b":145 },
-			{ "name": "3K", "r":217, "g":220, "b":225 },
-			{ "name": "1M", "r":206, "g":209, "b":228 },
-			{ "name": "CR", "r":29, "g":51, "b":39 }
-		]
-	},
-	{
 		"name" : "Signature Plastic ABS",
 		"href" : "http://www.keycapsdirect.com/colors.php",
 		"description" : "These are representations of the different ABS plastic colors available for order through Signature Plastics.  The colors were sampled from color-chips using an X-Rite ColorMunki photospectrometer, and converted to sRGB (D65) using the formulas on Bruce Lindbloom's website.  The representations you see here will only be accurate if your monitor is properly calibrated to display sRGB colors.",
@@ -297,6 +264,39 @@
 			{ "name": "YBZ", "r": 212, "g": 135, "b": 42 },
 			{ "name": "YCJ", "r": 232, "g": 169, "b": 0 },
 			{ "name": "YR", "r": 255, "g": 193, "b": 0 }
+		]
+	},
+	{
+		"name" : "GMK Color Chips",
+		"href" : "http://geekhack.org/index.php?topic=49374.0",
+		"description" : "These are samples from a picture posted on GeekHack. No attempt at color-correction has been made.",
+		"colors" : [
+			{ "name": "N7", "r":5, "g":133, "b":80 },
+			{ "name": "L9", "r":227, "g":229, "b":216 },
+			{ "name": "V1", "r":238, "g":73, "b":66 },
+			{ "name": "V4", "r":2, "g":85, "b":187 },
+			{ "name": "U9", "r":185, "g":186, "b":180 },
+			{ "name": "V0", "r":168, "g":174, "b":172 },
+			{ "name": "2M", "r":215, "g":225, "b":235 },
+			{ "name": "2B", "r":133, "g":138, "b":141 },
+			{ "name": "CV", "r":253, "g":231, "b":49 },
+			{ "name": "BJ", "r":154, "g":151, "b":144 },
+			{ "name": "N5", "r":0, "g":141, "b":234 },
+			{ "name": "P2", "r":252, "g":174, "b":92 },
+			{ "name": "L2", "r":247, "g":244, "b":230 },
+			{ "name": "N2", "r":159, "g":169, "b":179 },
+			{ "name": "AE", "r":101, "g":175, "b":76 },
+			{ "name": "N8", "r":81, "g":74, "b":56 },
+			{ "name": "CB", "r":167, "g":163, "b":152 },
+			{ "name": "N3", "r":37, "g":57, "b":40 },
+			{ "name": "CC", "r":108, "g":115, "b":107 },
+			{ "name": "L6", "r":201, "g":194, "b":176 },
+			{ "name": "3C", "r":216, "g":151, "b":147 },
+			{ "name": "3A", "r":135, "g":188, "b":158 },
+			{ "name": "3B", "r":129, "g":162, "b":145 },
+			{ "name": "3K", "r":217, "g":220, "b":225 },
+			{ "name": "1M", "r":206, "g":209, "b":228 },
+			{ "name": "CR", "r":29, "g":51, "b":39 }
 		]
 	},
 	{
