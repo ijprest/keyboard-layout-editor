@@ -270,6 +270,11 @@ ___Version 0.1:___ Sept 18, 2013
 
 Contributors
 ------------
-Special thanks to the following contributors:
-* [gcolic](https://github.com/gcollic): for WASD color preset file
-* [domgetter](https://github.com/domgetter), [rswiernik](https://github.com/rswiernik): for various keyboard-layout samples
+Special thanks to:
+* [gcolic](https://github.com/gcollic), for providing WASD color presets
+* [Style64.org](https://www.style64.org), for their [C64 TrueType](http://style64.org/c64-truetype) font
+
+Special thanks to the following users who have provided sample keyboard layouts:
+* [domgetter](https://github.com/domgetter)
+* [rswiernik](https://github.com/rswiernik)
+* [BlueNalgene](https://github.com/BlueNalgene)

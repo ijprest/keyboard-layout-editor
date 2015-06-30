@@ -72,6 +72,7 @@
 		"Symbolics PN 364000" : "/samples/symbolics-364000",
 		"Default 60%" : "/samples/60-percent",
 		"Keycool 84" : "/samples/keycool84",
-		"Leopold FC660m" : "/samples/fc660m"
+		"Leopold FC660m" : "/samples/fc660m",
+		"Commodore VIC-20" : "/samples/commodore-vic20"
 	}	
 }
