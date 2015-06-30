@@ -166,7 +166,6 @@ html, body {
 .PETSCII .keyfg .keylabel5 {
 	font-family: "C64 Pro Mono";
 	font-size: 6px !important;
-	z-index: 999;
 }
 span.box { 
 	border: solid 1px;
