@@ -275,7 +275,8 @@ Special thanks to:
 * [D1SC0tech](https://github.com/D1SC0tech), for initial DSA homing/deep-dish support
 * [Style64.org](https://www.style64.org), for their [C64 TrueType](http://style64.org/c64-truetype) font
 
-Special thanks to the following users who have provided sample keyboard layouts:
+Special thanks to the following users who have provided sample keyboard layouts & presets:
 * [domgetter](https://github.com/domgetter)
 * [rswiernik](https://github.com/rswiernik)
 * [BlueNalgene](https://github.com/BlueNalgene)
+* [alerque](https://github.com/alerque)
