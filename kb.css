@@ -163,11 +163,9 @@ html, body {
 	background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
 	background-repeat: no-repeat;
 }
-.PETSCII .keyfg .keylabel5 {
+span.PETSCII { 
 	font-family: "C64 Pro Mono";
 	font-size: 6px !important;
-}
-span.box { 
 	border: solid 1px;
 	letter-spacing: 0px;
 	padding: 0;
