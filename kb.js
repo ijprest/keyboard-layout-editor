@@ -58,8 +58,7 @@
 					//success
 					$scope.dirty = false;
 					$scope.saved = fn;
-					$location.path("/layouts/"+fn);
-					$location.hash("");
+					$location.path("/layouts/"+fn).hash("").replace();
 					$scope.saveError = "";
 				},
 				function(data,status) { 
@@ -193,6 +192,14 @@
 			$scope.serialized = toJsonPretty($scope.serializedRaw);
 		}
 
+		$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
+			console.log(newUrl);
+			console.log(oldUrl);
+			if($location.path() === '') {
+				event.preventDefault();
+			}
+		});
+
 		$scope.deserializeAndRender([]);
 		if($location.hash()) {
 			var loc = $location.hash();
@@ -223,7 +230,7 @@
 		$scope.saved = false;
 		$scope.saveError = "";
 		window.onbeforeunload = function(e) {
-			return $scope.dirty ? 'You have made changes to the layout that are not saved.  You can save your layout to the server by clicking the \'Save\' button.  You can also save your layout locally by bookmarking the \'Permalink\' in the application bar.' : null;
+			if($scope.dirty) return 'You have made changes to the layout that are not saved.  You can save your layout to the server by clicking the \'Save\' button.  You can also save your layout locally by bookmarking the \'Permalink\' in the application bar.';
 		};
 
 		function transaction(type, fn) {
@@ -239,12 +246,7 @@
 			try {
 				fn();
 			} finally {
-				if($location.hash()) {
-					$location.hash("");
-				}
-				if($location.path()) {
-					$location.path("");
-				}
+				$location.path("").hash("").replace();
 				trans.modified = angular.copy($scope.keyboard);
 				trans.open = false;
 				redoStack = [];
@@ -501,7 +503,7 @@
 		$scope.loadSample = function(sample) {
 			$http.get(sample).success(function(data) {
 				$scope.loadPreset(data);
-				$location.path(sample);
+				$location.path(sample).hash("").replace();
 			}).error(function() {
 				$scope.loadError = true;
 			});
