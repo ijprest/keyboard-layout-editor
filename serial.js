@@ -76,7 +76,7 @@ var $serial = {};
 				if(key.rotation_angle != cluster.r || key.rotation_x != cluster.rx || key.rotation_y != cluster.ry) {
 					cluster.r = key.rotation_angle;
 					cluster.rx = key.rotation_x;
-					cluster.ry = key.rotation_y;					
+					cluster.ry = key.rotation_y;
 					current.x = cluster.rx;
 					current.y = cluster.ry;
 				} else {
@@ -155,8 +155,8 @@ var $serial = {};
 						if(key.t) { current.text = key.t; }
 						if(key.x) { current.x += key.x; }
 						if(key.y) { current.y += key.y; }
-						if(key.w) { current.width = key.w; }
-						if(key.h) { current.height = key.h; }
+						if(key.w) { current.width = current.width2 = key.w; }
+						if(key.h) { current.height = current.height2 = key.h; }
 						if(key.x2) { current.x2 = key.x2; }
 						if(key.y2) { current.y2 = key.y2; }
 						if(key.w2) { current.width2 = key.w2; }
