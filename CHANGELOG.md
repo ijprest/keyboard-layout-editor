@@ -1,3 +1,33 @@
+___Version 0.11:___ Jul 1, 2015
+* Added ability to upload & download raw data in JSON format
+  * This is "real" JSON, not the lenient JSON that the raw-data editor uses
+  * To upload, you can either use the 'upload' button, or drag & drop to either 
+    the raw-data editor, or the main keyboard preview area.
+* Added link to raw-data syntax from the raw-data tab.
+* Added links to CHANGELOG, CONTRIBUTORS, and LICENSE files.
+* Pressing F1 now shows the help screen.
+* Fixed bug #81, where the first key in the layout could not be smaller than 1x1.
+* Added YBX to the "Signature Plastics PBT" color palette (fixes #79).
+  * Note that I don't have a physical color chip, so I couldn't sample the 
+    color as accurately as the other Signature Plastics colors.  The color name
+    reflects this.
+* Added WASD keyboard colors (thanks gioele!).  Fixes #62.
+* Added a favicon to the site.
+* Fixed an issue where bad HTML in a label field would prevent the editor from 
+  rendering properly (fixes #65).
+  * If bad HTML is used, we now display a little 'X' in the label, with a
+    helpful tooltip.
+* Added preliminary support for "homing" keys. (Thanks, D1SC0tech!)
+  * Add "HOMING" to the profile/row field.
+  * Currently only supported for DSA (it renders as a deep-dish key); other
+    profiles will be added in a future update.
+  * Updated the "GB: Retro DSA" sample to demonstrate the effect.
+* Added a number of new keyboard presets/samples sent in by users:
+  * Atreas keyboard (thanks domgetter!)
+  * Default 60%, Keycool 84, Leopold FC660m (thanks, rswiernik!)
+  * VIC-20 (thanks BlueNalgene!)
+  * Kinesis Advantage (thanks alerque!)
+
 ___Version 0.10:___ Nov 12, 2013
 * Added support for rotated key clusters.
   * Each key has a rotation angle and center-of-rotation.
