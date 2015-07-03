@@ -79,6 +79,9 @@
 		$scope.canSave = function() {
 			return $scope.dirty;
 		};
+		$scope.downloadJson = function() {
+			$serial.downloadJson($serial.serialize($scope.keyboard));
+		};
 
 		// Helper function to select a single key
 		function selectKey(key,event) { 

@@ -20,6 +20,7 @@ The following third-party software packages were used in the creation of keyboar
 * [colors.js](https://gist.github.com/mikelikespie/641528) (quick RGB to LAB conversions)
 * [marked](https://github.com/chjj/marked) (Markdown parser)
 * [crypto-js](https://code.google.com/p/crypto-js/) 
+* [FileSaver.js](https://github.com/eligrey/FileSaver.js)
 * [URLON](https://github.com/vjeux/URLON) (URL Object Notation)
 * [Jison](http://zaach.github.io/jison/) (JavaScript parser generator)
 * [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
