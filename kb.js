@@ -11,7 +11,7 @@
 	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
 
 	// The angular module for our application
-	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils"]);
+	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ngFileUpload"]);
 
 	// The main application controller
 	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', function($scope, $http, $location, $timeout, $sce, $sanitize) {
@@ -80,7 +80,21 @@
 			return $scope.dirty;
 		};
 		$scope.downloadJson = function() {
-			$serial.downloadJson($serial.serialize($scope.keyboard));
+			var data = angular.toJson($serial.serialize($scope.keyboard), true /*pretty*/);
+			var blob = new Blob([data], {type:"application/json"});
+			saveAs(blob, "keyboard-layout.json");
+		};
+		$scope.uploadJson = function(file, event) {
+			if(file && file[0]) {
+				var reader = new FileReader();
+				reader.onload = function(event) {
+					transaction("upload", function() {
+						$scope.deserializeAndRender($serial.fromJsonL(event.target.result));
+						$scope.serializedRaw = '['+$scope.serialized+']';
+					});
+				};
+				reader.readAsText(file[0]);
+			}
 		};
 
 		// Helper function to select a single key

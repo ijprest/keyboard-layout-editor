@@ -15,6 +15,7 @@ Third-Party Software
 The following third-party software packages were used in the creation of keyboard-layout-editor.com:
 * [AngularJS](https://angularjs.org/)
 * [AngularUI](https://angular-ui.github.io/)
+* [ng-file-upload](https://github.com/danialfarid/ng-file-upload)
 * [Bootstrap](http://getbootstrap.com/)
 * [JQuery](https://jquery.com/)
 * [colors.js](https://gist.github.com/mikelikespie/641528) (quick RGB to LAB conversions)

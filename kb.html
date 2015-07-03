@@ -23,6 +23,7 @@ All rights reserved.
 <script type="text/javascript" src="js/color.js"></script>
 <script type="text/javascript" src="js/marked.min.js"></script>
 <script type="text/javascript" src="js/FileSaver.min.js"></script>
+<script type="text/javascript" src="js/ng-file-upload.min.js"></script>
 <script type="text/javascript" src="extensions.js"></script>
 <script type="text/javascript" src="render.js"></script>
 <script type="text/javascript" src="serial.js"></script>
@@ -134,7 +135,8 @@ All rights reserved.
 					 'ctrl-90' : 'undo()',
 					 'ctrl-shift-90' : 'redo()',
 					 'ctrl-89' : 'redo()' }" 
-		 ng-mousedown="selectClick($event)">
+		 ng-mousedown="selectClick($event)"
+     ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
 	
 		<div ng-repeat="key in keys()" 
 			 class="key {{key.profile}}" 
@@ -334,10 +336,13 @@ All rights reserved.
 
 		<!-- RAW DATA EDITOR -->
 		<div ng-class="{hidden:selTab!=2}" class="col-md-12">
-			<textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}"></textarea>
+      <div ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
+		    <textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}"></textarea>
+      </div>
       <div style='text-align:right;margin-top:4px;'>
         <div class="btn-group btn-group-xs" role="group">
-          <button type="button" class="btn btn-primary" ng-click="downloadJson()"><i class="fa fa-download"></i> Download as JSON</button>
+          <button type="button" class="btn btn-primary" ng-click="downloadJson()"><i class="fa fa-download"></i> Download JSON</button>
+          <button ngf-select="true" class="btn btn-primary" ngf-change="uploadJson($files, $event)"><i class="fa fa-upload"></i> Upload JSON</button>
         </div>
         <div class="btn-group btn-group-xs" role="group">
           <a class="btn btn-primary" href="https://github.com/ijprest/keyboard-layout-editor/wiki/Serialized-Data-Format" target='_blank'><i class="fa fa-question-circle"></i> Raw Data Syntax</a>

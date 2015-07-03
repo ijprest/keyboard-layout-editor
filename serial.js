@@ -209,12 +209,4 @@ var $serial = {};
 		});
 	};
 
-	$serial.downloadJson = function(layout) {
-		console.log(layout);
-		var data = angular.toJson(layout, true /*pretty*/);
-		console.log(data);
-		var blob = new Blob([data], {type:"application/json"});
-		saveAs(blob, "keyboard-layout.json");
-	};
-
 }());

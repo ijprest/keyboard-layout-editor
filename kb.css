@@ -287,6 +287,8 @@ span.PETSCII {
 	overflow-y: auto !important;
 }
 
+.drag-over { border: dotted 3px red !important; box-sizing: border-box; }
+
 /* Only show the keyboard layout itself when printing */
 @media print {
   html, body { overflow:hidden; height:100%; margin: 0 !important; padding: 0 !important; }
