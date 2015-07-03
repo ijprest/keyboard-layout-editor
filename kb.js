@@ -89,8 +89,10 @@
 				var reader = new FileReader();
 				reader.onload = function(event) {
 					transaction("upload", function() {
-						$scope.deserializeAndRender($serial.fromJsonL(event.target.result));
-						$scope.serializedRaw = '['+$scope.serialized+']';
+						$scope.$apply(function() {
+							$scope.deserializeAndRender($serial.fromJsonL(event.target.result));
+							$scope.serializedRaw = '['+$scope.serialized+']';
+						});
 					});
 				};
 				reader.readAsText(file[0]);
