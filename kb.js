@@ -786,9 +786,22 @@
 			}
 		};
 
+		$scope.showMarkdown = function(filename) {
+			if($scope.markdownTitle !== filename) {
+				$scope.markdownTitle = filename;
+				$scope.markdownContent = '';
+				$http.get(filename).success(function(data) {
+					$scope.markdownContent = $sce.trustAsHtml(marked(data));
+				});
+			}
+			$('#helpDialog').modal('hide');
+			$('#markdownDialog').modal('show');
+		};
+
 		$scope.showHelp = function(event) {
 			if(event.srcElement.nodeName !== "INPUT" && event.srcElement.nodeName !== "TEXTAREA") {
 				event.preventDefault();
+				$('#markdownDialog').modal('hide');
 				$('#helpDialog').modal('show');
 			}
 		};

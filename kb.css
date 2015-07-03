@@ -277,10 +277,20 @@ span.PETSCII {
 .color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }
 
 
+/* Our "README" dialog; we want the body of the dialog itself to be scrollable */
+#markdownDialog .modal-dialog { padding: 30px 10px; } /*60px*/
+#markdownDialog .modal-header { height: 55px; }
+#markdownDialog .modal-footer { height: 74px; margin-top: 0px; }
+#markdownDialog .modal-body {
+	padding-bottom: 15px;
+	height: calc(100vh - 205px) !important;
+	overflow-y: auto !important;
+}
+
 /* Only show the keyboard layout itself when printing */
 @media print {
   html, body { overflow:hidden; height:100%; margin: 0 !important; padding: 0 !important; }
-  #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog { display: none; margin: 0 !important; padding: 0 !important; }
+  #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog, #markdownDialog { display: none; margin: 0 !important; padding: 0 !important; }
   div.body { margin: 0 !important; padding: 0 !important; }
   #keyboard { 
   	border: none; 

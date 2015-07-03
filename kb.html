@@ -21,6 +21,7 @@ All rights reserved.
 <script type="text/javascript" src="js/md5.js"></script>
 <script type="text/javascript" src="js/jsonl.min.js"></script>
 <script type="text/javascript" src="js/color.js"></script>
+<script type="text/javascript" src="js/marked.min.js"></script>
 <script type="text/javascript" src="extensions.js"></script>
 <script type="text/javascript" src="render.js"></script>
 <script type="text/javascript" src="serial.js"></script>
@@ -356,9 +357,9 @@ All rights reserved.
 <div id="footer">
 <div class="container">
 	<p class="text-muted credit" style="float:left">
-		Keyboard Layout Editor v{{version}}<br/>
-		Copyright &copy; 2013-2015 &mdash; Ian Prest<br/>
-		All rights reserved.
+		Keyboard Layout Editor v{{version}} (<a href='#' ng-click="showMarkdown('CHANGELOG.md')">changelog</a>)<br/>
+		Copyright &copy; 2013-2015 &mdash; Ian Prest (<a href='#' ng-click="showMarkdown('CONTRIB.md')">and contributors</a>)<br/>
+		All rights reserved. (<a href='#' ng-click="showMarkdown('LICENSE.md')">LICENSE</a>)
 	</p>
 	<div style="float:right; text-alignment:right;">
 		<a href="#" ng-click="showHelp($event)"><i class="fa fa-keyboard-o"></i> Keyboard shortcuts available</a><br/>
@@ -389,7 +390,7 @@ All rights reserved.
 
 				<h5>Keyboard Shortcuts</h5>
 				<table class='shortcuts col-md-6' style='margin-bottom:5px;'>
-					<tr><td><span class='shortcut'>?</span></td><td>Show this help dialog</td></tr>
+					<tr><td><span class='shortcut'>F1</span> / <span class='shortcut'>?</span></td><td>Show this help dialog</td></tr>
 					<tr><td><span class='shortcut'>↑↓←→</span></td><td>Move the selected keys</td></tr>
 					<tr><td><span class='shortcut'>Shift&ndash;↑↓←→</span></td><td>Resize the selected keys</td></tr>
 					<tr><td><span class='shortcut'>Ctrl&ndash;↑↓←→</span></td><td>Move the center of rotation for the selected keys</td></tr>
@@ -416,5 +417,21 @@ All rights reserved.
 		</div>
 	</div>
 </div>
+
+<div class="modal fade" id="markdownDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style='width:90%;'>
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">{{markdownTitle}}</h4>
+      </div>
+      <div class="modal-body" ng-bind-html="markdownContent">&nbsp;</div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
