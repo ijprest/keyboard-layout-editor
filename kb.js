@@ -31,6 +31,11 @@
 		$scope.multi = {};
 		$scope.meta = {};
 
+		// Options
+		$scope.sizeStep = 0.25;
+		$scope.moveStep = 0.25;
+		$scope.rotateStep = 15;
+
 		// The keyboard data
 		$scope.keyboard = { keys: [], meta: {} };
 		$scope.keys = function(newKeys) { if(newKeys) { $scope.keyboard.keys = newKeys; } return $scope.keyboard.keys; };
@@ -443,8 +448,8 @@
 
 			transaction("move", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					selectedKey.x = Math.max(0,selectedKey.x + x);
-					selectedKey.y = Math.max(0,selectedKey.y + y);
+					selectedKey.x = Math.round10(Math.max(0,selectedKey.x + x),-2);
+					selectedKey.y = Math.round10(Math.max(0,selectedKey.y + y),-2);
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -459,14 +464,15 @@
 			}
 			transaction("size", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					update(selectedKey, 'width', Math.max(1,selectedKey.width + x));
-					update(selectedKey, 'height', Math.max(1,selectedKey.height + y));
+					update(selectedKey, 'width', Math.round10(Math.max(1,selectedKey.width + x,-2)));
+					update(selectedKey, 'height', Math.round10(Math.max(1,selectedKey.height + y,-2)));
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 			if(y!==0) { $scope.calcKbHeight(); }
 		};
+
 		$scope.rotateKeys = function(angle,$event) {
 			$event.preventDefault();
 			if($scope.selectedKeys.length<1) { 
@@ -476,7 +482,7 @@
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					var newangle = (selectedKey.rotation_angle+angle+360)%360;
 					while(newangle > 180) { newangle -= 360; }
-					update(selectedKey, 'rotation_angle', newangle);
+					update(selectedKey, 'rotation_angle', Math.round(newangle));
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -490,8 +496,8 @@
 			}
 			transaction("moveCenter", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					update(selectedKey, 'rotation_x', validate(selectedKey, 'rotation_x', $scope.multi.rotation_x + x));
-					update(selectedKey, 'rotation_y', validate(selectedKey, 'rotation_y', $scope.multi.rotation_y + y));
+					update(selectedKey, 'rotation_x', validate(selectedKey, 'rotation_x', Math.round10($scope.multi.rotation_x + x,-2)));
+					update(selectedKey, 'rotation_y', validate(selectedKey, 'rotation_y', Math.round10($scope.multi.rotation_y + y,-2)));
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -813,16 +819,23 @@
 					$scope.markdownContent = $sce.trustAsHtml(marked(data));
 				});
 			}
-			$('#helpDialog').modal('hide');
+			$('.modal:not(#markdownDialog)').modal('hide');
 			$('#markdownDialog').modal('show');
+			event.preventDefault();
 		};
 
 		$scope.showHelp = function(event) {
-			if(event.srcElement.nodeName !== "INPUT" && event.srcElement.nodeName !== "TEXTAREA") {
-				event.preventDefault();
-				$('#markdownDialog').modal('hide');
+			if(!event.srcElement || (event.srcElement.nodeName !== "INPUT" && event.srcElement.nodeName !== "TEXTAREA")) {
+				$('.modal:not(#helpDialog)').modal('hide');
 				$('#helpDialog').modal('show');
+				event.preventDefault();
 			}
+		};
+
+		$scope.showOptions = function(event) {
+			$('.modal:not(#optionsDialog)').modal('hide');
+			$('#optionsDialog').modal('show');
+			event.preventDefault();
 		};
 
 		// Clipboard functions
