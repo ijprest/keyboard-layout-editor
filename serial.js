@@ -60,6 +60,9 @@ var $serial = {};
 			rows.push(meta);
 		}
 
+		var newRow = true;
+		current.y--; // will be incremented on first row
+
 		// Serialize row/key-data
 		$serial.sortKeys(keys);
 		keys.forEach(function(key) {
@@ -67,22 +70,30 @@ var $serial = {};
 			var label = key.labels.join("\n").trimEnd();
 
 			// start a new row when necessary
-			if(row.length>0 && (key.y !== current.y || key.rotation_angle != cluster.r || key.rotation_x != cluster.rx || key.rotation_y != cluster.ry)) { 
+			var clusterChanged = (key.rotation_angle != cluster.r || key.rotation_x != cluster.rx || key.rotation_y != cluster.ry);
+			var rowChanged = (key.y !== current.y);
+			if(row.length>0 && (rowChanged || clusterChanged)) { 
 				// Push the old row
 				rows.push(row);
 				row = [];
+				newRow = true;
+			}
 
+			if(newRow) {
 				// Set up for the new row
-				if(key.rotation_angle != cluster.r || key.rotation_x != cluster.rx || key.rotation_y != cluster.ry) {
-					cluster.r = key.rotation_angle;
-					cluster.rx = key.rotation_x;
-					cluster.ry = key.rotation_y;
-					current.x = cluster.rx;
-					current.y = cluster.ry;
-				} else {
-					current.x = cluster.rx;
-					current.y++;
-				}
+				current.y++; 
+
+				// 'y' is reset if *either* 'rx' or 'ry' are changed
+				if(key.rotation_y != cluster.ry || key.rotation_x != cluster.rx)
+					current.y = key.rotation_y; 
+				current.x = key.rotation_x; // always reset x to rx (which defaults to zero)
+
+				// Update current cluster
+				cluster.r = key.rotation_angle;
+				cluster.rx = key.rotation_x;
+				cluster.ry = key.rotation_y;
+
+				newRow = false;
 			}
 
 			current.rotation_angle = serializeProp(props, "r", key.rotation_angle, current.rotation_angle);
@@ -118,7 +129,7 @@ var $serial = {};
 		return rows;
 	}
 
-	function dserializeError(msg,data) {
+	function deserializeError(msg,data) {
 		throw "Error: " + msg + (data ? (":\n  " + $serial.toJsonL(data)) : "");
 	}
 	$serial.deserialize = function(rows) {
@@ -144,9 +155,9 @@ var $serial = {};
 						current.x2 = current.y2 = current.width2 = current.height2 = 0;
 						current.nub = current.stepped = false;
 					} else {
-						if(key.r != null) { if(k!=0) {dserializeError("'r' can only be used on the first key in a row", key);} current.rotation_angle = key.r; }
-						if(key.rx != null) { if(k!=0) {dserializeError("'rx' can only be used on the first key in a row", key);} current.rotation_x = cluster.x = key.rx; $.extend(current, cluster); }
-						if(key.ry != null) { if(k!=0) {dserializeError("ry' can only be used on the first key in a row", key);} current.rotation_y = cluster.y = key.ry; $.extend(current, cluster); }
+						if(key.r != null) { if(k!=0) {deserializeError("'r' can only be used on the first key in a row", key);} current.rotation_angle = key.r; }
+						if(key.rx != null) { if(k!=0) {deserializeError("'rx' can only be used on the first key in a row", key);} current.rotation_x = cluster.x = key.rx; $.extend(current, cluster); }
+						if(key.ry != null) { if(k!=0) {deserializeError("ry' can only be used on the first key in a row", key);} current.rotation_y = cluster.y = key.ry; $.extend(current, cluster); }
 						if(key.a != null) { current.align = key.a; }
 						if(key.f) { current.fontheight = current.fontheight2 = key.f; }
 						if(key.f2) { current.fontheight2 = key.f2; }
