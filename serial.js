@@ -34,7 +34,7 @@ var $serial = {};
 	var _defaultKeyProps = {
 		x: 0, y: 0, x2: 0, y2: 0,								// position
 		width: 1, height: 1, width2: 1, height2: 1,				// size
-		color: "#cccccc", text: "#000000",						// colors
+		color: "#cccccc", text: ["#000000"],	// colors
 		labels:[], align: 4, fontheight: 3, fontheight2: 3,		// label properties	
 		rotation_angle: 0, rotation_x: 0, rotation_y: 0,		// rotation
 		profile: "", nub: false, ghost: false, stepped: false	// misc
@@ -102,7 +102,14 @@ var $serial = {};
 			current.y += serializeProp(props, "y", key.y-current.y, 0);
 			current.x += serializeProp(props, "x", key.x-current.x, 0) + key.width;
 			current.color = serializeProp(props, "c", key.color, current.color);
-			current.text = serializeProp(props, "t", key.text, current.text);
+			var textColor = key.text[0];
+			for(var i = 1; i < key.text.length; ++i) {
+				textColor += "\n";
+				if(key.text[i] && key.text[i] !== key.text[0]) {
+					textColor += key.text[i];
+				}
+			}
+			current.text = serializeProp(props, "t", textColor.trimRight(), current.text);
 			current.ghost = serializeProp(props, "g", key.ghost, current.ghost);
 			current.profile = serializeProp(props, "p", key.profile, current.profile);
 			current.align = serializeProp(props, "a", key.align, current.align);
@@ -163,7 +170,7 @@ var $serial = {};
 						if(key.f2) { current.fontheight2 = key.f2; }
 						if(key.p) { current.profile = key.p; }
 						if(key.c) { current.color = key.c; }
-						if(key.t) { current.text = key.t; }
+						if(key.t) { current.text = key.t.split('\n'); }
 						if(key.x) { current.x += key.x; }
 						if(key.y) { current.y += key.y; }
 						if(key.w) { current.width = current.width2 = key.w; }

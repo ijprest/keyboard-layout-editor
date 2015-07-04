@@ -11,6 +11,7 @@ All rights reserved.
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen">
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="css/hint.min.css">
+<link rel="stylesheet" type="text/css" href="css/colorpicker.min.css">
 <link rel="stylesheet" type="text/css" href="kb.css">
 <script type="text/javascript" src="js/angular.min.js"></script>
 <script type="text/javascript" src="js/angular-sanitize.min.js"></script>
@@ -24,6 +25,8 @@ All rights reserved.
 <script type="text/javascript" src="js/marked.min.js"></script>
 <script type="text/javascript" src="js/FileSaver.min.js"></script>
 <script type="text/javascript" src="js/ng-file-upload.min.js"></script>
+<script type="text/javascript" src="js/draganddrop.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-colorpicker-module.min.js"></script>
 <script type="text/javascript" src="extensions.js"></script>
 <script type="text/javascript" src="render.js"></script>
 <script type="text/javascript" src="serial.js"></script>
@@ -168,11 +171,25 @@ All rights reserved.
 				<div class="control-group">
 					<label class="control-label" for="labeleditor">Top Label:</label>
 					<div class="controls">
-						<div data-hint="Specify the primary text of the keycap; typically displayed top-left, unless the centering options are used." class="hint--top hint--rounded">
-							<input id="labeleditor" size="6" type='text' ng-model="multi.labels[0]" ng-change="updateMulti('labels',0)" ng-blur="validateMulti('labels',0)" ng-disabled="selectedKeys.length<1">
+						<div data-hint="Specify the primary text of the keycap; typically displayed top-left, unless the centering options are used." 
+                 class="hint--top hint--rounded"
+                 ui-on-Drop="dropSwatch($data,$event,true,0)" drop-channel="dragColor">
+							<input id="labeleditor" size="6" type='text' 
+                     ng-model="multi.labels[0]" 
+                     ng-change="updateMulti('labels',0)" 
+                     ng-blur="validateMulti('labels',0)" 
+                     ng-disabled="selectedKeys.length<1">
+              <button class="swatch picker" style="float:right;" ng-style="{'background-color':getTextColor(multi.text,0)}" ng-model="multi.text[0]" ng-change="updateMulti('text',0)" colorpicker="hex" colorpicker-close-on-select="true" colorpicker-with-input="true" ng-disabled="selectedKeys.length<1">&nbsp;</button>
 						</div>
-						<div data-hint="Specify secondary text for the keycap; typically displayed top-right." class="hint--top hint--rounded">
-							<input id="labeleditor3" size="6" type='text' ng-model="multi.labels[2]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centerx">
+						<div data-hint="Specify secondary text for the keycap; typically displayed top-right." 
+                 class="hint--top hint--rounded"
+                 ui-on-Drop="dropSwatch($data,$event,true,2)" drop-channel="dragColor">
+							<input id="labeleditor3" size="6" type='text' 
+                     ng-model="multi.labels[2]" 
+                     ng-change="updateMulti('labels',2)" 
+                     ng-blur="validateMulti('labels',2)" 
+                     ng-disabled="selectedKeys.length<1 || multi.centerx">
+              <button class="swatch picker" style="float:right;" ng-style="{'background-color':getTextColor(multi.text,2)}" ng-model="multi.text[2]" ng-change="updateMulti('text',2)" colorpicker="hex" colorpicker-close-on-select="true" colorpicker-with-input="true" ng-disabled="selectedKeys.length<1 || multi.centerx">&nbsp;</button>
 						</div>
 						<div data-hint="Center the keycap text horizontally; the labels that would normally be left-aligned will be centered instead." class="hint--top hint--rounded">
 							<input id="centerx" type="checkbox" ng-model="multi.centerx" ng-change="updateMulti('centerx')" ng-blur="validateMulti('centerx')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centerx">Center X</label>
@@ -182,11 +199,25 @@ All rights reserved.
 				<div class="control-group">
 					<label class="control-label" for="labeleditor7">Center Label:</label>
 					<div class="controls">
-						<div data-hint="Specify secondary text for the keycap; typically displayed center-left.  You can specify a horizontal rule with <hr>." class="hint--top hint--rounded">
-							<input id="labeleditor7" size="6" type='text' ng-model="multi.labels[6]" ng-change="updateMulti('labels',6)" ng-blur="validateMulti('labels',6)" ng-disabled="selectedKeys.length<1 || multi.centery">
+						<div data-hint="Specify secondary text for the keycap; typically displayed center-left.  You can specify a horizontal rule with <hr>." 
+                 class="hint--top hint--rounded"
+                 ui-on-Drop="dropSwatch($data,$event,true,6)" drop-channel="dragColor">
+							<input id="labeleditor7" size="6" type='text' 
+                     ng-model="multi.labels[6]"
+                     ng-change="updateMulti('labels',6)"
+                     ng-blur="validateMulti('labels',6)"
+                     ng-disabled="selectedKeys.length<1 || multi.centery">
+              <button class="swatch picker" style="float:right;" ng-style="{'background-color':getTextColor(multi.text,6)}" ng-model="multi.text[6]" ng-change="updateMulti('text',6)" colorpicker="hex" colorpicker-close-on-select="true" colorpicker-with-input="true" ng-disabled="selectedKeys.length<1 || multi.centery">&nbsp;</button>
 						</div>
-						<div data-hint="Specify secondary text for the keycap; typically displayed center-right." class="hint--top hint--rounded">
-							<input id="labeleditor8" size="6" type='text' ng-model="multi.labels[7]" ng-change="updateMulti('labels',7)" ng-blur="validateMulti('labels',7)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
+						<div data-hint="Specify secondary text for the keycap; typically displayed center-right."
+                 class="hint--top hint--rounded"
+                 ui-on-Drop="dropSwatch($data,$event,true,7)" drop-channel="dragColor">
+							<input id="labeleditor8" size="6" type='text'
+                     ng-model="multi.labels[7]" 
+                     ng-change="updateMulti('labels',7)" 
+                     ng-blur="validateMulti('labels',7)" 
+                     ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
+              <button class="swatch picker" style="float:right;" ng-style="{'background-color':getTextColor(multi.text,7)}" ng-model="multi.text[7]" ng-change="updateMulti('text',7)" colorpicker="hex" colorpicker-close-on-select="true" colorpicker-with-input="true" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">&nbsp;</button>
 						</div>
 						<div data-hint="Center the keycap text vertically; the labels that would normally be top-aligned will be centered instead." class="hint--top hint--rounded">
 							<input id="centery" type="checkbox" ng-model="multi.centery" ng-change="updateMulti('centery')" ng-blur="validateMulti('centery')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centery">Center Y</label>
@@ -196,22 +227,50 @@ All rights reserved.
 				<div class="control-group">
 					<label class="control-label" for="labeleditor2">Bottom Label:</label>
 					<div class="controls">
-						<div data-hint="Specify secondary text for the keycap; typically displayed bottom-left." class="hint--top hint--rounded">
-							<input id="labeleditor2" size="6" type='text' ng-model="multi.labels[1]" ng-change="updateMulti('labels',2)" ng-blur="validateMulti('labels',2)" ng-disabled="selectedKeys.length<1 || multi.centery">
+						<div data-hint="Specify secondary text for the keycap; typically displayed bottom-left." 
+                 class="hint--top hint--rounded"
+                 ui-on-Drop="dropSwatch($data,$event,true,1)" drop-channel="dragColor">
+							<input id="labeleditor2" size="6" type='text'
+                     ng-model="multi.labels[1]" 
+                     ng-change="updateMulti('labels',1)" 
+                     ng-blur="validateMulti('labels',1)"
+                     ng-disabled="selectedKeys.length<1 || multi.centery">
+              <button class="swatch picker" style="float:right;" ng-style="{'background-color':getTextColor(multi.text,1)}" ng-model="multi.text[1]" ng-change="updateMulti('text',1)" colorpicker="hex" colorpicker-close-on-select="true" colorpicker-with-input="true" ng-disabled="selectedKeys.length<1 || multi.centery">&nbsp;</button>
 						</div>
-						<div data-hint="Specify secondary text for the keycap; typically displayed bottom-right." class="hint--top hint--rounded">
-							<input id="labeleditor4" size="6" type='text' ng-model="multi.labels[3]" ng-change="updateMulti('labels',3)" ng-blur="validateMulti('labels',3)" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
+						<div data-hint="Specify secondary text for the keycap; typically displayed bottom-right." 
+                 class="hint--top hint--rounded"
+                 ui-on-Drop="dropSwatch($data,$event,true,3)" drop-channel="dragColor">
+							<input id="labeleditor4" size="6" type='text' 
+                     ng-model="multi.labels[3]" 
+                     ng-change="updateMulti('labels',3)" 
+                     ng-blur="validateMulti('labels',3)"
+                     ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">
+              <button class="swatch picker" style="float:right;" ng-style="{'background-color':getTextColor(multi.text,3)}" ng-model="multi.text[3]" ng-change="updateMulti('text',3)" colorpicker="hex" colorpicker-close-on-select="true" colorpicker-with-input="true" ng-disabled="selectedKeys.length<1 || multi.centery || multi.centerx">&nbsp;</button>
 						</div>
 					</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="labeleditor5">Side-Print Label:</label>
 					<div class="controls">
-						<div data-hint="Specify the primary side-printed text for the keycap." class="hint--top hint--rounded">
-							<input id="labeleditor5" size="6" type='text' ng-model="multi.labels[4]" ng-change="updateMulti('labels',4)" ng-blur="validateMulti('labels',4)" ng-disabled="selectedKeys.length<1">
+						<div data-hint="Specify the primary side-printed text for the keycap." 
+                 class="hint--top hint--rounded"
+                 ui-on-Drop="dropSwatch($data,$event,true,4)" drop-channel="dragColor">
+							<input id="labeleditor5" size="6" type='text'
+                     ng-model="multi.labels[4]"
+                     ng-change="updateMulti('labels',4)"
+                     ng-blur="validateMulti('labels',4)"
+                     ng-disabled="selectedKeys.length<1">
+              <button class="swatch picker" style="float:right;" ng-style="{'background-color':getTextColor(multi.text,4)}" ng-model="multi.text[4]" ng-change="updateMulti('text',4)" colorpicker="hex" colorpicker-close-on-select="true" colorpicker-with-input="true" ng-disabled="selectedKeys.length<1">&nbsp;</button>
 						</div>
-						<div data-hint="Specify secondary side-printed text for the keycap." class="hint--top hint--rounded">
-							<input id="labeleditor6" size="6" type='text' ng-model="multi.labels[5]" ng-change="updateMulti('labels',5)" ng-blur="validateMulti('labels',5)" ng-disabled="selectedKeys.length<1 || multi.centerf">
+						<div data-hint="Specify secondary side-printed text for the keycap." 
+                 class="hint--top hint--rounded"
+                 ui-on-Drop="dropSwatch($data,$event,true,5)" drop-channel="dragColor">
+							<input id="labeleditor6" size="6" type='text' 
+                     ng-model="multi.labels[5]"
+                     ng-change="updateMulti('labels',5)"
+                     ng-blur="validateMulti('labels',5)"
+                     ng-disabled="selectedKeys.length<1 || multi.centerf">
+              <button class="swatch picker" style="float:right;" ng-style="{'background-color':getTextColor(multi.text,5)}" ng-model="multi.text[5]" ng-change="updateMulti('text',5)" colorpicker="hex" colorpicker-close-on-select="true" colorpicker-with-input="true" ng-disabled="selectedKeys.length<1 || multi.centerf">&nbsp;</button>
 						</div>
 						<div data-hint="Center the side-printed text." class="hint--top hint--rounded">
 							<input id="centerf" type="checkbox" ng-model="multi.centerf" ng-change="updateMulti('centerf')" ng-blur="validateMulti('centerf')" ng-disabled="selectedKeys.length<1"><label class="checkbox-label" for="centerf">Center</label>
@@ -264,24 +323,24 @@ All rights reserved.
 						<input id="profileeditor" size="16" type='text' ng-model="multi.profile" ng-change="updateMulti('profile')" ng-blur="validateMulti('profile')" ng-disabled="selectedKeys.length<1">
 					</div>
 				</div>
-				<div class="control-group">
+				<div class="control-group" ui-on-Drop="dropSwatch($data,$event,false)" drop-channel="dragColor">
 					<label class="control-label" for="coloreditor">Key Color:</label>
 					<div class="controls">
 						<div class="hint--top hint--rounded" data-hint="Specify the color to use for the background of the selected keycaps.">
-							<input id="coloreditor" size="8" type='text' ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
-							<input type='color' class="colorpicker" ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
+							<input colorpicker="hex" colorpicker-close-on-select="true" colorpicker-position="top" id="coloreditor" size="8" type='text' ng-model="multi.color" ng-change="updateMulti('color')" ng-blur="validateMulti('color')" ng-disabled="selectedKeys.length<1">
+              <button class="swatch picker" style="margin-left:-5px;" ng-style="{'background-color':multi.color}" colorpicker="hex" colorpicker-close-on-select="true" colorpicker-position="top" ng-model="multi.color" ng-change="updateMulti('color')" ng-disabled="selectedKeys.length<1">&nbsp;</button>
 						</div>
 						<div class="color-name">{{colorName(multi.color)}}</div>
 						<button id="swap-colors" class="btn btn-default hint--top hint--rounded" ng-click="swapColors()" ng-disabled="selectedKeys.length<1" data-hint="Swap the text and keycap colors."><i class="fa fa-random"></i></button>
 					</div>
 				</div>
-				<div class="control-group">
+				<div class="control-group" ui-on-Drop="dropSwatch($data,$event,true,-1)" drop-channel="dragColor">
 					<label class="control-label" for="textcoloreditor">Label Color:</label>
 					<div class="controls hint--top hint--rounded" data-hint="Specify the color to use for the legend text on the selected keycaps.">
-						<input id="textcoloreditor" size="8" type='text' ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
-						<input type='color' class="colorpicker" ng-model="multi.text" ng-change="updateMulti('text')" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
-						<div class="color-name">{{colorName(multi.text)}}</div>
+						<input colorpicker="hex" colorpicker-close-on-select="true" id="textcoloreditor" size="8" type='text' ng-model="multi.text[0]" ng-change="updateMulti('text',-1)" ng-blur="validateMulti('text')" ng-disabled="selectedKeys.length<1">
+            <button class="swatch picker" style="margin-left:-5px;" ng-style="{'background-color':multi.text[0]}" colorpicker="hex" colorpicker-close-on-select="true" colorpicker-position="top" ng-model="multi.text[0]" ng-change="updateMulti('text',-1)" ng-disabled="selectedKeys.length<1">&nbsp;</button>
 					</div>
+          <div class="color-name">{{colorName(multi.text[0])}}</div>
 				</div>
 				<div class="control-group">
 					<label class="control-label" for="angleeditor">Rotation:</label>
@@ -311,15 +370,16 @@ All rights reserved.
 						 ng-style="{'background-color':color.css}" 
 						 ng-click="clickSwatch(color,$event)"
 						 class="swatch hint--top"
-						 ng-class="{'selected-bg': color.css === multi.color, 'selected-fg': color.css === multi.text}"
-						 data-hint="{{color.name}}">
+						 ng-class="{'selected-bg': color.css === multi.color, 'selected-fg': color.css === multi.text[0]}"
+						 data-hint="{{color.name}}"
+             ui-draggable="true" drag-channel="dragColor" drag="color">
 							 <div class='highlight fg'></div>
 							 <div class='highlight bg'></div>
 					</li>
 				</ul>
 				<div class="alert alert-warning alert-dismissable" style="margin-top:10px;"><a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
 					<i class="fa fa-info-circle"></i>
-					Click on a swatch to set the color of the selected key(s), or Ctrl+Click to set the text color.
+					Click on a swatch to set the color of the selected key(s), or Ctrl+Click to set the text color.  You can also drag color swatches to individual labels to set different colors for each one.
 				</div>
 			</div>
 		</div>
@@ -330,8 +390,8 @@ All rights reserved.
 				<div class="control-group">
 					<label class="control-label" for="kbdcoloreditor">Keyboard Color:</label>
 					<div class="controls">
-						<input id="kbdcoloreditor" size="8" type='text' ng-model="meta.backcolor" ng-change="updateMeta('backcolor')" ng-blur="validateMeta('backcolor')">
-						<input type='color' class="colorpicker" ng-model="meta.backcolor" ng-change="updateMeta('backcolor')" ng-blur="validateMeta('backcolor')">
+						<input colorpicker="hex" colorpicker-close-on-select="true" id="kbdcoloreditor" size="8" type='text' ng-model="meta.backcolor" ng-change="updateMeta('backcolor')" ng-blur="validateMeta('backcolor')">
+            <button class="swatch picker" style="margin-left:-5px;" ng-style="{'background-color':meta.backcolor}" colorpicker="hex" colorpicker-close-on-select="true" ng-model="meta.backcolor" ng-change="updateMeta('backcolor')">&nbsp;</button>
 					</div>
 				</div>
 			</form>

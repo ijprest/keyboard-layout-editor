@@ -11,7 +11,7 @@
 	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
 
 	// The angular module for our application
-	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ngFileUpload"]);
+	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ngFileUpload", "ang-drag-drop", "colorpicker.module"]);
 
 	// The main application controller
 	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', function($scope, $http, $location, $timeout, $sce, $sanitize) {
@@ -217,8 +217,6 @@
 		}
 
 		$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
-			console.log(newUrl);
-			console.log(oldUrl);
 			if($location.path() === '') {
 				event.preventDefault();
 			}
@@ -332,7 +330,7 @@
 			return (v[prop] || v._)();
 		}
 
-		function update(key,prop,value) {
+		function update(key,prop,value,index) {
 			var u = {
 				_ : function() { key[prop] = value; },
 				width : function() { key.width = value; if(!key.stepped || key.width > key.width2) key.width2 = value; },
@@ -341,6 +339,7 @@
 				centery : function() { if(value) { key.align = key.align | 2; } else { key.align = key.align & (~2); } },
 				centerf : function() { if(value) { key.align = key.align | 4; } else { key.align = key.align & (~4); } },
 				fontheight : function() { key.fontheight = key.fontheight2 = value; },
+				text : function() { if(index<0) { key.text = [value[0]]; } else { key.text = value; } },
 				stepped : function() {
 					key[prop] = value;
 					if(value && key.width === key.width2) {
@@ -356,7 +355,8 @@
 			return (u[prop] || u._)();
 		}
 
-		$scope.updateMulti = function(prop) {
+		$scope.updateMulti = function(prop, index) {
+			console.log(prop, index);
 			if($scope.multi[prop] == null || $scope.selectedKeys.length <= 0) {
 				return;
 			}
@@ -367,7 +367,7 @@
 
 			transaction("update", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {				
-					update(selectedKey, prop, $scope.multi[prop]);
+					update(selectedKey, prop, $scope.multi[prop], index);
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -399,23 +399,32 @@
 			transaction("swapColors", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					var temp = selectedKey.color;
-					selectedKey.color = selectedKey.text;
-					selectedKey.text = temp;
+					selectedKey.color = selectedKey.text[0];
+					selectedKey.text = [temp];
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 		};
 	
+		$scope.getTextColor = function(colors, index) {
+			return colors ? (colors[index] ? colors[index] : colors[0]) : null;
+		};
 		$scope.clickSwatch = function(color,$event) {
+			$scope.dropSwatch(color,$event,$event.ctrlKey || $event.altKey,-1);
+		};
+		$scope.dropSwatch = function(color,$event,isText,textIndex) {
 			$event.preventDefault();
 			if($scope.selectedKeys.length<1) { 
 				return; 
 			}
 			transaction("color-swatch", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					if($event.ctrlKey || $event.altKey) {
-						selectedKey.text = color.css;
+					if(isText) {
+						if(textIndex<0)
+							selectedKey.text = [color.css];
+						else
+							selectedKey.text[textIndex] = color.css;
 					} else {
 						selectedKey.color = color.css;
 					}
@@ -903,17 +912,4 @@
 		$scope.keyboardLeft = function() { var kbElem = $("#keyboard"); return kbElem.position().left + parseInt(kbElem.css('margin-left'),10); };
 	}]);
 	
-	// Modernizr-inspired check to see if "color" input fields are supported; 
-	// we hide them if they aren't (e.g., on IE), because it's just a duplicate
-	// of the existing text version.
-	$(document).ready(function() {
-		$('.colorpicker').each(function(i,elem) {
-			var old = elem.value;
-			elem.value = ":)";
-			if(elem.value === ":)") {
-				elem.style.display = "none";
-			}
-			elem.value = old;
-		});
-	});
 }());

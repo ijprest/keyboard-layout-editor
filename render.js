@@ -81,14 +81,16 @@ var $renderKey = {};
 					.format( capwidth-innerPadding, capheight-innerPadding, capx+sizes.margin+1, capy+(sizes.margin/2)+1, lightColor, sizes.padding, maxWidth, maxHeight, Math.min(capx,capx2)-capx, Math.min(capy,capy2)-capy );
 
 			// The key labels			
-			var textColor = lightenColor($color.hex(key.text), 1.2).hex();
 			html += "<div class='keylabels' style='width:{0}px; height:{1}px;'>".format(capwidth-innerPadding, capheight-innerPadding);
 			key.labels.forEach(function(label,i) {
 				if(label && label !== "" && !(key.align&noRenderText[i])) {
 					var sanitizedLabel = '<div class="hint--top hint--rounded" data-hint="Error: Invalid HTML in label field."><i class="fa fa-times-circle"></div></i>';
 					try { sanitizedLabel = $sanitize(label.replace(/<([^a-zA-Z\/]|$)/,"&lt;$1")); } catch(e) {}
+					var textColor = i < key.text.length ? key.text[i] : key.text[0];
+					if(!textColor) textColor = key.text[0];
+					var textColorLight = lightenColor($color.hex(textColor), 1.2).hex();
 					html += "<div class='keylabel keylabel{2} centerx-{5} centery-{6} centerf-{7} textsize{8}' style='color:{1};width:{3}px;height:{4}px;'><div style='width:{3}px;max-width:{3}px;height:{4}px;'>{0}</div></div>\n"
-								.format(sanitizedLabel, i===4||i===5 ? key.text : textColor, i+1, capwidth-innerPadding, capheight-innerPadding, 
+								.format(sanitizedLabel, i===4||i===5 ? textColor : textColorLight, i+1, capwidth-innerPadding, capheight-innerPadding, 
 										key.centerx, key.centery, key.centerf, i>0 ? key.fontheight2 : key.fontheight);
 				}
 			});

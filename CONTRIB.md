@@ -16,6 +16,8 @@ The following third-party software packages were used in the creation of keyboar
 * [AngularJS](https://angularjs.org/)
 * [AngularUI](https://angular-ui.github.io/)
 * [ng-file-upload](https://github.com/danialfarid/ng-file-upload)
+* [angular-dragdrop](https://github.com/angular-dragdrop/angular-dragdrop)
+* [angular-bootstrap-colorpicker](https://github.com/buberdds/angular-bootstrap-colorpicker)
 * [Bootstrap](http://getbootstrap.com/)
 * [JQuery](https://jquery.com/)
 * [colors.js](https://gist.github.com/mikelikespie/641528) (quick RGB to LAB conversions)
