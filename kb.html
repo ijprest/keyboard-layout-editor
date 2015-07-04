@@ -166,7 +166,7 @@ All rights reserved.
 	</ul>
 	<div class='tab-content' ui-keydown="{esc:'focusKb()'}">
 		<!-- PROPERTIES EDITOR -->
-		<div id="properties" ng-class="{hidden:selTab!=0}" class="col-md-12 row">
+		<div id="properties" ng-class="{hidden:selTab!=0}" class="col-md-12 col-lg-12 row">
 			<form class="form-horizontal col-md-4 col-lg-4">
 				<div class="control-group">
 					<label class="control-label" for="labeleditor">Top Label:</label>
@@ -385,8 +385,8 @@ All rights reserved.
 		</div>
 
 		<!-- KEYBOARD PROPERTIES EDITOR -->
-		<div id="kbdproperties" ng-class="{hidden:selTab!=1}" class="col-md-12 row">
-			<form class="form-horizontal col-md-4 col-lg-4">
+		<div id="kbdproperties" ng-class="{hidden:selTab!=1}" class="col-md-12 col-lg-12 row">
+			<form class="form-horizontal col-md-12 col-lg-12">
 				<div class="control-group">
 					<label class="control-label" for="kbdcoloreditor">Keyboard Color:</label>
 					<div class="controls">
@@ -398,7 +398,7 @@ All rights reserved.
 		</div>
 
 		<!-- RAW DATA EDITOR -->
-		<div ng-class="{hidden:selTab!=2}" class="col-md-12">
+		<div ng-class="{hidden:selTab!=2}" class="col-md-12 col-lg-12">
       <div ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
 		    <textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}"></textarea>
       </div>
@@ -446,9 +446,9 @@ All rights reserved.
 </div>
 </div>	
 
-<!-- Modal -->
+<!-- Help Dialog -->
 <div class="modal fade" id="helpDialog" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog" style='width:70%;left:15%;'>
+	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -466,32 +466,32 @@ All rights reserved.
 				</ul>
 
 				<h5>Global Keyboard Shortcuts:</h5>
-        <table class='shortcuts col-md-6' style='margin-bottom:5px;'>
-          <tr><td><span class='shortcut'>F1</span> / <span class='shortcut'>?</span></td><td>Show this help dialog</td></tr>
-          <tr><td><span class='shortcut'>F7</span></td><td>Show the Options dialog</td></tr>
-          <tr><td><span class='shortcut'>Ctrl&ndash;S</span></td><td>Save your layout (on the server)</td></tr>
-        </table>
+        <dl class='shortcuts clearfix'>
+          <dt><kbd>F1</kbd> / <kbd>?</kbd></dt><dd>Show this help dialog</dd>
+          <dt><kbd>F7</kbd></dt><dd>Show the Options dialog</dd>
+          <dt><kbd>Ctrl&ndash;S</kbd></dt><dd>Save your layout (on the server)</dd>
+        </dl>
 
-        <h5 style='clear:both'>Editor Keyboard Shortcuts (these require that the editor has input focus):</h5>
-				<table class='shortcuts col-md-6' style='margin-bottom:5px;'>
-					<tr><td><span class='shortcut'>↑↓←→</span></td><td>Move the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Shift&ndash;↑↓←→</span></td><td>Resize the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;↑↓←→</span></td><td>Move the center of rotation for the selected keys</td></tr>
-					<tr><td><span class='shortcut'>PgUp</span> / <span class='shortcut'>PgDn</span></td><td>Change the angle of rotation for the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Ins</span></td><td>Add a new key</td></tr>
-					<tr><td><span class='shortcut'>Del</span></td><td>Delete the selected keys</td></tr>
-					<tr><td><span class='shortcut'>F2</span></td><td>Edit the text of the selected key</td></tr>
-				</table>
-				<table class='shortcuts col-md-6' style='margin-bottom:5px;'>
-          <tr><td><span class='shortcut'>Ctrl&ndash;A</span> / <span class='shortcut'>Esc</span></td><td>Select / deselect all keys</td></tr>
-          <tr><td><span class='shortcut'>J</span> / <span class='shortcut'>K</span></td><td>Select the previous / next key in the editor.</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;Z</span></td><td>Undo</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;Shift&ndash;Z</span> or <span class='shortcut'>Ctrl&ndash;Y</span></td><td>Redo</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;X</span> or <span class='shortcut'>Shift&ndash;Del</span></td><td>Cut the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;C</span> or <span class='shortcut'>Ctrl&ndash;Ins</span></td><td>Copy the selected keys</td></tr>
-					<tr><td><span class='shortcut'>Ctrl&ndash;V</span> or <span class='shortcut'>Shift&ndash;Ins</span></td><td>Paste keys from the clipboard</td></tr>
-				</table>				
-        <P style='clear:both'></P>
+        <h5>Editor Keyboard Shortcuts (these require that the editor has input focus):</h5>
+				<dl class='shortcuts clearfix' style='float:left;width:50%;'>
+					<dt><kbd>↑↓←→</kbd></dt><dd>Move the selected keys</dd>
+					<dt><kbd>Shift&ndash;↑↓←→</kbd></dt><dd>Resize the selected keys</dd>
+					<dt><kbd>Ctrl&ndash;↑↓←→</kbd></dt><dd>Move the center of rotation for the selected keys</dd>
+					<dt><kbd>PgUp</kbd> / <kbd>PgDn</kbd></dt><dd>Change the angle of rotation for the selected keys</dd>
+					<dt><kbd>Ins</kbd></dt><dd>Add a new key</dd>
+					<dt><kbd>Del</kbd></dt><dd>Delete the selected keys</dd>
+					<dt><kbd>F2</kbd></dt><dd>Edit the text of the selected key</dd>
+				</dl>
+				<dl class='shortcuts clearfix' style='float:left;width:50%;'>
+          <dt><kbd>Ctrl&ndash;A</kbd> / <kbd>Esc</kbd></dt><dd>Select / deselect all keys</dd>
+          <dt><kbd>J</kbd> / <kbd>K</kbd></dt><dd>Select the previous / next key in the editor.</dd>
+					<dt><kbd>Ctrl&ndash;Z</kbd></dt><dd>Undo</dd>
+					<dt><kbd>Ctrl&ndash;Shift&ndash;Z</kbd> or <kbd>Ctrl&ndash;Y</kbd></dt><dd>Redo</dd>
+					<dt><kbd>Ctrl&ndash;X</kbd> or <kbd>Shift&ndash;Del</kbd></dt><dd>Cut the selected keys</dd>
+					<dt><kbd>Ctrl&ndash;C</kbd> or <kbd>Ctrl&ndash;Ins</kbd></dt><dd>Copy the selected keys</dd>
+					<dt><kbd>Ctrl&ndash;V</kbd> or <kbd>Shift&ndash;Ins</kbd></dt><dd>Paste keys from the clipboard</dd>
+				</dl>
+				<p>&nbsp;</p>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
@@ -526,15 +526,15 @@ All rights reserved.
         <div class="form-horizontal">
           <h5>Editor Step Sizes:</h5>
           <div class="form-group">
-            <label for="moveStepEditor" class="col-sm-2 control-label">Move Step:</label>
+            <label for="moveStepEditor" class="control-label">Move Step:</label>
             <input id="moveStepEditor" type="number" min="0.05" max="2.5" step="0.05" size="6" ng-model="moveStep"> units
           </div>
           <div class="form-group">
-            <label for="sizeStepEditor" class="col-sm-2 control-label">Size Step:</label>
+            <label for="sizeStepEditor" class="control-label">Size Step:</label>
             <input id="sizeStepEditor" type="number" min="0.05" max="2.5" step="0.05" size="6" ng-model="sizeStep"> units
           </div>
           <div class="form-group">
-            <label for="rotateStepEditor" class="col-sm-2 control-label">Rotate Step:</label>
+            <label for="rotateStepEditor" class="control-label">Rotate Step:</label>
             <input id="rotateStepEditor" type="number" min="1" max="90" step="1" size="6" ng-model="rotateStep"> degrees
           </div>
         </div>

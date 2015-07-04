@@ -273,8 +273,10 @@ span.PETSCII {
 }
 .form-horizontal input { margin-bottom: 2px; }
 
-.shortcuts tr > td:first-child { text-align:right; padding-right: 6px; padding-top: 3px;}
-.shortcuts .shortcut { background-color: #444; color: white; padding: 1px 6px; border-radius:6px; font-family: "Consolas", "Courier New", "Courier", monospace; }
+/*Help Dialog*/
+#helpDialog .modal-dialog { width: 80%; }
+.shortcuts dt { float: left; clear:left; text-align: right; width: 180px; padding-right: 1em; }
+.shortcuts dd { margin: 0 0 0 180px; }
 
 .checkbox-label { font-weight: normal; padding-left: 4px; }
 
@@ -286,9 +288,8 @@ span.PETSCII {
 #swap-colors { position: relative; top: 15px; }
 .color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }
 
-
 /* Our "README" dialog; we want the body of the dialog itself to be scrollable */
-#markdownDialog .modal-dialog { padding: 30px 10px; } /*60px*/
+#markdownDialog .modal-dialog { margin: 30 auto; } /*60px*/
 #markdownDialog .modal-header { height: 55px; }
 #markdownDialog .modal-footer { height: 74px; margin-top: 0px; }
 #markdownDialog .modal-body {
