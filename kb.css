@@ -257,35 +257,25 @@ span.PETSCII {
 	white-space: pre;
 }
 
-.tab-content {
+#tab-content {
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
     padding-top: 15px;
     padding-bottom: 15px;
+    margin-left: 0px;
 }
 #properties.row { padding-left:30px; }
-.form-horizontal .control-label { 
-	float:left; 
-	padding-right: 5px; 
-	padding-top: 3px; 
-	width: 120px;
-}
-.form-horizontal input { margin-bottom: 2px; }
 
 /*Help Dialog*/
 #helpDialog .modal-dialog { width: 80%; }
-.shortcuts dt { float: left; clear:left; text-align: right; width: 180px; padding-right: 1em; }
-.shortcuts dd { margin: 0 0 0 180px; }
-
-.checkbox-label { font-weight: normal; padding-left: 4px; }
 
 /* Tooltip modifications */
 .hint--rounded:after { width: 300px; }
 .hint:after, [data-hint]:after { white-space: pre-line; }
 .hint:before, .hint:after, [data-hint]:before, [data-hint]:after { -webkit-transition: 0.1s ease; -moz-transition: 0.1s ease; transition: 0.1s ease; }
 
-#swap-colors { position: relative; top: 15px; }
+#swap-colors { position: absolute; top: 11px; left: 200px; z-index: 1; }
 .color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }
 
 /* Our "README" dialog; we want the body of the dialog itself to be scrollable */
@@ -318,4 +308,16 @@ span.PETSCII {
   	padding-left: 0px; padding-top: 0px;
   }
 }
+
+/* the default (-15px) causes overflow problems */
+.navbar-right { margin-right: 0; }
+
+/* densely pack the form */
+.form-horizontal .form-inline { margin-left: -15px; }
+.form-horizontal .form-inline .form-group { margin-left: 0; margin-right: 0; }
+.form-group { margin-bottom: 2px; }
+.form-control.input-sm, .input-group-sm > .form-control { height: 26px; padding: 2px; }
+.input-group-sm > .input-group-btn > .btn { height: 26px; padding: 2px; min-width: 16px; }
+.input-group-sm > .input-group-addon { height: 26px; padding: 2px; min-width: 16px; }
+.form-horizontal .form-group-sm .checkbox { padding-top: 3px; min-height:26px; }
 
