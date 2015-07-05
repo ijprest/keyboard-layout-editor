@@ -809,6 +809,18 @@ Nav Bar / Header
           </div>
         </div>
 
+        <!-- Keyboard Name -->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdnameeditor">Keyboard Name:</label>
+          <div class="col-md-10 col-lg-11 form-outdent hint--top hint--rounded"
+               data-hint="Specify the name of this keyboard layout.">
+            <input id="kbdnameeditor" class="form-control input-sm" type='text'
+                   ng-model="meta.name"
+                   ng-change="updateMeta('name')"
+                   ng-blur="validateMeta('name')">
+          </div>
+        </div>
+
         <!-- Author -->
         <div class="form-group form-group-sm">
           <label class="control-label col-md-2 col-lg-1 text-nowrap" for="authoreditor">Author:</label>

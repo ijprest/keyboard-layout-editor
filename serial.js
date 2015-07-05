@@ -39,7 +39,7 @@ var $serial = {};
 		rotation_angle: 0, rotation_x: 0, rotation_y: 0,		// rotation
 		profile: "", nub: false, ghost: false, stepped: false	// misc
 	};
-	var _defaultMetaData = { backcolor: '#eeeeee', author: '', notes: '' };
+	var _defaultMetaData = { backcolor: '#eeeeee', name: '', author: '', notes: '' };
 	$serial.defaultKeyProps = function() { return angular.copy(_defaultKeyProps); };
 	$serial.defaultMetaData = function() { return angular.copy(_defaultMetaData); };
 	
