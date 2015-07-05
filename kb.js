@@ -197,6 +197,8 @@
 			$scope.keys().forEach(function(key) {
 				bottom = Math.max(bottom, key.bbox.y2);
 			});
+			if($scope.keyboard.meta.name || $scope.keyboard.meta.author)
+				bottom += 32;
 			$scope.kbHeight = bottom + 8;
 		};
 
@@ -393,6 +395,7 @@
 			transaction("metadata", function() {
 				$scope.keyboard.meta[prop] = $scope.meta[prop];
 			});
+			$scope.calcKbHeight();
 		};
 		$scope.validateMeta = function(prop) {
 		};

@@ -184,6 +184,7 @@ Nav Bar / Header
        ng-bind-html="key.html">
     </div>
 
+    <div style="position:relative;line-height:1.2;padding-left:4px;" ng-style="{top:(kbHeight-32)+'px'}"><a href="#" ng-click="previewNotes()">{{keyboard.meta.name}}<br/><i>{{keyboard.meta.author}}</i></a></div>
     <div style='clear:both'></div>
     {{calcKbHeight()}}
   </div>

@@ -281,6 +281,7 @@ span.PETSCII {
   html, body { overflow:hidden; height:100%; margin: 0 !important; padding: 0 !important; }
   #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog, #markdownDialog { display: none; margin: 0 !important; padding: 0 !important; }
   div.body { margin: 0 !important; padding: 0 !important; }
+  a { color: black; text-decoration: none; }
   #keyboard { 
   	border: none; 
   	background-color: inherit !important; 
