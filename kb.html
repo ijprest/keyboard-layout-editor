@@ -66,7 +66,7 @@ Nav Bar / Header
       <li class="dropdown" dropdown>
         <a class="dropdown-toggle" dropdown-toggle><i class="fa fa-keyboard-o"></i> Preset <b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li ng-repeat="(k,v) in layouts"><a ng-click="loadPreset(v)" href="#">{{k}}</a></li>
+          <li ng-repeat="v in layouts"><a ng-click="loadPreset(v.data)" href="#">{{v.name}}</a></li>
           <li class="divider"></li>
           <li ng-repeat="(k,v) in samples"><a ng-click="loadSample(v)" href="#">{{k}}</a></li>
         </ul>
