@@ -247,15 +247,9 @@ span.PETSCII {
 	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
-#rawdata { 
-	width: 100%;
-	height: 200px;
-	font-family: "Consolas", "Courier New", "Courier", monospace;
-}
-#rawdata-error {
-	font-family: "Consolas", "Courier New", "Courier", monospace;
-	white-space: pre;
-}
+#rawdata, #rawdata-error, #noteseditor { font-family: "Consolas", "Courier New", "Courier", monospace; }
+#rawdata { width: 100%; }
+#rawdata-error { white-space: pre; }
 
 #tab-content {
     border-left: 1px solid #ddd;
@@ -313,11 +307,10 @@ span.PETSCII {
 .navbar-right { margin-right: 0; }
 
 /* densely pack the form */
-.form-horizontal .form-inline { margin-left: -15px; }
+.form-horizontal .form-inline, .form-horizontal > .form-group.form-group-sm > .form-outdent { margin-left: -15px; }
 .form-horizontal .form-inline .form-group { margin-left: 0; margin-right: 0; }
 .form-group { margin-bottom: 2px; }
 .form-control.input-sm, .input-group-sm > .form-control { height: 26px; padding: 2px; }
 .input-group-sm > .input-group-btn > .btn { height: 26px; padding: 2px; min-width: 16px; }
 .input-group-sm > .input-group-addon { height: 26px; padding: 2px; min-width: 16px; }
 .form-horizontal .form-group-sm .checkbox { padding-top: 3px; min-height:26px; }
-

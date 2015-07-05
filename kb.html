@@ -781,6 +781,8 @@ Nav Bar / Header
     <!-- KEYBOARD PROPERTIES EDITOR -->
     <div id="kbdproperties" ng-class="{hidden:selTab!=1}">
       <form class="form-horizontal col-sm-12 col-md-12 col-lg-12">
+
+        <!-- Keyboard Color -->
         <div class="form-group form-group-sm">
           <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdcoloreditor">Keyboard Color:</label>
           <div class="col-md-10 col-lg-11">
@@ -806,13 +808,38 @@ Nav Bar / Header
             </div>
           </div>
         </div>
+
+        <!-- Author -->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="authoreditor">Author:</label>
+          <div class="col-md-10 col-lg-11 form-outdent hint--top hint--rounded"
+               data-hint="Specify the author of this keyboard layout.">
+            <input id="authoreditor" class="form-control input-sm" type='text'
+                   ng-model="meta.author"
+                   ng-change="updateMeta('author')"
+                   ng-blur="validateMeta('author')">
+          </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="noteseditor">Notes:</label>
+          <div class="col-md-10 col-lg-11 form-outdent hint--top hint--rounded"
+               data-hint="Specify any additional notes about this keyboard layout, e.g., links to manufacturers, colors used, additional credits, etc.  GitHub-Flavored Markdown is supported for rich formatting.">
+            <textarea id="noteseditor" class="form-control" rows="20" spellcheck="true"
+                      ng-model="meta.notes"
+                      ng-change="updateMeta('notes')"
+                      ng-blur="validateMeta('notes')"></textarea>
+          </div>
+        </div>
+
       </form>
     </div>
 
     <!-- RAW DATA EDITOR -->
     <div id="tab-rawdata" ng-class="{hidden:selTab!=2}">
       <div ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
-        <textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}"></textarea>
+        <textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}" rows="20"></textarea>
       </div>
       <div style='text-align:right;margin-top:4px;'>
         <div class="btn-group btn-group-xs" role="group">
