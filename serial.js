@@ -16,6 +16,9 @@ var $serial = {};
 			for(key in obj) {	if(obj.hasOwnProperty(key)) { res.push(key+':'+$serial.toJsonL(obj[key])); } }
 			return '{'+res.join(',')+'}';
 		}
+		if(typeof obj === 'number') {
+			return Math.round10(obj,-4);
+		}
 		return angular.toJson(obj);	
 	};
 	$serial.fromJsonL = function(json) { return jsonl.parse(json); };
@@ -48,7 +51,8 @@ var $serial = {};
 	$serial.serialize = function(keyboard) {
 		var keys = keyboard.keys;
 		var rows = [], row = [];
-		var current = $serial.defaultKeyProps();
+		var current = $serial.defaultKeyProps(); 
+		current.text = current.text[0];
 		var cluster = {r:0, rx:0, ry:0};
 
 		// Serialize metadata
