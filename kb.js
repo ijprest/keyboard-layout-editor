@@ -41,6 +41,11 @@
 		$scope.keyboard = { keys: [], meta: {} };
 		$scope.keys = function(newKeys) { if(newKeys) { $scope.keyboard.keys = newKeys; } return $scope.keyboard.keys; };
 
+		// Helper to evaluate the alignment states and determine if a label field is editable
+		$scope.labelDisabled = function(index) {
+			return $scope.selectedKeys<1 || $scope.multi.align & $renderKey.noRenderText[index];
+		};
+
 		// Helper function to select/deselect all keys
 		$scope.unselectAll = function() {
 			$scope.selectedKeys = [];
@@ -959,6 +964,10 @@
 			restrict: "E",
 			scope: { hintText: "@", pickerId: "@", pickerPosition: "@", color: "=ngModel", onChange: "&ngChange", onBlur: "&ngBlur", isDisabled: "&ngDisabled" }
 		};
+	});
+
+	kbApp.directive('kbdLabelEditor', function() {
+		return { templateUrl: "labelEditor.html", restrict: "E", scope: { hintText: "@", labelIndex: "=" } };
 	});
 
 }());

@@ -24,7 +24,7 @@ var $renderKey = {};
 	};
 	
 	// Given a key, generate the HTML needed to render it	
-	var noRenderText = [0,2,1,3,0,4,2,3];
+	$renderKey.noRenderText = [0,2,1,3,0,4,2,3];
 	$renderKey.html = function(key, $sanitize) {
 		var html = "";
 		var capwidth = sizes.capsize(key.width), capwidth2 = sizes.capsize(key.width2);
@@ -83,7 +83,7 @@ var $renderKey = {};
 			// The key labels			
 			html += "<div class='keylabels' style='width:{0}px; height:{1}px;'>".format(capwidth-innerPadding, capheight-innerPadding);
 			key.labels.forEach(function(label,i) {
-				if(label && label !== "" && !(key.align&noRenderText[i])) {
+				if(label && label !== "" && !(key.align&$renderKey.noRenderText[i])) {
 					var sanitizedLabel = '<div class="hint--top hint--rounded" data-hint="Error: Invalid HTML in label field."><i class="fa fa-times-circle"></div></i>';
 					try { sanitizedLabel = $sanitize(label.replace(/<([^a-zA-Z\/]|$)/,"&lt;$1")); } catch(e) {}
 					var textColor = i < key.text.length ? key.text[i] : key.text[0];
