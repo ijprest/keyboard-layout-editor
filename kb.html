@@ -875,17 +875,18 @@ Nav Bar / Header
 
   </div>
 
-  <P class="row"></P>
-  <alert type="success" ng-hide="!saved" close="saved=false" ng-cloak>
-    Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/layouts/{{saved}}">this link</a>.
-  </alert>
-  <alert type="danger" ng-hide="!saveError" close="saveError=''" ng-cloak>
-    <P>There was an error saving your layout on the server: {{saveError}}</P>
-    <P>To ensure you don't lose any data, it is recommended that you <a class="alert-link" ng-click="downloadJson()">download your layout as JSON</a>.</P>
-  </alert>
-  <alert type="danger" ng-hide="!loadError" close="loadError=false" ng-cloak>
-    The requested layout does not exist.
-  </alert>
+  <div class="col-md-12 col-lg-12 row" style="margin-top:1em;margin-left:0px;">
+    <alert type="success" ng-hide="!saved" close="saved=false" ng-cloak>
+      Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/layouts/{{saved}}">this link</a>.
+    </alert>
+    <alert type="danger" ng-hide="!saveError" close="saveError=''" ng-cloak>
+      <P>There was an error saving your layout on the server: {{saveError}}</P>
+      <P>To ensure you don't lose any data, it is recommended that you <a class="alert-link" ng-click="downloadJson()">download your layout as JSON</a>.</P>
+    </alert>
+    <alert type="danger" ng-hide="!loadError" close="loadError=false" ng-cloak>
+      The requested layout does not exist.
+    </alert>
+  </div>
 </div>
 </div>
 
