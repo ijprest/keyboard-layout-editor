@@ -953,4 +953,12 @@
 		};
 	});
 
+	kbApp.directive('kbdColorPicker', function() {
+		return {
+			templateUrl: "colorPicker.html",
+			restrict: "E",
+			scope: { hintText: "@", pickerId: "@", pickerPosition: "@", color: "=ngModel", onChange: "&ngChange", onBlur: "&ngBlur", isDisabled: "&ngDisabled" }
+		};
+	});
+
 }());

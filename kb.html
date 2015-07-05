@@ -606,31 +606,14 @@ Nav Bar / Header
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3 col-lg-3 text-nowrap" for="coloreditor">Key Color:</label>
           <div class="col-md-9 col-lg-9">
-            <div class="form-inline hint--top hint--rounded"
-                 data-hint="Specify the color to use for the background of the selected keycaps.">
-              <div class="form-group form-group-sm">
-                <div class="input-group input-group-sm"
-                     ui-on-Drop="dropSwatch($data,$event,false)" drop-channel="dragColor">
-                  <input id="coloreditor" class="form-control" size="8" type='text'
-                         ng-model="multi.color"
-                         ng-change="updateMulti('color')"
-                         ng-blur="validateMulti('color')"
-                         ng-disabled="selectedKeys.length<1"
-                         colorpicker="hex"
-                         colorpicker-close-on-select="true"
-                         colorpicker-position="top">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default"
-                            ng-style="{'background-color':multi.color}"
-                            ng-model="multi.color"
-                            ng-change="updateMulti('color')"
-                            colorpicker="hex"
-                            colorpicker-close-on-select="true"
-                            colorpicker-position="top"
-                            ng-disabled="selectedKeys.length<1">&nbsp;</button>
-                  </span>
-                </div>
-              </div>
+            <div class="form-inline">
+              <kbd-color-picker picker-id="coloreditor" picker-position="top"
+                                ng-model="multi.color"
+                                ng-change="updateMulti('color')"
+                                ng-blur="validateMulti('color')"
+                                ng-disabled="selectedKeys.length<1"
+                                hint-text="Specify the color to use for the background of the selected keycaps."
+                                ui-on-Drop="dropSwatch($data,$event,false)" drop-channel="dragColor"></kbd-color-picker>
               <div class="form-group form-group-sm color-name">{{colorName(multi.color)}}</div>
             </div>
 
@@ -653,31 +636,14 @@ Nav Bar / Header
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3 col-lg-3 text-nowrap" for="textcoloreditor">Label Color:</label>
           <div class="col-md-9 col-lg-9">
-            <div class="form-inline hint--top hint--rounded"
-                 data-hint="Specify the color to use for the legend text on the selected keycaps.">
-              <div class="form-group form-group-sm">
-                <div class="input-group input-group-sm"
-                     ui-on-Drop="dropSwatch($data,$event,true,-1)" drop-channel="dragColor">
-                  <input id="textcoloreditor" class="form-control" size="8" type='text'
-                         ng-model="multi.text[0]"
-                         ng-change="updateMulti('text',-1)"
-                         ng-blur="validateMulti('text')"
-                         ng-disabled="selectedKeys.length<1"
-                         colorpicker="hex"
-                         colorpicker-close-on-select="true"
-                         colorpicker-position="top">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default"
-                            ng-style="{'background-color':multi.text[0]}"
-                            ng-model="multi.text[0]"
-                            ng-change="updateMulti('text',-1)"
-                            colorpicker="hex"
-                            colorpicker-close-on-select="true"
-                            colorpicker-position="top"
-                            ng-disabled="selectedKeys.length<1">&nbsp;</button>
-                  </span>
-                </div>
-              </div>
+            <div class="form-inline">
+              <kbd-color-picker picker-id="textcoloreditor" picker-position="top"
+                                ng-model="multi.text[0]"
+                                ng-change="updateMulti('text',-1)"
+                                ng-blur="validateMulti('text')"
+                                ng-disabled="selectedKeys.length<1"
+                                hint-text="Specify the color to use for the legend text on the selected keycaps."
+                                ui-on-Drop="dropSwatch($data,$event,true,-1)" drop-channel="dragColor"></kbd-color-picker>
               <div class="form-group form-group-sm color-name">{{colorName(multi.text[0])}}</div>
             </div>
           </div>
@@ -786,24 +752,11 @@ Nav Bar / Header
           <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdcoloreditor">Keyboard Color:</label>
           <div class="col-md-10 col-lg-11">
             <div class="form-inline">
-              <div class="form-group form-group-sm">
-                <div class="input-group input-group-sm hint--top hint--rounded"
-                     data-hint="Specify the background color for the keyboard.">
-                  <input id="kbdcoloreditor" class="form-control" size="8" type='text'
-                         ng-model="meta.backcolor"
-                         ng-change="updateMeta('backcolor')"
-                         ng-blur="validateMeta('backcolor')"
-                         colorpicker="hex"
-                         colorpicker-close-on-select="true">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default"
-                            ng-style="{'background-color':meta.backcolor}"
-                            ng-model="meta.backcolor"
-                            ng-change="updateMeta('backcolor')"
-                            colorpicker="hex" colorpicker-close-on-select="true">&nbsp;</button>
-                  </span>
-                </div>
-              </div>
+              <kbd-color-picker picker-id="kbdcoloreditor"
+                                ng-model="meta.backcolor"
+                                ng-change="updateMeta('backcolor')"
+                                ng-blur="validateMeta('backcolor')"
+                                hint-text="Specify the background color for the keyboard."></kbd-color-picker>
             </div>
           </div>
         </div>
@@ -887,6 +840,7 @@ Nav Bar / Header
       The requested layout does not exist.
     </alert>
   </div>
+
 </div>
 </div>
 
@@ -1034,6 +988,21 @@ Options Dialog
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
     <button type="button" class="btn btn-primary" ng-click="ok()">OK</button>
+  </div>
+</script>
+
+<!-- Color Picker Template -->
+<script type="text/ng-template" id="colorPicker.html">
+  <div class="form-group form-group-sm">
+    <div class="input-group input-group-sm hint--top hint--rounded" ng-attr-data-hint="{{hintText}}">
+      <input id="{{pickerId}}" class="form-control" size="8" type='text'
+             ng-model="color" ng-change="onChange()" ng-blur="onBlur()" ng-disabled="isDisabled &amp;&amp; isDisabled()"
+             colorpicker="hex" colorpicker-close-on-select="true" colorpicker-position="{{pickerPosition || 'bottom'}}">
+      <span class="input-group-btn">
+        <button class="btn btn-default" ng-style="{'background-color':color}" ng-model="color" ng-change="onChange()" ng-disabled="isDisabled &amp;&amp; isDisabled()"
+                colorpicker="hex" colorpicker-close-on-select="true" colorpicker-position="{{pickerPosition || 'bottom'}}">&nbsp;</button>
+      </span>
+    </div>
   </div>
 </script>
 
