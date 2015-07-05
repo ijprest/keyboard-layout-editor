@@ -214,18 +214,8 @@ span.PETSCII {
 	margin-bottom:-6px;	
 	padding:0px;
 }
-.swatch.picker { 
-	height: 26px; 
-	border:solid 1px #a9a9a9;
-	margin-left:-1px;
-}
-.swatch.picker:disabled {
-	background-color: rgb(235,235,228) !important;
-}
-#swatches.disabled .swatch {
-	background-color: rgb(235,235,228) !important;
-}
-
+#swatches.disabled .swatch { background-color: rgb(235,235,228) !important; }
+#swatches [data-hint]:after { white-space: nowrap; }
 
 .swatch .highlight { display:none; }
 .swatch.selected-bg .highlight.bg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px black; background: white; opacity; 0.75; position:absolute; left:7px; top:23px; }
