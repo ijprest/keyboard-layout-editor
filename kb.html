@@ -771,10 +771,9 @@ Nav Bar / Header
                <div class='highlight bg'></div>
           </li>
         </ul>
-        <div class="alert alert-warning alert-dismissable" style="margin-top:10px;"><a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
-          <i class="fa fa-info-circle"></i>
-          Click on a swatch to set the color of the selected key(s), or Ctrl+Click to set the text color.  You can also drag color swatches to individual labels to set different colors for each one.
-        </div>
+        <alert type="warning" style="margin-top:10px;" ng-hide="paletteAlertHidden" close="paletteAlertHidden = true">
+          <i class="fa fa-info-circle"></i> Click on a swatch to set the color of the selected key(s), or Ctrl+Click to set the text color.  You can also drag color swatches to individual labels to set different colors for each one.
+        </alert>
       </div>
     </div>
 
@@ -876,20 +875,17 @@ Nav Bar / Header
 
   </div>
 
-  <P></P>
-  <div ng-class="{hidden:!saved}" class="alert alert-success" ng-cloak>
-    <a class="close" href="#" aria-hidden="true" ng-click="saved=false">&times;</a>
+  <P class="row"></P>
+  <alert type="success" ng-hide="!saved" close="saved=false" ng-cloak>
     Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/layouts/{{saved}}">this link</a>.
-  </div>
-  <div ng-class="{hidden:!saveError}" class="alert alert-danger" ng-cloak>
-    <a class="close" href="#" aria-hidden="true" ng-click="saveError=''">&times;</a>
+  </alert>
+  <alert type="danger" ng-hide="!saveError" close="saveError=''" ng-cloak>
     <P>There was an error saving your layout on the server: {{saveError}}</P>
-    <P>To ensure you don't lose any data, it is recommended that you <a class="alert-link" ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false">bookmark this permalink</a>.</P>
-  </div>
-  <div ng-class="{hidden:!loadError}" class="alert alert-danger" ng-cloak>
-    <a class="close" href="#" aria-hidden="true" ng-click="loadError=false">&times;</a>
+    <P>To ensure you don't lose any data, it is recommended that you <a class="alert-link" ng-click="downloadJson()">download your layout as JSON</a>.</P>
+  </alert>
+  <alert type="danger" ng-hide="!loadError" close="loadError=false" ng-cloak>
     The requested layout does not exist.
-  </div>
+  </alert>
 </div>
 </div>
 
