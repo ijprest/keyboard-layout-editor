@@ -9,7 +9,6 @@
 		return res.join(",\n")+"\n";
 	}
 	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
-	function undef(x) { return x ? x : ""; }
 
 	// The angular module for our application
 	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ui.bootstrap", "ngFileUpload", "ang-drag-drop", "colorpicker.module"]);
@@ -846,13 +845,13 @@
 		};
 		$scope.previewNotes = function(event) {
 			$scope.markdownTitle = 'About This Keyboard Layout';
+			var name = $scope.keyboard.meta.name;
+			var author = $scope.keyboard.meta.author;
 			var notes = $scope.keyboard.meta.notes;
-			if(!notes) notes = "";
-			notes = "### " + undef($scope.keyboard.meta.name) + "\n" +
-			        "#### _" + undef($scope.keyboard.meta.author) + "_\n" +
-			        notes;
-
-			$scope.markdownContent = $sce.trustAsHtml($sanitize(marked(notes)));
+			var markdown = (name ? ("### " + name + "\n") : "") +
+									   (author ? ("#### _" + author + "_\n") : "") +
+								     (notes ? (notes) : "");
+			$scope.markdownContent = $sce.trustAsHtml($sanitize(marked(markdown)));
 			$scope.showMarkdown($scope.markdownTitle, event);
 		};
 
