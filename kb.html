@@ -839,7 +839,7 @@ Nav Bar / Header
           <div class="col-md-10 col-lg-11 form-outdent">
             <div class="hint--top hint--rounded" style="width:100%"
                  data-hint="Specify any additional notes about this keyboard layout, e.g., links to manufacturers, colors used, additional credits, etc.  GitHub-Flavored Markdown is supported for rich formatting.">
-              <textarea id="noteseditor" class="form-control" rows="20" spellcheck="true"
+              <textarea id="noteseditor" class="form-control" rows="15" spellcheck="true"
                         ng-model="meta.notes"
                         ng-change="updateMeta('notes')"
                         ng-blur="validateMeta('notes')"></textarea>
@@ -860,7 +860,7 @@ Nav Bar / Header
     <!-- RAW DATA EDITOR -->
     <div id="tab-rawdata" ng-class="{hidden:selTab!=2}">
       <div ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
-        <textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}" rows="20"></textarea>
+        <textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}" rows="15"></textarea>
       </div>
       <div style='text-align:right;margin-top:4px;'>
         <div class="btn-group btn-group-xs" role="group">
