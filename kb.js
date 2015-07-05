@@ -7,14 +7,15 @@
 		var res = [];
 		obj.forEach(function(elem) { res.push($serial.toJsonL(elem));	});
 		return res.join(",\n")+"\n";
-	}	
+	}
 	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
+	function undef(x) { return x ? x : ""; }
 
 	// The angular module for our application
-	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ngFileUpload", "ang-drag-drop", "colorpicker.module"]);
+	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ui.bootstrap", "ngFileUpload", "ang-drag-drop", "colorpicker.module"]);
 
 	// The main application controller
-	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', function($scope, $http, $location, $timeout, $sce, $sanitize) {
+	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', '$modal', function($scope, $http, $location, $timeout, $sce, $sanitize, $modal) {
 		var serializedTimer = false;
 
 		// The application version
@@ -22,11 +23,11 @@
 
 		// The selected tab; 0 == Properties, 1 == Kbd Properties, 2 == Raw Data
 		$scope.selTab = 0;
-	
+
 		// An array used to keep track of the selected keys
 		$scope.selectedKeys = [];
 
-		// A single key selection; if multiple keys are selected, this is the 
+		// A single key selection; if multiple keys are selected, this is the
 		// most-recently selected one.
 		$scope.multi = {};
 		$scope.meta = {};
@@ -50,7 +51,7 @@
 			$serial.sortKeys($scope.keys());
 			$scope.unselectAll();
 			$scope.keys().forEach(function(key) {
-				$scope.selectedKeys.push(key);				
+				$scope.selectedKeys.push(key);
 			});
 			if($scope.keys().length>0) {
 				$scope.multi = angular.copy($scope.keys().last());
@@ -58,15 +59,15 @@
 		};
 
 		function saveLayout(layout) {
-			$serial.saveLayout($http, layout, 
-				function(fn) { 
+			$serial.saveLayout($http, layout,
+				function(fn) {
 					//success
 					$scope.dirty = false;
 					$scope.saved = fn;
 					$location.path("/layouts/"+fn).hash("").replace();
 					$scope.saveError = "";
 				},
-				function(data,status) { 
+				function(data,status) {
 					// error
 					$scope.saved = false;
 					$scope.saveError = status.toString() + " - " + data.toString();
@@ -105,15 +106,15 @@
 		};
 
 		// Helper function to select a single key
-		function selectKey(key,event) { 
+		function selectKey(key,event) {
 			if(key) {
-				// If SHIFT is held down, we want to *extend* the selection from the last 
+				// If SHIFT is held down, we want to *extend* the selection from the last
 				// selected item to the new one.
 				if(event.shiftKey && $scope.selectedKeys.length > 0) {
 					// Get the indicies of all the selected keys
 					var currentSel = $scope.selectedKeys.map(function(key) { return $scope.keys().indexOf(key); });
 					currentSel.sort(function(a,b) { return parseInt(a) - parseInt(b); });
-					var cursor = $scope.keys().indexOf(key);					
+					var cursor = $scope.keys().indexOf(key);
 					var anchor = $scope.keys().indexOf($scope.selectedKeys.last());
 					$scope.selectedKeys.pop();
 				}
@@ -124,7 +125,7 @@
 				}
 
 				// SHIFT held down: toggle the selection everything between the anchor & cursor
-				if(anchor !== undefined && cursor !== undefined) {					
+				if(anchor !== undefined && cursor !== undefined) {
 					if(anchor > cursor) {
 						for(var i = anchor; i >= cursor; --i) {
 							selectKey($scope.keys()[i],{ctrlKey:true});
@@ -141,7 +142,7 @@
 				var ndx = $scope.selectedKeys.indexOf(key);
 				if(ndx >= 0) { //deselect
 					$scope.selectedKeys.splice(ndx,1);
-					if($scope.selectedKeys.length<1) { 
+					if($scope.selectedKeys.length<1) {
 						$scope.multi = {};
 					} else {
 						$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -160,7 +161,7 @@
 		// Known layouts/presets
 		$scope.layouts = {};
 		$scope.samples = {};
-		$http.get('layouts.json').success(function(data) { 
+		$http.get('layouts.json').success(function(data) {
 			$scope.layouts = data.presets;
 			$scope.samples = data.samples;
 		});
@@ -184,7 +185,7 @@
 		$http.get('keys.json').success(function(data) {
 			$scope.specialKeys = data;
 		});
-	
+
 		// Helper to calculate the height of the keyboard layout; cached to improve performance.
 		$scope.kbHeight = 0;
 		$scope.calcKbHeight = function() {
@@ -195,7 +196,7 @@
 			$scope.kbHeight = bottom + 8;
 		};
 
-		// Given a key, generate the HTML needed to render it	
+		// Given a key, generate the HTML needed to render it
 		$scope.rotationStyle = $renderKey.getKeyRotationStyles;
 		function renderKey(key) {
 			key.html = $sce.trustAsHtml($renderKey.html(key,$sanitize));
@@ -208,7 +209,7 @@
 			});
 			$scope.meta = angular.copy($scope.keyboard.meta);
 		};
-	
+
 		function updateSerialized() {
 			//$timeout.cancel(serializedTimer); // this is slow, for some reason
 			$scope.deserializeException = "";
@@ -235,7 +236,7 @@
 				$scope.deserializeAndRender(data);
 				updateSerialized();
 			}).error(function() {
-				$scope.loadError = true;				
+				$scope.loadError = true;
 			});
 		} else {
 			// Some simple default content... just a numpad
@@ -280,30 +281,30 @@
 			}
 		}
 
-		$scope.undo = function() { 
-			if($scope.canUndo()) { 
-				var u = undoStack.pop(); 
+		$scope.undo = function() {
+			if($scope.canUndo()) {
+				var u = undoStack.pop();
 				$scope.keyboard = angular.copy(u.original);
 				updateSerialized();
 				$scope.keys().forEach(function(key) {
 					renderKey(key);
 				});
-				redoStack.push(u); 
+				redoStack.push(u);
 				$scope.dirty = u.dirty;
 				$scope.unselectAll();
 				$scope.meta = $scope.keyboard.meta;
 			}
 		};
 
-		$scope.redo = function() { 
-			if($scope.canRedo()) { 
-				var u = redoStack.pop(); 
+		$scope.redo = function() {
+			if($scope.canRedo()) {
+				var u = redoStack.pop();
 				$scope.keyboard = angular.copy(u.modified);
-				updateSerialized(); 
+				updateSerialized();
 				$scope.keys().forEach(function(key) {
 					renderKey(key);
 				});
-				undoStack.push(u); 
+				undoStack.push(u);
 				$scope.dirty = true;
 				$scope.unselectAll();
 				$scope.meta = $scope.keyboard.meta;
@@ -356,7 +357,6 @@
 		}
 
 		$scope.updateMulti = function(prop, index) {
-			console.log(prop, index);
 			if($scope.multi[prop] == null || $scope.selectedKeys.length <= 0) {
 				return;
 			}
@@ -366,7 +366,7 @@
 			}
 
 			transaction("update", function() {
-				$scope.selectedKeys.forEach(function(selectedKey) {				
+				$scope.selectedKeys.forEach(function(selectedKey) {
 					update(selectedKey, prop, $scope.multi[prop], index);
 					renderKey(selectedKey);
 				});
@@ -375,7 +375,7 @@
 		};
 
 		$scope.validateMulti = function(prop) {
-			if($scope.multi[prop] == null) { 
+			if($scope.multi[prop] == null) {
 				$scope.multi[prop] = "";
 			}
 			var valid = validate($scope.multi, prop, $scope.multi[prop]);
@@ -406,7 +406,7 @@
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 		};
-	
+
 		$scope.getTextColor = function(colors, index) {
 			return colors ? (colors[index] ? colors[index] : colors[0]) : null;
 		};
@@ -415,8 +415,8 @@
 		};
 		$scope.dropSwatch = function(color,$event,isText,textIndex) {
 			$event.preventDefault();
-			if($scope.selectedKeys.length<1) { 
-				return; 
+			if($scope.selectedKeys.length<1) {
+				return;
 			}
 			transaction("color-swatch", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
@@ -433,19 +433,19 @@
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 		};
-	
+
 		$scope.moveKeys = function(x,y,$event) {
 			$event.preventDefault();
-			if($scope.selectedKeys.length<1) { 
-				return; 
+			if($scope.selectedKeys.length<1) {
+				return;
 			}
 
 			if(x<0 || y<0) {
 				var canMoveKeys = true;
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					if(selectedKey.x + x < 0 || 
-					   selectedKey.y + y < 0 || 
-					   selectedKey.x + selectedKey.x2 + x < 0 || 
+					if(selectedKey.x + x < 0 ||
+					   selectedKey.y + y < 0 ||
+					   selectedKey.x + selectedKey.x2 + x < 0 ||
 					   selectedKey.y + selectedKey.y2 + y < 0) {
 						canMoveKeys = false;
 					}
@@ -465,11 +465,11 @@
 			});
 			if(y !== 0) { $scope.calcKbHeight(); }
 		};
-	
+
 		$scope.sizeKeys = function(x,y,$event) {
 			$event.preventDefault();
-			if($scope.selectedKeys.length<1) { 
-				return; 
+			if($scope.selectedKeys.length<1) {
+				return;
 			}
 			transaction("size", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
@@ -484,8 +484,8 @@
 
 		$scope.rotateKeys = function(angle,$event) {
 			$event.preventDefault();
-			if($scope.selectedKeys.length<1) { 
-				return; 
+			if($scope.selectedKeys.length<1) {
+				return;
 			}
 			transaction("rotate", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
@@ -500,8 +500,8 @@
 		};
 		$scope.moveCenterKeys = function(x,y,$event) {
 			$event.preventDefault();
-			if($scope.selectedKeys.length<1) { 
-				return; 
+			if($scope.selectedKeys.length<1) {
+				return;
 			}
 			transaction("moveCenter", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
@@ -587,9 +587,9 @@
 				ypos = $scope.multi.y;
 				if(xpos >= 23) { xpos = 0; ypos++; }
 			} else {
-				$scope.keys().forEach(function(key) { 
+				$scope.keys().forEach(function(key) {
 					if(key.rotation_angle == $scope.multi.rotation_angle && key.rotation_x == $scope.multi.rotation_x && key.rotation_y == $scope.multi.rotation_y) {
-						ypos = Math.max(ypos,key.y); 
+						ypos = Math.max(ypos,key.y);
 					}
 				});
 				ypos++;
@@ -657,15 +657,15 @@
 			$scope.selRect = { display:"none", x:event.pageX, y:event.pageY, l:event.pageX, t:event.pageY, w:0, h:0 };
 			$scope.selRect.kb = { 	left: kbElem.position().left + parseInt(kbElem.css('margin-left'),10),
 									top: kbElem.position().top + parseInt(kbElem.css('margin-top'),10),
-									width: kbElem.outerWidth(), 
-									height:kbElem.outerHeight() 
+									width: kbElem.outerWidth(),
+									height:kbElem.outerHeight()
 								};
 			doingMarqueeSelect = true;
 			event.preventDefault();
 		};
 
-		// Called whenever the mouse moves over the document; ideally we'd get mouse-capture on 
-		// mouse-down over #keyboard, but it doesn't look like there's a real way to do that in 
+		// Called whenever the mouse moves over the document; ideally we'd get mouse-capture on
+		// mouse-down over #keyboard, but it doesn't look like there's a real way to do that in
 		// JS/HTML, so we do our best to simulate it.  Also, there doesn't appear to be any way
 		// to recover if the user releases the mouse-button outside of the browser window.
 		$scope.selectMove = function(event) {
@@ -675,7 +675,7 @@
 				var pageY = Math.min($scope.selRect.kb.top + $scope.selRect.kb.height, Math.max($scope.selRect.kb.top, event.pageY));
 
 				// Calculate the new marquee rectangle (normalized)
-				if(pageX < $scope.selRect.x) {					
+				if(pageX < $scope.selRect.x) {
 					$scope.selRect.l = pageX;
 					$scope.selRect.w = $scope.selRect.x - pageX;
 				} else {
@@ -697,7 +697,7 @@
 			}
 		};
 
-		// Called when the mouse button is released anywhere over the document; see notes above 
+		// Called when the mouse button is released anywhere over the document; see notes above
 		// about mouse-capture.
 		$scope.selectRelease = function(event) {
 			if(doingMarqueeSelect) {
@@ -734,14 +734,14 @@
 								selectKey(key, {ctrlKey:true});
 							}
 						}
-					});					
+					});
 				} else {
 					// Clear the array of selected keys if the CTRL isn't held down.
 					if(!event.ctrlKey && !event.altKey && !event.shiftKey) {
 						$scope.unselectAll();
 					}
 
-					// The marquee wasn't displayed, so we're doing a single-key selection; 
+					// The marquee wasn't displayed, so we're doing a single-key selection;
 					// iterate over all the keys.
 					$scope.keys().forEach(function(key) {
 						// Rotate the mouse coordinates into transformed key-space, if necessary
@@ -768,13 +768,13 @@
 				$('#keyboard').focus();
 			}
 		};
-	
+
 		$scope.getPermalink = function() {
 			var url = $location.absUrl().replace(/#.*$/,"");
 			url += "##" + URLON.stringify($scope.serializedRaw);
 			return url;
 		};
-	
+
 		// Called on 'j' or 'k' keystrokes; navigates to the next or previous key
 		$scope.prevKey = function(event) {
 			if($scope.keys().length>0) {
@@ -804,23 +804,24 @@
 		};
 
 		$scope.focusKb = function() { $('#keyboard').focus(); };
-		$scope.focusEditor = function() { 
+		$scope.focusEditor = function() {
 			if($scope.selectedKeys.length > 0) {
 				if($scope.selTab !== 0) {
-					$scope.selTab = 0; 
+					$scope.selTab = 0;
 					$('#properties').removeClass('hidden');
 				}
 				$('#labeleditor').focus().select();
 			} else {
 				if($scope.selTab !== 1) {
-					$scope.selTab = 1; 
+					$scope.selTab = 1;
 					$('#kbdproperties').removeClass('hidden');
 				}
 				$('#kbdcoloreditor').focus().select();
 			}
 		};
 
-		$scope.showMarkdown = function(filename) {
+		var activeModal = null;
+		$scope.showMarkdown = function(filename, event) {
 			if($scope.markdownTitle !== filename) {
 				$scope.markdownTitle = filename;
 				$scope.markdownContent = '';
@@ -828,22 +829,51 @@
 					$scope.markdownContent = $sce.trustAsHtml(marked(data));
 				});
 			}
-			$('.modal:not(#markdownDialog)').modal('hide');
-			$('#markdownDialog').modal('show');
+			if(activeModal) activeModal.close();
+			activeModal = $modal.open({
+				templateUrl:"markdownDialog.html",
+				controller:"modalCtrl",
+				scope:$scope,
+				windowClass:"modal-xxl markdownDialog",
+				resolve: { params: function() { return { parentScope: $scope }; } }
+			});
 			event.preventDefault();
+		};
+		$scope.previewNotes = function(event) {
+			$scope.markdownTitle = 'About This Keyboard Layout';
+			var notes = $scope.keyboard.meta.notes;
+			if(!notes) notes = "";
+			notes = "### " + undef($scope.keyboard.meta.name) + "\n" +
+			        "#### _" + undef($scope.keyboard.meta.author) + "_\n" +
+			        notes;
+
+			$scope.markdownContent = $sce.trustAsHtml($sanitize(marked(notes)));
+			$scope.showMarkdown($scope.markdownTitle, event);
 		};
 
 		$scope.showHelp = function(event) {
 			if(!event.srcElement || (event.srcElement.nodeName !== "INPUT" && event.srcElement.nodeName !== "TEXTAREA")) {
-				$('.modal:not(#helpDialog)').modal('hide');
-				$('#helpDialog').modal('show');
+				if(activeModal) activeModal.dismiss('cancel');
+				activeModal = $modal.open({
+					templateUrl:"helpDialog.html",
+					controller:"modalCtrl",
+					scope:$scope,
+					windowClass:"modal-xl",
+					resolve: { params: null }
+				});
 				event.preventDefault();
 			}
 		};
 
 		$scope.showOptions = function(event) {
-			$('.modal:not(#optionsDialog)').modal('hide');
-			$('#optionsDialog').modal('show');
+			if(activeModal) activeModal.dismiss('cancel');
+			activeModal = $modal.open({
+				templateUrl:"optionsDialog.html",
+				controller:"modalCtrl",
+				scope:$scope,
+				resolve: { params: function() { return { moveStep:$scope.moveStep, sizeStep:$scope.sizeStep, rotateStep:$scope.rotateStep }; } }
+			});
+			activeModal.result.then(function(params) { $.extend($scope, params); });
 			event.preventDefault();
 		};
 
@@ -878,13 +908,13 @@
 			// Copy the clipboard keys, and adjust them all relative to the first key
 			var clipCopy = angular.copy(clipboard);
 			var minx = 0, miny = 0, singleRow = true;
-			clipCopy.forEach(function(key) { 
+			clipCopy.forEach(function(key) {
 				minx = Math.min(minx, key.x -= clipboard[0].x);
 				miny = Math.min(miny, key.y -= clipboard[0].y);
 			});
 
 			// Adjust to make sure nothing < 0
-			clipCopy.forEach(function(key) { 
+			clipCopy.forEach(function(key) {
 				key.x -= minx;
 				key.y -= miny;
 				if(key.y>0) { singleRow = false; }
@@ -911,5 +941,16 @@
 		$scope.keyboardTop = function() { var kbElem = $("#keyboard"); return kbElem.position().top + parseInt(kbElem.css('margin-top'),10); };
 		$scope.keyboardLeft = function() { var kbElem = $("#keyboard"); return kbElem.position().left + parseInt(kbElem.css('margin-left'),10); };
 	}]);
-	
+
+	// Simple modal-popup controller
+	kbApp.controller('modalCtrl', function($scope, $modalInstance, params) {
+		$scope.params = params;
+		$scope.ok = function() {
+			$modalInstance.close($scope.params);
+		};
+		$scope.cancel = function() {
+			$modalInstance.dismiss('cancel');
+		};
+	});
+
 }());

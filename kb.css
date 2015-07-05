@@ -39,6 +39,7 @@ html, body {
 .body { 
 	margin: 10px; 
 }
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 /* Wrapper for page content to push down footer */
 #wrap {
@@ -262,7 +263,8 @@ span.PETSCII {
 #properties.row { padding-left:30px; }
 
 /*Help Dialog*/
-#helpDialog .modal-dialog { width: 80%; }
+.modal-xl .modal-dialog { width:80vw; }
+.modal-xxl .modal-dialog { width:90vw; }
 
 /* Tooltip modifications */
 .hint--rounded:after { width: 300px; }
@@ -273,10 +275,10 @@ span.PETSCII {
 .color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }
 
 /* Our "README" dialog; we want the body of the dialog itself to be scrollable */
-#markdownDialog .modal-dialog { margin: 30 auto; } /*60px*/
-#markdownDialog .modal-header { height: 55px; }
-#markdownDialog .modal-footer { height: 74px; margin-top: 0px; }
-#markdownDialog .modal-body {
+.markdownDialog .modal-dialog { margin: 30 auto; } /*60px*/
+.markdownDialog .modal-header { height: 55px; }
+.markdownDialog .modal-footer { height: 74px; margin-top: 0px; }
+.markdownDialog .modal-body {
 	padding-bottom: 15px;
 	height: calc(100vh - 205px) !important;
 	overflow-y: auto !important;

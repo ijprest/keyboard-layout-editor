@@ -17,7 +17,7 @@ All rights reserved.
 <script type="text/javascript" src="js/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="js/ui-utils.min.js"></script>
 <script type="text/javascript" src="js/jquery-2.0.2.min.js"></script>
-<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/ui-bootstrap-tpls-0.12.0.min.js"></script>
 <script type="text/javascript" src="js/urlon.js"></script>
 <script type="text/javascript" src="js/md5.js"></script>
 <script type="text/javascript" src="js/jsonl.min.js"></script>
@@ -63,8 +63,8 @@ Nav Bar / Header
     <!-- Left-aligned NavBar buttons -->
     <ul class="nav navbar-nav">
       <!-- Presets dropdown -->
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-keyboard-o"></i> Preset <b class="caret"></b></a>
+      <li class="dropdown" dropdown>
+        <a class="dropdown-toggle" dropdown-toggle><i class="fa fa-keyboard-o"></i> Preset <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li ng-repeat="(k,v) in layouts"><a ng-click="loadPreset(v)" href="#">{{k}}</a></li>
           <li class="divider"></li>
@@ -73,8 +73,8 @@ Nav Bar / Header
       </li>
 
       <!-- Color swatches dropdown -->
-      <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-th"></i> Color Swatches <b class="caret"></b></a>
+      <li class="dropdown" dropdown>
+        <a class="dropdown-toggle" dropdown-toggle><i class="fa fa-th"></i> Color Swatches <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
         </ul>
@@ -91,15 +91,15 @@ Nav Bar / Header
   </div>
 </nav>
 
-<div class="body">
+<div class="body" ng-cloak>
 
   <!--***********************************************
   Main Toolbar
   ************************************************-->
   <!-- Add Key button w/dropdown -->
-  <div class="btn-group">
+  <div class="btn-group" dropdown>
     <button type="button" class="btn btn-primary" ng-click="addKey()"><i class="fa fa-plus-circle"></i> Add Key</button>
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    <button type="button" class="btn btn-primary dropdown-toggle" dropdown-toggle>
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu" role="menu">
@@ -140,7 +140,7 @@ Nav Bar / Header
   <!--***********************************************
   Main Keyboard Preview/Editor area
   ************************************************-->
-  <div id="keyboard"
+  <div id="keyboard" ng-cloak
      tabindex="0"
      ng-style="{height: kbHeight + 'px', 'background-color': keyboard.meta.backcolor}"
      ui-keydown="{ left:'moveKeys(-moveStep,0,$event)',
@@ -196,12 +196,12 @@ Nav Bar / Header
   ************************************************-->
 
   <!-- Tab strip -->
-  <ul class="nav nav-tabs">
+  <ul class="nav nav-tabs" ng-cloak>
     <li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab"><i class="fa fa-edit"></i> Properties</a></li>
     <li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="fa fa-keyboard-o"></i> Keyboard Properties</a></li>
     <li ng-class="{active:selTab==2}"><a ng-click="selTab=2" data-toggle="tab"><i class="fa fa-code"></i> Raw data</a></li>
   </ul>
-  <div id="tab-content" class='col-md-12 col-lg-12 row' ui-keydown="{esc:'focusKb()'}">
+  <div id="tab-content" class='col-md-12 col-lg-12 row' ui-keydown="{esc:'focusKb()'}" ng-cloak>
 
     <!-- PROPERTIES EDITOR -->
     <div id="properties" ng-class="{hidden:selTab!=0}">
@@ -337,7 +337,7 @@ Nav Bar / Header
 
         <!-- Bottom Label -->
         <div class="form-group form-group-sm">
-          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="labeleditor6">Center Label:</label>
+          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="labeleditor1">Bottom Label:</label>
           <div class="col-md-9 col-lg-9">
             <div class="form-inline">
               <div class="form-group form-group-sm">
@@ -388,7 +388,7 @@ Nav Bar / Header
 
         <!-- Side-Print Label -->
         <div class="form-group form-group-sm">
-          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="labeleditor6">Center Label:</label>
+          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="labeleditor4">Side-Print Label:</label>
           <div class="col-md-9 col-lg-9">
             <div class="form-inline">
               <div class="form-group form-group-sm">
@@ -467,7 +467,7 @@ Nav Bar / Header
                 /
               </div>
               <div class="form-group form-group-sm">
-                <input id="textsizeeditor" class="form-control input-sm" size="6" type='number' min="1" max="9"
+                <input class="form-control input-sm" size="6" type='number' min="1" max="9"
                        ng-model="multi.fontheight2"
                        ng-change="updateMulti('fontheight2')"
                        ng-blur="validateMulti('fontheight2')"
@@ -506,7 +506,7 @@ Nav Bar / Header
 
         <!-- Height -->
         <div class="form-group form-group-sm">
-          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="widtheditor">Width:</label>
+          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="heighteditor">Height:</label>
           <div class="col-md-9 col-lg-9">
             <div class="form-inline hint--top hint--rounded"
                  data-hint="Specify the primary and secondary heights for the keycap. The secondary height is used to specify the size of non-rectangular or stepped keys.">
@@ -836,15 +836,24 @@ Nav Bar / Header
         <!-- Notes -->
         <div class="form-group form-group-sm">
           <label class="control-label col-md-2 col-lg-1 text-nowrap" for="noteseditor">Notes:</label>
-          <div class="col-md-10 col-lg-11 form-outdent hint--top hint--rounded"
-               data-hint="Specify any additional notes about this keyboard layout, e.g., links to manufacturers, colors used, additional credits, etc.  GitHub-Flavored Markdown is supported for rich formatting.">
-            <textarea id="noteseditor" class="form-control" rows="20" spellcheck="true"
-                      ng-model="meta.notes"
-                      ng-change="updateMeta('notes')"
-                      ng-blur="validateMeta('notes')"></textarea>
+          <div class="col-md-10 col-lg-11 form-outdent">
+            <div class="hint--top hint--rounded" style="width:100%"
+                 data-hint="Specify any additional notes about this keyboard layout, e.g., links to manufacturers, colors used, additional credits, etc.  GitHub-Flavored Markdown is supported for rich formatting.">
+              <textarea id="noteseditor" class="form-control" rows="20" spellcheck="true"
+                        ng-model="meta.notes"
+                        ng-change="updateMeta('notes')"
+                        ng-blur="validateMeta('notes')"></textarea>
+            </div>
+            <div class="text-right">
+              <div class="btn-group btn-group-xs" role="group">
+                <button type="button" class="btn btn-success" ng-click="previewNotes()"><i class="fa fa-eye"></i> Preview</button>
+              </div>
+              <div class="btn-group btn-group-xs" role="group">
+                <a class="btn btn-primary" href="https://help.github.com/articles/markdown-basics/" target='_blank'><i class="fa fa-question-circle"></i> Markdown Syntax</a>
+              </div>
+            </div>
           </div>
         </div>
-
       </form>
     </div>
 
@@ -855,8 +864,8 @@ Nav Bar / Header
       </div>
       <div style='text-align:right;margin-top:4px;'>
         <div class="btn-group btn-group-xs" role="group">
-          <button type="button" class="btn btn-primary" ng-click="downloadJson()"><i class="fa fa-download"></i> Download JSON</button>
-          <button ngf-select="true" class="btn btn-primary" ngf-change="uploadJson($files, $event)"><i class="fa fa-upload"></i> Upload JSON</button>
+          <button type="button" class="btn btn-success" ng-click="downloadJson()"><i class="fa fa-download"></i> Download JSON</button>
+          <button ngf-select="true" class="btn btn-success" ngf-change="uploadJson($files, $event)"><i class="fa fa-upload"></i> Upload JSON</button>
         </div>
         <div class="btn-group btn-group-xs" role="group">
           <a class="btn btn-primary" href="https://github.com/ijprest/keyboard-layout-editor/wiki/Serialized-Data-Format" target='_blank'><i class="fa fa-question-circle"></i> Raw Data Syntax</a>
@@ -864,18 +873,20 @@ Nav Bar / Header
       </div>
       <div id="rawdata-error" class="alert alert-danger" style='margin-top:1em;margin-bottom:0px' ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
     </div>
+
   </div>
+
   <P></P>
-  <div ng-class="{hidden:!saved}" class="alert alert-success">
+  <div ng-class="{hidden:!saved}" class="alert alert-success" ng-cloak>
     <a class="close" href="#" aria-hidden="true" ng-click="saved=false">&times;</a>
     Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/layouts/{{saved}}">this link</a>.
   </div>
-  <div ng-class="{hidden:!saveError}" class="alert alert-danger">
+  <div ng-class="{hidden:!saveError}" class="alert alert-danger" ng-cloak>
     <a class="close" href="#" aria-hidden="true" ng-click="saveError=''">&times;</a>
     <P>There was an error saving your layout on the server: {{saveError}}</P>
     <P>To ensure you don't lose any data, it is recommended that you <a class="alert-link" ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false">bookmark this permalink</a>.</P>
   </div>
-  <div ng-class="{hidden:!loadError}" class="alert alert-danger">
+  <div ng-class="{hidden:!loadError}" class="alert alert-danger" ng-cloak>
     <a class="close" href="#" aria-hidden="true" ng-click="loadError=false">&times;</a>
     The requested layout does not exist.
   </div>
@@ -885,12 +896,12 @@ Nav Bar / Header
 <!--***********************************************
 Footer
 ************************************************-->
-<div id="footer">
+<div id="footer" ng-cloak>
 <div class="container">
   <p class="text-muted credit" style="float:left">
-    Keyboard Layout Editor v{{version}} (<a href='#' ng-click="showMarkdown('CHANGELOG.md')">changelog</a>)<br/>
-    Copyright &copy; 2013-2015 &mdash; Ian Prest (<a href='#' ng-click="showMarkdown('CONTRIB.md')">and contributors</a>)<br/>
-    All rights reserved. (<a href='#' ng-click="showMarkdown('LICENSE.md')">LICENSE</a>)
+    Keyboard Layout Editor v{{version}} (<a href='#' ng-click="showMarkdown('CHANGELOG.md', $event)">changelog</a>)<br/>
+    Copyright &copy; 2013-2015 &mdash; Ian Prest (<a href='#' ng-click="showMarkdown('CONTRIB.md', $event)">and contributors</a>)<br/>
+    All rights reserved. (<a href='#' ng-click="showMarkdown('LICENSE.md', $event)">LICENSE</a>)
   </p>
   <div style="float:right; text-alignment:right;">
     <a href="#" ng-click="showHelp($event)"><i class="fa fa-question-circle"></i> Help &amp; keyboard shortcuts</a><br/>
@@ -903,142 +914,131 @@ Footer
 <!--***********************************************
 Help Dialog
 ************************************************-->
-<div class="modal fade" id="helpDialog" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">How to use keyboard-layout-editor.com</h4>
-      </div>
-      <div class="modal-body">
-        <h5>Getting Started:</h5>
-        <ul>
-          <li>Try loading one of the preset layouts from the dropdown at the top of the page; it will give you a good idea of the editor's capabilities.</li>
-          <li>Select a key in the editor by clicking on it; then try changing the various properties in the property-editor form.</li>
-          <li>You can select multiple keys by holding down CTRL and clicking on them, or extend the current selection by SHIFT-clicking on an item.  You can also drag a marquee rectangle around the keys you want to select.</li>
-          <li>Try the keyboard shortcuts (described below); they make editing various properties much quicker.</li>
-          <li>You can save your layout to the server by clicking the 'Save' button on the toolbar.</li>
-          <li>You can save your layout locally by bookmarking the 'Permalink' (at the top of the page) in your bookmarks list.</li>
-        </ul>
-
-        <h5>Global Keyboard Shortcuts:</h5>
-        <dl class='dl-horizontal'>
-          <dt><kbd>F1</kbd> / <kbd>?</kbd></dt><dd>Show this help dialog</dd>
-          <dt><kbd>F7</kbd></dt><dd>Show the Options dialog</dd>
-          <dt><kbd>Ctrl&ndash;S</kbd></dt><dd>Save your layout (on the server)</dd>
-        </dl>
-
-        <h5>Editor Keyboard Shortcuts (these require that the editor has input focus):</h5>
-        <dl class='dl-horizontal' style='float:left;width:50%;'>
-          <dt><kbd>↑↓←→</kbd></dt><dd>Move the selected keys</dd>
-          <dt><kbd>Shift&ndash;↑↓←→</kbd></dt><dd>Resize the selected keys</dd>
-          <dt><kbd>Ctrl&ndash;↑↓←→</kbd></dt><dd>Move the center of rotation for the selected keys</dd>
-          <dt><kbd>PgUp</kbd> / <kbd>PgDn</kbd></dt><dd>Change the angle of rotation for the selected keys</dd>
-          <dt><kbd>Ins</kbd></dt><dd>Add a new key</dd>
-          <dt><kbd>Del</kbd></dt><dd>Delete the selected keys</dd>
-          <dt><kbd>F2</kbd></dt><dd>Edit the text of the selected key</dd>
-        </dl>
-        <dl class='dl-horizontal' style='float:left;width:50%;'>
-          <dt><kbd>Ctrl&ndash;A</kbd> / <kbd>Esc</kbd></dt><dd>Select / deselect all keys</dd>
-          <dt><kbd>J</kbd> / <kbd>K</kbd></dt><dd>Select the previous / next key in the editor.</dd>
-          <dt><kbd>Ctrl&ndash;Z</kbd></dt><dd>Undo</dd>
-          <dt><kbd>Ctrl&ndash;Shift&ndash;Z</kbd> or <kbd>Ctrl&ndash;Y</kbd></dt><dd>Redo</dd>
-          <dt><kbd>Ctrl&ndash;X</kbd> or <kbd>Shift&ndash;Del</kbd></dt><dd>Cut the selected keys</dd>
-          <dt><kbd>Ctrl&ndash;C</kbd> or <kbd>Ctrl&ndash;Ins</kbd></dt><dd>Copy the selected keys</dd>
-          <dt><kbd>Ctrl&ndash;V</kbd> or <kbd>Shift&ndash;Ins</kbd></dt><dd>Paste keys from the clipboard</dd>
-        </dl>
-        <p>&nbsp;</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-      </div>
-    </div>
+<script type="text/ng-template" id="helpDialog.html">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h4 class="modal-title">How to use keyboard-layout-editor.com</h4>
   </div>
-</div>
+  <div class="modal-body">
+    <h5>Getting Started:</h5>
+    <ul>
+      <li>Try loading one of the preset layouts from the dropdown at the top of the page; it will give you a good idea of the editor's capabilities.</li>
+      <li>Select a key in the editor by clicking on it; then try changing the various properties in the property-editor form.</li>
+      <li>You can select multiple keys by holding down CTRL and clicking on them, or extend the current selection by SHIFT-clicking on an item.  You can also drag a marquee rectangle around the keys you want to select.</li>
+      <li>Try the keyboard shortcuts (described below); they make editing various properties much quicker.</li>
+      <li>You can save your layout to the server by clicking the 'Save' button on the toolbar.</li>
+      <li>You can save your layout locally by bookmarking the 'Permalink' (at the top of the page) in your bookmarks list.</li>
+    </ul>
+
+    <h5>Global Keyboard Shortcuts:</h5>
+    <dl class='dl-horizontal'>
+      <dt><kbd>F1</kbd> / <kbd>?</kbd></dt><dd>Show this help dialog</dd>
+      <dt><kbd>F7</kbd></dt><dd>Show the Options dialog</dd>
+      <dt><kbd>Ctrl&ndash;S</kbd></dt><dd>Save your layout (on the server)</dd>
+    </dl>
+
+    <h5>Editor Keyboard Shortcuts (these require that the editor has input focus):</h5>
+    <dl class='dl-horizontal' style='float:left;width:50%;'>
+      <dt><kbd>↑↓←→</kbd></dt><dd>Move the selected keys</dd>
+      <dt><kbd>Shift&ndash;↑↓←→</kbd></dt><dd>Resize the selected keys</dd>
+      <dt><kbd>Ctrl&ndash;↑↓←→</kbd></dt><dd>Move the center of rotation for the selected keys</dd>
+      <dt><kbd>PgUp</kbd> / <kbd>PgDn</kbd></dt><dd>Change the angle of rotation for the selected keys</dd>
+      <dt><kbd>Ins</kbd></dt><dd>Add a new key</dd>
+      <dt><kbd>Del</kbd></dt><dd>Delete the selected keys</dd>
+      <dt><kbd>F2</kbd></dt><dd>Edit the text of the selected key</dd>
+    </dl>
+    <dl class='dl-horizontal' style='float:left;width:50%;'>
+      <dt><kbd>Ctrl&ndash;A</kbd> / <kbd>Esc</kbd></dt><dd>Select / deselect all keys</dd>
+      <dt><kbd>J</kbd> / <kbd>K</kbd></dt><dd>Select the previous / next key in the editor.</dd>
+      <dt><kbd>Ctrl&ndash;Z</kbd></dt><dd>Undo</dd>
+      <dt><kbd>Ctrl&ndash;Shift&ndash;Z</kbd> or <kbd>Ctrl&ndash;Y</kbd></dt><dd>Redo</dd>
+      <dt><kbd>Ctrl&ndash;X</kbd> or <kbd>Shift&ndash;Del</kbd></dt><dd>Cut the selected keys</dd>
+      <dt><kbd>Ctrl&ndash;C</kbd> or <kbd>Ctrl&ndash;Ins</kbd></dt><dd>Copy the selected keys</dd>
+      <dt><kbd>Ctrl&ndash;V</kbd> or <kbd>Shift&ndash;Ins</kbd></dt><dd>Paste keys from the clipboard</dd>
+    </dl>
+    <p>&nbsp;</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="ok()">OK</button>
+  </div>
+</script>
 
 <!--***********************************************
 Markdown dialog for displaying README, etc.
 ************************************************-->
-<div class="modal fade" id="markdownDialog" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" style='width:90%;'>
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">{{markdownTitle}}</h4>
-      </div>
-      <div class="modal-body" ng-bind-html="markdownContent">&nbsp;</div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
-      </div>
-    </div>
+<script type="text/ng-template" id="markdownDialog.html">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h4 class="modal-title">{{$parent.markdownTitle}}</h4>
   </div>
-</div>
+  <div class="modal-body" ng-bind-html="$parent.markdownContent">&nbsp;</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" ng-click="ok()">OK</button>
+  </div>
+</script>
 
 <!--***********************************************
 Options Dialog
 ************************************************-->
-<div class="modal fade" id="optionsDialog" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog" style='width:60%;'>
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Options</h4>
-      </div>
-      <div class="modal-body">
-        <h5>Editor Step Sizes:</h5>
-        <div class="form-horizontal">
-          <div class="form-group form-group-sm">
-            <label for="moveStepEditor" class="col-sm-6 col-md-3 col-lg-2 control-label">Move Step:</label>
-            <div class="col-sm-6 col-md-9 col-lg-10">
-              <div class="form-inline">
-                <div class="form-group form-group-sm">
-                  <div class="input-group input-group-sm hint--top hint--rounded"
-                       data-hint="Controls the step size when moving keys around the keyboard layout.">
-                    <input id="moveStepEditor" class="form-control" type="number" min="0.05" max="2.5" step="0.05" size="6" ng-model="moveStep">
-                    <span class="input-group-addon">units</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group form-group-sm">
-            <label for="sizeStepEditor" class="col-sm-6 col-md-3 col-lg-2 control-label">Size Step:</label>
-            <div class="col-sm-6 col-md-9 col-lg-10">
-              <div class="form-inline">
-                <div class="form-group form-group-sm">
-                  <div class="input-group input-group-sm hint--top hint--rounded"
-                       data-hint="Controls the step size when resizing keys in the keyboard layout.">
-                    <input id="sizeStepEditor" class="form-control" type="number" min="0.05" max="2.5" step="0.05" size="6" ng-model="sizeStep">
-                    <span class="input-group-addon">units</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group form-group-sm">
-            <label for="rotateStepEditor" class="col-sm-6 col-md-3 col-lg-2 control-label">Rotate Step:</label>
-            <div class="col-sm-6 col-md-9 col-lg-10">
-              <div class="form-inline">
-                <div class="form-group form-group-sm">
-                  <div class="input-group input-group-sm hint--top hint--rounded"
-                       data-hint="Controls the step size when rotating keys in the keyboard layout.">
-                    <input id="rotateStepEditor" class="form-control" type="number" min="1" max="90" step="1" size="6" ng-model="rotateStep">
-                    <span class="input-group-addon">degrees</span>
-                  </div>
-                </div>
+<script type="text/ng-template" id="optionsDialog.html">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h4 class="modal-title">Options</h4>
+  </div>
+  <div class="modal-body">
+    <h5>Editor Step Sizes:</h5>
+    <div class="form-horizontal">
+      <div class="form-group form-group-sm">
+        <label for="moveStepEditor" class="col-sm-6 col-md-3 col-lg-2 control-label">Move Step:</label>
+        <div class="col-sm-6 col-md-9 col-lg-10">
+          <div class="form-inline">
+            <div class="form-group form-group-sm">
+              <div class="input-group input-group-sm hint--top hint--rounded"
+                   data-hint="Controls the step size when moving keys around the keyboard layout.">
+                <input id="moveStepEditor" class="form-control" type="number" min="0.05" max="2.5" step="0.05" size="6" ng-model="params.moveStep">
+                <span class="input-group-addon">units</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">OK</button>
+
+      <div class="form-group form-group-sm">
+        <label for="sizeStepEditor" class="col-sm-6 col-md-3 col-lg-2 control-label">Size Step:</label>
+        <div class="col-sm-6 col-md-9 col-lg-10">
+          <div class="form-inline">
+            <div class="form-group form-group-sm">
+              <div class="input-group input-group-sm hint--top hint--rounded"
+                   data-hint="Controls the step size when resizing keys in the keyboard layout.">
+                <input id="sizeStepEditor" class="form-control" type="number" min="0.05" max="2.5" step="0.05" size="6" ng-model="params.sizeStep">
+                <span class="input-group-addon">units</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group form-group-sm">
+        <label for="rotateStepEditor" class="col-sm-6 col-md-3 col-lg-2 control-label">Rotate Step:</label>
+        <div class="col-sm-6 col-md-9 col-lg-10">
+          <div class="form-inline">
+            <div class="form-group form-group-sm">
+              <div class="input-group input-group-sm hint--top hint--rounded"
+                   data-hint="Controls the step size when rotating keys in the keyboard layout.">
+                <input id="rotateStepEditor" class="form-control" type="number" min="1" max="90" step="1" size="6" ng-model="params.rotateStep">
+                <span class="input-group-addon">degrees</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" ng-click="ok()">OK</button>
+  </div>
+</script>
 
 </body>
 </html>
