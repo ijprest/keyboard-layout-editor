@@ -1,3 +1,19 @@
+___Version 0.12:___ Jul 5, 2015
+* Added the ability to set different colors on each label.
+  * Useful for certain foreign-language keyboards that have multi-colored 
+    legends.
+  * The first label supplies the 'primary' color; any label that hasn't 
+    overridden the color will use the first one.
+* New color picker (more browser support than input type="color").
+  * Added color picker beside each label field.
+* Can also drag from the palette to each of the label fields.
+* Added a simple 'Options' dialog; contains options to change the default
+  move/size/rotate step sizes.
+* New keyboard metadata fields: Keyboard Name, Author, and Notes
+* Fixed a couple of serialization issues dealing with rotated clusters (#57, #61)
+* Updated to newer versions of various libraries (Bootstrap, etc.)
+* Some behind-the-scenes refactoring to improve code quality and maintainability.
+
 ___Version 0.11:___ Jul 1, 2015
 * Added ability to upload & download raw data in JSON format
   * This is "real" JSON, not the lenient JSON that the raw-data editor uses
