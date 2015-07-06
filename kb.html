@@ -182,11 +182,14 @@ Nav Bar / Header
        style="{{rotationStyle(key)}}"
        ng-mouseover="hoveredKey=key"
        ng-mouseleave="hoveredKey=null"
-       ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0}"
+       ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0, HOMING:key.nub}"
        ng-bind-html="key.html">
     </div>
 
-    <div style="position:relative;line-height:1.2;padding-left:4px;" ng-style="{top:(kbHeight-32)+'px'}"><a href="#" ng-click="previewNotes()">{{keyboard.meta.name}}<br/><i>{{keyboard.meta.author}}</i></a></div>
+    <div style="position:relative;line-height:1.2;padding-left:4px;" ng-style="{top:(kbHeight-32)+'px'}"
+         ng-hide="!keyboard.meta.name &amp;&amp; !keyboard.meta.author">
+         <a href="#" ng-click="previewNotes()">{{keyboard.meta.name}}<br/><i>{{keyboard.meta.author}}</i></a>
+    </div>
     <div style='clear:both'></div>
     {{calcKbHeight()}}
   </div>
@@ -408,6 +411,7 @@ Nav Bar / Header
             <div class="form-inline">
               <kbd-multi-check field="ghost" hint-text="Specify whether the selected keys should be rendered slightly transparently; this is useful to draw attention to the other, non-ghosted keycaps.">Ghosted</kbd-multi-check>
               <kbd-multi-check field="stepped" hint-text="Specify whether the selected keys are 'stepped', i.e., part of the key is at a lower height than the rest.  The secondary 'width' indicates the width of the stepped part.">Stepped</kbd-multi-check>
+              <kbd-multi-check field="nub" hint-text="Specifies that the selected keys are 'homing' keys, which help the user find the home-row by touch alone.">Homing</kbd-multi-check>
             </div>
           </div>
         </div>
