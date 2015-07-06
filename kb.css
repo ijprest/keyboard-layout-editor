@@ -90,7 +90,7 @@ html, body {
 	-moz-box-sizing:content-box;
 	box-sizing:content-box;
 }
-.keyborder.inner { opacity: 0.1; }
+.keyborder.inner { opacity: 0.1; border-radius: 4px; }
 
 .hover .keyborder { border-color: green; }
 .selected .keyborder { border-color: red; }
