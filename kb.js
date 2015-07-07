@@ -89,6 +89,11 @@
 		$scope.canSave = function() {
 			return $scope.dirty;
 		};
+		$scope.downloadSvg = function() {
+			var data = $renderKey.fullSVG($scope.keys(), $scope.keyboard.meta);
+			var blob = new Blob([data], {type:"image/svg+xml"});
+			saveAs(blob, "keyboard-layout.svg");
+		};
 		$scope.downloadJson = function() {
 			var data = angular.toJson($serial.serialize($scope.keyboard), true /*pretty*/);
 			var blob = new Blob([data], {type:"application/json"});
