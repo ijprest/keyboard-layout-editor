@@ -106,7 +106,6 @@
 					transaction("upload", function() {
 						$scope.$apply(function() {
 							$scope.deserializeAndRender($serial.fromJsonL(event.target.result));
-							$scope.serializedRaw = '['+$scope.serialized+']';
 						});
 					});
 				};
@@ -165,7 +164,7 @@
 
 		// The serialized key data
 		$scope.serialized = "";
-		$scope.serializedRaw = "";
+		$scope.serializedObjects = [];
 
 		// Known layouts/presets
 		$scope.layouts = {};
@@ -214,6 +213,7 @@
 		}
 
 		$scope.deserializeAndRender = function(data) {
+			$scope.serializedObjects = data; // cache serialized objects
 			$scope.keyboard = $serial.deserialize(data);
 			$scope.keys().forEach(function(key) {
 				renderKey(key);
@@ -224,8 +224,8 @@
 		function updateSerialized() {
 			//$timeout.cancel(serializedTimer); // this is slow, for some reason
 			$scope.deserializeException = "";
-			$scope.serializedRaw = $serial.serialize($scope.keyboard);
-			$scope.serialized = toJsonPretty($scope.serializedRaw);
+			$scope.serializedObjects = $serial.serialize($scope.keyboard);
+			$scope.serialized = toJsonPretty($scope.serializedObjects);
 		}
 
 		$scope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
@@ -650,7 +650,6 @@
 					$scope.deserializeException = "";
 					transaction("rawdata", function() {
 						$scope.deserializeAndRender(fromJsonPretty($scope.serialized));
-						$scope.serializedRaw = '['+$scope.serialized+']';
 					});
 					$scope.unselectAll();
 				} catch(e) {
@@ -783,7 +782,7 @@
 
 		$scope.getPermalink = function() {
 			var url = $location.absUrl().replace(/#.*$/,"");
-			url += "##" + URLON.stringify($scope.serializedRaw);
+			url += "##" + URLON.stringify($scope.serializedObjects);
 			return url;
 		};
 
