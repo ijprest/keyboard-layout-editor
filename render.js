@@ -2,11 +2,18 @@ var $renderKey = {};
 (function () {
 	"use strict";
 
-	// Some predefined sizes for our caps
-	var sizesHTML = { cap: 54, padding: 2, margin: 6, spacing: 1 };
-	var sizesSVG = { cap: 54, padding: 2, margin: 6, spacing: 1 };
-	sizesHTML.capsize = function(size) { return (size*sizesHTML.cap) - (2*sizesHTML.spacing); };
-	sizesSVG.capsize = function(size) { return (size*sizesSVG.cap) - (2*sizesSVG.spacing); };
+	// Some predefined sizes for our caps:
+	// - cap == size of 1 unit, e.g., 0.75", or 19.05mm is standard
+	// - spacing == distance from edge of unit to cap, e.g., (0.75" - 0.715")/2 (for DCS)
+	// - margin == distance from edge of cap (at bottom) to edge of cap (at top), e.g., (0.715" - 0.470")/2 (for DCS)
+	// - padding == distance between text & edge of cap; should match CSS
+	// - strokeWidth == thickness of the outline strokes; should match CSS
+	// - roundInner/roundOuter == corner roundness for inner/outer borders; should match CSS
+	// - scaleFactor == scale between unit type and actual numbers used
+	var unitSizes = {
+		px : { cap: 54, padding: 2, margin: 6, spacing: 1, strokeWidth: 1, roundOuter: 5, roundInner: 3, scaleFactor: 1 }, // pixels
+		mm : { cap: 1905, padding: 0, margin: 311.15, spacing: 44.45, strokeWidth: 20, roundOuter: 100, roundInner: 200, scaleFactor: 100 } // 1/100 mm
+	};
 
 	// Lighten a color by the specified amount
 	function lightenColor(color,mod) {
@@ -20,21 +27,22 @@ var $renderKey = {};
 			return "";
 		}
 		var angle = key.rotation_angle.toString() + "deg";
-		var origin = (sizesHTML.capsize(key.rotation_x) + sizesHTML.margin).toString() + "px " + (sizesHTML.capsize(key.rotation_y) + sizesHTML.margin).toString() + "px";
+		var origin = (capsize(unitSizes.px,key.rotation_x) + unitSizes.px.margin).toString() + "px " + (capsize(unitSizes.px,key.rotation_y) + unitSizes.px.margin).toString() + "px";
 		return "transform: rotate("+angle+"); -ms-transform: rotate("+angle+"); -webkit-transform: rotate("+angle+"); " +
 		       "transform-origin: "+origin+"; -ms-transform-origin: "+origin+"; -webkit-transform-origin: "+origin+";";
 	};
 
+	function capsize(sizes,size) { return (size*sizes.cap) - (2*sizes.spacing); };
 	function getRenderParms(key, sizes) {
 		var parms = {};
-		parms.capwidth = sizes.capsize(key.width);
-		parms.capwidth2 = sizes.capsize(key.width2);
-		parms.capheight = sizes.capsize(key.height);
-		parms.capheight2 = sizes.capsize(key.height2);
-		parms.capx = sizes.capsize(key.x) + sizes.margin;
-		parms.capx2 = sizes.capsize(key.x+key.x2)+sizes.margin;
-		parms.capy = sizes.capsize(key.y) + sizes.margin;
-		parms.capy2 = sizes.capsize(key.y+key.y2)+sizes.margin;
+		parms.capwidth = capsize(sizes,key.width);
+		parms.capwidth2 = capsize(sizes,key.width2);
+		parms.capheight = capsize(sizes,key.height);
+		parms.capheight2 = capsize(sizes,key.height2);
+		parms.capx = capsize(sizes,key.x) + sizes.margin;
+		parms.capx2 = capsize(sizes,key.x+key.x2)+sizes.margin;
+		parms.capy = capsize(sizes,key.y) + sizes.margin;
+		parms.capy2 = capsize(sizes,key.y+key.y2)+sizes.margin;
 		parms.jShaped = (parms.capwidth2 !== parms.capwidth) || (parms.capheight2 !== parms.capheight) || (parms.capx2 !== parms.capx) || (parms.capy2 !== parms.capy);
 		parms.innerPadding = (2*sizes.margin) + (2*sizes.padding);
 		parms.borderStyle = key.ghost ? "keyborder ghosted" : "keyborder";
@@ -51,8 +59,8 @@ var $renderKey = {};
 		var bounds = {};
 
 		// Rotation matrix about the origin
-		bounds.origin_x = sizes.capsize(key.rotation_x)+sizes.margin;
-		bounds.origin_y = sizes.capsize(key.rotation_y)+sizes.margin;
+		bounds.origin_x = capsize(sizes,key.rotation_x)+sizes.margin;
+		bounds.origin_y = capsize(sizes,key.rotation_y)+sizes.margin;
 		var mat = Math.transMatrix(bounds.origin_x, bounds.origin_y).mult(Math.rotMatrix(key.rotation_angle)).mult(Math.transMatrix(-bounds.origin_x, -bounds.origin_y));
 
 		// Construct the *eight* corner points, transform them, and determine the transformed bbox.
@@ -85,7 +93,7 @@ var $renderKey = {};
 	// Given a key, generate the HTML needed to render it
 	$renderKey.noRenderText = [0,2,1,3,0,4,2,3];
 	$renderKey.html = function(key, $sanitize) {
-		var sizes = sizesHTML;
+		var sizes = unitSizes.px;
 		var parms = getRenderParms(key, sizes);
 		var html = "";
 
@@ -152,39 +160,40 @@ var $renderKey = {};
 		// Determine the location of the rotation crosshairs for the key
 		key.crosshairs = "none";
 		if(key.rotation_x || key.rotation_y || key.rotation_angle) {
-			key.crosshairs_x = sizes.capsize(key.rotation_x) + sizes.margin;
-			key.crosshairs_y = sizes.capsize(key.rotation_y) + sizes.margin;
+			key.crosshairs_x = capsize(sizes,key.rotation_x) + sizes.margin;
+			key.crosshairs_y = capsize(sizes,key.rotation_y) + sizes.margin;
 			key.crosshairs = "block";
 		}
 		return html;
 	};
 
 	// Given a key, generate the SVG needed to render it
-	$renderKey.svg = function(key, bbox, $sanitize) {
-		var sizes = sizesSVG;
+	$renderKey.svg = function(key, bbox, sizes, $sanitize) {
 		var parms = getRenderParms(key, sizes);
 		var svg = "<g class='key'>\n";
 
-		var rectStrokeAndFill = ("<rect width='{0}' height='{1}' x='{2}' y='{3}' class='{5} stroke' {6}/>\n" +
-					                   "<rect width='{0}' height='{1}' x='{2}' y='{3}' fill='{4}' class='{5} fill' {6}/>\n");
+		var rectStrokeAndFill = ("<rect width='{0}' height='{1}' x='{2}' y='{3}' stroke='black' class='{5}' {6}/>\n" +
+					                   "<rect width='{0}' height='{1}' x='{2}' y='{3}' fill='{4}' class='{5}' {6}/>\n");
 		var rectFill = "<rect width='{0}' height='{1}' x='{2}' y='{3}' fill='{4}' class='{5}' {6}/>\n";
+		var roundOuter = "rx='{0}' ry='{0}'".format(sizes.roundOuter);
+		var roundInner = "rx='{0}' ry='{0}'".format(sizes.roundInner);
 
 		// The border
-		svg += rectStrokeAndFill.format( parms.capwidth, parms.capheight, parms.capx+1, parms.capy+1, parms.darkColor, parms.borderStyle, "rx='5' ry='5'" );
+		svg += rectStrokeAndFill.format( parms.capwidth, parms.capheight, parms.capx+1, parms.capy+1, parms.darkColor, parms.borderStyle, roundOuter );
 		if(parms.jShaped) {
-			svg += rectStrokeAndFill.format( parms.capwidth2, parms.capheight2, parms.capx2+1, parms.capy2+1, parms.darkColor, parms.borderStyle, "rx='5' ry='5'" );
+			svg += rectStrokeAndFill.format( parms.capwidth2, parms.capheight2, parms.capx2+1, parms.capy2+1, parms.darkColor, parms.borderStyle, roundOuter );
 		}
 		// The key edges
-		svg += rectFill.format( parms.capwidth, parms.capheight, parms.capx+1, parms.capy+1, parms.darkColor, parms.bgStyle, "rx='5' ry='5'" );
+		svg += rectFill.format( parms.capwidth, parms.capheight, parms.capx+1, parms.capy+1, parms.darkColor, parms.bgStyle, roundOuter );
 		if(parms.jShaped) {
-			svg += rectFill.format( parms.capwidth2, parms.capheight2, parms.capx2+1, parms.capy2+1, parms.darkColor, parms.bgStyle, "rx='5' ry='5'" );
+			svg += rectFill.format( parms.capwidth2, parms.capheight2, parms.capx2+1, parms.capy2+1, parms.darkColor, parms.bgStyle, roundOuter );
 		}
 
 		if(!key.ghost) {
 			// The top of the cap
-			svg += rectStrokeAndFill.format( parms.capwidth-(2*sizes.margin), parms.capheight-(2*sizes.margin), parms.capx+sizes.margin+1, parms.capy+(sizes.margin/2)+1, parms.lightColor, "keyborder inner", "rx='3' ry='3'" );
+			svg += rectStrokeAndFill.format( parms.capwidth-(2*sizes.margin), parms.capheight-(2*sizes.margin), parms.capx+sizes.margin+1, parms.capy+(sizes.margin/2)+1, parms.lightColor, "keyborder inner", roundInner );
 			if(parms.jShaped && !key.stepped) {
-			 	svg += rectStrokeAndFill.format( parms.capwidth2-(2*sizes.margin), parms.capheight2-(2*sizes.margin), parms.capx2+sizes.margin+1, parms.capy2+(sizes.margin/2)+1, parms.lightColor, "keyborder inner", "rx='3' ry='3'" );
+			 	svg += rectStrokeAndFill.format( parms.capwidth2-(2*sizes.margin), parms.capheight2-(2*sizes.margin), parms.capx2+sizes.margin+1, parms.capy2+(sizes.margin/2)+1, parms.lightColor, "keyborder inner", roundInner );
 			}
 
 			var maxWidth = parms.capwidth-(2*sizes.margin);
@@ -192,9 +201,9 @@ var $renderKey = {};
 			if(parms.jShaped && !key.stepped) {
 				maxWidth = Math.max(parms.capwidth,parms.capwidth2)-(2*sizes.margin);
 				maxHeight = Math.max(parms.capheight,parms.capheight2)-(2*sizes.margin);
-			 	svg += rectFill.format( parms.capwidth2-(2*sizes.margin), parms.capheight2-(2*sizes.margin), parms.capx2+sizes.margin+1, parms.capy2+(sizes.margin/2)+1, parms.lightColor, "keyfg", "rx='3' ry='3'" );
+			 	svg += rectFill.format( parms.capwidth2-(2*sizes.margin), parms.capheight2-(2*sizes.margin), parms.capx2+sizes.margin+1, parms.capy2+(sizes.margin/2)+1, parms.lightColor, "keyfg", roundInner );
 			}
-			svg += rectFill.format( parms.capwidth-(2*sizes.margin), parms.capheight-(2*sizes.margin), parms.capx+sizes.margin+1, parms.capy+(sizes.margin/2)+1, parms.lightColor, "keyfg", "rx='3' ry='3'" );
+			svg += rectFill.format( parms.capwidth-(2*sizes.margin), parms.capheight-(2*sizes.margin), parms.capx+sizes.margin+1, parms.capy+(sizes.margin/2)+1, parms.lightColor, "keyfg", roundInner );
 
 			//TODO//key labels
 		}
@@ -212,21 +221,24 @@ var $renderKey = {};
 
 	$renderKey.fullSVG = function(keys, metadata) {
 		// Render all the keys
-		var sizes = sizesSVG;
-	  var bbox = { x: 999999, y:999999, x2:-999999, y2:-999999 };
+		var units = "px";
+		var sizes = unitSizes[units];
+	  var bbox = { x: 99999999, y:99999999, x2:-99999999, y2:-99999999 };
 	  var keysSVG = "";
 	  keys.forEach(function(key) {
-	  	keysSVG += $renderKey.svg(key, bbox);
+	  	keysSVG += $renderKey.svg(key, bbox, sizes);
 	  });
 
 	  // Wrap with SVG boilerplate
 	  var kbdMargin = 10, kbdPadding = 5;
-		var svg = "<svg width='{0}px' height='{1}px' viewBox='0 0 {0} {1}' xmlns='http://www.w3.org/2000/svg'>\n"
-							.format( bbox.x2 + sizes.margin*2 + kbdMargin*2 + kbdPadding*2, bbox.y2 + sizes.margin*2 + kbdMargin*2 + kbdPadding*2);
+	  var width = bbox.x2 + sizes.margin*2 + kbdMargin*2 + kbdPadding*2;
+	  var height = bbox.y2 + sizes.margin*2 + kbdMargin*2 + kbdPadding*2;
+		var svg = "<svg width='{0}{4}' height='{1}{4}' viewBox='0 0 {2} {3}' xmlns='http://www.w3.org/2000/svg'>\n"
+							.format( width/sizes.scaleFactor, height/sizes.scaleFactor, width, height, units);
 
 		// styles
 		svg += "<style type='text/css'>\n";
-		svg += ".keyborder.stroke { stroke: black; stroke-width: 2; }\n";
+		svg += "* { stroke-width: {0}; }\n".format(sizes.strokeWidth*2);
 		svg += ".keyborder.inner { opacity: 0.1; }\n";
 		svg += ".keyfg { <!-- font-family: \"Helvetica\", \"Arial\", sans-serif; --> }\n";
 		svg += "</style>\n";
