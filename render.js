@@ -22,16 +22,6 @@ var $renderKey = {};
 		return c.sRGB8();
 	}
 
-	$renderKey.getKeyRotationStyles = function(key) {
-		if(key.rotation_angle == 0) {
-			return "";
-		}
-		var angle = key.rotation_angle.toString() + "deg";
-		var origin = (capsize(unitSizes.px,key.rotation_x) + unitSizes.px.margin).toString() + "px " + (capsize(unitSizes.px,key.rotation_y) + unitSizes.px.margin).toString() + "px";
-		return "transform: rotate("+angle+"); -ms-transform: rotate("+angle+"); -webkit-transform: rotate("+angle+"); " +
-		       "transform-origin: "+origin+"; -ms-transform-origin: "+origin+"; -webkit-transform-origin: "+origin+";";
-	};
-
 	function capsize(sizes,size) { return (size*sizes.cap) - (2*sizes.spacing); };
 	function getRenderParms(key, sizes) {
 		var parms = {};
@@ -95,7 +85,32 @@ var $renderKey = {};
 	$renderKey.html = function(key, $sanitize) {
 		var sizes = unitSizes.px;
 		var parms = getRenderParms(key, sizes);
-		var html = "";
+
+		// Get the rects & bounding-box of the key (for click-selection purposes)
+		var bounds = getKeyBounds(key, sizes, parms);
+		key.rect = bounds.rect;
+		key.rect2 = bounds.rect2;
+		key.bbox = bounds.bbox;
+
+		// Keep an inverse transformation matrix so that we can transform mouse
+		// coordinates into key-space.
+		key.mat = Math.transMatrix(bounds.origin_x, bounds.origin_y).mult(Math.rotMatrix(-key.rotation_angle)).mult(Math.transMatrix(-bounds.origin_x, -bounds.origin_y));
+
+		// Determine the location of the rotation crosshairs for the key
+		key.crosshairs = "none";
+		if(key.rotation_x || key.rotation_y || key.rotation_angle) {
+			key.crosshairs_x = bounds.origin_x;
+			key.crosshairs_y = bounds.origin_y;
+			key.crosshairs = "block";
+		}
+
+		// Generate the HTML
+		var html = "<div>";
+		if(key.rotation_angle) {
+			html = ("<div style='transform:rotate({0}deg); -ms-transform:rotate({0}deg); -webkit-transform:rotate({0}deg); " +
+												  "transform-origin:{1}px {2}px; -ms-transform-origin:{1}px{2}px; -webkit-transform-origin:{1}px {2}px;'>")
+							.format(key.rotation_angle, bounds.origin_x, bounds.origin_y);
+		}
 
 		var div = "<div style='width:{0}px; height:{1}px; left:{2}px; top:{3}px; background-color:{4};' class='{5}'></div>\n";
 
@@ -125,13 +140,13 @@ var $renderKey = {};
 				maxWidth = Math.max(parms.capwidth,parms.capwidth2)-(2*sizes.margin);
 				maxHeight = Math.max(parms.capheight,parms.capheight2)-(2*sizes.margin);
 			 	html += divFg.format( parms.capwidth2-parms.innerPadding, parms.capheight2-parms.innerPadding, parms.capx2+sizes.margin+1, parms.capy2+(sizes.margin/2)+1, parms.lightColor, sizes.padding, maxWidth, maxHeight, Math.min(parms.capx,parms.capx2)-parms.capx2, Math.min(parms.capy,parms.capy2)-parms.capy2 );
+				html += "</div>";
 			}
-			//TODO//this extra </div> here looks wrong...
-		 	html += "</div>";
 			html += divFg.format( parms.capwidth-parms.innerPadding, parms.capheight-parms.innerPadding, parms.capx+sizes.margin+1, parms.capy+(sizes.margin/2)+1, parms.lightColor, sizes.padding, maxWidth, maxHeight, Math.min(parms.capx,parms.capx2)-parms.capx, Math.min(parms.capy,parms.capy2)-parms.capy );
 
 			// The key labels
-			html += "<div class='keylabels' style='width:{0}px; height:{1}px;'>".format(parms.capwidth-parms.innerPadding, parms.capheight-parms.innerPadding);
+			html += "<div class='keylabels' style='width:{0}px; height:{1}px;'>" /*left:{2}px; top:{3}px*/
+								.format(parms.capwidth-parms.innerPadding, parms.capheight-parms.innerPadding, parms.capx+sizes.margin+1, parms.capy+(sizes.margin/2)+1);
 			key.labels.forEach(function(label,i) {
 				if(label && label !== "" && !(key.align&$renderKey.noRenderText[i])) {
 					var sanitizedLabel = '<div class="hint--top hint--rounded" data-hint="Error: Invalid HTML in label field."><i class="fa fa-times-circle"></div></i>';
@@ -144,33 +159,27 @@ var $renderKey = {};
 										key.centerx, key.centery, key.centerf, i>0 ? key.fontheight2 : key.fontheight);
 				}
 			});
-			html += "</div></div>";
-		}
-
-		// Get the rects & bounding-box of the key (for click-selection purposes)
-		var bounds = getKeyBounds(key, sizes, parms);
-		key.rect = bounds.rect;
-		key.rect2 = bounds.rect2;
-		key.bbox = bounds.bbox;
-
-		// Keep an inverse transformation matrix so that we can transform mouse
-		// coordinates into key-space.
-		key.mat = Math.transMatrix(bounds.origin_x, bounds.origin_y).mult(Math.rotMatrix(-key.rotation_angle)).mult(Math.transMatrix(-bounds.origin_x, -bounds.origin_y));
-
-		// Determine the location of the rotation crosshairs for the key
-		key.crosshairs = "none";
-		if(key.rotation_x || key.rotation_y || key.rotation_angle) {
-			key.crosshairs_x = capsize(sizes,key.rotation_x) + sizes.margin;
-			key.crosshairs_y = capsize(sizes,key.rotation_y) + sizes.margin;
-			key.crosshairs = "block";
+			html += "</div></div></div>";
 		}
 		return html;
 	};
 
 	// Given a key, generate the SVG needed to render it
 	$renderKey.svg = function(key, bbox, sizes, $sanitize) {
+
+		// Update bbox
 		var parms = getRenderParms(key, sizes);
+		var bounds = getKeyBounds(key, sizes, parms);
+		bbox.x = Math.min(bbox.x, bounds.bbox.x);
+		bbox.y = Math.min(bbox.y, bounds.bbox.y);
+		bbox.x2 = Math.max(bbox.x2, bounds.bbox.x2);
+		bbox.y2 = Math.max(bbox.y2, bounds.bbox.y2);
+
+		// Generate the SVG
 		var svg = "<g class='key'>\n";
+		if(key.rotation_angle) {
+			svg = "<g class='key' transform='rotate({0} {1} {2})'>\n".format(key.rotation_angle, bounds.origin_x, bounds.origin_y);
+		}
 
 		var rectStrokeAndFill = ("<rect width='{0}' height='{1}' x='{2}' y='{3}' stroke='black' class='{5}' {6}/>\n" +
 					                   "<rect width='{0}' height='{1}' x='{2}' y='{3}' fill='{4}' class='{5}' {6}/>\n");
@@ -208,14 +217,6 @@ var $renderKey = {};
 			//TODO//key labels
 		}
 		svg += "</g>\n";
-
-		// Update bbox
-		var bounds = getKeyBounds(key, sizes, parms);
-		bbox.x = Math.min(bbox.x, bounds.bbox.x);
-		bbox.y = Math.min(bbox.y, bounds.bbox.y);
-		bbox.x2 = Math.max(bbox.x2, bounds.bbox.x2);
-		bbox.y2 = Math.max(bbox.y2, bounds.bbox.y2);
-
 		return svg;
 	};
 

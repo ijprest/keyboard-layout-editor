@@ -207,7 +207,6 @@
 		};
 
 		// Given a key, generate the HTML needed to render it
-		$scope.rotationStyle = $renderKey.getKeyRotationStyles;
 		function renderKey(key) {
 			key.html = $sce.trustAsHtml($renderKey.html(key,$sanitize));
 		}

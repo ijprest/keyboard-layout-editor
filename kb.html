@@ -179,7 +179,6 @@ Nav Bar / Header
 
     <div ng-repeat="key in keys()"
        class="key {{key.profile}}"
-       style="{{rotationStyle(key)}}"
        ng-mouseover="hoveredKey=key"
        ng-mouseleave="hoveredKey=null"
        ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0, HOMING:key.nub}"
