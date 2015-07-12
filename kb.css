@@ -116,12 +116,12 @@ for i in (1..9) {
   background: radial-gradient(circle, #0000001C 50%, #0000000A 60%);
   background-repeat: no-repeat;
 }
-.HOMING .keytop .keylabels {
+.HOMING .keylabels {
   background-image: url("nub.png");
   background-repeat: no-repeat;
   background-position: center 90%;
 }
-.DSA.HOMING .keytop .keylabels, .SA.HOMING .keytop .keylabels { background-image: none; }
+.DSA.HOMING .keylabels, .SA.HOMING .keylabels { background-image: none; }
 
 span.PETSCII { 
   font-family: "C64ProMono";
