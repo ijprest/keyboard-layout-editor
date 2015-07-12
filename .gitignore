@@ -5,4 +5,5 @@ fonts/EngraversGothic-Regular-webfont.*
 fonts/kbd-custom.*
 jsonl.min.js
 jsonl.js
+*.sublime-workspace
 *~

@@ -12,7 +12,7 @@ All rights reserved.
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="css/hint.min.css">
 <link rel="stylesheet" type="text/css" href="css/colorpicker.min.css">
-<link rel="stylesheet" type="text/css" href="kb.css">
+<link rel="stylesheet" type="text/css" href="css/kb.css">
 <script type="text/javascript" src="js/angular.min.js"></script>
 <script type="text/javascript" src="js/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="js/ui-utils.min.js"></script>
@@ -27,6 +27,7 @@ All rights reserved.
 <script type="text/javascript" src="js/ng-file-upload.min.js"></script>
 <script type="text/javascript" src="js/draganddrop.min.js"></script>
 <script type="text/javascript" src="js/bootstrap-colorpicker-module.min.js"></script>
+<script type="text/javascript" src="js/doT.min.js"></script>
 <script type="text/javascript" src="extensions.js"></script>
 <script type="text/javascript" src="render.js"></script>
 <script type="text/javascript" src="serial.js"></script>
@@ -552,7 +553,7 @@ Footer
     Copyright &copy; 2013-2015 &mdash; Ian Prest (<a href='#' ng-click="showMarkdown('CONTRIB.md', $event)">and contributors</a>)<br/>
     All rights reserved. (<a href='#' ng-click="showMarkdown('LICENSE.md', $event)">LICENSE</a>)
   </p>
-  <div style="float:right; text-alignment:right;">
+  <div style="float:right;">
     <a href="#" ng-click="showHelp($event)"><i class="fa fa-question-circle"></i> Help &amp; keyboard shortcuts</a><br/>
     <a href="https://github.com/ijprest/keyboard-layout-editor/issues" target="_blank"><i class="fa fa-bug"></i> Found a bug?</a><br/>
     <a href="https://github.com/ijprest/keyboard-layout-editor" target="_blank"><i class="fa fa-github"></i> Code hosted on GitHub</a><br/>
@@ -693,6 +694,10 @@ Options Dialog
   </div>
 </script>
 
+<!--***********************************************
+Angular Templates
+************************************************-->
+
 <!-- Color Picker Template -->
 <script type="text/ng-template" id="colorPicker.html">
   <div class="form-group form-group-sm">
@@ -755,6 +760,80 @@ Options Dialog
                ng-disabled="$parent.labelDisabled(labelIndex)">&nbsp;</button>
       </span>
     </div>
+  </div>
+</script>
+
+<!--***********************************************
+DOT.js Templates
+************************************************-->
+
+<!-- Keycap Template -->
+<script type="text/ng-template" id="keycap_t">
+  <div class='{{=key.ghost ? "ghosted" : "keycap"}}'
+    {{? key.rotation_angle }}
+       style='transform:rotate({{=key.rotation_angle}}deg); transform-origin:{{=key.parms.origin_x}}px {{=key.parms.origin_y}}px;'
+    {{?}}>
+
+    <div style="left: {{=key.parms.capx}}px; top: {{=key.parms.capy}}px;
+                width: {{=key.parms.capwidth}}px; height: {{=key.parms.capheight}}px;
+                border: solid {{=key.sizes.strokeWidth}}px black; border-radius: {{=key.sizes.roundOuter}}px;
+                background-color: {{=key.parms.darkColor}};"
+         class="keyborder"></div>
+  {{? key.parms.jShaped }}
+    <div style="left: {{=key.parms.capx2}}px; top: {{=key.parms.capy2}}px; 
+                width: {{=key.parms.capwidth2}}px; height: {{=key.parms.capheight2}}px; 
+                border: solid {{=key.sizes.strokeWidth}}px black; border-radius: {{=key.sizes.roundOuter}}px;
+                background-color: {{=key.parms.darkColor}};" 
+         class="keyborder"></div>
+    <div style="left: {{=key.parms.capx + key.sizes.strokeWidth}}px; top: {{=key.parms.capy + key.sizes.strokeWidth}}px; 
+                width: {{=key.parms.capwidth - key.sizes.strokeWidth*2}}px; 
+                height: {{=key.parms.capheight - key.sizes.strokeWidth*2}}px; 
+                background-color: {{=key.parms.darkColor}}; 
+                border-radius: {{=key.sizes.roundOuter}}px;"></div>
+  {{?}}
+
+  {{? !key.ghost }}
+    <div style="left: {{=key.parms.innercapx}}px; top: {{=key.parms.innercapy}}px;
+                width: {{=key.parms.innercapwidth}}px; height: {{=key.parms.innercapheight}}px;
+                border: solid {{=key.sizes.strokeWidth}}px rgba(0,0,0,0.1);
+                background-color: {{=key.parms.lightColor}};
+                border-radius: {{=key.sizes.roundInner}}px;"
+         class="keytop"></div>
+    {{? key.parms.jShaped && !key.stepped }}
+      <div style="left: {{=key.parms.innercapx2}}px; top: {{=key.parms.innercapy2}}px;
+                  width: {{=key.parms.innercapwidth2}}px; height: {{=key.parms.innercapheight2}}px;
+                  border: solid {{=key.sizes.strokeWidth}}px rgba(0,0,0,0.1); border-radius: {{=key.sizes.roundInner}}px;
+                  background-color: {{=key.parms.lightColor}};
+                  background-position: {{=Math.min(key.parms.innercapx-key.parms.innercapx2,0)}}px {{=Math.min(key.parms.innercapy-key.parms.innercapy2,0)}}px;
+                  background-size: {{=Math.max(key.parms.innercapwidth,key.parms.innercapwidth2)}}px {{=Math.max(key.parms.innercapheight,key.parms.innercapheight2)}}px;"
+           class="keytop"></div>
+      <div style="left: {{=key.parms.innercapx + key.sizes.strokeWidth}}px; top: {{=key.parms.innercapy + key.sizes.strokeWidth}}px;
+                  width: {{=key.parms.innercapwidth - key.sizes.strokeWidth*2}}px; height: {{=key.parms.innercapheight - key.sizes.strokeWidth*2}}px;
+                  border-radius: {{=key.sizes.roundInner}}px;
+                  background-color: {{=key.parms.lightColor}};
+                  background-position: {{=Math.min(key.parms.innercapx2-key.parms.innercapx,0)}}px {{=Math.min(key.parms.innercapy2-key.parms.innercapy,0)}}px;
+                  background-size: {{=Math.max(key.parms.innercapwidth,key.parms.innercapwidth2)}}px {{=Math.max(key.parms.innercapheight,key.parms.innercapheight2)}}px;"
+           class="keytop"></div>
+    {{?}}
+
+    <div style='left: {{=key.parms.innercapx}}px; top: {{=key.parms.innercapy}}px; width: {{=key.parms.innercapwidth}}px; height: {{=key.parms.innercapheight}}px; padding: {{=key.sizes.padding}}px;' class='keylabels'>
+      {{~key.labels :label:i}}
+        {{? label && label != "" && !(key.align&$renderKey.noRenderText[i]) }}
+          {{ var sanitizedLabel = ""; try { sanitizedLabel = $sanitize(label.replace(/<([^a-zA-Z\/]|$)/,"&lt;$1")); } catch(e) {console.log(e);} }}
+          {{? sanitizedLabel !== "" }}
+            {{ var textColor = i < key.text.length ? key.text[i] : key.text[0]; if(!textColor) textColor = key.text[0]; }}
+            {{ var textColorLight = lightenColor($color.hex(textColor), 1.2).hex(); }}
+            <div class='keylabel keylabel{{=i+1}} centerx-{{=key.centerx}} centery-{{=key.centery}} centerf-{{=key.centerf}} textsize{{= i>0 ? key.fontheight2 : key.fontheight}}' style='color:{{= i===4||i===5 ? textColor : textColorLight}}; width:{{=key.parms.textcapwidth}}px; height:{{=key.parms.textcapheight}}px;'>
+              <div style='width:{{=key.parms.textcapwidth}}px; max-width:{{=key.parms.textcapwidth}}px; height:{{=key.parms.textcapheight}}px;'>{{=sanitizedLabel}}</div>
+            </div>
+          {{??}}
+            <div class="hint--top hint--rounded" data-hint="Error: Invalid HTML in label field."><i class="fa fa-times-circle"></i></div>
+          {{?}}
+        {{?}}
+      {{~}}
+    </div>
+  {{?}} <!--!key.ghost-->
+
   </div>
 </script>
 

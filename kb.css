@@ -1,44 +1,34 @@
-@font-face {
-	font-family: 'engravers_gothic_fsregular';
-	src: url('fonts/EngraversGothic-Regular-webfont.eot');
-	src: url('fonts/EngraversGothic-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/EngraversGothic-Regular-webfont.woff') format('woff'),
-		 url('fonts/EngraversGothic-Regular-webfont.ttf') format('truetype'),
-		 url('fonts/EngraversGothic-Regular-webfont.svg#engravers_gothic_fsregular') format('svg');
-	font-weight: normal;
-	font-style: normal;
+/* Helper function to set up our fonts */
+webfont(family, file, weight = 'normal', style='normal') {
+  @font-face {
+    font-family: family;
+    src: url('/fonts/' + file + ".eot");
+    src: url('/fonts/' + file + ".eot?#iefix") format('embedded-opentype'),
+         url('/fonts/' + file + ".woff") format('woff'),
+         url('/fonts/' + file + ".ttf") format('truetype'),
+         url('/fonts/' + file + ".svg#" + family) format('svg');
+    font-weight: weight;
+    font-style: style;
+  }
 }
-@font-face {
-	 font-family: "C64 Pro Mono";
-   src: url('fonts/C64_Pro_Mono-STYLE.eot');
-   src: url('fonts/C64_Pro_Mono-STYLE.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/C64_Pro_Mono-STYLE.woff') format('woff'),
-		 url('fonts/C64_Pro_Mono-STYLE.ttf') format('truetype'),
-		 url('fonts/C64_Pro_Mono-STYLE.svg#C64ProMono') format('svg');
-}
-@font-face {
-	 font-family: "C64 Pro";
-   src: url('fonts/C64_Pro-STYLE.eot');
-   src: url('fonts/C64_Pro-STYLE.eot?#iefix') format('embedded-opentype'),
-		 url('fonts/C64_Pro-STYLE.woff') format('woff'),
-		 url('fonts/C64_Pro-STYLE.ttf') format('truetype'),
-		 url('fonts/C64_Pro-STYLE.svg#C64Pro') format('svg');
-}
+/* Set up all the web-fonts we host */
+webfont('engravers_gothic_fsregular', 'EngraversGothic-Regular-webfont');
+webfont('C64ProMono', 'C64_Pro_Mono-STYLE');
+webfont('C64Pro', 'C64_Pro-STYLE');
 
+/* Basic style */
 html, body {
-	height: 100%;
-	font-family: "Segoe UI", "Arial", "Helvetica", sans-serif;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;	
-	user-select: none;
-	cursor: default;
+  height: 100%;
+  font-family: "Segoe UI", "Arial", "Helvetica", sans-serif;
+  /* Prevent highlighting/selecting text */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;  
+  user-select: none;
+  cursor: default;
 }
-.body { 
-	margin: 10px; 
-}
+.body { margin: 10px; }
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
 /* Wrapper for page content to push down footer */
@@ -46,10 +36,8 @@ html, body {
   min-height: 100%;
   height: auto !important;
   height: 100%;
-  /* Negative indent footer by its height */
-  margin: 0 auto -70px;
-  /* Pad bottom by footer height */
-  padding: 0 0 60px;
+  margin: 0 auto -70px; /* Negative indent footer by its height */
+  padding: 0 0 60px; /* Pad bottom by footer height */
 }
 
 /* Set the fixed height of the footer here */
@@ -59,189 +47,125 @@ html, body {
 }
 
 /* The keyboard background */
-#keyboard {	
-	padding: 5px;
-	position:relative; 
-	border: solid 1px #ddd; 
-	border-radius: 6px;
-	background-color: #eee;
-	min-height: 64px;
-	-webkit-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	box-sizing:content-box;
-	margin-top: 10px;
-	margin-bottom: 10px;
+#keyboard {
+  padding: 9px;
+  position: relative; 
+  border: solid 1px #ddd; 
+  border-radius: 6px;
+  background-color: #eee;
+  min-height: 56px;
+  box-sizing: content-box;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
-
-.key { 
-	position: relative; 
-	display:table;
-	-webkit-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	box-sizing:content-box;
+#keyboard div {
+  position: absolute;
+  border-color: black;
+  box-sizing: border-box;
+  background-clip: padding-box;
 }
-
-/* The external border of the keycap */
-.keyborder { 
-	position: absolute; 
-	border-radius: 5px; 
-	border: solid 1px black;
-	-webkit-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	box-sizing:content-box;
-}
-.keyborder.inner { opacity: 0.1; border-radius: 4px; }
-
-.hover .keyborder { border-color: green; }
-.selected .keyborder { border-color: red; }
-.ghosted { opacity: 0.4; }
-
-/* The sides of the cap (darker) */
-.keybg { 
-	position: absolute; 
-	border-radius: 5px; 
-	-webkit-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	box-sizing:content-box;
-}
-
-/* The face of the cap */
-.keyfg { 
-	font-family: "Helvetica", "Arial", sans-serif;
-	position: absolute; 
-	border-radius: 3px;
-	display:table-cell;	
-	-webkit-box-sizing:content-box;
-	-moz-box-sizing:content-box;
-	box-sizing:content-box;
-}
-.keyfg .keylabel.textsize1 { font-size: 8px; line-height: 1em; }
-.keyfg .keylabel.textsize2 { font-size: 10px; line-height: 1em; }
-.keyfg .keylabel.textsize3 { font-size: 12px; line-height: 1em; }
-.keyfg .keylabel.textsize4 { font-size: 14px; line-height: 1em; }
-.keyfg .keylabel.textsize5 { font-size: 16px; line-height: 1em; }
-.keyfg .keylabel.textsize6 { font-size: 18px; line-height: 1em; }
-.keyfg .keylabel.textsize7 { font-size: 20px; line-height: 1em; }
-.keyfg .keylabel.textsize8 { font-size: 22px; line-height: 1em; }
-.keyfg .keylabel.textsize9 { font-size: 24px; line-height: 1em; }
-.keyfg .keylabel hr { display: inline; }
-.keyfg .keylabel hr:before { 
-	position: relative; 
-	display: block; 
-	overflow: hidden; 
-	white-space: nowrap; 
-	content: "\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500"; 
-}
-
-.DCS .keyfg, .OEM .keyfg {
-	background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0) 100%);
-	background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(40%,rgba(0,0,0,0.1)), color-stop(60%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0)));
-	background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
-	background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
-	background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
-	background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 40%,rgba(0,0,0,0.1) 60%,rgba(0,0,0,0) 100%);
-	background-repeat: no-repeat;
-}
-.DSA .keyborder.inner, .DSA .keyfg { margin-top: 3px; border-radius: 8px; }
-.SA .keyborder.inner, .SA .keyfg { margin-top: 1px; border-radius: 5px; }
-.DSA .keyfg, .SA .keyfg {
-	font-family: 'engravers_gothic_fsregular'; /* substitute for Gorton Modified */
-	background: -moz-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.1) 10%, rgba(0,0,0,0) 100%);
-	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(0,0,0,0.1)), color-stop(10%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0)));
-	background: -webkit-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
-	background: -o-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
-	background: -ms-radial-gradient(center, ellipse cover,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
-	background: radial-gradient(ellipse at center,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.1) 10%,rgba(0,0,0,0) 100%);
-	background-repeat: no-repeat;
-}
-
-.DCS.SPACE .keyfg, .OEM.SPACE .keyfg, .DSA.SPACE .keyfg, .SA.SPACE .keyfg {
-	background: -moz-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0,0,0,0.1)), color-stop(20%, rgba(0,0,0,0)), color-stop(40%, rgba(0,0,0,0)), color-stop(100%, rgba(0,0,0,0.1)));
-	background: -webkit-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
-	background: -o-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
-	background: -ms-linear-gradient(top, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
-	background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 20%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.1) 100%);
-	background-repeat: no-repeat;
-}
-.DSA.DISH .keyfg, .DSA.HOMING .keyfg, .SA.HOMING .keyfg {
-	background: -moz-radial-gradient(circle, rgba(0,0,0,0.11) 50%, rgba(0,0,0,0.04) 60%);
-	background: -webkit-gradient(radial, center center, 50%, center center, 60%, from(rgba(0,0,0,0.12)), to(rgba(0,0,0,0.04)));
-	background: -webkit-radial-gradient(circle, rgba(0,0,0,0.11) 50%, rgba(0,0,0,0.04) 60%);
-	background: -o-radial-gradient(circle, rgba(0,0,0,0.11) 50%, rgba(0,0,0,0.04) 60%);
-	background: -ms-radial-gradient(circle, rgba(0,0,0,0.11) 50%, rgba(0,0,0,0.04) 60%);
-	background: radial-gradient(circle, rgba(0,0,0,0.11) 50%, rgba(0,0,0,0.04) 60%);
-	background-repeat: no-repeat;
-}
-.HOMING .keyfg .keylabels {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAACCAYAAABhYU3QAAAAGElEQVQI12P4//+/ODGYAUwwMAThwyA1ACUKJ4H2Fi17AAAAAElFTkSuQmCC);
-  background-repeat: no-repeat;
-  background-position: center 90%;
-}
-.DSA.HOMING .keyfg .keylabels, .SA.HOMING .keyfg .keylabels { background-image: none; }
-
-span.PETSCII { 
-	font-family: "C64 Pro Mono";
-	font-size: 6px !important;
-	border: solid 1px;
-	letter-spacing: 0px;
-	padding: 0;
-	margin: 0;
- }
+#keyboard .hover .keyborder { border-color: green !important; border-style: solid; }
+#keyboard .selected .keyborder { border-color: red !important; border-style: solid; }
+#keyboard .ghosted { opacity: 0.5; }
 
 /* Key labels */
-.keylabels { display: table; }
-.keylabel { display: table-row; position: absolute; left:2px; top:2px; right:2px; bottom:2px; }
-.keylabel > div { display: table-cell; }
+.keylabel>div { display: table-cell; position: static !important; }
 .keylabel3>div, .keylabel4>div, .keylabel6>div, .keylabel8>div { text-align: right; }
 .keylabel7>div, .keylabel8>div { vertical-align: middle; }
 .keylabel2>div, .keylabel4>div { vertical-align: bottom; }
-.keylabel5, .keylabel6 { top:100%; margin-top:0px; font-size: 10px !important; white-space:nowrap; overflow: hidden;}
-.DSA .keylabel5, .DSA .keylabel6, .SA .keylabel5, .SA .keylabel6 { margin-top:-1px; font-size: 9px !important; }
+.keylabel5, .keylabel6 { top: 100%; margin-top: -1px; font-size: 10px !important; white-space: nowrap; overflow: hidden;}
 .keylabel1.centerx-true>div, .keylabel2.centerx-true>div, .keylabel5.centerf-true>div, .keylabel7.centerx-true>div { text-align: center; }
 .keylabel1.centery-true>div, .keylabel3.centery-true>div { vertical-align: middle; }
 
-/* color swatches */
-#swatches {
-	list-style-type: none;
-	-webkit-margin-before: 0em;
-	-webkit-margin-after: 0em;
-	-webkit-margin-start: 0px;
-	-webkit-margin-end: 0px;
-	-webkit-padding-start: 0px;
+for i in (1..9) {
+  .keylabel.textsize{i} {
+    font-size: (6+2*i)px; 
+    line-height: 1em;
+  }
 }
+.keylabels { font-family: "Helvetica", "Arial", sans-serif; }
+.keylabel hr { display: inline; }
+.keylabel hr:before { 
+  position: relative; 
+  display: block; 
+  overflow: hidden; 
+  white-space: nowrap; 
+  content: "\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500"; 
+}
+
+/* Keycap-Profile Modifications */
+.SA .keylabels, .DSA .keylabels {
+  font-family: 'engravers_gothic_fsregular'; /* substitute for Gorton Modified */
+}
+  
+.DSA .keylabel5, .DSA .keylabel6, .SA .keylabel5, .SA .keylabel6 { margin-top: -1px; font-size: 9px !important; }
+.DCS .keytop, .OEM .keytop {
+  background: linear-gradient(to right, #00000000 0%, #0000001A 40%, #0000001A 60%, #00000000 100%);
+  background-repeat: no-repeat;
+}
+.DSA .keytop, .SA .keytop {
+  background: radial-gradient(ellipse at center, #0000001A 0%, #0000001A 10%, #00000000 100%);
+  background-repeat: no-repeat;
+}
+
+.DCS.SPACE .keytop, .OEM.SPACE .keytop, .DSA.SPACE .keytop, .SA.SPACE .keytop {
+  background: linear-gradient(to bottom, #0000001A 0%, #00000000 20%, #00000000 40%, #0000001A 100%);
+  background-repeat: no-repeat;
+}
+.DSA.DISH .keytop, .DSA.HOMING .keytop, .SA.HOMING .keytop {
+  background: radial-gradient(circle, #0000001C 50%, #0000000A 60%);
+  background-repeat: no-repeat;
+}
+.HOMING .keytop .keylabels {
+  background-image: url("nub.png");
+  background-repeat: no-repeat;
+  background-position: center 90%;
+}
+.DSA.HOMING .keytop .keylabels, .SA.HOMING .keytop .keylabels { background-image: none; }
+
+span.PETSCII { 
+  font-family: "C64ProMono";
+  font-size: 6px !important;
+  border: solid 1px;
+  letter-spacing: 0px;
+  padding: 0;
+  margin: 0;
+ }
+
+/* color swatches */
+#swatches { list-style-type: none; }
 .swatch { 
-	display: inline-block; 
-	position:relative;
-	width: 16px; 
-	height: 32px; 
-	border:solid 1px #888; 
-	margin-right:-1px;
-	margin-bottom:-6px;	
-	padding:0px;
+  display: inline-block; 
+  position: relative;
+  width: 16px; 
+  height: 32px; 
+  border: solid 1px #888; 
+  margin-right: -1px;
+  margin-bottom: -6px; 
+  padding: 0px;
 }
 #swatches.disabled .swatch { background-color: rgb(235,235,228) !important; }
 #swatches [data-hint]:after { white-space: nowrap; }
 
-.swatch .highlight { display:none; }
-.swatch.selected-bg .highlight.bg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px black; background: white; opacity; 0.75; position:absolute; left:7px; top:23px; }
-.swatch.selected-fg .highlight.fg { display:block; z-index:100; width: 6px; height: 6px; border: solid 1px white; background: black; opacity; 0.75; position:absolute; left:1px; top:23px; }
+.swatch .highlight { display: none; }
+.swatch.selected-bg .highlight.bg { display: block; z-index: 100; width: 6px; height: 6px; border: solid 1px black; background: white; opacity: 0.75; position: absolute; left: 7px; top: 23px; }
+.swatch.selected-fg .highlight.fg { display: block; z-index: 100; width: 6px; height: 6px; border: solid 1px white; background: black; opacity: 0.75; position: absolute; left: 1px; top: 23px; }
 
 /* general styles */
 .hidden { display: none; }
 .error { border: solid 2px rgb(217,83,79); }
 #selectionRectangle { position: absolute; border: dashed 2px red; }
-#rotationCrosshairs { 	
-	display: none;
-	position: absolute;
-	margin: 0px;
-	padding: 0px;
-	font-size: 25px;
-	line-height: 23px;
-	width: 25px;
-	height: 25px;
-	color: black;
-	text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+#rotationCrosshairs {   
+  display: none;
+  position: absolute;
+  margin: 0px;
+  padding: 0px;
+  font-size: 25px;
+  line-height: 23px;
+  width: 25px;
+  height: 25px;
+  color: black;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 #rawdata, #rawdata-error, #noteseditor { font-family: "Consolas", "Courier New", "Courier", monospace; }
@@ -256,49 +180,43 @@ span.PETSCII {
     padding-bottom: 15px;
     margin-left: 0px;
 }
-#properties.row { padding-left:30px; }
-
-/*Help Dialog*/
-.modal-xl .modal-dialog { width:80vw; }
-.modal-xxl .modal-dialog { width:90vw; }
+#properties.row { padding-left: 30px; }
 
 /* Tooltip modifications */
 .hint--rounded:after { width: 300px; }
 .hint:after, [data-hint]:after { white-space: pre-line; }
 .hint:before, .hint:after, [data-hint]:before, [data-hint]:after { -webkit-transition: 0.1s ease; -moz-transition: 0.1s ease; transition: 0.1s ease; }
 
-#swap-colors { position: absolute; top: 11px; left: 200px; z-index: 1; }
-.color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }
+/* Help Dialog */
+.modal-xl .modal-dialog { width: 80vw; }
+.modal-xxl .modal-dialog { width: 90vw; }
 
 /* Our "README" dialog; we want the body of the dialog itself to be scrollable */
 .markdownDialog .modal-dialog { margin: 30 auto; } /*60px*/
 .markdownDialog .modal-header { height: 55px; }
 .markdownDialog .modal-footer { height: 74px; margin-top: 0px; }
 .markdownDialog .modal-body {
-	padding-bottom: 15px;
-	height: calc(100vh - 205px) !important;
-	overflow-y: auto !important;
+  padding-bottom: 15px;
+  height: calc(100vh - 205px) !important;
+  overflow-y: auto !important;
 }
 
 .drag-over { border: dotted 3px red !important; box-sizing: border-box; }
 
 /* Only show the keyboard layout itself when printing */
 @media print {
-  html, body { overflow:hidden; height:100%; margin: 0 !important; padding: 0 !important; }
+  html, body { overflow: hidden; height: 100%; margin: 0 !important; padding: 0 !important; }
   #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog, #markdownDialog { display: none; margin: 0 !important; padding: 0 !important; }
   div.body { margin: 0 !important; padding: 0 !important; }
   a { color: black; text-decoration: none; }
   #keyboard { 
-  	border: none; 
-  	background-color: inherit !important; 
-  	transform:scale(0.75,0.75); 
-  	-moz-transform:scale(0,75,0.75); 
-  	-ms-transform:scale(0,75,0.75); 
-  	-webkit-transform:scale(0.75,0.75); 
-  	position: absolute !important;
-  	left: 0px; 
-  	top: 0px;
-  	padding-left: 0px; padding-top: 0px;
+    border: none; 
+    background-color: inherit !important; 
+    transform: scale(0.75,0.75); 
+    position: absolute !important;
+    left: 0px; 
+    top: 0px;
+    padding-left: 0px; padding-top: 0px;
   }
 }
 
@@ -312,4 +230,7 @@ span.PETSCII {
 .form-control.input-sm, .input-group-sm > .form-control { height: 26px; padding: 2px; }
 .input-group-sm > .input-group-btn > .btn { height: 26px; padding: 2px; min-width: 16px; }
 .input-group-sm > .input-group-addon { height: 26px; padding: 2px; min-width: 16px; }
-.form-horizontal .form-group-sm .checkbox { padding-top: 3px; min-height:26px; }
+.form-horizontal .form-group-sm .checkbox { padding-top: 3px; min-height: 26px; }
+
+#swap-colors { position: absolute; top: 11px; left: 200px; z-index: 1; }
+.color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }

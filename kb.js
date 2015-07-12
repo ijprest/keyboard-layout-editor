@@ -203,7 +203,7 @@
 			});
 			if($scope.keyboard.meta.name || $scope.keyboard.meta.author)
 				bottom += 32;
-			$scope.kbHeight = bottom + 8;
+			$scope.kbHeight = bottom;
 		};
 
 		// Given a key, generate the HTML needed to render it

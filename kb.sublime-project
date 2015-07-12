@@ -1,0 +1,35 @@
+{
+  "folders":
+  [
+    {
+      "name": "Root",
+      "path": "."
+    }
+  ],
+  "settings":
+  {
+    "tab_size": 2,
+    "translate_tabs_to_spaces": true,
+    "build_system": "Automatic",
+
+    //SublimeOnSaveBuild package (optional)
+    "filename_filter": "\\.(css|js|sass|less|scss)$",
+    "build_on_save": 1
+  },
+  "build_systems":
+  [
+    {
+      "name": "Stylus.KB",
+      "cmd": ["stylus", "--out", "css", "-c", "-m", "--inline", "--with", "{limit:1024}", "$file" ],
+      "windows": { "cmd": ["stylus.cmd", "--out", "css", "-c", "-m", "--inline", "--with", "{limit:1024}", "$file" ] },
+      "selector": "source.css, source.stylus",
+      "working_dir" : "$project_path"
+    },
+    {
+      "name": "Make.KB",
+      "cmd": ["cmd", "/c", "dir"],
+      "selector": "source.js, text.html",
+      "working_dir" : "$project_path"
+    }
+  ]
+}
