@@ -133,7 +133,7 @@ span.PETSCII {
  }
 
 /* color swatches */
-#swatches { list-style-type: none; }
+#swatches { list-style-type: none; margin: 0px; padding: 0px; }
 .swatch { 
   display: inline-block; 
   position: relative;
