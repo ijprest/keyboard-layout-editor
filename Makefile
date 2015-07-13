@@ -1,3 +1,7 @@
+ifeq ($(OS),Windows_NT)
+export NODE_PATH=$(APPDATA)/npm/node_modules
+endif
+
 all: js fonts
 
 # Rules to minify our .js files

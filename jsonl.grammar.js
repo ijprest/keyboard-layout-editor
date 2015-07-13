@@ -3,7 +3,7 @@
 //   node jsonl_grammar.js > js/jsonl.js 
 //   uglify js/jsonl.js > js/jsonl.min.js 
 //
-var Generator = require("/jison/lib/jison").Generator;
+var Generator = require("jison").Generator;
 
 exports.grammar = {
     "comment": "ECMA-262 5th Edition, 15.12.1 The JSON Grammar. Parses JSON strings into objects. This parser supports a 'lenient' version of JSON that doesn't require quotes around identifiers.",
