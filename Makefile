@@ -2,20 +2,25 @@ ifeq ($(OS),Windows_NT)
 export NODE_PATH=$(APPDATA)/npm/node_modules
 endif
 
-all: js fonts
+all: js css fonts
 
 # Rules to minify our .js files
 js: js/jsonl.min.js
-
 %.min.js: %.js
 	uglifyjs "$^" > "$@"
-
 js/%.js: %.grammar.js
 	node "$^" > "$@"
 
 .PRECIOUS: js/%.js
 
-# rules to generate a webfont from our source .svg files
+
+# Rules to run Stylus on our .css files
+css: css/kb.css
+css/%.css: %.css
+	stylus --out css -c -m --inline --with {limit:1024} $^
+
+
+# Rules to generate a webfont from our source .svg files
 fonts: fonts/kbd-custom.ttf
 
 kbd-custom-glyphs := \
