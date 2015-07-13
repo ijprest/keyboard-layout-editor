@@ -963,11 +963,15 @@
 		};
 	});
 
-	kbApp.directive('kbdColorPicker', function() {
+	kbApp.directive('kbdColorPicker', function($timeout) {
 		return {
 			templateUrl: "colorPicker.html",
 			restrict: "E",
-			scope: { hintText: "@", pickerId: "@", pickerPosition: "@", color: "=ngModel", onChange: "=ngChange", onBlur: "=ngBlur", isDisabled: "&ngDisabled" }
+			scope: { hintText: "@", pickerId: "@", pickerPosition: "@", color: "=ngModel", _onChange: "&ngChange", _onBlur: "&ngBlur", isDisabled: "&ngDisabled" },
+			link: function($scope) {
+				$scope.onChange = function() { $timeout($scope._onChange); };
+				$scope.onBlur = function() { $timeout($scope._onBlur); };
+			}
 		};
 	});
 
