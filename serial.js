@@ -113,7 +113,7 @@ var $serial = {};
 					textColor += key.text[i];
 				}
 			}
-			current.text = serializeProp(props, "t", textColor.trimRight(), current.text);
+			current.text = serializeProp(props, "t", textColor.trimEnd(), current.text);
 			current.ghost = serializeProp(props, "g", key.ghost, current.ghost);
 			current.profile = serializeProp(props, "p", key.profile, current.profile);
 			current.align = serializeProp(props, "a", key.align, current.align);
