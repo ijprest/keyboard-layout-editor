@@ -138,6 +138,9 @@ Nav Bar / Header
   <div class="btn-group pull-right">
     <button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()"><i class="fa fa-save"></i> Save</button>
   </div>
+  <div class="btn-group pull-right" style="margin-right: 4px;">
+    <button type="button" class="btn btn-success" ng-click="downloadSvg()"><i class="fa fa-download"></i> Download SVG (experimental)</button>
+  </div>
 
 
   <!--***********************************************
@@ -511,10 +514,6 @@ Nav Bar / Header
       </div>
       <div style='text-align:right;margin-top:4px;'>
         <div class="btn-group btn-group-xs" role="group">
-          <button type="button" class="btn btn-success" ng-click="downloadSvg()"><i class="fa fa-download"></i> Download SVG (experimental)</button>
-        </div>
-
-        <div class="btn-group btn-group-xs" role="group">
           <button type="button" class="btn btn-success" ng-click="downloadJson()"><i class="fa fa-download"></i> Download JSON</button>
           <button ngf-select="true" class="btn btn-success" ngf-change="uploadJson($files, $event)"><i class="fa fa-upload"></i> Upload JSON</button>
         </div>
@@ -768,63 +767,63 @@ DOT.js Templates
 ************************************************-->
 
 <!-- Keycap Template -->
-<script type="text/ng-template" id="keycap_t">
-  <div class='{{=key.ghost ? "ghosted" : "keycap"}}'
+<script type="text/ng-template" id="keycap_html">
+  <div class='{{=key.ghost ? "ghosted keycap" : "keycap"}}'
     {{? key.rotation_angle }}
-       style='transform:rotate({{=key.rotation_angle}}deg); transform-origin:{{=key.parms.origin_x}}px {{=key.parms.origin_y}}px;'
+       style='transform:rotate({{=key.rotation_angle}}deg); transform-origin:{{=parms.origin_x}}px {{=parms.origin_y}}px;'
     {{?}}>
 
-    <div style="left: {{=key.parms.capx}}px; top: {{=key.parms.capy}}px;
-                width: {{=key.parms.capwidth}}px; height: {{=key.parms.capheight}}px;
-                border: solid {{=key.sizes.strokeWidth}}px black; border-radius: {{=key.sizes.roundOuter}}px;
-                background-color: {{=key.parms.darkColor}};"
+    <div style="left: {{=parms.capx}}px; top: {{=parms.capy}}px;
+                width: {{=parms.capwidth}}px; height: {{=parms.capheight}}px;
+                border: solid {{=sizes.strokeWidth}}px black; border-radius: {{=sizes.roundOuter}}px;
+                background-color: {{=parms.darkColor}};"
          class="keyborder"></div>
-  {{? key.parms.jShaped }}
-    <div style="left: {{=key.parms.capx2}}px; top: {{=key.parms.capy2}}px; 
-                width: {{=key.parms.capwidth2}}px; height: {{=key.parms.capheight2}}px; 
-                border: solid {{=key.sizes.strokeWidth}}px black; border-radius: {{=key.sizes.roundOuter}}px;
-                background-color: {{=key.parms.darkColor}};" 
+  {{? parms.jShaped }}
+    <div style="left: {{=parms.capx2}}px; top: {{=parms.capy2}}px;
+                width: {{=parms.capwidth2}}px; height: {{=parms.capheight2}}px;
+                border: solid {{=sizes.strokeWidth}}px black; border-radius: {{=sizes.roundOuter}}px;
+                background-color: {{=parms.darkColor}};"
          class="keyborder"></div>
-    <div style="left: {{=key.parms.capx + key.sizes.strokeWidth}}px; top: {{=key.parms.capy + key.sizes.strokeWidth}}px; 
-                width: {{=key.parms.capwidth - key.sizes.strokeWidth*2}}px; 
-                height: {{=key.parms.capheight - key.sizes.strokeWidth*2}}px; 
-                background-color: {{=key.parms.darkColor}}; 
-                border-radius: {{=key.sizes.roundOuter}}px;"></div>
+    <div style="left: {{=parms.capx + sizes.strokeWidth}}px; top: {{=parms.capy + sizes.strokeWidth}}px;
+                width: {{=parms.capwidth - sizes.strokeWidth*2}}px;
+                height: {{=parms.capheight - sizes.strokeWidth*2}}px;
+                background-color: {{=parms.darkColor}};
+                border-radius: {{=sizes.roundOuter}}px;"></div>
   {{?}}
 
   {{? !key.ghost }}
-    <div style="left: {{=key.parms.innercapx}}px; top: {{=key.parms.innercapy}}px;
-                width: {{=key.parms.innercapwidth}}px; height: {{=key.parms.innercapheight}}px;
-                border: solid {{=key.sizes.strokeWidth}}px rgba(0,0,0,0.1);
-                background-color: {{=key.parms.lightColor}};
-                border-radius: {{=key.sizes.roundInner}}px;"
+    <div style="left: {{=parms.innercapx}}px; top: {{=parms.innercapy}}px;
+                width: {{=parms.innercapwidth}}px; height: {{=parms.innercapheight}}px;
+                border: solid {{=sizes.strokeWidth}}px rgba(0,0,0,0.1);
+                background-color: {{=parms.lightColor}};
+                border-radius: {{=sizes.roundInner}}px;"
          class="keytop"></div>
-    {{? key.parms.jShaped && !key.stepped }}
-      <div style="left: {{=key.parms.innercapx2}}px; top: {{=key.parms.innercapy2}}px;
-                  width: {{=key.parms.innercapwidth2}}px; height: {{=key.parms.innercapheight2}}px;
-                  border: solid {{=key.sizes.strokeWidth}}px rgba(0,0,0,0.1); border-radius: {{=key.sizes.roundInner}}px;
-                  background-color: {{=key.parms.lightColor}};
-                  background-position: {{=Math.min(key.parms.innercapx-key.parms.innercapx2,0)}}px {{=Math.min(key.parms.innercapy-key.parms.innercapy2,0)}}px;
-                  background-size: {{=Math.max(key.parms.innercapwidth,key.parms.innercapwidth2)}}px {{=Math.max(key.parms.innercapheight,key.parms.innercapheight2)}}px;"
+    {{? parms.jShaped && !key.stepped }}
+      <div style="left: {{=parms.innercapx2}}px; top: {{=parms.innercapy2}}px;
+                  width: {{=parms.innercapwidth2}}px; height: {{=parms.innercapheight2}}px;
+                  border: solid {{=sizes.strokeWidth}}px rgba(0,0,0,0.1); border-radius: {{=sizes.roundInner}}px;
+                  background-color: {{=parms.lightColor}};
+                  background-position: {{=Math.min(parms.innercapx-parms.innercapx2,0)}}px {{=Math.min(parms.innercapy-parms.innercapy2,0)}}px;
+                  background-size: {{=Math.max(parms.innercapwidth,parms.innercapwidth2)}}px {{=Math.max(parms.innercapheight,parms.innercapheight2)}}px;"
            class="keytop"></div>
-      <div style="left: {{=key.parms.innercapx + key.sizes.strokeWidth}}px; top: {{=key.parms.innercapy + key.sizes.strokeWidth}}px;
-                  width: {{=key.parms.innercapwidth - key.sizes.strokeWidth*2}}px; height: {{=key.parms.innercapheight - key.sizes.strokeWidth*2}}px;
-                  border-radius: {{=key.sizes.roundInner}}px;
-                  background-color: {{=key.parms.lightColor}};
-                  background-position: {{=Math.min(key.parms.innercapx2-key.parms.innercapx,0)}}px {{=Math.min(key.parms.innercapy2-key.parms.innercapy,0)}}px;
-                  background-size: {{=Math.max(key.parms.innercapwidth,key.parms.innercapwidth2)}}px {{=Math.max(key.parms.innercapheight,key.parms.innercapheight2)}}px;"
+      <div style="left: {{=parms.innercapx + sizes.strokeWidth}}px; top: {{=parms.innercapy + sizes.strokeWidth}}px;
+                  width: {{=parms.innercapwidth - sizes.strokeWidth*2}}px; height: {{=parms.innercapheight - sizes.strokeWidth*2}}px;
+                  border-radius: {{=sizes.roundInner}}px;
+                  background-color: {{=parms.lightColor}};
+                  background-position: {{=Math.min(parms.innercapx2-parms.innercapx,0)}}px {{=Math.min(parms.innercapy2-parms.innercapy,0)}}px;
+                  background-size: {{=Math.max(parms.innercapwidth,parms.innercapwidth2)}}px {{=Math.max(parms.innercapheight,parms.innercapheight2)}}px;"
            class="keytop"></div>
     {{?}}
 
-    <div style='left: {{=key.parms.innercapx}}px; top: {{=key.parms.innercapy}}px; width: {{=key.parms.innercapwidth}}px; height: {{=key.parms.innercapheight}}px; padding: {{=key.sizes.padding}}px;' class='keylabels'>
+    <div style='left: {{=parms.innercapx}}px; top: {{=parms.innercapy}}px; width: {{=parms.innercapwidth}}px; height: {{=parms.innercapheight}}px; padding: {{=sizes.padding}}px;' class='keylabels'>
       {{~key.labels :label:i}}
         {{? label && label != "" && !(key.align&$renderKey.noRenderText[i]) }}
           {{ var sanitizedLabel = ""; try { sanitizedLabel = $sanitize(label.replace(/<([^a-zA-Z\/]|$)/,"&lt;$1")); } catch(e) {console.log(e);} }}
           {{? sanitizedLabel !== "" }}
             {{ var textColor = i < key.text.length ? key.text[i] : key.text[0]; if(!textColor) textColor = key.text[0]; }}
             {{ var textColorLight = lightenColor($color.hex(textColor), 1.2).hex(); }}
-            <div class='keylabel keylabel{{=i+1}} centerx-{{=key.centerx}} centery-{{=key.centery}} centerf-{{=key.centerf}} textsize{{= i>0 ? key.fontheight2 : key.fontheight}}' style='color:{{= i===4||i===5 ? textColor : textColorLight}}; width:{{=key.parms.textcapwidth}}px; height:{{=key.parms.textcapheight}}px;'>
-              <div style='width:{{=key.parms.textcapwidth}}px; max-width:{{=key.parms.textcapwidth}}px; height:{{=key.parms.textcapheight}}px;'>{{=sanitizedLabel}}</div>
+            <div class='keylabel keylabel{{=i+1}} centerx-{{=key.centerx}} centery-{{=key.centery}} centerf-{{=key.centerf}} textsize{{= i>0 ? key.fontheight2 : key.fontheight}}' style='color:{{= i===4||i===5 ? textColor : textColorLight}}; width:{{=parms.textcapwidth}}px; height:{{=parms.textcapheight}}px;'>
+              <div style='width:{{=parms.textcapwidth}}px; max-width:{{=parms.textcapwidth}}px; height:{{=parms.textcapheight}}px;'>{{=sanitizedLabel}}</div>
             </div>
           {{??}}
             <div class="hint--top hint--rounded" data-hint="Error: Invalid HTML in label field."><i class="fa fa-times-circle"></i></div>
@@ -835,6 +834,76 @@ DOT.js Templates
   {{?}} <!--!key.ghost-->
 
   </div>
+</script>
+
+<!-- Keycap Template for SVG-->
+<script type="text/ng-template" id="keycap_svg">
+  <g class='{{=key.ghost ? "ghosted keycap" : "keycap"}}'
+  {{? key.rotation_angle }}
+     transform="rotate({{=key.rotation_angle}} {{=parms.origin_x}} {{=parms.origin_y}})"
+  {{?}}>
+
+    <!-- Outer Border -->
+    <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}" 
+          width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}" 
+          rx="{{=sizes.roundOuter}}" class="outer border"/>
+    {{? parms.jShaped }}
+    <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}" 
+          width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}" 
+          rx="{{=sizes.roundOuter}}" class="outer border"/>
+    {{?}}
+    <!-- Outer Fill -->
+    <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}" 
+          width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}" 
+          rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}"/>
+    {{? parms.jShaped }}
+    <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}" 
+          width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}" 
+          rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}"/>
+    {{?}}
+
+    {{? !key.ghost }}
+      <!-- Inner Border -->
+      <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}" 
+            width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}" 
+            rx="{{=sizes.roundOuter}}" class="inner border"/>
+      {{? parms.jShaped && !key.stepped }}
+      <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
+            width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
+            rx="{{=sizes.roundOuter}}" class="inner border"/>
+      {{?}}
+      <!-- Inner Fill -->
+      <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}" 
+            width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}" 
+            rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
+      {{? parms.jShaped && !key.stepped }}
+      <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
+            width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
+            rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
+      {{?}}
+    {{?}}
+  </g>
+</script>
+
+<script type="text/ng-template" id="keyboard_svg">
+  <svg width='{{=parms.width+parms.margin*2+parms.padding*2}}{{=parms.units}}' 
+       height='{{=parms.height+parms.margin*2+parms.padding*2}}{{=parms.units}}' 
+       viewBox='0 0 {{=parms.width+parms.margin*2+parms.padding*2}} {{=parms.height+parms.margin*2+parms.padding*2}}' 
+       xmlns='http://www.w3.org/2000/svg'>
+
+    <style type='text/css'>
+    .keycap .border { stroke: black; stroke-width: {{=parms.strokeWidth*2}}; }
+    .keycap .inner.border { stroke: rgba(0,0,0,.1); }
+    </style>
+
+    <g transform='translate({{=parms.margin}},{{=parms.margin}})'>
+      <rect width="{{=parms.width+parms.padding*2}}" height="{{=parms.height+parms.padding*2}}"
+            stroke="#ddd" stroke-width="1" fill="{{=parms.backcolor}}" rx="6"/>
+      <g transform='translate({{=parms.padding}},{{=parms.padding}})'>
+        {{=parms.keys}}
+      </g>
+    </g>
+  </svg>
 </script>
 
 </body>

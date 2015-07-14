@@ -66,11 +66,11 @@ var $renderKey = {};
 		// Dimensions of the outer part of the cap
 		parms.outercapwidth   = parms.capwidth   - sizes.keySpacing*2;
 		parms.outercapheight  = parms.capheight  - sizes.keySpacing*2;
-		parms.outercapx       = parms.capx       + sizes.keySpacing;  
-		parms.outercapy       = parms.capy       + sizes.keySpacing;  
+		parms.outercapx       = parms.capx       + sizes.keySpacing;
+		parms.outercapy       = parms.capy       + sizes.keySpacing;
 		if(parms.jShaped) {
-			parms.outercapy2      = parms.capy2      + sizes.keySpacing;  
-			parms.outercapx2      = parms.capx2      + sizes.keySpacing;  
+			parms.outercapy2      = parms.capy2      + sizes.keySpacing;
+			parms.outercapx2      = parms.capx2      + sizes.keySpacing;
 			parms.outercapwidth2  = parms.capwidth2  - sizes.keySpacing*2;
 			parms.outercapheight2 = parms.capheight2 - sizes.keySpacing*2;
 		}
@@ -130,40 +130,18 @@ var $renderKey = {};
 		return parms;
 	}
 
-	function STYLE(style) {
-		var html = "";
-		for(var key in style) {
-			if(style.hasOwnProperty(key)) {
-				html += key + ":" + style[key].toString();
-				if(typeof style[key] === 'number') html += "px";
-				html += ';';
-			}
-		}
-		return html;
-	}
-
-	function DIV(style, className, content) {
-		var html = "<div style='" + STYLE(style) + "'";
-		if(className) html += " class='"+className+"'";
-		html += ">";
-		if(content) html += (typeof content === 'function' ? content() : content.toString());
-		html += "</div>";
-		return html;
-	}
-
-	var html_t;
+	var keycap_html, keycap_svg, keyboard_svg;
 	$(document).ready(function() {
-		html_t = doT.template($('#keycap_t').html(), {__proto__: doT.templateSettings, varname:"key, $sanitize, lightenColor"});
-	});	
+		keycap_html = doT.template($('#keycap_html').html(), {__proto__: doT.templateSettings, varname:"key, sizes, parms, $sanitize, lightenColor"});
+		keycap_svg = doT.template($('#keycap_svg').html(), {__proto__: doT.templateSettings, varname:"key, sizes, parms, $sanitize, lightenColor", strip:false});
+		keyboard_svg = doT.template($('#keyboard_svg').html(), {__proto__: doT.templateSettings, varname:"parms", strip:false});
+	});
 
 	// Given a key, generate the HTML needed to render it
 	$renderKey.noRenderText = [0,2,1,3,0,4,2,3];
 	$renderKey.html = function(key, $sanitize) {
 		var sizes = unitSizes.px[getProfile(key)]; // always in pixels
 		var parms = getRenderParms(key, sizes);
-
-		key.sizes = sizes;
-		key.parms = parms;
 
 		// Update the key alignment flags (UI depends on these being up-to-date)
 		key.centerx = key.align&1 ? true : false;
@@ -187,7 +165,7 @@ var $renderKey = {};
 		}
 
 		// Generate the HTML
-		return html_t(key, $sanitize, lightenColor);
+		return keycap_html(key, sizes, parms, $sanitize, lightenColor);
 	};
 
 	// Given a key, generate the SVG needed to render it
@@ -200,49 +178,7 @@ var $renderKey = {};
 		bbox.x2 = Math.max(bbox.x2, parms.bbox.x2);
 		bbox.y2 = Math.max(bbox.y2, parms.bbox.y2);
 
-		// Generate the SVG
-		var svg = "<g class='key'>\n";
-		if(key.rotation_angle) {
-			svg = "<g class='key' transform='rotate({0} {1} {2})'>\n".format(key.rotation_angle, parms.origin_x, parms.origin_y);
-		}
-
-		var rectStrokeAndFill = ("<rect width='{0}' height='{1}' x='{2}' y='{3}' stroke='black' class='{5}' {6}/>\n" +
-					                   "<rect width='{0}' height='{1}' x='{2}' y='{3}' fill='{4}' class='{5}' {6}/>\n");
-		var rectFill = "<rect width='{0}' height='{1}' x='{2}' y='{3}' fill='{4}' class='{5}' {6}/>\n";
-		var roundOuter = "rx='{0}' ry='{0}'".format(sizes.roundOuter);
-		var roundInner = "rx='{0}' ry='{0}'".format(sizes.roundInner);
-
-		// The border
-		svg += rectStrokeAndFill.format( parms.capwidth, parms.capheight, parms.capx+1, parms.capy+1, parms.darkColor, parms.borderStyle, roundOuter );
-		if(parms.jShaped) {
-			svg += rectStrokeAndFill.format( parms.capwidth2, parms.capheight2, parms.capx2+1, parms.capy2+1, parms.darkColor, parms.borderStyle, roundOuter );
-		}
-		// The key edges
-		svg += rectFill.format( parms.capwidth, parms.capheight, parms.capx+1, parms.capy+1, parms.darkColor, parms.bgStyle, roundOuter );
-		if(parms.jShaped) {
-			svg += rectFill.format( parms.capwidth2, parms.capheight2, parms.capx2+1, parms.capy2+1, parms.darkColor, parms.bgStyle, roundOuter );
-		}
-
-		if(!key.ghost) {
-			// The top of the keycap
-			svg += rectStrokeAndFill.format( parms.capwidth-(2*sizes.bevelMargin), parms.capheight-(2*sizes.bevelMargin), parms.capx+sizes.bevelMargin+1, parms.capy+(sizes.bevelMargin/2)+1, parms.lightColor, "keyborder inner", roundInner );
-			if(parms.jShaped && !key.stepped) {
-			 	svg += rectStrokeAndFill.format( parms.capwidth2-(2*sizes.bevelMargin), parms.capheight2-(2*sizes.bevelMargin), parms.capx2+sizes.bevelMargin+1, parms.capy2+(sizes.bevelMargin/2)+1, parms.lightColor, "keyborder inner", roundInner );
-			}
-
-			var maxWidth = parms.capwidth-(2*sizes.bevelMargin);
-			var maxHeight = parms.capheight-(2*sizes.bevelMargin);
-			if(parms.jShaped && !key.stepped) {
-				maxWidth = Math.max(parms.capwidth,parms.capwidth2)-(2*sizes.bevelMargin);
-				maxHeight = Math.max(parms.capheight,parms.capheight2)-(2*sizes.bevelMargin);
-			 	svg += rectFill.format( parms.capwidth2-(2*sizes.bevelMargin), parms.capheight2-(2*sizes.bevelMargin), parms.capx2+sizes.bevelMargin+1, parms.capy2+(sizes.bevelMargin/2)+1, parms.lightColor, "keyfg", roundInner );
-			}
-			svg += rectFill.format( parms.capwidth-(2*sizes.bevelMargin), parms.capheight-(2*sizes.bevelMargin), parms.capx+sizes.bevelMargin+1, parms.capy+(sizes.bevelMargin/2)+1, parms.lightColor, "keyfg", roundInner );
-
-			//TODO//key labels
-		}
-		svg += "</g>\n";
-		return svg;
+		return keycap_svg(key, sizes, parms, $sanitize, lightenColor);
 	};
 
 	$renderKey.fullSVG = function(keys, metadata) {
@@ -256,29 +192,16 @@ var $renderKey = {};
 
 	  // Wrap with SVG boilerplate
 	  var kbdMargin = 10, kbdPadding = 5;
-	  var width = bbox.x2 + kbdMargin*2 + kbdPadding*2;
-	  var height = bbox.y2 + kbdMargin*2 + kbdPadding*2;
-		var svg = "<svg width='{0}{4}' height='{1}{4}' viewBox='0 0 {2} {3}' xmlns='http://www.w3.org/2000/svg'>\n"
-							.format( width, height, width, height, units);
-
-		// styles
-		svg += "<style type='text/css'>\n";
-		svg += "* { stroke-width: {0}; }\n".format(sizes.strokeWidth*2);
-		svg += ".keyborder.inner { opacity: 0.1; }\n";
-		svg += ".keyfg { <!-- font-family: \"Helvetica\", \"Arial\", sans-serif; --> }\n";
-		svg += "</style>\n";
-
-		svg += "<g transform='translate({0},{0})'>\n".format(kbdMargin);
-		svg += "<rect width='{0}' height='{1}' stroke='#ddd' stroke-width='1' fill='{2}' rx='6' />\n"
-						.format( bbox.x2 + kbdPadding*2, bbox.y2 + kbdPadding*2, metadata.backcolor);
-	  svg += "<g transform='translate({0},{0})'>\n".format(kbdPadding);
-
-	  svg += keysSVG;
-
-	  svg += "</g>\n";
-	  svg += "</g>\n";
-	  svg += "</svg>\n";
-	  return svg;
+	  return keyboard_svg({
+	  	margin: 10,
+	  	padding: 5,	  	
+	  	width: bbox.x2,
+	  	height: bbox.y2,
+	  	units: units,
+	  	backcolor: metadata.backcolor,
+	  	strokeWidth: unitSizes[units].strokeWidth,
+	  	keys: keysSVG
+	  });
 	};
 
 }());
