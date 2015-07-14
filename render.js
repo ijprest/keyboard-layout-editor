@@ -13,18 +13,18 @@ var $renderKey = {};
 		px : {
 			unit : 54,
 			strokeWidth: 1,
-			"" : 		{ keySpacing: 0, bevelMargin: 6, bevelOffsetY: 3, padding: 3, roundOuter: 5, roundInner: 3 },
-			"DCS" : { keySpacing: 0, bevelMargin: 6, bevelOffsetY: 3, padding: 3, roundOuter: 5, roundInner: 3 },
-			"DSA" : { keySpacing: 0, bevelMargin: 6, bevelOffsetY: 0, padding: 3, roundOuter: 5, roundInner: 8 },
-			"SA" :  { keySpacing: 0, bevelMargin: 6, bevelOffsetY: 2, padding: 3, roundOuter: 5, roundInner: 5 }
+			"" : 		{ profile: "" , keySpacing: 0, bevelMargin: 6, bevelOffsetY: 3, padding: 3, roundOuter: 5, roundInner: 3 },
+			"DCS" : { profile: "DCS", keySpacing: 0, bevelMargin: 6, bevelOffsetY: 3, padding: 3, roundOuter: 5, roundInner: 3 },
+			"DSA" : { profile: "DSA", keySpacing: 0, bevelMargin: 6, bevelOffsetY: 0, padding: 3, roundOuter: 5, roundInner: 8 },
+			"SA" :  { profile: "SA", keySpacing: 0, bevelMargin: 6, bevelOffsetY: 2, padding: 3, roundOuter: 5, roundInner: 5 }
 		},
 		mm : {
 			unit: 19.05,
 			strokeWidth: 0.20,
-			"" :    {  keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
-			"DCS" : {  keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
-			"DSA" : {  keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
-			"SA" : {  keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 }
+			"" :    {  profile: "" , keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
+			"DCS" : {  profile: "DCS", keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
+			"DSA" : {  profile: "DSA", keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
+			"SA" : {  profile: "SA", keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 }
 		}
 	};
 	["px","mm"].forEach(function(unit) {
@@ -169,7 +169,7 @@ var $renderKey = {};
 	};
 
 	// Given a key, generate the SVG needed to render it
-	$renderKey.svg = function(key, bbox, sizes, $sanitize) {
+	$renderKey.svg = function(key, index, bbox, sizes, $sanitize) {
 
 		// Update bbox
 		var parms = getRenderParms(key, sizes);
@@ -177,6 +177,7 @@ var $renderKey = {};
 		bbox.y = Math.min(bbox.y, parms.bbox.y);
 		bbox.x2 = Math.max(bbox.x2, parms.bbox.x2);
 		bbox.y2 = Math.max(bbox.y2, parms.bbox.y2);
+		parms.index = index;
 
 		return keycap_svg(key, sizes, parms, $sanitize, lightenColor);
 	};
@@ -186,8 +187,8 @@ var $renderKey = {};
 		var units = "px";
 	  var bbox = { x: 99999999, y:99999999, x2:-99999999, y2:-99999999 };
 	  var keysSVG = "";
-	  keys.forEach(function(key) {
-	  	keysSVG += $renderKey.svg(key, bbox, unitSizes[units][getProfile(key)]);
+	  keys.forEach(function(key,index) {	  	
+	  	keysSVG += $renderKey.svg(key, index, bbox, unitSizes[units][getProfile(key)]);
 	  });
 
 	  // Wrap with SVG boilerplate

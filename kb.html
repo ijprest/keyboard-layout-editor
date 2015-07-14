@@ -846,40 +846,75 @@ DOT.js Templates
     <!-- Outer Border -->
     <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}" 
           width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}" 
-          rx="{{=sizes.roundOuter}}" class="outer border"/>
+          rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}" class="outer border"/>
     {{? parms.jShaped }}
-    <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}" 
-          width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}" 
-          rx="{{=sizes.roundOuter}}" class="outer border"/>
+      <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}" 
+            width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}" 
+            rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}" class="outer border"/>
     {{?}}
     <!-- Outer Fill -->
     <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}" 
           width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}" 
           rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}"/>
     {{? parms.jShaped }}
-    <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}" 
-          width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}" 
-          rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}"/>
+      <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}" 
+            width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}" 
+            rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}"/>
     {{?}}
 
     {{? !key.ghost }}
       <!-- Inner Border -->
       <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}" 
             width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}" 
-            rx="{{=sizes.roundOuter}}" class="inner border"/>
+            rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}" class="inner border"/>
       {{? parms.jShaped && !key.stepped }}
-      <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
-            width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
-            rx="{{=sizes.roundOuter}}" class="inner border"/>
+        <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
+              width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
+              rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}" class="inner border"/>
       {{?}}
       <!-- Inner Fill -->
       <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}" 
             width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}" 
             rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
       {{? parms.jShaped && !key.stepped }}
-      <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
-            width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
-            rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
+        <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
+              width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
+              rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
+      {{?}}
+      {{? sizes.profile !== "" }}
+        {{var theProfile = sizes.profile; if(/\b(SPACE)\b/.exec(key.profile)) theProfile = "SPACE";}}
+        {{? parms.jShaped && !key.stepped }}
+          {{
+            /*much harder to do j-shaped keys in SVG*/
+            theProfile = '_fill'+parms.index;
+            var rect = { 
+              left: Math.min(parms.innercapx, parms.innercapx2),
+              top: Math.min(parms.innercapy, parms.innercapy2),
+              right: Math.min(parms.innercapx+parms.innercapwidth, parms.innercapx2+parms.innercapwidth2),
+              bottom: Math.min(parms.innercapy+parms.innercapheight, parms.innercapy2+parms.innercapheight2)
+            };
+          }}
+          {{? sizes.profile==="SA" || sizes.profile==="DSA" }}
+            <radialGradient id="{{=theProfile}}" xlink:href="#{{=sizes.profile}}" gradientUnits="userSpaceOnUse"
+                            cx="{{=(rect.left+rect.right)/2}}" cy="{{=(rect.top+rect.bottom)/2}}" 
+                            r="{{=Math.min(rect.right-rect.left, rect.bottom-rect.top)}}"/>
+          {{??}}
+            <linearGradient id="{{=theProfile}}" xlink:href="#{{=sizes.profile}}" gradientUnits="userSpaceOnUse"
+                            x1="{{=rect.left}}" y1="{{=rect.top}}" x2="{{=rect.right}}" y2="{{=rect.top}}"/>
+          {{?}}
+          <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
+                width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
+                rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
+          <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
+                width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
+                rx="{{=sizes.roundOuter}}" fill="url(#{{=theProfile}})"/>
+          <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}" 
+                width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}" 
+                rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
+        {{?}}
+        <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}" 
+              width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}" 
+              rx="{{=sizes.roundOuter}}" fill="url(#{{=theProfile}})"/>
       {{?}}
     {{?}}
   </g>
@@ -889,12 +924,33 @@ DOT.js Templates
   <svg width='{{=parms.width+parms.margin*2+parms.padding*2}}{{=parms.units}}' 
        height='{{=parms.height+parms.margin*2+parms.padding*2}}{{=parms.units}}' 
        viewBox='0 0 {{=parms.width+parms.margin*2+parms.padding*2}} {{=parms.height+parms.margin*2+parms.padding*2}}' 
-       xmlns='http://www.w3.org/2000/svg'>
+       xmlns='http://www.w3.org/2000/svg' 
+       xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <style type='text/css'>
     .keycap .border { stroke: black; stroke-width: {{=parms.strokeWidth*2}}; }
     .keycap .inner.border { stroke: rgba(0,0,0,.1); }
     </style>
+    <defs>
+      <linearGradient id="DCS">
+        <stop offset="0%" stop-color="black" stop-opacity="0"/>
+        <stop offset="40%" stop-color="black" stop-opacity="0.1"/>
+        <stop offset="60%" stop-color="black" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="black" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="SPACE" x1="0%" x2="0%" y1="0%" y2="100%">
+        <stop offset="0%" stop-color="black" stop-opacity="0.1"/>
+        <stop offset="20%" stop-color="black" stop-opacity="0.0"/>
+        <stop offset="40%" stop-color="black" stop-opacity="0.0"/>
+        <stop offset="100%" stop-color="black" stop-opacity="0.1"/>
+      </linearGradient>
+      <radialGradient id="DSA">
+        <stop offset="0%" stop-color="black" stop-opacity="0.1"/>
+        <stop offset="10%" stop-color="black" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="black" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="SA" xlink:href="#DSA" />
+    </defs>
 
     <g transform='translate({{=parms.margin}},{{=parms.margin}})'>
       <rect width="{{=parms.width+parms.padding*2}}" height="{{=parms.height+parms.padding*2}}"
