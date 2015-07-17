@@ -131,11 +131,11 @@ var $renderKey = {};
 	}
 
 	var keycap_html, keycap_svg, keyboard_svg;
-	$(document).ready(function() {
+	$renderKey.init = function() {
 		keycap_html = doT.template($('#keycap_html').html(), {__proto__: doT.templateSettings, varname:"key, sizes, parms, $sanitize, lightenColor"});
 		keycap_svg = doT.template($('#keycap_svg').html(), {__proto__: doT.templateSettings, varname:"key, sizes, parms, $sanitize, lightenColor", strip:false});
 		keyboard_svg = doT.template($('#keyboard_svg').html(), {__proto__: doT.templateSettings, varname:"parms", strip:false});
-	});
+	};
 
 	// Given a key, generate the HTML needed to render it
 	$renderKey.noRenderText = [0,2,1,3,0,4,2,3];

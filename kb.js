@@ -233,6 +233,7 @@
 			}
 		});
 
+		$renderKey.init();
 		$scope.deserializeAndRender([]);
 		if($location.hash()) {
 			var loc = $location.hash();
