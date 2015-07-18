@@ -25,8 +25,8 @@ URLON = {
 				}
 				return '_' + res.join('&') + ';';
 			}
-			// String or undefined
-			return '=' + encodeString((input !== null ? input : "null").toString());
+			// String or undefined			
+			return '=' + encodeString((input !== null ? (input !== undefined ? input : "undefined") : "null").toString());
 		}
 
 		return stringify(input).replace(/;+$/g, '');
