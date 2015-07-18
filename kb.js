@@ -40,11 +40,6 @@
 		$scope.keyboard = { keys: [], meta: {} };
 		$scope.keys = function(newKeys) { if(newKeys) { $scope.keyboard.keys = newKeys; } return $scope.keyboard.keys; };
 
-		// Helper to evaluate the alignment states and determine if a label field is editable
-		$scope.labelDisabled = function(index) {
-			return $scope.selectedKeys<1 || $scope.multi.align & $renderKey.noRenderText[index];
-		};
-
 		// Helper function to select/deselect all keys
 		$scope.unselectAll = function() {
 			$scope.selectedKeys = [];
@@ -322,6 +317,7 @@
 			}
 		};
 
+		// Validate a key's property values (in the case of an array property, only validates a single value)
 		function validate(key,prop,value) {
 			var v = {
 				_ : function() { return value; },
@@ -333,8 +329,7 @@
 				height : function() { return Math.max(0.5, Math.min(12, value)); },
 				width2 : function() { return Math.max(0.5, Math.min(12, value)); },
 				height2 : function() { return Math.max(0.5, Math.min(12, value)); },
-				fontheight : function() { return Math.max(1, Math.min(9, value)); },
-				fontheight2 : function() { return Math.max(1, Math.min(9, value)); },
+				textSize : function() { return Math.max(1, Math.min(9, value)); },
 				rotation_angle : function() { return Math.max(-180, Math.min(180, value)); },
 				rotation_x : function() { return Math.max(0, Math.min(36, value)); },
 				rotation_y : function() { return Math.max(0, Math.min(36, value)); },
@@ -350,8 +345,9 @@
 				centerx : function() { if(value) { key.align = key.align | 1; } else { key.align = key.align & (~1); } },
 				centery : function() { if(value) { key.align = key.align | 2; } else { key.align = key.align & (~2); } },
 				centerf : function() { if(value) { key.align = key.align | 4; } else { key.align = key.align & (~4); } },
-				fontheight : function() { key.fontheight = key.fontheight2 = value; },
-				text : function() { if(index<0) { key.text = [value[0]]; } else { key.text = value; } },
+				textColor : function() { if(index<0) { key.textColor = [value[0]]; } else { key.textColor[index] = value[index]; } },
+				textSize : function() { if(index<0) { key.textSize = [value[0]]; } else { key.textSize[index] = value[index]; } },
+				labels : function() { key.labels[index] = value[index]; },
 				stepped : function() {
 					key[prop] = value;
 					if(value && key.width === key.width2) {
@@ -371,8 +367,9 @@
 			if($scope.multi[prop] == null || $scope.selectedKeys.length <= 0) {
 				return;
 			}
-			var valid = validate($scope.multi, prop, $scope.multi[prop]);
-			if(valid !== $scope.multi[prop]) {
+			var value = index !== undefined ? $scope.multi[prop][Math.max(index,0)] : $scope.multi[prop];
+			var valid = validate($scope.multi, prop, value);
+			if(valid !== value) {
 				return;
 			}
 
@@ -385,14 +382,18 @@
 			});
 		};
 
-		$scope.validateMulti = function(prop) {
+		$scope.validateMulti = function(prop, index) {
 			if($scope.multi[prop] == null) {
 				$scope.multi[prop] = "";
 			}
-			var valid = validate($scope.multi, prop, $scope.multi[prop]);
-			if(valid !== $scope.multi[prop]) {
-				$scope.multi[prop] = valid;
-				$scope.updateMulti(prop);
+			var value = index !== undefined ? $scope.multi[prop][Math.max(index,0)] : $scope.multi[prop];
+			var valid = validate($scope.multi, prop, value);
+			if(valid !== value) {
+				if(index !== undefined)
+					$scope.multi[prop][Math.max(index,0)] = valid;
+				else 
+					$scope.multi[prop] = valid;
+				$scope.updateMulti(prop, index);
 			}
 		};
 
@@ -411,17 +412,14 @@
 			transaction("swapColors", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					var temp = selectedKey.color;
-					selectedKey.color = selectedKey.text[0];
-					selectedKey.text = [temp];
+					selectedKey.color = selectedKey.textColor[0];
+					selectedKey.textColor = [temp];
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 		};
 
-		$scope.getTextColor = function(colors, index) {
-			return colors ? (colors[index] ? colors[index] : colors[0]) : null;
-		};
 		$scope.clickSwatch = function(color,$event) {
 			$scope.dropSwatch(color,$event,$event.ctrlKey || $event.altKey,-1);
 		};
@@ -434,9 +432,9 @@
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					if(isText) {
 						if(textIndex<0)
-							selectedKey.text = [color.css];
+							selectedKey.textColor = [color.css];
 						else
-							selectedKey.text[textIndex] = color.css;
+							selectedKey.textColor[textIndex] = color.css;
 					} else {
 						selectedKey.color = color.css;
 					}
@@ -616,7 +614,7 @@
 				newKey = $serial.defaultKeyProps();
 				if($scope.selectedKeys.length>0) {
 					newKey.color = $scope.multi.color;
-					newKey.text = $scope.multi.text;
+					newKey.textColor = $scope.multi.textColor;
 					newKey.profile = $scope.multi.profile;
 					newKey.rotation_angle = $scope.multi.rotation_angle;
 					newKey.rotation_x = $scope.multi.rotation_x;
