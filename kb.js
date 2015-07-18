@@ -819,7 +819,7 @@
 					$scope.selTab = 0;
 					$('#properties').removeClass('hidden');
 				}
-				$('#labeleditor').focus().select();
+				$('#labeleditor0').focus().select();
 			} else {
 				if($scope.selTab !== 1) {
 					$scope.selTab = 1;
