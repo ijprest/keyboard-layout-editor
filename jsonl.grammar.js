@@ -69,9 +69,12 @@ exports.grammar = {
 
         "JSONArray": [[ "[ ]", "$$ = [];" ],
                       [ "[ JSONElementList ]", "$$ = $2;" ]],
+                      
+        "JSONArrayValue": [[ "JSONValue", "$$ = $1;" ],
+                           [ "", "$$ = undefined;" ]],
 
         "JSONElementList": [[ "JSONValue", "$$ = [$1];" ],
-                            [ "JSONElementList , JSONValue", "$$ = $1; $1.push($3);" ]]
+                            [ "JSONElementList , JSONArrayValue", "$$ = $1; $1.push($3);" ]]
     }
 };
 
