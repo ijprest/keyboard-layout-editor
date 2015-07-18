@@ -380,6 +380,21 @@ Nav Bar / Header
           </div>
         </div>
 
+        <!-- Rotation -->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="rotation_angle-editor">Rotation:</label>
+          <div class="col-md-9 col-lg-9">
+            <div class="form-inline hint--top hint--rounded"
+                 data-hint="Specify the angle (in degrees) by which to rotate the keycaps, and the x &amp; y coordinates of the center of rotation.">
+              <kbd-multi-numbox field="rotation_angle" size="3" min="-180" max="180" step='{{rotateStep}}'></kbd-multi-numbox>
+              <div class="form-group form-group-sm"> &#176; </div>
+              <kbd-multi-numbox field="rotation_x" size="6" min="0" max="36" step='{{moveStep}}'></kbd-multi-numbox>
+              <div class="form-group form-group-sm"> , </div>
+              <kbd-multi-numbox field="rotation_y" size="6" min="0" max="36" step='{{moveStep}}'></kbd-multi-numbox>
+            </div>
+          </div>
+        </div>
+
         <!-- Profile / Row -->
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3 col-lg-3 text-nowrap" for="profileeditor-search">Profile / Row:</label>
@@ -393,21 +408,6 @@ Nav Bar / Header
                        ng-blur="validateMulti('profile')"
                        ng-disabled="selectedKeys.length<1">
               </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Rotation -->
-        <div class="form-group form-group-sm">
-          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="rotation_angle-editor">Rotation:</label>
-          <div class="col-md-9 col-lg-9">
-            <div class="form-inline hint--top hint--rounded"
-                 data-hint="Specify the angle (in degrees) by which to rotate the keycaps, and the x &amp; y coordinates of the center of rotation.">
-              <kbd-multi-numbox field="rotation_angle" size="3" min="-180" max="180" step='{{rotateStep}}'></kbd-multi-numbox>
-              <div class="form-group form-group-sm"> &#176; </div>
-              <kbd-multi-numbox field="rotation_x" size="6" min="0" max="36" step='{{moveStep}}'></kbd-multi-numbox>
-              <div class="form-group form-group-sm"> , </div>
-              <kbd-multi-numbox field="rotation_y" size="6" min="0" max="36" step='{{moveStep}}'></kbd-multi-numbox>
             </div>
           </div>
         </div>
