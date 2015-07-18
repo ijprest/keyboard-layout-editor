@@ -335,7 +335,7 @@ Nav Bar / Header
             <div class="form-inline hint--top hint--rounded"
                data-hint="Specify the profile and (optionally) the row-number of the selected keys, e.g., 'DCS R1', 'DSA', 'DSA SPACE', etc.">
               <div class="form-group form-group-sm">
-                <input id="profileeditor" class="form-control input-sm" size="24" type='text'
+                <input id="profileeditor-search" class="form-control input-sm" size="24" type='text' autocomplete="off"
                        ng-model="multi.profile"
                        ng-change="updateMulti('profile')"
                        ng-blur="validateMulti('profile')"
