@@ -264,7 +264,7 @@ Nav Bar / Header
           </div>
         </div>
 
-        <!-- 1 -->
+        <!-- Legend Size -->
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3 col-lg-3 text-nowrap" for="textSize-editor">Legend Size:</label>
           <div class="col-md-9 col-lg-9">
@@ -277,6 +277,53 @@ Nav Bar / Header
                        ng-blur="validateMulti('textSize',-1)"
                        ng-disabled="selectedKeys.length<1">
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legend Color -->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="textcoloreditor">Legend Color:</label>
+          <div class="col-md-9 col-lg-9">
+            <div class="form-inline">
+              <kbd-color-picker picker-id="textcoloreditor" picker-position="top"
+                                ng-model="multi.textColor[0]"
+                                ng-change="updateMulti('textColor',-1)"
+                                ng-blur="validateMulti('textColor',-1)"
+                                ng-disabled="selectedKeys.length<1"
+                                hint-text="Specify the color to use for the legend text on the selected keycaps.  Setting this value will change the color of all legends, and will replace any existing color overrides."
+                                ui-on-Drop="dropSwatch($data,$event,true,-1)" drop-channel="dragColor"></kbd-color-picker>
+              <div class="form-group form-group-sm color-name">{{colorName(multi.textColor[0])}}</div>
+            </div>
+            
+            <!-- Swap Colors Button -->
+            <div>
+              <div id="swap-colors"
+                   class="hint--top hint--rounded"
+                   data-hint="Swap the text and keycap colors.">
+                <button class="btn btn-default"
+                        ng-click="swapColors()"
+                        ng-disabled="selectedKeys.length<1" >
+                  <i class="fa fa-random"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Color -->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="coloreditor">Key Color:</label>
+          <div class="col-md-9 col-lg-9">
+            <div class="form-inline">
+              <kbd-color-picker picker-id="coloreditor" picker-position="top"
+                                ng-model="multi.color"
+                                ng-change="updateMulti('color')"
+                                ng-blur="validateMulti('color')"
+                                ng-disabled="selectedKeys.length<1"
+                                hint-text="Specify the color to use for the background of the selected keycaps."
+                                ui-on-Drop="dropSwatch($data,$event,false)" drop-channel="dragColor"></kbd-color-picker>
+              <div class="form-group form-group-sm color-name">{{colorName(multi.color)}}</div>
             </div>
           </div>
         </div>
@@ -346,53 +393,6 @@ Nav Bar / Header
                        ng-blur="validateMulti('profile')"
                        ng-disabled="selectedKeys.length<1">
               </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Key Color -->
-        <div class="form-group form-group-sm">
-          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="coloreditor">Key Color:</label>
-          <div class="col-md-9 col-lg-9">
-            <div class="form-inline">
-              <kbd-color-picker picker-id="coloreditor" picker-position="top"
-                                ng-model="multi.color"
-                                ng-change="updateMulti('color')"
-                                ng-blur="validateMulti('color')"
-                                ng-disabled="selectedKeys.length<1"
-                                hint-text="Specify the color to use for the background of the selected keycaps."
-                                ui-on-Drop="dropSwatch($data,$event,false)" drop-channel="dragColor"></kbd-color-picker>
-              <div class="form-group form-group-sm color-name">{{colorName(multi.color)}}</div>
-            </div>
-
-            <!-- Swap Colors Button -->
-            <div>
-              <div id="swap-colors"
-                   class="hint--top hint--rounded"
-                   data-hint="Swap the text and keycap colors.">
-                <button class="btn btn-default"
-                        ng-click="swapColors()"
-                        ng-disabled="selectedKeys.length<1" >
-                  <i class="fa fa-random"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Legend Color -->
-        <div class="form-group form-group-sm">
-          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="textcoloreditor">Legend Color:</label>
-          <div class="col-md-9 col-lg-9">
-            <div class="form-inline">
-              <kbd-color-picker picker-id="textcoloreditor" picker-position="top"
-                                ng-model="multi.textColor[0]"
-                                ng-change="updateMulti('textColor',-1)"
-                                ng-blur="validateMulti('textColor',-1)"
-                                ng-disabled="selectedKeys.length<1"
-                                hint-text="Specify the color to use for the legend text on the selected keycaps.  Setting this value will change the color of all legends, and will replace any existing color overrides."
-                                ui-on-Drop="dropSwatch($data,$event,true,-1)" drop-channel="dragColor"></kbd-color-picker>
-              <div class="form-group form-group-sm color-name">{{colorName(multi.textColor[0])}}</div>
             </div>
           </div>
         </div>
