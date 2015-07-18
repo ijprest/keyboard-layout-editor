@@ -817,12 +817,13 @@ DOT.js Templates
 
     <div style='left: {{=parms.innercapx}}px; top: {{=parms.innercapy}}px; width: {{=parms.innercapwidth}}px; height: {{=parms.innercapheight}}px; padding: {{=sizes.padding}}px;' class='keylabels'>
       {{~key.labels :label:i}}
-        {{? label && label != "" && !(key.align&$renderKey.noRenderText[i]) }}
+        {{? label && label != "" }}
           {{ var sanitizedLabel = ""; try { sanitizedLabel = $sanitize(label.replace(/<([^a-zA-Z\/]|$)/,"&lt;$1")); } catch(e) {console.log(e);} }}
           {{? sanitizedLabel !== "" }}
-            {{ var textColor = i < key.text.length ? key.text[i] : key.text[0]; if(!textColor) textColor = key.text[0]; }}
-            {{ var textColorLight = lightenColor($color.hex(textColor), 1.2).hex(); }}
-            <div class='keylabel keylabel{{=i+1}} centerx-{{=key.centerx}} centery-{{=key.centery}} centerf-{{=key.centerf}} textsize{{= i>0 ? key.fontheight2 : key.fontheight}}' style='color:{{= i===4||i===5 ? textColor : textColorLight}}; width:{{=parms.textcapwidth}}px; height:{{=parms.textcapheight}}px;'>
+            {{ var textSize = key.textSize[i] || key.textSize[0]; }}
+            {{ var textColor = key.textColor[i] || key.textColor[0]; }}
+            {{ if(i<9) textColor = lightenColor($color.hex(textColor), 1.2).hex(); }}
+            <div class='keylabel keylabel{{=i}} textsize{{=textSize}}' style='color:{{=textColor}}; width:{{=parms.textcapwidth}}px; height:{{=parms.textcapheight}}px;'>
               <div style='width:{{=parms.textcapwidth}}px; max-width:{{=parms.textcapwidth}}px; height:{{=parms.textcapheight}}px;'>{{=sanitizedLabel}}</div>
             </div>
           {{??}}
