@@ -48,3 +48,6 @@ endef
 CUSTOM_FONT = $(eval $(call _CUSTOM_FONT,$(1).ttf,$(2)))$(eval $(call _CUSTOM_FONT,$(1).eot,$(2)))$(eval $(call _CUSTOM_FONT,$(1).svg,$(2)))$(eval $(call _CUSTOM_FONT,$(1).woff,$(2)))
 
 $(call CUSTOM_FONT,kbd-custom,$(kbd-custom-glyphs))
+
+test:
+	protractor tests/conf.js
