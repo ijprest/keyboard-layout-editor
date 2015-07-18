@@ -70,13 +70,16 @@ html, body {
 
 /* Key labels */
 .keylabel>div { display: table-cell; position: static !important; }
-.keylabel3>div, .keylabel4>div, .keylabel6>div, .keylabel8>div { text-align: right; }
-.keylabel7>div, .keylabel8>div { vertical-align: middle; }
-.keylabel2>div, .keylabel4>div { vertical-align: bottom; }
-.keylabel5, .keylabel6 { top: 100%; margin-top: -1px; font-size: 10px !important; white-space: nowrap; overflow: hidden;}
-.keylabel1.centerx-true>div, .keylabel2.centerx-true>div, .keylabel5.centerf-true>div, .keylabel7.centerx-true>div { text-align: center; }
-.keylabel1.centery-true>div, .keylabel3.centery-true>div { vertical-align: middle; }
-
+/* Vertical alignment */
+.keylabel0>div, .keylabel1>div, .keylabel2>div { vertical-align: top; } 
+.keylabel3>div, .keylabel4>div, .keylabel5>div { vertical-align: middle; }
+.keylabel6>div, .keylabel7>div, .keylabel8>div { vertical-align: bottom; }
+.keylabel9, .keylabel10, .keylabel11 { top: 100%; margin-top: -1px; font-size: 10px !important; max-height: 1em !important; white-space: nowrap; overflow: hidden; }
+/* Horizontal  alignment */
+.keylabel0>div, .keylabel3>div, .keylabel6>div, .keylabel9>div { text-align: left; }
+.keylabel1>div, .keylabel4>div, .keylabel7>div, .keylabel10>div { text-align: center; }
+.keylabel2>div, .keylabel5>div, .keylabel8>div, .keylabel11>div { text-align: right; }
+/* Label Sizes */
 for i in (1..9) {
   .keylabel.textsize{i} {
     font-size: (6+2*i)px; 
