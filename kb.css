@@ -100,8 +100,12 @@ for i in (1..9) {
 .SA .keylabels, .DSA .keylabels {
   font-family: 'engravers_gothic_fsregular'; /* substitute for Gorton Modified */
 }
-  
-.DSA .keylabel5, .DSA .keylabel6, .SA .keylabel5, .SA .keylabel6 { margin-top: -2px; font-size: 9px !important; }
+
+.DSA .keylabel9, .DSA .keylabel10, .DSA .keylabel11,
+.SA .keylabel9, .SA .keylabel10, .SA .keylabel11 {
+  margin-top: -2px; 
+  font-size: 9px !important;
+}
 .DCS .keytop, .OEM .keytop {
   background: linear-gradient(to right, #00000000 0%, #0000001A 40%, #0000001A 60%, #00000000 100%);
   background-repeat: no-repeat;
