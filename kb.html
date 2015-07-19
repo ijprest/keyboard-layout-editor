@@ -755,7 +755,7 @@ Angular Templates
              ng-disabled="$parent.selectedKeys.length<1">
       <span class="input-group-btn">
         <button class="btn btn-default"
-               ng-style="{'background': $parent.selectedKeys.length<1 ? 'rgb(235, 235, 228)' : ($parent.multi.textColor[labelIndex] || 'repeating-linear-gradient(-45deg, transparent, transparent 4px, red 4px, red 5px, transparent 5px, transparent 10px), repeating-linear-gradient(45deg, transparent, transparent 4px, red 4px, red 5px, transparent 5px, transparent 10px)')}"
+               ng-style="{'background': $parent.selectedKeys.length<1 ? '#eee' : (!$parent.multi.textColor[labelIndex] ? '#fff' : $parent.multi.textColor[labelIndex])}"
                ng-model="$parent.multi.textColor[labelIndex]"
                ng-change="$parent.updateMulti('textColor',labelIndex)"
                colorpicker="hex"
