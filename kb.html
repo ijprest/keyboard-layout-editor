@@ -272,7 +272,7 @@ Nav Bar / Header
                  data-hint="Specify the size for the keycap legends. Setting this value will change the size of all legends, and will replace any existing size overrides.">
               <div class="form-group form-group-sm">
                 <input id="textSize-editor" class="form-control input-sm" size="6" type='number' min="1" max="9"
-                       ng-model="multi.textSize[0]"
+                       ng-model="multi.default.textSize"
                        ng-change="updateMulti('textSize',-1)"
                        ng-blur="validateMulti('textSize',-1)"
                        ng-disabled="selectedKeys.length<1">
@@ -287,15 +287,15 @@ Nav Bar / Header
           <div class="col-md-9 col-lg-9">
             <div class="form-inline">
               <kbd-color-picker picker-id="textcoloreditor" picker-position="top"
-                                ng-model="multi.textColor[0]"
+                                ng-model="multi.default.textColor"
                                 ng-change="updateMulti('textColor',-1)"
                                 ng-blur="validateMulti('textColor',-1)"
                                 ng-disabled="selectedKeys.length<1"
                                 hint-text="Specify the color to use for the legend text on the selected keycaps.  Setting this value will change the color of all legends, and will replace any existing color overrides."
                                 ui-on-Drop="dropSwatch($data,$event,true,-1)" drop-channel="dragColor"></kbd-color-picker>
-              <div class="form-group form-group-sm color-name">{{colorName(multi.textColor[0])}}</div>
+              <div class="form-group form-group-sm color-name">{{colorName(multi.default.textColor)}}</div>
             </div>
-            
+
             <!-- Swap Colors Button -->
             <div>
               <div id="swap-colors"
@@ -433,7 +433,7 @@ Nav Bar / Header
              ng-style="{'background-color':color.css}"
              ng-click="clickSwatch(color,$event)"
              class="swatch hint--top"
-             ng-class="{'selected-bg': color.css === multi.color, 'selected-fg': color.css === multi.textColor[0]}"
+             ng-class="{'selected-bg': color.css === multi.color, 'selected-fg': color.css === multi.default.textColor}"
              data-hint="{{color.name}}"
              ui-draggable="true" drag-channel="dragColor" drag="color">
                <div class='highlight fg'></div>
@@ -761,6 +761,7 @@ Angular Templates
                colorpicker="hex"
                colorpicker-close-on-select="true"
                colorpicker-with-input="true"
+               ng-class="{'use-default':!$parent.multi.textColor[labelIndex]}"
                ng-disabled="$parent.selectedKeys.length<1">&nbsp;</button>
       </span>
       <input id="textsizeeditor{{labelIndex}}" class="form-control input-sm" size="4" type='number' min="1" max="9"
@@ -832,8 +833,8 @@ DOT.js Templates
         {{? label && label != "" }}
           {{ var sanitizedLabel = ""; try { sanitizedLabel = $sanitize(label.replace(/<([^a-zA-Z\/]|$)/,"&lt;$1")); } catch(e) {console.log(e);} }}
           {{? sanitizedLabel !== "" }}
-            {{ var textSize = key.textSize[i] || key.textSize[0]; }}
-            {{ var textColor = key.textColor[i] || key.textColor[0]; }}
+            {{ var textSize = key.textSize[i] || key.default.textSize; }}
+            {{ var textColor = key.textColor[i] || key.default.textColor; }}
             {{ if(i<9) textColor = lightenColor($color.hex(textColor), 1.2).hex(); }}
             <div class='keylabel keylabel{{=i}} textsize{{=textSize}}' style='color:{{=textColor}}; width:{{=parms.textcapwidth}}px; height:{{=parms.textcapheight}}px;'>
               <div style='width:{{=parms.textcapwidth}}px; max-width:{{=parms.textcapwidth}}px; height:{{=parms.textcapheight}}px;'>{{=sanitizedLabel}}</div>

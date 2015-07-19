@@ -342,9 +342,9 @@
 				_ : function() { key[prop] = value; },
 				width : function() { key.width = value; if(!key.stepped || key.width > key.width2) key.width2 = value; },
 				height : function() { key.height = value; if(!key.stepped || key.height > key.height2) key.height2 = value; },
-				textColor : function() { if(index<0) { key.textColor = [value[0]]; } else { key.textColor[index] = value[index]; } },
-				textSize : function() { if(index<0) { key.textSize = [value[0]]; } else { key.textSize[index] = value[index]; } },
-				labels : function() { key.labels[index] = value[index]; },
+				textColor : function() { if(index<0) { key.default.textColor = value; key.textColor = []; } else { key.textColor[index] = value; } },
+				textSize : function() { if(index<0) { key.default.textSize = value; key.textSize = []; } else { key.textSize[index] = value; } },
+				labels : function() { key.labels[index] = value; },
 				stepped : function() {
 					key[prop] = value;
 					if(value && key.width === key.width2) {
@@ -364,7 +364,7 @@
 			if($scope.multi[prop] == null || $scope.selectedKeys.length <= 0) {
 				return;
 			}
-			var value = index !== undefined ? $scope.multi[prop][Math.max(index,0)] : $scope.multi[prop];
+			var value = index < 0 ? $scope.multi.default[prop] : (index !== undefined ? $scope.multi[prop][index] : $scope.multi[prop]);
 			var valid = validate($scope.multi, prop, value);
 			if(valid !== value) {
 				return;
@@ -372,7 +372,7 @@
 
 			transaction("update", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					update(selectedKey, prop, $scope.multi[prop], index);
+					update(selectedKey, prop, value, index);
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -383,12 +383,14 @@
 			if($scope.multi[prop] == null) {
 				$scope.multi[prop] = "";
 			}
-			var value = index !== undefined ? $scope.multi[prop][Math.max(index,0)] : $scope.multi[prop];
+			var value = index < 0 ? $scope.multi.default[prop] : (index !== undefined ? $scope.multi[prop][index] : $scope.multi[prop]);
 			var valid = validate($scope.multi, prop, value);
 			if(valid !== value) {
-				if(index !== undefined)
-					$scope.multi[prop][Math.max(index,0)] = valid;
-				else 
+				if(index < 0)
+					$scope.multi.default[prop] = valid;
+				else if(index !== undefined)
+					$scope.multi[prop][index] = valid;
+				else
 					$scope.multi[prop] = valid;
 				$scope.updateMulti(prop, index);
 			}
@@ -409,8 +411,9 @@
 			transaction("swapColors", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					var temp = selectedKey.color;
-					selectedKey.color = selectedKey.textColor[0];
-					selectedKey.textColor = [temp];
+					selectedKey.color = selectedKey.default.textColor;
+					selectedKey.default.textColor = temp;
+					selectedKey.textColor = [];
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -428,10 +431,12 @@
 			transaction("color-swatch", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					if(isText) {
-						if(textIndex<0)
-							selectedKey.textColor = [color.css];
-						else
+						if(textIndex<0) {
+							selectedKey.default.textColor = color.css;
+							selectedKey.textColor = [];
+						}	else {
 							selectedKey.textColor[textIndex] = color.css;
+						}
 					} else {
 						selectedKey.color = color.css;
 					}
