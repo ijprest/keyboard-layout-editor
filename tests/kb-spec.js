@@ -47,6 +47,23 @@ describe('keyboard-layout-editor', function() {
     });
   });
 
+  describe('text positioning', function() {
+    it('alignment flags', function() {
+      browser.get(home + "##@@_a:0%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:1%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:2%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:3%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4%3B&@_a:4%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:5%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:6%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:7%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4");
+      kbScreenshot();
+    });
+
+    it('legend sizes', function() {
+      browser.get(home + "##@@_a:0&f:5&f2:1%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:1%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:2%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:3%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4%3B&@_a:4%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:5%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:6%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_a:7%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4");
+      kbScreenshot();
+    });
+
+    it('color overrides', function() {
+      browser.get(home + "##@@_t=%230000ff%0A%0A%23ff0000&a:0%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_t=%2300ff00%0A%0A%0A%0A%0A%0A%23ff0000&a:1%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_t=%230000ff%0A%0A%23ff0000&a:2%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_t=%2300ff00%0A%0A%0A%0A%23ff0000&a:3%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4");
+      kbScreenshot();
+    });
+  });
+
   // Check for exceptions thrown during each scenario
   afterEach(function() {
     browser.manage().logs().get('browser').then(function(browserLog) {
