@@ -7,3 +7,6 @@ jsonl.min.js
 jsonl.js
 *.sublime-workspace
 *~
+node_modules/
+npm-debug.log
+bower_components/

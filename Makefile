@@ -2,7 +2,7 @@ ifeq ($(OS),Windows_NT)
 export NODE_PATH=$(APPDATA)/npm/node_modules
 endif
 
-all: js css fonts
+all: js css
 
 # Rules to minify our .js files
 js: js/jsonl.min.js
@@ -51,3 +51,13 @@ $(call CUSTOM_FONT,kbd-custom,$(kbd-custom-glyphs))
 
 test:
 	protractor tests/conf.js
+
+install:
+	bower install
+	cd bower_components/angular-ui-bootstrap
+	npm install
+	grunt before-test after-test
+	cd ../angular-ui-utils
+	npm install
+	grunt build
+	cd ../..
