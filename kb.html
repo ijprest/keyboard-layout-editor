@@ -26,7 +26,7 @@ All rights reserved.
 <script type="text/javascript" src="bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js"></script>
 <script type="text/javascript" src="bower_components/doT/doT.min.js"></script>
 <script type="text/javascript" src="bower_components/URLON/src/urlon.js"></script>
-<script type="text/javascript" src="bower_components/cssparser/lib/cssparser.js"></script>
+<script type="text/javascript" src="bower_components/cssparser/lib/cssparser.js"></script><script type="text/javascript">$cssParser = parser;</script>
 <script type="text/javascript" src="js/color.js"></script>
 <script type="text/javascript" src="js/jsonl.min.js"></script>
 <script type="text/javascript" src="extensions.js"></script>
@@ -41,7 +41,7 @@ All rights reserved.
                   112 : 'showHelp($event)',
                   118 : 'showOptions($event)',
                   'ctrl-83' : 'save($event)' }">
-<link rel="stylesheet" type="text/css" href="{{keyboard.meta.css}}">
+<style type="text/css" ng-bind-html="customStyles"></style>
 <div id="wrap">
 <!--***********************************************
 Nav Bar / Header
@@ -208,6 +208,7 @@ Nav Bar / Header
   <ul class="nav nav-tabs" ng-cloak>
     <li ng-class="{active:selTab==0}"><a ng-click="selTab=0" data-toggle="tab"><i class="fa fa-edit"></i> Properties</a></li>
     <li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="fa fa-keyboard-o"></i> Keyboard Properties</a></li>
+    <li ng-class="{active:selTab==3}"><a ng-click="selTab=3" data-toggle="tab"><i class="fa fa-file-text-o"></i> Custom Styles</a></li>
     <li ng-class="{active:selTab==2}"><a ng-click="selTab=2" data-toggle="tab"><i class="fa fa-code"></i> Raw data</a></li>
   </ul>
   <div id="tab-content" class='col-md-12 col-lg-12 row' ui-keydown="{esc:'focusKb()'}" ng-cloak>
@@ -517,6 +518,19 @@ Nav Bar / Header
           </div>
         </div>
       </form>
+    </div>
+
+    <!-- CUSTOM STYLES EDITOR -->
+    <div id="tab-customstyles" ng-class="{hidden:selTab!=3}">
+      <div ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
+        <textarea id="customstyles" spellcheck="false" ng-model="meta.css" ng-change="updateCustomStyles()" ng-class="{error:customStylesException!==''}" rows="15"></textarea>
+      </div>
+      <div style='text-align:right;margin-top:4px;'>
+        <div class="btn-group btn-group-xs" role="group">
+          <a class="btn btn-primary" href="https://github.com/ijprest/keyboard-layout-editor/wiki/Custom-Styles" target='_blank'><i class="fa fa-question-circle"></i> Custom Styles Syntax</a>
+        </div>
+      </div>
+      <div id="customstyles-error" class="alert alert-danger" style='margin-top:1em;margin-bottom:0px' ng-class="{hidden:!customStylesException}">{{customStylesException}}</div>
     </div>
 
     <!-- RAW DATA EDITOR -->

@@ -16,11 +16,12 @@
 	// The main application controller
 	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', '$modal', function($scope, $http, $location, $timeout, $sce, $sanitize, $modal) {
 		var serializedTimer = false;
+		var customStylesTimer = false;
 
 		// The application version
 		$scope.version = "0.12";
 
-		// The selected tab; 0 == Properties, 1 == Kbd Properties, 2 == Raw Data
+		// The selected tab; 0 == Properties, 1 == Kbd Properties, 3 == Custom Styles, 2 == Raw Data
 		$scope.selTab = 0;
 
 		// An array used to keep track of the selected keys
@@ -218,6 +219,7 @@
 				renderKey(key);
 			});
 			$scope.meta = angular.copy($scope.keyboard.meta);
+			$scope.customStyles = $sce.trustAsHtml($renderKey.renderCSS($scope.meta.css));
 		};
 
 		function updateSerialized() {
@@ -654,6 +656,25 @@
 					$scope.unselectAll();
 				} catch(e) {
 					$scope.deserializeException = e.toString();
+				}
+			}, 1000);
+		};
+
+		$scope.customStylesException = "";
+		$scope.customStyles = "";
+		$scope.updateCustomStyles = function() {
+			if(customStylesTimer) {
+				$timeout.cancel(customStylesTimer);				
+			}
+			customStylesTimer = $timeout(function() {
+				try {
+					$scope.customStylesException = "";
+					transaction("customstyles", function() {
+						$scope.customStyles = $sce.trustAsHtml($renderKey.renderCSS($scope.meta.css));
+						$scope.updateMeta('css');
+					});
+				} catch(e) {
+					$scope.customStylesException = e.toString();
 				}
 			}, 1000);
 		};

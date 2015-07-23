@@ -205,4 +205,37 @@ var $renderKey = {};
 	  });
 	};
 
+	$renderKey.renderCSS = function(css) {
+		if(css) {
+			var rules = $cssParser.parse(css);
+			if(rules) {
+				// Sanitize the CSS
+				rules.rulelist.forEach(function(rule) {
+					if(rule.type === "style") {
+						rule.selector = "#keyboard .keycap " + rule.selector.split(',').join(", #keyboard .keycap ");
+					}
+				})
+
+				// Re-stringify the sanitized CSS
+				css = "";
+				var render = function(name, decls) {
+					css += name + " { ";
+					for (var decl in decls) {
+						css += decl + ": " + decls[decl] + "; ";
+					}
+					css += "}\n";
+				};
+				rules.rulelist.forEach(function(rule) {
+					if(rule.type === "style") {
+						render(rule.selector, rule.declarations);
+					} else if(rule.type === "fontface") {
+						render("@font-face", rule.declarations);
+					}
+				});
+				return css;
+			}
+		}
+		return "";
+	};
+
 }());
