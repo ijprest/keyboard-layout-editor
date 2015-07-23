@@ -29,5 +29,6 @@ The following third-party software packages were used in the creation of keyboar
 * [Jison](http://zaach.github.io/jison/) (JavaScript parser generator)
 * [Hint.css](http://kushagragour.in/lab/hint/) (CSS-only tooltips)
 * [doT.js](http://olado.github.io/doT/) (fast micro-templating)
+* [cssparser](https://github.com/cwdoh/cssparser.js)
 * [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
 * [C64 TrueType Font](http://style64.org/c64-truetype) font (by [Style64.org](https://www.style64.org))
