@@ -1,0 +1,46 @@
+{
+  "name": "keyboard-layout-editor",
+  "version": "0.12.0",
+  "homepage": "http://www.keyboard-layout-editor.com",
+  "authors": [
+    "Ian Prest <github.com@ian.prest.ca>"
+  ],
+  "description": "A website to edit layouts for physical computer keyboards.",
+  "main": "kb.html",
+  "keywords": [
+    "keyboard",
+    "layout",
+    "editor"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "fonts/EngraversGothic-Regular-webfont.*",
+    "aws-private-key.txt",
+    "mongoose.conf",
+    "mongoose*.exe"
+  ],
+  "dependencies": {
+    "angular": "1.2.28",
+    "angular-sanitize": "1.2.28",
+    "angular-ui-utils": "0.0.4",
+    "angular-bootstrap-colorpicker": "3.0.18",
+    "bootstrap": "3.3.5",
+    "doT": "olado/doT#195025f06055761f6da3a900251382e788c42d0e",
+    "FileSaver": "eligrey/FileSaver.js#e3485a652bc3387b5df9c133c184ae0753cf30de",
+    "URLON": "vjeux/URLON#d61369643d6a3aa382e8d1ae14e42cb077fa7c87",
+    "angular-native-dragdrop": "angular-dragdrop/angular-dragdrop#1.0.6",
+    "jquery": "2.0.2",
+    "marked": "0.3.3",
+    "crypto-js": "3.1.5",
+    "ng-file-upload": "5.0.9",
+    "angular-ui-bootstrap": "0.12.0",
+    "fontawesome": "4.3.0",
+    "hint.css": "1.3.5"
+  }
+}

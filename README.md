@@ -20,3 +20,33 @@ Links
 * [Changelog](CHANGELOG.md)
 * [Contributors](CONTRIB.md)
 * [License](LICENSE.md)
+
+Getting Started for Developers
+------------------------------
+Want to play around with the source?  Install the tools, clone the repository,
+then build / test.
+
+Required Tools:
+
+* NodeJS/NPM: https://nodejs.org/
+* GNU Make: http://www.gnu.org/software/make/
+* Bower: ```npm install -g bower```
+* Grunt: ```npm install -g grunt-cli```
+* Protractor: ```npm install -g protractor```
+* Uglifyjs: ```npm install -g uglifyjs```
+* Stylus: ```npm install -g stylus```
+* Jison: ```npm install -g jison```
+
+Installing prerequisite components (once):
+
+* ```make install```
+
+Build:
+
+* ```make```
+
+Test:
+
+* ```webdriver-manager update```
+* ```webdriver-manager start```
+* ```make test```
