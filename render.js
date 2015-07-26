@@ -1,4 +1,4 @@
-var $renderKey = {};
+var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 (function () {
 	"use strict";
 
