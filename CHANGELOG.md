@@ -1,3 +1,20 @@
+___Version 0.13:___ Jul 27, 2015
+* Big changes to the UI for entering text legends:
+  * Nobody understood the centering checkboxes... they're gone now.
+  * You can now put text legends in any position, in any combination.
+  * You can override the color & font-size on any legend, in any combination.
+  * The alignment flags are still used in the raw-data; should be fully
+    backwards-compatible with your old saved layouts.
+* Added the ability to make keys into "homing" keys, which usually adds a "nub"
+  to the key, except in SA/DSA where they render as a deep-dish key.
+* SA profile rendering tweaked to be slightly different from DSA (sits higher)
+* New OEM profile (renders the same as DCS).
+* Experimental SVG export!
+  * No text labels, no homing-key support, not to scale
+* Fixed an issue generating bad permalinks (#83).
+* A bunch of under-the-hood changes to the code & engineering process to make 
+  future changes easier.
+
 ___Version 0.12:___ Jul 5, 2015
 * Added the ability to set different colors on each label.
   * Useful for certain foreign-language keyboards that have multi-colored 
