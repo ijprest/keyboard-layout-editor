@@ -92,8 +92,8 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 	$serial.sortKeys = function(keys) {
 		keys.sort(function(a,b) {
 			return ((a.rotation_angle+360)%360 - (b.rotation_angle+360)%360) ||
-				   (a.rotation_x - b.rotation_x) || 
-				   (a.rotation_y - b.rotation_y) || 
+					 (a.rotation_x - b.rotation_x) ||
+					 (a.rotation_y - b.rotation_y) ||
 					 (a.y - b.y) ||
 					 (a.x - b.x);
 		});
