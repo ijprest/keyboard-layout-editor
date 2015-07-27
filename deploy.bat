@@ -1,10 +1,11 @@
 @echo off
-aws s3 sync . s3://www.keyboard-layout-editor.com ^
-	--acl public-read ^
-	--exclude aws-private-key.txt ^
-	--exclude *.py ^
-	--exclude mongoose* ^
-	--exclude .git* ^
-	--exclude *.bat ^
-	--exclude upload-policy.txt ^
-	%*
+SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
+set PARMS=
+if "%1"=="" SET PARMS=--dryrun
+for %%Q IN (css js fonts samples) DO (
+  aws s3 sync .\%%Q s3://www.keyboard-layout-editor.com/%%Q --acl public-read %PARMS%
+)
+for %%Q IN (kb.html kb.js render.js serial.js extensions.js *.md *.json favicon.ico) DO (
+  aws s3 cp .\%%Q s3://www.keyboard-layout-editor.com/%%Q --acl public-read %PARMS%
+)
+goto :EOF

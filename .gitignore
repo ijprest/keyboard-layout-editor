@@ -15,11 +15,12 @@ npm-debug.log
 bower_components/
 
 # Generated files
-fonts/kbd-custom.*
-js/jsonl.min.js
-js/jsonl.js
-css/kb.css
-css/kb.css.map
+js/*
+css/*
+fonts/*
 
 # Backup/temporary files
 *~
+
+# Saved layouts
+layouts/
