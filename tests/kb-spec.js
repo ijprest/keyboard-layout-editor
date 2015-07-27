@@ -57,8 +57,18 @@ describe('keyboard-layout-editor', function() {
       kbScreenshot();
     });
 
+    it('legend sizes generic', function() {
+      browser.get("##@@_a:0&f:1&fa@:0&:7&:3&:9&:0&:0&:4&:6&:2&:5&:8%3B&w:1.75&h:1.75%3B&=1%0A7%0A3%0A9%0A10%0A12%0A4%0A6%0A2%0A5%0A8%0A11");
+      kbScreenshot();
+    })
+
     it('color overrides', function() {
       browser.get("##@@_t=%230000ff%0A%0A%23ff0000&a:0%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_t=%2300ff00%0A%0A%0A%0A%0A%0A%23ff0000&a:1%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_t=%230000ff%0A%0A%23ff0000&a:2%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4&_t=%2300ff00%0A%0A%0A%0A%23ff0000&a:3%3B&=1%0A5%0A2%0A6%0A7%0A8%0A3%0A4");
+      kbScreenshot();
+    });
+
+    it('color overrides generic', function() {
+      browser.get("##@@_c=%23666666&t=%23ff0000%0A%23808080%0A%23ffff00%0A%23008000%0A%230000ff%0A%23ff8080%0A%2300ff00%0A%23000000%0A%2300ffff%0A%23ff00ff%0A%23800080%0A%23808000&a:0&w:1.75&h:1.75%3B&=1%0A7%0A3%0A9%0A10%0A12%0A4%0A6%0A2%0A5%0A8%0A11");
       kbScreenshot();
     });
   });
