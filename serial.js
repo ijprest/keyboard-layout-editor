@@ -166,7 +166,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 		var keys = keyboard.keys;
 		var rows = [], row = [];
 		var current = $serial.defaultKeyProps();
-		current.textColor = '';
+		current.textColor = current.default.textColor;
 		current.align = 4;
 		var cluster = {r:0, rx:0, ry:0};
 
@@ -221,6 +221,15 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 			current.y += serializeProp(props, "y", key.y-current.y, 0);
 			current.x += serializeProp(props, "x", key.x-current.x, 0) + key.width;
 			current.color = serializeProp(props, "c", key.color, current.color);
+			if(!ordered.textColor[0]) {
+				ordered.textColor[0] = key.default.textColor;
+			} else {
+				for(var i = 2; i < 12; ++i) {
+					if(!ordered.textColor[i] && ordered.textColor[i] !== ordered.textColor[0]) {
+						ordered.textColor[i] !== key.default.textColor;
+					}
+				}
+			}
 			current.textColor = serializeProp(props, "t", ordered.textColor.join("\n").trimEnd(), current.textColor);
 			current.ghost = serializeProp(props, "g", key.ghost, current.ghost);
 			current.profile = serializeProp(props, "p", key.profile, current.profile);
