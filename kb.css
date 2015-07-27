@@ -24,7 +24,7 @@ html, body {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;  
+  -ms-user-select: none;
   user-select: none;
   cursor: default;
 }
@@ -49,8 +49,8 @@ html, body {
 /* The keyboard background */
 #keyboard {
   padding: 9px;
-  position: relative; 
-  border: solid 1px #ddd; 
+  position: relative;
+  border: solid 1px #ddd;
   border-radius: 6px;
   background-color: #eee;
   min-height: 56px;
@@ -70,35 +70,42 @@ html, body {
 
 /* Key labels */
 .keylabel>div { display: table-cell; position: static !important; }
-.keylabel3>div, .keylabel4>div, .keylabel6>div, .keylabel8>div { text-align: right; }
-.keylabel7>div, .keylabel8>div { vertical-align: middle; }
-.keylabel2>div, .keylabel4>div { vertical-align: bottom; }
-.keylabel5, .keylabel6 { top: 100%; margin-top: -1px; font-size: 10px !important; white-space: nowrap; overflow: hidden;}
-.keylabel1.centerx-true>div, .keylabel2.centerx-true>div, .keylabel5.centerf-true>div, .keylabel7.centerx-true>div { text-align: center; }
-.keylabel1.centery-true>div, .keylabel3.centery-true>div { vertical-align: middle; }
-
+/* Vertical alignment */
+.keylabel0>div, .keylabel1>div, .keylabel2>div { vertical-align: top; }
+.keylabel3>div, .keylabel4>div, .keylabel5>div { vertical-align: middle; }
+.keylabel6>div, .keylabel7>div, .keylabel8>div { vertical-align: bottom; }
+.keylabel9, .keylabel10, .keylabel11 { top: 100%; margin-top: -1px; font-size: 10px !important; max-height: 1em !important; white-space: nowrap; overflow: hidden; }
+/* Horizontal  alignment */
+.keylabel0>div, .keylabel3>div, .keylabel6>div, .keylabel9>div { text-align: left; }
+.keylabel1>div, .keylabel4>div, .keylabel7>div, .keylabel10>div { text-align: center; }
+.keylabel2>div, .keylabel5>div, .keylabel8>div, .keylabel11>div { text-align: right; }
+/* Label Sizes */
 for i in (1..9) {
   .keylabel.textsize{i} {
-    font-size: (6+2*i)px; 
+    font-size: (6+2*i)px;
     line-height: 1em;
   }
 }
 .keylabels { font-family: "Helvetica", "Arial", sans-serif; }
 .keylabel hr { display: inline; }
-.keylabel hr:before { 
-  position: relative; 
-  display: block; 
-  overflow: hidden; 
-  white-space: nowrap; 
-  content: "\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500"; 
+.keylabel hr:before {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  content: "\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500\2500";
 }
 
 /* Keycap-Profile Modifications */
 .SA .keylabels, .DSA .keylabels {
   font-family: 'engravers_gothic_fsregular'; /* substitute for Gorton Modified */
 }
-  
-.DSA .keylabel5, .DSA .keylabel6, .SA .keylabel5, .SA .keylabel6 { margin-top: -2px; font-size: 9px !important; }
+
+.DSA .keylabel9, .DSA .keylabel10, .DSA .keylabel11,
+.SA .keylabel9, .SA .keylabel10, .SA .keylabel11 {
+  margin-top: -2px; 
+  font-size: 9px !important;
+}
 .DCS .keytop, .OEM .keytop {
   background: linear-gradient(to right, #00000000 0%, #0000001A 40%, #0000001A 60%, #00000000 100%);
   background-repeat: no-repeat;
@@ -123,7 +130,7 @@ for i in (1..9) {
 }
 .DSA.HOMING .keylabels, .SA.HOMING .keylabels { background-image: none; }
 
-span.PETSCII { 
+span.PETSCII {
   font-family: "C64ProMono";
   font-size: 6px !important;
   border: solid 1px;
@@ -134,14 +141,14 @@ span.PETSCII {
 
 /* color swatches */
 #swatches { list-style-type: none; margin: 0px; padding: 0px; }
-.swatch { 
-  display: inline-block; 
+.swatch {
+  display: inline-block;
   position: relative;
-  width: 16px; 
-  height: 32px; 
-  border: solid 1px #888; 
+  width: 16px;
+  height: 32px;
+  border: solid 1px #888;
   margin-right: -1px;
-  margin-bottom: -6px; 
+  margin-bottom: -6px;
   padding: 0px;
 }
 #swatches.disabled .swatch { background-color: rgb(235,235,228) !important; }
@@ -155,7 +162,7 @@ span.PETSCII {
 .hidden { display: none; }
 .error { border: solid 2px rgb(217,83,79); }
 #selectionRectangle { position: absolute; border: dashed 2px red; }
-#rotationCrosshairs {   
+#rotationCrosshairs {
   display: none;
   position: absolute;
   margin: 0px;
@@ -209,12 +216,12 @@ span.PETSCII {
   #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog, #markdownDialog { display: none; margin: 0 !important; padding: 0 !important; }
   div.body { margin: 0 !important; padding: 0 !important; }
   a { color: black; text-decoration: none; }
-  #keyboard { 
-    border: none; 
-    background-color: inherit !important; 
-    transform: scale(0.75,0.75); 
+  #keyboard {
+    border: none;
+    background-color: inherit !important;
+    transform: scale(0.75,0.75);
     position: absolute !important;
-    left: 0px; 
+    left: 0px;
     top: 0px;
     padding-left: 0px; padding-top: 0px;
   }
@@ -234,3 +241,10 @@ span.PETSCII {
 
 #swap-colors { position: absolute; top: 11px; left: 200px; z-index: 1; }
 .color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }
+
+.use-default:after {
+  content: "\d7"; /* &times; */
+  right: 0px;
+  bottom: -4px;
+  position: absolute;
+}

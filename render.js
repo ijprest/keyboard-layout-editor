@@ -138,15 +138,9 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 	};
 
 	// Given a key, generate the HTML needed to render it
-	$renderKey.noRenderText = [0,2,1,3,0,4,2,3];
 	$renderKey.html = function(key, $sanitize) {
 		var sizes = unitSizes.px[getProfile(key)]; // always in pixels
 		var parms = getRenderParms(key, sizes);
-
-		// Update the key alignment flags (UI depends on these being up-to-date)
-		key.centerx = key.align&1 ? true : false;
-		key.centery = key.align&2 ? true : false;
-		key.centerf = key.align&4 ? true : false;
 
 		// Update the rects & bounding-box of the key (for click-selection purposes)
 		key.rect = parms.rect;
