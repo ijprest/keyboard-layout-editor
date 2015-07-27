@@ -863,7 +863,7 @@
 		};
 
 		$scope.showHelp = function(event) {
-			if(!event.srcElement || (event.srcElement.nodeName !== "INPUT" && event.srcElement.nodeName !== "TEXTAREA")) {
+			if(!document.activeElement || (document.activeElement.nodeName !== "INPUT" && document.activeElement.nodeName !== "TEXTAREA")) {
 				if(activeModal) activeModal.dismiss('cancel');
 				activeModal = $modal.open({
 					templateUrl:"helpDialog.html",

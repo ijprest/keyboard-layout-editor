@@ -15,10 +15,31 @@ describe('keyboard-layout-editor', function() {
     capture.snap(getSpecName(), $('#keyboard'));
   };
 
+  beforeEach(function() {
+    // Hacky workaround to prevent alert dialogs from breaking all the tests
+    browser.executeScript("window.onbeforeunload = function(){};");
+  });
+
   // Simple launch test
   it('should launch without an error', function() {
     browser.get('');
     kbScreenshot();
+  });
+
+  describe('show-help', function() {
+    it('should appear I press "?"', function() {
+      browser.get('');
+      element(by.css('body')).sendKeys('?'); // try to type a question-mark
+      expect(element(by.css('.modal-dialog')).isPresent()).toBeTruthy();
+    });
+
+    it('should not appear when I press "?" in an edit field', function() {
+      browser.get('');
+      element(by.id('keyboard')).sendKeys('j'); // select a key
+      element(by.id('labeleditor0')).sendKeys('?'); // try to type a question-mark
+      expect(element(by.css('.modal-dialog')).isPresent()).toBeFalsy();
+      expect(element(by.id('labeleditor0')).getAttribute('value')).toContain('?');
+    });
   });
 
   // Test renderings of various samples
