@@ -240,7 +240,12 @@
 				$scope.deserializeAndRender($serial.fromJsonL(loc));
 			}
 		} else if($location.path()[0] === '/') {
-			$http.get($serial.base_href + $location.path()).success(function(data) {
+			var base = $serial.base_href;
+			if($location.path().substring(0,8) === '/samples') {
+				// Load samples from local folder
+				base = ''; 
+			}
+			$http.get(base + $location.path()).success(function(data) {
 				$scope.deserializeAndRender(data);
 				updateSerialized();
 			}).error(function() {
