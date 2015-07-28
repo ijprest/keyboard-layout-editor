@@ -1,12 +1,26 @@
+# Testing files
 mongoose.conf
 mongoose*.exe
-aws-private-key.txt
+
+# Private data
 fonts/EngraversGothic-Regular-webfont.*
-fonts/kbd-custom.*
-jsonl.min.js
-jsonl.js
+aws-private-key.txt
+
+# Per-user stuff
 *.sublime-workspace
-*~
+
+# NPM & Bower installations
 node_modules/
 npm-debug.log
 bower_components/
+
+# Generated files
+js/*
+css/*
+fonts/*
+
+# Backup/temporary files
+*~
+
+# Saved layouts
+layouts/
