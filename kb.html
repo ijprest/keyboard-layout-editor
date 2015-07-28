@@ -147,7 +147,8 @@ Nav Bar / Header
   ************************************************-->
   <div id="keyboard" ng-cloak
      tabindex="0"
-     ng-style="{height: kbHeight + 'px', 'background-color': keyboard.meta.backcolor}"
+     ng-style="{height: kbHeight + 'px', 'background-color': keyboard.meta.backcolor, 'background-image':'url(' + keyboard.meta.backgroundimage + ')','width': keyboard.meta.backgroundimagewidth + 'px',
+		  'border-radius': keyboard.meta.backgroundradii }"
      ui-keydown="{ left:'moveKeys(-moveStep,0,$event)',
                  right:'moveKeys(moveStep,0,$event)',
                  up:'moveKeys(0,-moveStep,$event)',
@@ -460,6 +461,73 @@ Nav Bar / Header
                                 ng-blur="validateMeta('backcolor')"
                                 hint-text="Specify the background color for the keyboard."></kbd-color-picker>
             </div>
+          </div>
+        </div>
+
+        <!-- Keyboard background image src-->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdbackgroundimageeditor">Case Image:</label>
+
+          <div class="col-md-1 col-lg-1 form-outdent hint--top hint--rounded"
+               data-hint="Specify the background image for this keyboard layout.">
+            <select id="kbdbackgroundimageeditor" class="form-control input-sm dropdown"
+                   ng-model="meta.backgroundimage"
+                   ng-change="updateMeta('backgroundimage')"
+                   ng-blur="validateMeta('backgroundimage')">
+                   <option value="">None</option>
+                   <option value="" class="bg-dropdown-header-carbon">Carbon fibre</option>
+		   <option ng-repeat="(k,v) in carbonfibre" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header-leather">Leather</option>
+		   <option ng-repeat="(k,v) in leather" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header-marble">Marble</option>
+		   <option ng-repeat="(k,v) in marble" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header-metal">Metal</option>
+		   <option ng-repeat="(k,v) in metal" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header-plastic">Plastic ABS 'white'</option>
+		   <option ng-repeat="(k,v) in plasticABSwhite" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header-plastic">Plastic PBT 'brown_black'</option>
+		   <option ng-repeat="(k,v) in plasticPBTbrown_black" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header-plastic">Plastic PBT 'white'</option>
+		   <option ng-repeat="(k,v) in plasticPBTwhite" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header-wood">Wood</option>
+		   <option ng-repeat="(k,v) in wood" value="{{v}}">{{k}}</option>
+	      </select>
+			
+          </div>
+        </div>
+
+
+        
+        
+        
+        <!-- Keyboard background image width-->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdbackgroundimagewidtheditor">Case Width:</label>
+
+          <div class="col-md-1 col-lg-1 form-outdent hint--top hint--rounded"
+               data-hint="Specify the width for the background image for this keyboard layout.">
+            <input id="kbdbackgroundimagewidtheditor" class="form-control input-sm" type='number'  min="1" max="2000" step="1" 
+                   ng-model="meta.backgroundimagewidth"
+                   ng-change="updateMeta('backgroundimagewidth')"
+                   ng-blur="validateMeta('backgroundimagewidth')">
+          </div>
+        </div>
+
+        <!-- Keyboard background image corners radii-->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdbackgroundradii">Case Radii:</label>
+
+          <div class="col-md-2 col-lg-2 form-outdent hint--top hint--rounded"
+               data-hint="Specify the corner radii for this keyboard background/case. Format is CSS3. Some examples:
+               20px  (all corners rounded equally)
+               10px 10px 10px 10px (ditto, but less rounding)
+               10px 10px 10px 10px / 20px 20px 20px 20px
+               40% / 20px
+               30px 30px / 40%">
+            <input id="kbdbackgroundradiieditor" class="form-control input-sm" type='text'
+                   ng-model="meta.backgroundradii"
+                   ng-change="updateMeta('backgroundradii')"
+                   ng-blur="validateMeta('backgroundradii')"> 
           </div>
         </div>
 

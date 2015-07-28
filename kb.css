@@ -248,3 +248,46 @@ span.PETSCII {
   bottom: -4px;
   position: absolute;
 }
+
+/* make the background dropdown list headers stand out a bit */
+.bg-dropdown-header-wood {
+  background-color: #ccc;
+  background: url('../bg/wood/wood-slice.jpg');
+  color: #000; font-size: 1.618em;
+  text-align:  center;
+}
+
+.bg-dropdown-header-metal {
+  background-color: #ccc;
+  background: url('../bg/metal/metal-slice.jpg');
+  color: #fff; font-size: 1.618em;
+  text-align:  center;
+}
+
+.bg-dropdown-header-marble {
+  background-color: #ccc;
+  background: url('../bg/marble/marble-slice.jpg');
+  color: #fff; font-size: 1.618em;
+  text-align:  center;
+}
+
+.bg-dropdown-header-plastic {
+  background-color: #ccc;
+  background: url('../bg/plastic/plastic-slice.jpg');
+  color: #000; font-size: 1.618em;
+  text-align:  center;
+}
+
+.bg-dropdown-header-leather {
+  background-color: #ccc;
+  background: url('../bg/leather/leather-slice.jpg');
+  color: #fff; font-size: 1.618em;
+  text-align:  center;
+}
+
+.bg-dropdown-header-carbon {
+  background-color: #ccc;
+  background: url('../bg/carbonfibre/carbon-slice.jpg');
+  color: #fff; font-size: 1.618em;
+  text-align:  center;
+}
