@@ -169,6 +169,40 @@
 			$scope.samples = data.samples;
 		});
 
+		// Known keyswitches styles ... Only CherryMX and Alps for now
+		$scope.keyswitchstyles = {};
+		$http.get('switchstyles.json').success(function(data) {
+		  $scope.keyswitchstyles = data.styles; 
+		});
+
+		// Known keyswitches brands
+		$scope.CherryMX = {};
+		$scope.CherryML = {};
+		$scope.Alps = {};
+		$http.get('switchbrands.json').success(function(data) {
+		  $scope.CherryMX = data.CherryMX; 
+		  $scope.CherryML = data.CherryML; 
+		  $scope.Alps = data.Alps; 
+		});
+		
+		// Known keyswitches types
+		$scope.Cherry = {};
+		$scope.Gateron = {};
+		$scope.Kailh = {};
+		$scope.Gaote_Outemu = {};
+		$scope.Greetech = {};
+		$scope.Matias = {};
+		$scope.AlpsSwitches = {};
+		$http.get('switches.json').success(function(data) {
+		  $scope.Cherry = data.Cherry;
+		  $scope.Gateron = data.Gateron;
+		  $scope.Kailh = data.Kailh;
+		  $scope.Gaote_Outemu = data.Gaote_Outemu;
+		  $scope.Greetech = data.Greetech;
+		  $scope.AlpsSwitches = data.AlpsSwitches;
+		  $scope.Matias = data.Matias;
+		});
+		
 		// The currently selected palette
 		$scope.palette = {};
 

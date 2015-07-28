@@ -1,0 +1,60 @@
+{
+
+	"Cherry" : {
+		"MX Blue": "MX Blue",
+		"MX Black": "MX Black",
+		"MX Brown": "MX Brown",
+		"MX Clear": "MX Clear",
+		"MX Green": "MX Green",
+		"MX Linear Grey": "MX Linear Grey",
+		"MX Lock": "MX Lock",
+		"MX Red": "MX Red",
+		"MX RGB Black": "MX RGB Black",
+		"MX RGB Blue": "MX RGB Blue",
+		"MX RGB Brown": "MX RGB Brown",
+		"MX RGB Red": "MX RGB Red",
+		"MX Tactile Grey": "MX Tactile Grey",
+		"MX White": "MX White"
+	},
+	"Gaote_Outemu" : {
+		"Clear, Black Shaft": "Clear, Black Shaft",
+		"Clear, Red Shaft": "Clear, Red Shaft",
+		"Clear, Blue Shaft": "Clear, Blue Shaft",
+		"Clear, Brown Shaft": "Clear, Brown Shaft",
+		"Black, Black Shaft": "Black, Black Shaft",
+		"Black, Red Shaft": "Black, Red Shaft",
+		"Black, Blue Shaft": "Black, Blue Shaft",
+		"Black, Brown Shaft": "Black, Brown Shaft"
+	},
+	"Gateron" : {
+		"KS-3 Black Shaft (black)": "KS-3 Black Shaft (black)",
+		"KS-3 Green Axis (blue)": "KS-3 Green Axis (blue)",
+		"KS-3 Red Axis (red)": "KS-3 Red Axis (red)",
+		"KS-3 Tea Axis (brown)": "KS-3 Tea Axis (brown)",
+		"KS-3 Yellow (yellow)": "KS-3 Yellow (yellow)",
+		"KS-3 White Shaft (translucent white)": "KS-3 White Shaft (translucent white)"
+	},
+	"Greetech" : {
+		"GT02 Red stem": "GT02 Red stem",
+		"GT02 Blue stem + pins": "GT02 Blue stem + pins",
+		"GTO2 Brown stem": "GTO2 Brown stem",
+		"GTO2 Black stem + pins + diode": "GTO2 Black stem + pins + diode",
+		"GTO2 Black stem + pins": "GTO2 Black stem + pins"
+	},
+	"Kailh" : {
+		"PG1511 Black": "PG1511 Black",
+		"PG1511 Blue": "PG1511 Blue",
+		"PG1511 Brown": "PG1511 Brown",
+		"PG1511 Red": "PG1511 Red"
+	},
+	"AlpsSwitches" : {
+		"SKCL/SKCM": "SKCL/SKCM",
+		"SKBL/SKBM": "SKBL/SKBM"
+	},
+	"Matias" : {
+		"Click": "Click",
+		"Linear": "Linear",
+		"Quiet Click": "Quiet Click"
+	}
+}
+

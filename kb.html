@@ -487,6 +487,53 @@ Nav Bar / Header
           </div>
         </div>
 
+        <!-- Default keyswitch options-->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="defaultkeyswitchstyleeditor">Default switch:</label>
+
+        <!-- Default keyswitch style-->
+         <div class=" col-md-4 col-lg-4">
+          <div class="form-inline  form-outdent  hint--top hint--rounded"
+               data-hint="Specify the default styleof key switch for this keyboard layout.">
+            <select id="defaultkeyswitchstyleeditor" class="form-control input-sm dropdown"
+                   ng-model="meta.defaultkeyswitchstyle"
+                   ng-change="updateMeta('defaultkeyswitchstyle')"
+                   ng-blur="validateMeta('defaultkeyswitchstyle')">
+                   <option value="" class="dropdown-header">Style</option>
+		   <option ng-repeat="(k,v) in keyswitchstyles" value="{{v}}">{{k}}</option>
+                   </select>
+                   
+          </div>
+        
+        <!-- Default keyswitch brand-->
+          <div class="hint--top hint--rounded"
+               data-hint="Specify the default brand of key switch for this keyboard layout.">
+            <select id="defaultkeyswitchbrandeditor" class="form-control input-sm dropdown"
+                   ng-model="meta.defaultkeyswitchbrand"
+                   ng-change="updateMeta('defaultkeyswitchbrand')"
+                   ng-blur="validateMeta('defaultkeyswitchbrand')">
+                   <option value="" class="dropdown-header">Brand</option>
+		   <option ng-repeat="(k,v) in $eval(meta.defaultkeyswitchstyle)" value="{{v}}" ng-selected="'{{meta.defaultkeyswitchbrand}}' == '{{v}}'">{{k}}</option>
+		   <!--<option ng-repeat="(k,v) in keyswitchbrands" value="{{v}}">{{k}}</option>-->
+                   </select>
+                   
+          </div>
+
+        <!-- Default keyswitch type-->
+          <div class=" hint--top hint--rounded"
+               data-hint="Specify the default type of key switch for this keyboard layout.">
+            <select id="defaultkeyswitchtypeeditor" class="form-control input-sm dropdown"
+                   ng-model="meta.defaultkeyswitchtype"
+                   ng-change="updateMeta('defaultkeyswitchtype')"
+                   ng-blur="validateMeta('defaultkeyswitchtype')">
+                   <option value="" class="dropdown-header">Switch type</option>
+		   <option ng-repeat="(k,v) in $eval(meta.defaultkeyswitchbrand)" value="{{v}}" ng-selected="'{{meta.defaultkeyswitchtype}}' == '{{v}}'">{{k}}</option>
+                   </select>
+                   
+          </div>
+        </div>
+       </div>
+
         <!-- Notes -->
         <div class="form-group form-group-sm">
           <label class="control-label col-md-2 col-lg-1 text-nowrap" for="noteseditor">Notes:</label>
