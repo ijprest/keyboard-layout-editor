@@ -74,6 +74,7 @@ $(call BOWER,bower_components/marked/marked.min.js)
 $(call BOWER,bower_components/FileSaver/FileSaver.min.js)
 $(call BOWER,bower_components/doT/doT.min.js)
 $(call BOWER,bower_components/URLON/src/urlon.js)
+$(call BOWER,bower_components/cssparser/lib/cssparser.js)
 
 
 # Rules to generate a webfont from our source .svg files
