@@ -51,8 +51,8 @@ range         [uU]'+'({hex}{1,6}('-'{hex}{1,6})?|'?'{6}|{hex}'?'{5}|{hex}{2}'?'{
 %%
 
 stylesheet
-  : WS EOF                                                        { return $$ = {}; }
-  | stylesheet_content WS EOF                                     { return $$ = ($stylesheet_content && $stylesheet_content.length) ? { rules:$stylesheet_content } : {}; }
+  : WS EOF                                                        { return $$ = []; }
+  | stylesheet_content WS EOF                                     { return $$ = ($stylesheet_content && $stylesheet_content.length) ? $stylesheet_content : []; }
   ;
 
 stylesheet_content
