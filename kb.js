@@ -171,8 +171,10 @@
 			$scope.samples = data.samples;
 		});
 
-		// The currently selected palette
+		// The currently selected palette & character-picker
 		$scope.palette = {};
+		$scope.picker = {};
+		$scope.pickerSelection = {};
 
 		// The set of known palettes
 		$scope.palettes = {};
@@ -183,6 +185,12 @@
 					color.css = $color.sRGB8(color.r,color.g,color.b).hex();
 				});
 			});
+		});
+
+		// The set of known character pickers
+		$scope.pickers = {};
+		$http.get('pickers.json').success(function(data) {
+			$scope.pickers = data;
 		});
 
 		// A set of "known special" keys
@@ -444,6 +452,10 @@
 			});
 		};
 
+		$scope.pickerSelect = function(glyph) {
+			$scope.pickerSelection = glyph;
+		};
+
 		$scope.clickSwatch = function(color,$event) {
 			$scope.dropSwatch(color,$event,$event.ctrlKey || $event.altKey,-1);
 		};
@@ -553,6 +565,12 @@
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 			$scope.calcKbHeight();
+		};
+
+		$scope.loadCharacterPicker = function(picker) {
+			$scope.picker = picker;
+			$scope.pickerFilter = '';
+			$scope.pickerSelection = {};
 		};
 
 		$scope.loadPalette = function(p) {

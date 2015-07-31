@@ -82,6 +82,13 @@ Nav Bar / Header
           <li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
         </ul>
       </li>
+
+      <li class="dropdown" dropdown>
+        <a class="dropdown-toggle" dropdown-toggle><i class="fa fa-font"></i> Character Picker <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li ng-repeat="picker in pickers"><a ng-click="loadCharacterPicker(picker)" href="#">{{picker.name}}</a></li>
+        </ul>
+      </li>
     </ul>
 
     <!-- Right-aligned NavBar buttons -->
@@ -440,6 +447,7 @@ Nav Bar / Header
 
       </form>
 
+      <!-- Color Palette -->
       <div class="col-md-4 col-lg-4" ng-class="{hidden:!palette.name}">
         {{palette.name}} <a ng-href='{{palette.href}}' data-hint="{{palette.description}}" class="hint--top hint--rounded" target="_blank">(more info)</a>
         <ul id="swatches" ng-class="{disabled:selectedKeys.length<1}">
@@ -455,7 +463,33 @@ Nav Bar / Header
           </li>
         </ul>
         <alert type="warning" style="margin-top:10px;" ng-hide="paletteAlertHidden" close="paletteAlertHidden = true">
-          <i class="fa fa-info-circle"></i> Click on a swatch to set the color of the selected key(s), or Ctrl+Click to set the text color.  You can also drag color swatches to individual labels to set different colors for each one.
+          <i class="fa fa-info-circle"></i> Click on a swatch to set the color of the selected key(s), or Ctrl+Click to set the text color.  You can also drag color swatches to individual legends to set different colors for each one.
+        </alert>
+      </div>
+
+      <!-- Character Picker -->
+      <div class="col-md-6 col-lg-6" ng-class="{hidden:!picker.name}">
+        {{picker.name}}
+        <div class="col-md-12 col-lg-12 hint--top hint--rounded" style="padding:4px 0px;">
+          <input id="picker-filter" class="form-control input-sm" type='text' ng-model="pickerFilter" placeholder="Filter"
+                 ng-change="pickerSelection = {}">
+        </div>
+        <ul id="glyphs" ng-class="{disabled:selectedKeys.length<1}">
+          <li ng-repeat="glyph in picker.glyphs | filter:pickerFilter"
+             class="glyph hint--top"
+             data-hint="{{glyph.desc}}"
+             ng-click="pickerSelect(glyph)"
+             ng-bind-html="glyph.html"
+             ng-class="{selected:pickerSelection===glyph}">
+          </li>
+        </ul>
+        <div class="col-md-12 col-lg-12 hint--top hint--rounded" style="padding:4px 0px;">
+          <input id="picker-html" class="form-control input-sm" type='text' 
+                ng-model="pickerSelection.html" placeholder="No glyph selected" 
+                onClick="this.select();" readonly>
+        </div>
+        <alert type="warning" style="margin-top:40px;" ng-hide="pickerAlertHidden" close="pickerAlertHidden = true">
+          <i class="fa fa-info-circle"></i> Click on a glyph to see the HTML code for that glyph.  You can also drag glyphs to the legend edit-boxes to assign them to the legend.
         </alert>
       </div>
     </div>
