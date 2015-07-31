@@ -339,6 +339,19 @@ Nav Bar / Header
               <div class="form-group form-group-sm"> / </div>
               <kbd-multi-numbox field="width2" size="6" min="0.5" max="12" step='{{sizeStep}}'></kbd-multi-numbox>
             </div>
+
+            <!-- Swap Colors Button -->
+            <div>
+              <div id="swap-sizes"
+                   class="hint--top hint--rounded"
+                   data-hint="Swap the primary &amp; secondary sizes (affects legend positioning on oddly shaped keys).">
+                <button class="btn btn-default"
+                        ng-click="swapSizes()"
+                        ng-disabled="selectedKeys.length<1 || (multi.width == multi.width2 && multi.height == multi.height2)" >
+                  <i class="fa fa-random"></i>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 

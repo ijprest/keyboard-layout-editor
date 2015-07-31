@@ -415,6 +415,22 @@
 
 		updateSerialized();
 
+		$scope.swapSizes = function() {
+			transaction("swapSizes", function() {
+				$scope.selectedKeys.forEach(function(selectedKey) {
+					var temp;
+					temp = selectedKey.width; selectedKey.width = selectedKey.width2; selectedKey.width2 = temp;
+					temp = selectedKey.height; selectedKey.height = selectedKey.height2; selectedKey.height2 = temp;
+					selectedKey.x += selectedKey.x2;
+					selectedKey.y += selectedKey.y2;
+					selectedKey.x2 = -selectedKey.x2;
+					selectedKey.y2 = -selectedKey.y2;
+					renderKey(selectedKey);
+				});
+				$scope.multi = angular.copy($scope.selectedKeys.last());
+			});
+		};
+
 		$scope.swapColors = function() {
 			transaction("swapColors", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {

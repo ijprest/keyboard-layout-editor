@@ -228,7 +228,7 @@ for i in (1..9) {
 .input-group-sm > .input-group-addon { height: 26px; padding: 2px; min-width: 16px; }
 .form-horizontal .form-group-sm .checkbox { padding-top: 3px; min-height: 26px; }
 
-#swap-colors { position: absolute; top: 11px; left: 200px; z-index: 1; }
+#swap-colors, #swap-sizes { position: absolute; top: 11px; left: 200px; z-index: 1; }
 .color-name { display: inline-block; min-width: 3em; font-size: 10px; white-space: nowrap; }
 
 .use-default:after {
