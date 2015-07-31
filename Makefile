@@ -108,11 +108,8 @@ CUSTOM_FONT = $(eval $(call _CUSTOM_FONT,$(1).ttf,$(2)))$(eval $(call _CUSTOM_FO
 $(call CUSTOM_FONT,kbd-custom,$(kbd-custom-glyphs))
 
 test: e2e-test unit-test
-	protractor tests/conf.js
-
 unit-test:
 	jasmine
-
 e2e-test:
 	protractor tests/conf.js
 

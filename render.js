@@ -204,28 +204,34 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 			var rules = $cssParser.parse(css);
 			if(rules) {
 				// Sanitize the CSS
-				rules.rulelist.forEach(function(rule) {
-					if(rule.type === "style") {
-						rule.selector = "#keyboard .keycap " + rule.selector.split(',').join(", #keyboard .keycap ");
+				rules.forEach(function(rule) {
+					if(!rule.name) {
+						for(var i = 0; i < rule.selector.length; ++i) {
+							rule.selector[i] = "#keyboard .keycap " + rule.selector[i];
+						}
 					}
 				})
 
 				// Re-stringify the sanitized CSS
 				css = "";
-				var render = function(name, decls) {
-					css += name + " { ";
-					for (var decl in decls) {
-						css += decl + ": " + decls[decl] + "; ";
-					}
-					css += "}\n";
-				};
-				rules.rulelist.forEach(function(rule) {
-					if(rule.type === "style") {
-						render(rule.selector, rule.declarations);
-					} else if(rule.type === "fontface") {
-						render("@font-face", rule.declarations);
+				rules.forEach(function(rule) {
+					if(!rule.name) {
+						css += rule.selector.join(', ') + " { ";
+						for(var i = 0; i < rule.decls.length; ++i) {
+							css += rule.decls[i][0] + ": " + rule.decls[i][1] + "; ";
+						}
+						css += "}\n";
+					} else {
+						var ok = (rule.name === "@font-face");
+						if(ok) {
+							css += rule.name;
+							if(rule.selector) css += ' ' + rule.selector;
+							if(rule.content) css += '{ ' + rule.content + ' }\n';
+							else css += ';\n';
+						}
 					}
 				});
+				console.log(css);
 				return css;
 			}
 		}
