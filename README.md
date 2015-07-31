@@ -33,6 +33,7 @@ Required Tools:
 * Bower: ```npm install -g bower```
 * Grunt: ```npm install -g grunt-cli```
 * Protractor: ```npm install -g protractor```
+* Jasmine: ```npm install -g jasmine```
 * Uglifyjs: ```npm install -g uglifyjs```
 * Stylus: ```npm install -g stylus```
 * Jison: ```npm install -g jison```
