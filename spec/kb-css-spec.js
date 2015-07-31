@@ -111,6 +111,7 @@ describe('css parser', function() {
     expect(css.parse('@foo ;')).toEqual([ {name: '@foo'} ]);
     expect(css.parse('@foo arbitrary-stuff here();')).toEqual([ {name: '@foo', selector: "arbitrary-stuff here()"} ]);
     expect(css.parse('@foo {}')).toEqual([ {name: '@foo'} ]);
+    expect(css.parse('@foo{}')).toEqual([ {name: '@foo'} ]);
     expect(css.parse('@foo { arbitrary-stuff; here(); }')).toEqual([ {name: '@foo', content: "arbitrary-stuff; here();"} ]);
   });
 
