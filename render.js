@@ -217,8 +217,10 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 				rules.forEach(function(rule) {
 					if(!rule.name) {
 						css += rule.selector.join(', ') + " { ";
-						for(var i = 0; i < rule.decls.length; ++i) {
-							css += rule.decls[i][0] + ": " + rule.decls[i][1] + "; ";
+						if(rule.decls) {
+							for(var i = 0; i < rule.decls.length; ++i) {
+								css += rule.decls[i][0] + ": " + rule.decls[i][1] + "; ";
+							}
 						}
 						css += "}\n";
 					} else {
