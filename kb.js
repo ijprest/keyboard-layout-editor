@@ -47,7 +47,7 @@
 			$scope.multi = {};
 		};
 		$scope.selectAll = function(event) {
-			if(event) { event.preventDefault(); }
+			if(event) { event.preventDefault(); event.stopPropagation(); }
 			$serial.sortKeys($scope.keys());
 			$scope.unselectAll();
 			$scope.keys().forEach(function(key) {
@@ -77,6 +77,7 @@
 		$scope.save = function(event) {
 			if(event) {
 				event.preventDefault();
+				event.stopPropagation();
 			}
 			if($scope.dirty) {
 				saveLayout($serial.serialize($scope.keyboard));
@@ -432,6 +433,7 @@
 		};
 		$scope.dropSwatch = function(color,$event,isText,textIndex) {
 			$event.preventDefault();
+			$event.stopPropagation();
 			if($scope.selectedKeys.length<1) {
 				return;
 			}
@@ -455,6 +457,7 @@
 
 		$scope.moveKeys = function(x,y,$event) {
 			$event.preventDefault();
+			$event.stopPropagation();
 			if($scope.selectedKeys.length<1) {
 				return;
 			}
@@ -487,6 +490,7 @@
 
 		$scope.sizeKeys = function(x,y,$event) {
 			$event.preventDefault();
+			$event.stopPropagation();
 			if($scope.selectedKeys.length<1) {
 				return;
 			}
@@ -503,6 +507,7 @@
 
 		$scope.rotateKeys = function(angle,$event) {
 			$event.preventDefault();
+			$event.stopPropagation();
 			if($scope.selectedKeys.length<1) {
 				return;
 			}
@@ -519,6 +524,7 @@
 		};
 		$scope.moveCenterKeys = function(x,y,$event) {
 			$event.preventDefault();
+			$event.stopPropagation();
 			if($scope.selectedKeys.length<1) {
 				return;
 			}
@@ -699,6 +705,7 @@
 								};
 			doingMarqueeSelect = true;
 			event.preventDefault();
+			event.stopPropagation();
 		};
 
 		// Called whenever the mouse moves over the document; ideally we'd get mouse-capture on
@@ -800,6 +807,7 @@
 				canCoalesce = false;
 
 				event.preventDefault();
+				event.stopPropagation();
 
 				// Focus the keyboard, so keystrokes have the desired effect
 				$('#keyboard').focus();
@@ -875,6 +883,7 @@
 				resolve: { params: function() { return { parentScope: $scope }; } }
 			});
 			event.preventDefault();
+			event.stopPropagation();
 		};
 		$scope.previewNotes = function(event) {
 			$scope.markdownTitle = 'About This Keyboard Layout';
@@ -899,6 +908,7 @@
 					resolve: { params: null }
 				});
 				event.preventDefault();
+				event.stopPropagation();
 			}
 		};
 
@@ -912,6 +922,7 @@
 			});
 			activeModal.result.then(function(params) { $.extend($scope, params); });
 			event.preventDefault();
+			event.stopPropagation();
 		};
 
 		// Clipboard functions
@@ -919,6 +930,7 @@
 		$scope.cut = function(event) {
 			if(event) {
 				event.preventDefault();
+				event.stopPropagation();
 			}
 			if($scope.selectedKeys.length>0) {
 				clipboard = angular.copy($scope.selectedKeys);
@@ -928,6 +940,7 @@
 		$scope.copy = function(event) {
 			if(event) {
 				event.preventDefault();
+				event.stopPropagation();
 			}
 			if($scope.selectedKeys.length>0) {
 				clipboard = angular.copy($scope.selectedKeys);
@@ -936,6 +949,7 @@
 		$scope.paste = function(event) {
 			if(event) {
 				event.preventDefault();
+				event.stopPropagation();
 			}
 			if(clipboard.length<1) {
 				return;
