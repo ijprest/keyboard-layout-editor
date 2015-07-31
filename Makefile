@@ -13,13 +13,15 @@ all: js_files css_files bower_copy
 .PHONY: js_files css_files bower_copy
 
 # Rules to minify our .js files
-js_files: js/jsonl.min.js
+js_files: js/jsonl.min.js js/cssparser.js
 js/%.min.js: js/%.js
 	$(call mkdir,$(dir $@))
 	uglifyjs "$^" > "$@"
 js/%.js: %.grammar.js
 	$(call mkdir,$(dir $@))
 	node "$^" > "$@"
+js/%.js: %.y
+	jison "$^" -o "$@"
 
 .PRECIOUS: js/%.js
 
@@ -105,7 +107,10 @@ CUSTOM_FONT = $(eval $(call _CUSTOM_FONT,$(1).ttf,$(2)))$(eval $(call _CUSTOM_FO
 
 $(call CUSTOM_FONT,kbd-custom,$(kbd-custom-glyphs))
 
-test:
+test: e2e-test unit-test
+unit-test:
+	jasmine
+e2e-test:
 	protractor tests/conf.js
 
 install:

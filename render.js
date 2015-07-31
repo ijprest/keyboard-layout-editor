@@ -199,4 +199,45 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 	  });
 	};
 
+	$renderKey.renderCSS = function(css) {
+		if(css) {
+			var rules = $cssParser.parse(css);
+			if(rules) {
+				// Sanitize the CSS
+				rules.forEach(function(rule) {
+					if(!rule.name) {
+						for(var i = 0; i < rule.selector.length; ++i) {
+							rule.selector[i] = "#keyboard .keycap " + rule.selector[i];
+						}
+					}
+				})
+
+				// Re-stringify the sanitized CSS
+				css = "";
+				rules.forEach(function(rule) {
+					if(!rule.name) {
+						css += rule.selector.join(', ') + " { ";
+						if(rule.decls) {
+							for(var i = 0; i < rule.decls.length; ++i) {
+								css += rule.decls[i][0] + ": " + rule.decls[i][1] + "; ";
+							}
+						}
+						css += "}\n";
+					} else {
+						var ok = (rule.name === "@font-face")
+						      || (rule.name === "@import" && !rule.content && rule.selector.match(/^url\(http:\/\/fonts.googleapis.com\/css\?family=[^\)]+\)$/));
+						if(ok) {
+							css += rule.name;
+							if(rule.selector) css += ' ' + rule.selector;
+							if(rule.content) css += '{ ' + rule.content + ' }\n';
+							else css += ';\n';
+						}
+					}
+				});
+				return css;
+			}
+		}
+		return "";
+	};
+
 }());

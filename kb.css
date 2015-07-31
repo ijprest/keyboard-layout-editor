@@ -13,8 +13,6 @@ webfont(family, file, weight = 'normal', style='normal') {
 }
 /* Set up all the web-fonts we host */
 webfont('engravers_gothic_fsregular', 'EngraversGothic-Regular-webfont');
-webfont('C64ProMono', 'C64_Pro_Mono-STYLE');
-webfont('C64Pro', 'C64_Pro-STYLE');
 
 /* Basic style */
 html, body {
@@ -130,15 +128,6 @@ for i in (1..9) {
 }
 .DSA.HOMING .keylabels, .SA.HOMING .keylabels { background-image: none; }
 
-span.PETSCII {
-  font-family: "C64ProMono";
-  font-size: 6px !important;
-  border: solid 1px;
-  letter-spacing: 0px;
-  padding: 0;
-  margin: 0;
- }
-
 /* color swatches */
 #swatches { list-style-type: none; margin: 0px; padding: 0px; }
 .swatch {
@@ -175,9 +164,9 @@ span.PETSCII {
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
-#rawdata, #rawdata-error, #noteseditor { font-family: "Consolas", "Courier New", "Courier", monospace; }
-#rawdata { width: 100%; }
-#rawdata-error { white-space: pre; }
+#rawdata, #rawdata-error, #customstyles, #customstyles-error, #noteseditor { font-family: "Consolas", "Courier New", "Courier", monospace; }
+#rawdata, #customstyles { width: 100%; }
+#rawdata-error, #customstyles-error { white-space: pre; }
 
 #tab-content {
     border-left: 1px solid #ddd;

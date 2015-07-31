@@ -20,7 +20,7 @@ var customMatchers = {
 describe('keyboard serialization', function() {
 
   beforeEach(function() {
-    this.addMatchers(customMatchers);
+    jasmine.addMatchers(customMatchers);
   });
 
   it('should handle empty keyboard', function() {
