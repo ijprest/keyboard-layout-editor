@@ -84,6 +84,7 @@ at_rule_selector
 at_rule_content
   : any_token                                                     { $$ = $any_token; }
   | at_rule_content ';'                                           { $$ = $at_rule_content + ';'; }
+  | at_rule_content '{' at_rule_content '}'                       { $$ = $at_rule_content1 + '{' + $at_rule_content2 + '}'; }
   | at_rule_content any_token                                     { $$ = $at_rule_content + $any_token; }
   ;
 

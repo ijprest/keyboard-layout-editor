@@ -113,6 +113,7 @@ describe('css parser', function() {
     expect(css.parse('@foo {}')).toEqual([ {name: '@foo'} ]);
     expect(css.parse('@foo{}')).toEqual([ {name: '@foo'} ]);
     expect(css.parse('@foo { arbitrary-stuff; here(); }')).toEqual([ {name: '@foo', content: "arbitrary-stuff; here();"} ]);
+    expect(css.parse('@foo { nested { arbitrary-stuff; } here(); }')).toEqual([ {name: '@foo', content: "nested { arbitrary-stuff; } here();"} ]);
   });
 
 });
