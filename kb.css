@@ -101,7 +101,7 @@ for i in (1..9) {
 
 .DSA .keylabel9, .DSA .keylabel10, .DSA .keylabel11,
 .SA .keylabel9, .SA .keylabel10, .SA .keylabel11 {
-  margin-top: -2px; 
+  margin-top: -2px;
   font-size: 9px !important;
 }
 .DCS .keytop, .OEM .keytop {
@@ -129,8 +129,8 @@ for i in (1..9) {
 .DSA.HOMING .keylabels, .SA.HOMING .keylabels { background-image: none; }
 
 /* color swatches */
-#swatches { list-style-type: none; margin: 0px; padding: 0px; }
-.swatch {
+#swatches, #glyphs { list-style-type: none; margin: 0px; padding: 0px; }
+.swatch, .glyph {
   display: inline-block;
   position: relative;
   width: 16px;
@@ -140,8 +140,27 @@ for i in (1..9) {
   margin-bottom: -6px;
   padding: 0px;
 }
+.glyph {
+  width: 20px;
+  text-align: center;
+  padding-top: 8px;
+  font-size: 16px;
+  border: solid 1px #eee;
+  background-color: #fff;
+}
+.glyph:hover { background-color: #eee; }
+.glyph.selected { background-color: #eef !important; }
+
+#glyphScroller {
+  width: 100%;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  max-height: 230px;
+  border: solid 1px #ccc;
+  padding: 4px;
+}
+
 #swatches.disabled .swatch { background-color: rgb(235,235,228) !important; }
-#swatches [data-hint]:after { white-space: nowrap; }
 
 .swatch .highlight { display: none; }
 .swatch.selected-bg .highlight.bg { display: block; z-index: 100; width: 6px; height: 6px; border: solid 1px black; background: white; opacity: 0.75; position: absolute; left: 7px; top: 23px; }
@@ -164,7 +183,7 @@ for i in (1..9) {
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
-#rawdata, #rawdata-error, #customstyles, #customstyles-error, #noteseditor { font-family: "Consolas", "Courier New", "Courier", monospace; }
+#rawdata, #rawdata-error, #customstyles, #customstyles-error, #noteseditor, #picker-html { font-family: "Consolas", "Courier New", "Courier", monospace; }
 #rawdata, #customstyles { width: 100%; }
 #rawdata-error, #customstyles-error { white-space: pre; }
 
@@ -181,7 +200,7 @@ for i in (1..9) {
 /* Tooltip modifications */
 .hint--rounded:after { width: 300px; }
 .hint:after, [data-hint]:after { white-space: pre-line; }
-.hint:before, .hint:after, [data-hint]:before, [data-hint]:after { -webkit-transition: 0.1s ease; -moz-transition: 0.1s ease; transition: 0.1s ease; }
+.hint:before, .hint:after, [data-hint]:before, [data-hint]:after { -webkit-transition: 0.05s ease; -moz-transition: 0.05s ease; transition: 0.05s ease; }
 
 /* Help Dialog */
 .modal-xl .modal-dialog { width: 80vw; }
@@ -236,4 +255,11 @@ for i in (1..9) {
   right: 0px;
   bottom: -4px;
   position: absolute;
+}
+
+/* Combining rectangle glyph */
+.combine-rect:before {
+  content: '\25AD';
+  font-style: normal; 
+  margin: 0 -0.66em 0 -0.33em;
 }

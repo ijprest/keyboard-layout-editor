@@ -199,45 +199,69 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 	  });
 	};
 
-	$renderKey.renderCSS = function(css) {
-		if(css) {
-			var rules = $cssParser.parse(css);
-			if(rules) {
-				// Sanitize the CSS
-				rules.forEach(function(rule) {
-					if(!rule.name) {
-						for(var i = 0; i < rule.selector.length; ++i) {
-							rule.selector[i] = "#keyboard .keycap " + rule.selector[i];
-						}
-					}
-				})
-
-				// Re-stringify the sanitized CSS
-				css = "";
-				rules.forEach(function(rule) {
-					if(!rule.name) {
-						css += rule.selector.join(', ') + " { ";
-						if(rule.decls) {
-							for(var i = 0; i < rule.decls.length; ++i) {
-								css += rule.decls[i][0] + ": " + rule.decls[i][1] + "; ";
-							}
-						}
-						css += "}\n";
-					} else {
-						var ok = (rule.name === "@font-face")
-						      || (rule.name === "@import" && !rule.content && rule.selector.match(/^url\(http:\/\/fonts.googleapis.com\/css\?family=[^\)]+\)$/));
-						if(ok) {
-							css += rule.name;
-							if(rule.selector) css += ' ' + rule.selector;
-							if(rule.content) css += '{ ' + rule.content + ' }\n';
-							else css += ';\n';
-						}
-					}
-				});
-				return css;
+	$renderKey.getGlyphsFromRules = function(rules) {
+		// Find rules that look like the base slyph-set definition
+		var classes = [];
+		rules.forEach(function(rule) {
+			if(!rule.name && rule.selector.length === 1 && rule.selector[0].match(/^\.[a-zA-Z0-9]+$/)) {
+				classes.push(rule.selector[0].substring(1));
 			}
+		});
+
+		// Find rules that look like glyphs
+		var glyphs = [];
+		rules.forEach(function(rule) {
+			if(!rule.name && rule.selector.length === 1) {
+				var matches = rule.selector[0].match(/^\.([a-zA-Z0-9]+)-([-a-zA-Z0-9]+)\:(before|after)$/);
+				if(matches) {
+					var theClass = classes.indexOf(matches[1]);
+					if(theClass != -1) {
+						var glyph = { name: matches[2], html: "<i class='" + classes[theClass] + " " + matches[1]+"-"+matches[2] +"'></i>" };
+						glyphs.push(glyph);
+					}
+				}
+			}
+		});
+		glyphs.sort(function(a,b) { return a.name.localeCompare(b.name); });
+		return glyphs;
+	}
+
+	$renderKey.sanitizeCssRules = function(rules) {
+		if(rules) {
+			// Sanitize the CSS
+			rules.forEach(function(rule) {
+				if(!rule.name) {
+					for(var i = 0; i < rule.selector.length; ++i) {
+						rule.selector[i] = "#keyboard .keycap " + rule.selector[i] + ", #glyphScroller " + rule.selector[i];
+					}
+				}
+			})
+
+			// Re-stringify the sanitized CSS
+			var css = "";
+			rules.forEach(function(rule) {
+				if(!rule.name) {
+					css += rule.selector.join(', ') + " { ";
+					if(rule.decls) {
+						for(var i = 0; i < rule.decls.length; ++i) {
+							css += rule.decls[i][0] + ": " + rule.decls[i][1] + "; ";
+						}
+					}
+					css += "}\n";
+				} else {
+					var ok = (rule.name === "@font-face")
+					      || (rule.name === "@import" && !rule.content && rule.selector.match(/^url\(http:\/\/fonts.googleapis.com\/css\?family=[^\)]+\)$/));
+					if(ok) {
+						css += rule.name;
+						if(rule.selector) css += ' ' + rule.selector;
+						if(rule.content) css += '{ ' + rule.content + ' }\n';
+						else css += ';\n';
+					}
+				}
+			});
+			return css;
 		}
 		return "";
-	};
+	}
 
 }());

@@ -11,7 +11,10 @@
 	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
 
 	// The angular module for our application
-	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ui.bootstrap", "ngFileUpload", "ang-drag-drop", "colorpicker.module"]);
+	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ui.bootstrap", "ui.bootstrap.tooltip", "ngFileUpload", "ang-drag-drop", "colorpicker.module"], function($tooltipProvider) {
+		// Default tooltip behaviour
+    $tooltipProvider.options({animation: false, appendToBody: true});
+	});
 
 	// The main application controller
 	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', '$modal', function($scope, $http, $location, $timeout, $sce, $sanitize, $modal) {
@@ -171,8 +174,10 @@
 			$scope.samples = data.samples;
 		});
 
-		// The currently selected palette
+		// The currently selected palette & character-picker
 		$scope.palette = {};
+		$scope.picker = {};
+		$scope.pickerSelection = {};
 
 		// The set of known palettes
 		$scope.palettes = {};
@@ -183,6 +188,12 @@
 					color.css = $color.sRGB8(color.r,color.g,color.b).hex();
 				});
 			});
+		});
+
+		// The set of known character pickers
+		$scope.pickers = {};
+		$http.get('pickers.json').success(function(data) {
+			$scope.pickers = data;
 		});
 
 		// A set of "known special" keys
@@ -203,6 +214,15 @@
 			$scope.kbHeight = bottom;
 		};
 
+		function updateFromCss(css) {
+			var rules = $cssParser.parse(css);
+			$scope.customGlyphs = $renderKey.getGlyphsFromRules(rules); // glyphs first, before rules are modified!
+			$scope.customStyles = $sce.trustAsHtml($renderKey.sanitizeCssRules(rules));
+			if($scope.picker.sentinel === userGlyphsSentinel) {
+				$scope.picker.glyphs = $scope.customGlyphs;
+			}
+		}
+
 		// Given a key, generate the HTML needed to render it
 		function renderKey(key) {
 			key.html = $sce.trustAsHtml($renderKey.html(key,$sanitize));
@@ -215,7 +235,7 @@
 				renderKey(key);
 			});
 			$scope.meta = angular.copy($scope.keyboard.meta);
-			$scope.customStyles = $sce.trustAsHtml($renderKey.renderCSS($scope.meta.css));
+			updateFromCss($scope.meta.css || '');
 		};
 
 		function updateSerialized() {
@@ -244,7 +264,7 @@
 			var base = $serial.base_href;
 			if($location.path().substring(0,8) === '/samples') {
 				// Load samples from local folder
-				base = ''; 
+				base = '';
 			}
 			$http.get(base + $location.path()).success(function(data) {
 				$scope.deserializeAndRender(data);
@@ -287,7 +307,9 @@
 				trans.modified = angular.copy($scope.keyboard);
 				trans.open = false;
 				redoStack = [];
-				if(type !== 'rawdata') { updateSerialized(); }
+				if(type !== 'rawdata') { 
+					updateSerialized(); 
+				}
 				$scope.dirty = true;
 				$scope.saved = false;
 				$scope.saveError = "";
@@ -295,18 +317,25 @@
 			}
 		}
 
+		function refreshAfterUndoRedo(type) {
+			updateSerialized();
+			$scope.keys().forEach(function(key) {
+				renderKey(key);
+			});
+			$scope.unselectAll();
+			$scope.meta = angular.copy($scope.keyboard.meta);
+			if(type === 'customstyles' || type === 'preset' || type === 'upload' || type === 'rawdata') {
+				updateFromCss($scope.meta.css || '');
+			}
+		}
+
 		$scope.undo = function() {
 			if($scope.canUndo()) {
 				var u = undoStack.pop();
 				$scope.keyboard = angular.copy(u.original);
-				updateSerialized();
-				$scope.keys().forEach(function(key) {
-					renderKey(key);
-				});
+				refreshAfterUndoRedo(u.type);
 				redoStack.push(u);
 				$scope.dirty = u.dirty;
-				$scope.unselectAll();
-				$scope.meta = $scope.keyboard.meta;
 			}
 		};
 
@@ -314,14 +343,9 @@
 			if($scope.canRedo()) {
 				var u = redoStack.pop();
 				$scope.keyboard = angular.copy(u.modified);
-				updateSerialized();
-				$scope.keys().forEach(function(key) {
-					renderKey(key);
-				});
+				refreshAfterUndoRedo(u.type);
 				undoStack.push(u);
 				$scope.dirty = true;
-				$scope.unselectAll();
-				$scope.meta = $scope.keyboard.meta;
 			}
 		};
 
@@ -444,6 +468,24 @@
 			});
 		};
 
+		$scope.pickerSelect = function(glyph) {
+			$scope.pickerSelection = glyph;
+		};
+		$scope.dropGlyph = function(glyph,$event,textIndex) {
+			$event.preventDefault();
+			$event.stopPropagation();
+			if($scope.selectedKeys.length<1) {
+				return;
+			}
+			transaction("character-picker", function() {
+				$scope.selectedKeys.forEach(function(selectedKey) {
+					selectedKey.labels[textIndex] = glyph.html;
+					renderKey(selectedKey);
+				});
+				$scope.multi = angular.copy($scope.selectedKeys.last());
+			});
+		};
+
 		$scope.clickSwatch = function(color,$event) {
 			$scope.dropSwatch(color,$event,$event.ctrlKey || $event.altKey,-1);
 		};
@@ -555,8 +597,30 @@
 			$scope.calcKbHeight();
 		};
 
+		var userGlyphsSentinel = {};
+		$scope.loadCharacterPicker = function(picker) {
+			$scope.picker = picker || { 
+				name: "User-Defined Glyphs", 
+				glyphs: $scope.customGlyphs,
+				href: "https://github.com/ijprest/keyboard-layout-editor/wiki/Custom-Styles",
+				description: "This list will show any glyphs defined in your layout's 'Custom Styles' tab.  See the Commodore VIC-20 sample layout for an example.",
+				sentinel: userGlyphsSentinel
+			};
+			$scope.palette = {}; // turn off the palette
+			$scope.pickerFilter = '';
+			$scope.pickerSelection = {};
+
+			// Load the CSS if necessary
+			if($scope.picker.css && !$scope.picker.glyphs) {
+				$http.get($scope.picker.css).success(function(css) {
+					$scope.picker.glyphs = $renderKey.getGlyphsFromRules($cssParser.parse(css));
+				});
+			}
+		};
+
 		$scope.loadPalette = function(p) {
 			$scope.palette = p;
+			$scope.picker = {}; // turn off the character picker
 		};
 		$scope.colorName = function(color) {
 			if(color && $scope.palette.colors) {
@@ -689,17 +753,19 @@
 
 		$scope.customStylesException = "";
 		$scope.customStyles = "";
+		$scope.customGlyphs = [];
 		$scope.updateCustomStyles = function() {
 			if(customStylesTimer) {
-				$timeout.cancel(customStylesTimer);				
+				$timeout.cancel(customStylesTimer);
 			}
 			customStylesTimer = $timeout(function() {
 				try {
 					$scope.customStylesException = "";
 					transaction("customstyles", function() {
-						$scope.customStyles = $sce.trustAsHtml($renderKey.renderCSS($scope.meta.css));
-						$scope.updateMeta('css');
+						updateFromCss($scope.meta.css);
+						$scope.keyboard.meta.css = $scope.meta.css;
 					});
+					$scope.calcKbHeight();
 				} catch(e) {
 					$scope.customStylesException = e.toString();
 				}

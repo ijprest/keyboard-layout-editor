@@ -70,6 +70,8 @@ stylesheet_item
 at_rule
   : WS AT_KEYWORD ';'                                             { $$ = { name: $AT_KEYWORD }}
   | WS AT_KEYWORD at_rule_selector ';'                            { $$ = { name: $AT_KEYWORD, selector: $at_rule_selector.trim() }; if(!$$.selector) delete $$.selector; }
+  | WS AT_KEYWORD '{' '}'                                         { $$ = { name: $AT_KEYWORD }; }
+  | WS AT_KEYWORD '{' at_rule_content '}'                         { $$ = { name: $AT_KEYWORD, content: $at_rule_content.trim() }; if(!$$.content) delete $$.content; }
   | WS AT_KEYWORD at_rule_selector '{' '}'                        { $$ = { name: $AT_KEYWORD, selector: $at_rule_selector.trim() }; if(!$$.selector) delete $$.selector; }
   | WS AT_KEYWORD at_rule_selector '{' at_rule_content '}'        { $$ = { name: $AT_KEYWORD, selector: $at_rule_selector.trim(), content: $at_rule_content.trim() }; if(!$$.selector) delete $$.selector; if(!$$.content) delete $$.content; }
   ;
@@ -82,6 +84,7 @@ at_rule_selector
 at_rule_content
   : any_token                                                     { $$ = $any_token; }
   | at_rule_content ';'                                           { $$ = $at_rule_content + ';'; }
+  | at_rule_content '{' at_rule_content '}'                       { $$ = $at_rule_content1 + '{' + $at_rule_content2 + '}'; }
   | at_rule_content any_token                                     { $$ = $at_rule_content + $any_token; }
   ;
 
