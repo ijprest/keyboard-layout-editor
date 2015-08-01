@@ -11,7 +11,10 @@
 	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
 
 	// The angular module for our application
-	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ui.bootstrap", "ngFileUpload", "ang-drag-drop", "colorpicker.module"]);
+	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ui.bootstrap", "ui.bootstrap.tooltip", "ngFileUpload", "ang-drag-drop", "colorpicker.module"], function($tooltipProvider) {
+		// Default tooltip behaviour
+    $tooltipProvider.options({animation: false, appendToBody: true});
+	});
 
 	// The main application controller
 	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', '$modal', function($scope, $http, $location, $timeout, $sce, $sanitize, $modal) {

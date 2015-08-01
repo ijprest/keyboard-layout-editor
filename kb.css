@@ -161,7 +161,6 @@ for i in (1..9) {
 }
 
 #swatches.disabled .swatch { background-color: rgb(235,235,228) !important; }
-#swatches [data-hint]:after, #glyphs [data-hint]:after { white-space: nowrap; }
 
 .swatch .highlight { display: none; }
 .swatch.selected-bg .highlight.bg { display: block; z-index: 100; width: 6px; height: 6px; border: solid 1px black; background: white; opacity: 0.75; position: absolute; left: 7px; top: 23px; }
@@ -201,7 +200,7 @@ for i in (1..9) {
 /* Tooltip modifications */
 .hint--rounded:after { width: 300px; }
 .hint:after, [data-hint]:after { white-space: pre-line; }
-.hint:before, .hint:after, [data-hint]:before, [data-hint]:after { -webkit-transition: 0.1s ease; -moz-transition: 0.1s ease; transition: 0.1s ease; }
+.hint:before, .hint:after, [data-hint]:before, [data-hint]:after { -webkit-transition: 0.05s ease; -moz-transition: 0.05s ease; transition: 0.05s ease; }
 
 /* Help Dialog */
 .modal-xl .modal-dialog { width: 80vw; }
