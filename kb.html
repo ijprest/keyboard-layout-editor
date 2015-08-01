@@ -482,7 +482,8 @@ Nav Bar / Header
                tooltip="{{glyph.desc}}"
                ng-click="pickerSelect(glyph)"
                ng-bind-html="glyph.html"
-               ng-class="{selected:pickerSelection===glyph}">
+               ng-class="{selected:pickerSelection===glyph}"
+               ui-draggable="true" drag-channel="dragGlyph" drag="glyph">
             </li>
           </ul>
         </div>
@@ -816,7 +817,8 @@ Angular Templates
              ng-model="$parent.multi.labels[labelIndex]"
              ng-change="$parent.updateMulti('labels',labelIndex)"
              ng-blur="$parent.validateMulti('labels',labelIndex)"
-             ng-disabled="$parent.selectedKeys.length<1">
+             ng-disabled="$parent.selectedKeys.length<1"
+             ui-on-Drop="$parent.dropGlyph($data,$event,labelIndex)" drop-channel="dragGlyph">
       <span class="input-group-btn">
         <button class="btn btn-default"
                ng-style="{'background': $parent.selectedKeys.length<1 ? '#eee' : (!$parent.multi.textColor[labelIndex] ? '#fff' : $parent.multi.textColor[labelIndex])}"

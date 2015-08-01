@@ -458,6 +458,20 @@
 		$scope.pickerSelect = function(glyph) {
 			$scope.pickerSelection = glyph;
 		};
+		$scope.dropGlyph = function(glyph,$event,textIndex) {
+			$event.preventDefault();
+			$event.stopPropagation();
+			if($scope.selectedKeys.length<1) {
+				return;
+			}
+			transaction("character-picker", function() {
+				$scope.selectedKeys.forEach(function(selectedKey) {
+					selectedKey.labels[textIndex] = glyph.html;
+					renderKey(selectedKey);
+				});
+				$scope.multi = angular.copy($scope.selectedKeys.last());
+			});
+		};
 
 		$scope.clickSwatch = function(color,$event) {
 			$scope.dropSwatch(color,$event,$event.ctrlKey || $event.altKey,-1);
