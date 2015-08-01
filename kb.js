@@ -307,7 +307,9 @@
 				trans.modified = angular.copy($scope.keyboard);
 				trans.open = false;
 				redoStack = [];
-				if(type !== 'rawdata') { updateSerialized(); }
+				if(type !== 'rawdata') { 
+					updateSerialized(); 
+				}
 				$scope.dirty = true;
 				$scope.saved = false;
 				$scope.saveError = "";
@@ -315,18 +317,25 @@
 			}
 		}
 
+		function refreshAfterUndoRedo(type) {
+			updateSerialized();
+			$scope.keys().forEach(function(key) {
+				renderKey(key);
+			});
+			$scope.unselectAll();
+			$scope.meta = angular.copy($scope.keyboard.meta);
+			if(type === 'customstyles' || type === 'preset' || type === 'upload' || type === 'rawdata') {
+				updateFromCss($scope.meta.css || '');
+			}
+		}
+
 		$scope.undo = function() {
 			if($scope.canUndo()) {
 				var u = undoStack.pop();
 				$scope.keyboard = angular.copy(u.original);
-				updateSerialized();
-				$scope.keys().forEach(function(key) {
-					renderKey(key);
-				});
+				refreshAfterUndoRedo(u.type);
 				redoStack.push(u);
 				$scope.dirty = u.dirty;
-				$scope.unselectAll();
-				$scope.meta = $scope.keyboard.meta;
 			}
 		};
 
@@ -334,14 +343,9 @@
 			if($scope.canRedo()) {
 				var u = redoStack.pop();
 				$scope.keyboard = angular.copy(u.modified);
-				updateSerialized();
-				$scope.keys().forEach(function(key) {
-					renderKey(key);
-				});
+				refreshAfterUndoRedo(u.type);
 				undoStack.push(u);
 				$scope.dirty = true;
-				$scope.unselectAll();
-				$scope.meta = $scope.keyboard.meta;
 			}
 		};
 
