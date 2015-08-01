@@ -759,8 +759,9 @@
 					$scope.customStylesException = "";
 					transaction("customstyles", function() {
 						updateFromCss($scope.meta.css);
-						$scope.updateMeta('css');
+						$scope.keyboard.meta.css = $scope.meta.css;
 					});
+					$scope.calcKbHeight();
 				} catch(e) {
 					$scope.customStylesException = e.toString();
 				}
