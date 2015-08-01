@@ -256,3 +256,10 @@ for i in (1..9) {
   bottom: -4px;
   position: absolute;
 }
+
+/* Combining rectangle glyph */
+.combine-rect:before {
+  content: '\25AD';
+  font-style: normal; 
+  margin: 0 -0.66em 0 -0.33em;
+}
