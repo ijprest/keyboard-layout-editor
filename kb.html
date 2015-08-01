@@ -88,6 +88,8 @@ Nav Bar / Header
         <a class="dropdown-toggle" dropdown-toggle><i class="fa fa-font"></i> Character Picker <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li ng-repeat="picker in pickers"><a ng-click="loadCharacterPicker(picker)" href="#">{{picker.name}}</a></li>
+          <li class="divider"></li>
+          <li><a ng-click="loadCharacterPicker(null)" href="#">User-Defined Glyphs</a></li>
         </ul>
       </li>
     </ul>

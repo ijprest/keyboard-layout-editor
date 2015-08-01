@@ -214,6 +214,15 @@
 			$scope.kbHeight = bottom;
 		};
 
+		function updateFromCss(css) {
+			var rules = $cssParser.parse(css);
+			$scope.customGlyphs = $renderKey.getGlyphsFromRules(rules); // glyphs first, before rules are modified!
+			$scope.customStyles = $sce.trustAsHtml($renderKey.sanitizeCssRules(rules));
+			if($scope.picker.sentinel === userGlyphsSentinel) {
+				$scope.picker.glyphs = $scope.customGlyphs;
+			}
+		}
+
 		// Given a key, generate the HTML needed to render it
 		function renderKey(key) {
 			key.html = $sce.trustAsHtml($renderKey.html(key,$sanitize));
@@ -226,7 +235,7 @@
 				renderKey(key);
 			});
 			$scope.meta = angular.copy($scope.keyboard.meta);
-			$scope.customStyles = $sce.trustAsHtml($renderKey.renderCSS($scope.meta.css));
+			updateFromCss($scope.meta.css || '');
 		};
 
 		function updateSerialized() {
@@ -584,46 +593,23 @@
 			$scope.calcKbHeight();
 		};
 
-		function parsePickerCSS(css) {
-			// Parse the CSS
-			var rules = $cssParser.parse(css);
-
-			// Find rules that look like the base slyph-set definition
-			var classes = [];
-			rules.forEach(function(rule) {
-				if(!rule.name && rule.selector.length === 1 && rule.selector[0].match(/^\.[a-zA-Z0-9]+$/)) {
-					classes.push(rule.selector[0].substring(1));
-				}
-			});
-
-			// Find rules that look like glyphs
-			var glyphs = [];
-			rules.forEach(function(rule) {
-				if(!rule.name && rule.selector.length === 1) {
-					var matches = rule.selector[0].match(/^\.([a-zA-Z0-9]+)-([-a-zA-Z0-9]+)\:(before|after)$/);
-					if(matches) {
-						var theClass = classes.indexOf(matches[1]);
-						if(theClass != -1) {
-							var glyph = { name: matches[2], html: "<i class='" + classes[theClass] + " " + matches[1]+"-"+matches[2] +"'></i>" };
-							glyphs.push(glyph);
-						}
-					}
-				}
-			});
-			glyphs.sort(function(a,b) { return a.name.localeCompare(b.name); });
-			return glyphs;
-		}
-
+		var userGlyphsSentinel = {};
 		$scope.loadCharacterPicker = function(picker) {
-			$scope.picker = picker;
+			$scope.picker = picker || { 
+				name: "User-Defined Glyphs", 
+				glyphs: $scope.customGlyphs,
+				href: "https://github.com/ijprest/keyboard-layout-editor/wiki/Custom-Styles",
+				description: "This list will show any glyphs defined in your layout's 'Custom Styles' tab.  See the Commodore VIC-20 sample layout for an example.",
+				sentinel: userGlyphsSentinel
+			};
 			$scope.palette = {}; // turn off the palette
 			$scope.pickerFilter = '';
 			$scope.pickerSelection = {};
 
 			// Load the CSS if necessary
-			if(picker.css && !picker.glyphs) {
-				$http.get(picker.css).success(function(css) {
-					picker.glyphs = parsePickerCSS(css);
+			if($scope.picker.css && !$scope.picker.glyphs) {
+				$http.get($scope.picker.css).success(function(css) {
+					$scope.picker.glyphs = $renderKey.getGlyphsFromRules($cssParser.parse(css));
 				});
 			}
 		};
@@ -763,6 +749,7 @@
 
 		$scope.customStylesException = "";
 		$scope.customStyles = "";
+		$scope.customGlyphs = [];
 		$scope.updateCustomStyles = function() {
 			if(customStylesTimer) {
 				$timeout.cancel(customStylesTimer);
@@ -771,7 +758,7 @@
 				try {
 					$scope.customStylesException = "";
 					transaction("customstyles", function() {
-						$scope.customStyles = $sce.trustAsHtml($renderKey.renderCSS($scope.meta.css));
+						updateFromCss($scope.meta.css);
 						$scope.updateMeta('css');
 					});
 				} catch(e) {
