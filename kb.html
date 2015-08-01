@@ -83,6 +83,7 @@ Nav Bar / Header
         </ul>
       </li>
 
+      <!-- Character Picker dropdown -->
       <li class="dropdown" dropdown>
         <a class="dropdown-toggle" dropdown-toggle><i class="fa fa-font"></i> Character Picker <b class="caret"></b></a>
         <ul class="dropdown-menu">
@@ -469,7 +470,7 @@ Nav Bar / Header
 
       <!-- Character Picker -->
       <div class="col-md-6 col-lg-6" ng-class="{hidden:!picker.name}">
-        {{picker.name}}
+        {{picker.name}} <a ng-if='picker.href' ng-href='{{picker.href}}' data-hint="{{picker.description}}" class="hint--top hint--rounded" target="_blank">(more info)</a>
         <div class="col-md-12 col-lg-12" style="padding:4px 0px;">
           <input id="picker-filter" class="form-control input-sm" type='text' ng-model="pickerFilter" placeholder="Filter"
                  ng-change="pickerSelection = {}">

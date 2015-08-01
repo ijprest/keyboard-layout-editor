@@ -1,6 +1,8 @@
 [
 	{
 		"name" : "Named HTML Entities",
+		"href" : "https://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references",
+		"description" : "This is the set of all printable 'named' character entities supported by HTML.",
 		"glyphs" : [
 			{ "name": "nbsp", "html": "&nbsp;", "desc": "no-break space (non-breaking space)" },
 			{ "name": "quot", "html": "&quot;", "desc": "quotation mark (APL quote)" },
@@ -251,6 +253,8 @@
 	},
 	{
 		"name": "Font Awesome Icons",
+		"href" : "http://fontawesome.io/",
+		"description" : "Font Awesome is a large collection of general-purpose scalable vector icons.",
 		"css": "css/font-awesome.min.css"
 	}
 ]
