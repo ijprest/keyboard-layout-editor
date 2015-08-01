@@ -101,7 +101,7 @@ for i in (1..9) {
 
 .DSA .keylabel9, .DSA .keylabel10, .DSA .keylabel11,
 .SA .keylabel9, .SA .keylabel10, .SA .keylabel11 {
-  margin-top: -2px; 
+  margin-top: -2px;
   font-size: 9px !important;
 }
 .DCS .keytop, .OEM .keytop {
@@ -140,14 +140,25 @@ for i in (1..9) {
   margin-bottom: -6px;
   padding: 0px;
 }
-.glyph { 
-  width: 20px; 
+.glyph {
+  width: 20px;
   text-align: center;
   padding-top: 8px;
   font-size: 16px;
+  border: solid 1px #eee;
+  background-color: #fff;
 }
 .glyph:hover { background-color: #eee; }
 .glyph.selected { background-color: #eef !important; }
+
+#glyphScroller {
+  width: 100%;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  max-height: 230px;
+  border: solid 1px #ccc;
+  padding: 4px;
+}
 
 #swatches.disabled .swatch { background-color: rgb(235,235,228) !important; }
 #swatches [data-hint]:after, #glyphs [data-hint]:after { white-space: nowrap; }
