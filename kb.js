@@ -604,7 +604,7 @@
 					if(matches) {
 						var theClass = classes.indexOf(matches[1]);
 						if(theClass != -1) {
-							var glyph = { name: matches[2], html: "<i class='" + classes[theClass] + " " + matches[1]+"-"+matches[2] +"'></i>", desc: matches[2] };
+							var glyph = { name: matches[2], html: "<i class='" + classes[theClass] + " " + matches[1]+"-"+matches[2] +"'></i>" };
 							glyphs.push(glyph);
 						}
 					}
