@@ -3,6 +3,7 @@ Contributors
 Special thanks to the following contributors:
 * [gcolic](https://github.com/gcollic), for providing WASD color presets
 * [D1SC0tech](https://github.com/D1SC0tech), for initial DSA homing/deep-dish support
+* [jasonm23](https://github.com/jasonm23), for initial Custom Styles implementation
 
 The following users have contributed some of the sample keyboard layouts & presets:
 * [domgetter](https://github.com/domgetter)
