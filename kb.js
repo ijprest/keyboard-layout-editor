@@ -602,6 +602,7 @@
 
 		$scope.loadCharacterPicker = function(picker) {
 			$scope.picker = picker;
+			$scope.palette = {}; // turn off the palette
 			$scope.pickerFilter = '';
 			$scope.pickerSelection = {};
 
@@ -615,6 +616,7 @@
 
 		$scope.loadPalette = function(p) {
 			$scope.palette = p;
+			$scope.picker = {}; // turn off the character picker
 		};
 		$scope.colorName = function(color) {
 			if(color && $scope.palette.colors) {
