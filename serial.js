@@ -370,8 +370,8 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 			fd.append("AWSAccessKeyId", "AKIAJSXGG74EMFBC57QQ");
 			fd.append("acl", "public-read");
 			fd.append("success_action_redirect", $serial.base_href);
-			fd.append("policy", "eyJleHBpcmF0aW9uIjoiMjAwMTQtMDEtMDFUMDA6MDA6MDBaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0Ijoid3d3LmtleWJvYXJkLWxheW91dC1lZGl0b3IuY29tIn0sWyJzdGFydHMtd2l0aCIsIiRrZXkiLCJsYXlvdXRzLyJdLHsiYWNsIjoicHVibGljLXJlYWQifSx7InN1Y2Nlc3NfYWN0aW9uX3JlZGlyZWN0IjoiaHR0cDovL3d3dy5rZXlib2FyZC1sYXlvdXQtZWRpdG9yLmNvbSJ9LHsiQ29udGVudC1UeXBlIjoiYXBwbGljYXRpb24vanNvbiJ9LFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsODE5Ml1dfQ==");
-			fd.append("signature", "WOsX5QV/y9UlOs2kmtduXYEPeEQ=");
+			fd.append("policy", "eyJleHBpcmF0aW9uIjoiMjAyMC0wMS0wMVQwMDowMDowMFoiLCJjb25kaXRpb25zIjpbeyJidWNrZXQiOiJ3d3cua2V5Ym9hcmQtbGF5b3V0LWVkaXRvci5jb20ifSxbInN0YXJ0cy13aXRoIiwiJGtleSIsImxheW91dHMvIl0seyJhY2wiOiJwdWJsaWMtcmVhZCJ9LHsic3VjY2Vzc19hY3Rpb25fcmVkaXJlY3QiOiJodHRwOi8vd3d3LmtleWJvYXJkLWxheW91dC1lZGl0b3IuY29tIn0seyJDb250ZW50LVR5cGUiOiJhcHBsaWNhdGlvbi9qc29uIn0sWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsMCwxNjM4NF1dfQ==");
+			fd.append("signature", "RZiagiPbcicJPhE4RFRCsx91kAY=");
 			fd.append("Content-Type", "application/json");
 			fd.append("file", data);
 			$http.post("http://www.keyboard-layout-editor.com.s3.amazonaws.com/", fd, {
