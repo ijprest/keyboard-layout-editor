@@ -252,7 +252,7 @@
 			var base = $serial.base_href;
 			if($location.path().substring(0,8) === '/samples') {
 				// Load samples from local folder
-				base = ''; 
+				base = '';
 			}
 			$http.get(base + $location.path()).success(function(data) {
 				$scope.deserializeAndRender(data);
@@ -567,10 +567,47 @@
 			$scope.calcKbHeight();
 		};
 
+		function parsePickerCSS(css) {
+			// Parse the CSS
+			var rules = $cssParser.parse(css);
+
+			// Find rules that look like the base slyph-set definition
+			var classes = [];
+			rules.forEach(function(rule) {
+				if(!rule.name && rule.selector.length === 1 && rule.selector[0].match(/^\.[a-zA-Z0-9]+$/)) {
+					classes.push(rule.selector[0].substring(1));
+				}
+			});
+
+			// Find rules that look like glyphs
+			var glyphs = [];
+			rules.forEach(function(rule) {
+				if(!rule.name && rule.selector.length === 1) {
+					var matches = rule.selector[0].match(/^\.([a-zA-Z0-9]+)-([-a-zA-Z0-9]+)\:(before|after)$/);
+					if(matches) {
+						var theClass = classes.indexOf(matches[1]);
+						if(theClass != -1) {
+							var glyph = { name: matches[2], html: "<i class='" + classes[theClass] + " " + matches[1]+"-"+matches[2] +"'></i>", desc: matches[2] };
+							glyphs.push(glyph);
+						}
+					}
+				}
+			});
+			glyphs.sort(function(a,b) { return a.name.localeCompare(b.name); });
+			return glyphs;
+		}
+
 		$scope.loadCharacterPicker = function(picker) {
 			$scope.picker = picker;
 			$scope.pickerFilter = '';
 			$scope.pickerSelection = {};
+
+			// Load the CSS if necessary
+			if(picker.css && !picker.glyphs) {
+				$http.get(picker.css).success(function(css) {
+					picker.glyphs = parsePickerCSS(css);
+				});
+			}
 		};
 
 		$scope.loadPalette = function(p) {
@@ -709,7 +746,7 @@
 		$scope.customStyles = "";
 		$scope.updateCustomStyles = function() {
 			if(customStylesTimer) {
-				$timeout.cancel(customStylesTimer);				
+				$timeout.cancel(customStylesTimer);
 			}
 			customStylesTimer = $timeout(function() {
 				try {

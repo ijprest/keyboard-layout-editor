@@ -248,5 +248,9 @@
 			{ "name": "hearts", "html": "&hearts;", "desc": "black heart suit (valentine)" },
 			{ "name": "diams", "html": "&diams;", "desc": "black diamond suit" }
 		]
+	},
+	{
+		"name": "Font Awesome Icons",
+		"css": "css/font-awesome.min.css"
 	}
 ]
