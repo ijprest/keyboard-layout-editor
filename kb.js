@@ -1177,14 +1177,14 @@
 			}
 		};
 
-		$scope.showSavedLayouts = function(event) {
+		$scope.showSavedLayouts = function(starred) {
 			if(activeModal) activeModal.dismiss('cancel');
 			activeModal = $modal.open({
 				templateUrl:"savedLayouts.html",
 				controller:"savedLayoutsCtrl",
 				windowClass:"modal-xl",
 				scope:$scope,
-				resolve: { params: function() { return { github: github }; } }
+				resolve: { params: function() { return { github:github, starred:starred }; } }
 			});
 			activeModal.result.then(function(params) {
 				if(params.load) {
@@ -1195,10 +1195,6 @@
 					});
 				}
 			});
-			if(event) {
-				event.preventDefault();
-				event.stopPropagation();
-			}
 		};
 	}]);
 
@@ -1216,7 +1212,7 @@
 		$scope.load = function(gist) { $scope.params.load = gist;	$scope.ok(); }
 
 		$scope.layouts = [];
-		params.github("/gists").then(function(response) {
+		params.github(params.starred ? "/gists/starred" : "/gists").then(function(response) {
 			var index = 0;
 			response.data.forEach(function(layout) {
 				for(var fn in layout.files) {
