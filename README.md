@@ -19,6 +19,7 @@ Links
 -----
 * [Changelog](CHANGELOG.md)
 * [Contributors](CONTRIB.md)
+* [Backgrounds](BACKGROUND.md)
 * [License](LICENSE.md)
 
 Getting Started for Developers
@@ -37,6 +38,7 @@ Required Tools:
 * Stylus: ```npm install -g stylus```
 * Jison: ```npm install -g jison```
 * Git-utils: ```npm install git-utils -g ```
+* FontForge
 
 Installing prerequisite components (once):
 

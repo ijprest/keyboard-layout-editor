@@ -1,4 +1,5 @@
-{
+{"backgrounds" : 
+  {
 	"wood" : {
 		"Bamboo" :  "bg/wood/bamboo.jpg",
 		"Bamboo dark" :  "bg/wood/bamboo-dark.jpg",
@@ -102,4 +103,5 @@
 		"ABS WV"  : "bg/plastic/abs-wv.jpg",
 		"ABS WW"  : "bg/plastic/abs-ww.jpg"
 	}
+  }
 }

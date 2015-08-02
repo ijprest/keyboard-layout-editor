@@ -475,22 +475,22 @@ Nav Bar / Header
                    ng-change="updateMeta('backgroundimage')"
                    ng-blur="validateMeta('backgroundimage')">
                    <option value="">None</option>
-                   <option value="" class="bg-dropdown-header-carbon">Carbon fibre</option>
-		   <option ng-repeat="(k,v) in carbonfibre" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header-leather">Leather</option>
-		   <option ng-repeat="(k,v) in leather" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header-marble">Marble</option>
-		   <option ng-repeat="(k,v) in marble" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header-metal">Metal</option>
-		   <option ng-repeat="(k,v) in metal" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header-plastic">Plastic ABS 'white'</option>
-		   <option ng-repeat="(k,v) in plasticABSwhite" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header-plastic">Plastic PBT 'brown_black'</option>
-		   <option ng-repeat="(k,v) in plasticPBTbrown_black" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header-plastic">Plastic PBT 'white'</option>
-		   <option ng-repeat="(k,v) in plasticPBTwhite" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header-wood">Wood</option>
-		   <option ng-repeat="(k,v) in wood" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header bg-dropdown-header-carbon">Carbon fibre</option>
+		   <option ng-repeat="(k,v) in backgrounds.carbonfibre" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header bg-dropdown-header-leather">Leather</option>
+		   <option ng-repeat="(k,v) in backgrounds.leather" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header bg-dropdown-header-marble">Marble</option>
+		   <option ng-repeat="(k,v) in backgrounds.marble" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header bg-dropdown-header-metal">Metal</option>
+		   <option ng-repeat="(k,v) in backgrounds.metal" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header bg-dropdown-header-plastic">Plastic ABS 'white'</option>
+		   <option ng-repeat="(k,v) in backgrounds.plasticABSwhite" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header bg-dropdown-header-plastic">Plastic PBT 'brown_black'</option>
+		   <option ng-repeat="(k,v) in backgrounds.plasticPBTbrown_black" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header bg-dropdown-header-plastic">Plastic PBT 'white'</option>
+		   <option ng-repeat="(k,v) in backgrounds.plasticPBTwhite" value="{{v}}">{{k}}</option>
+                   <option value="" class="bg-dropdown-header bg-dropdown-header-wood">Wood</option>
+		   <option ng-repeat="(k,v) in backgrounds.wood" value="{{v}}">{{k}}</option>
 	      </select>
 			
           </div>

@@ -171,23 +171,8 @@
 
 		// Known backgrounds
 		$scope.backgrounds = {}; //????
-		$scope.carbonfibre = {};
-		$scope.leather = {};
-		$scope.marble = {};
-		$scope.metal = {};
-		$scope.plasticABSwhite = {};
-		$scope.plasticPBTbrown_black = {};
-		$scope.plasticPBTwhite = {};
-		$scope.wood = {};
 		$http.get('backgrounds.json').success(function(data) {
-		  $scope.carbonfibre = data.carbonfibre;
-		  $scope.leather = data.leather;
-		  $scope.marble = data.marble;
-		  $scope.metal = data.metal;
-		  $scope.plasticABSwhite = data.plasticABSwhite;
-		  $scope.plasticPBTbrown_black = data.plasticPBTbrown_black;
-		  $scope.plasticPBTwhite = data.plasticPBTwhite;
-		  $scope.wood = data.wood;
+		  $scope.backgrounds = data.backgrounds;
 		});
 		
 		

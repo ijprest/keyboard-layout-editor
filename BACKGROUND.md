@@ -1,15 +1,14 @@
-Acknowledgements for Backgrounds
-================================
+#Acknowledgements for Backgrounds#
 
 There is an increasing trend towards using non-plastics to make custome keyboards.
 
 For example, see
-http://shop.keyboard.io/
-http://www.datamancer.com/cart/the-diviner-keyboard-p-204.html
-http://linustechtips.com/main/topic/410454-a-keyboard-build-log-by-davsmith4/
-http://www.thiemo.net/misc/kezboard/
-http://i.imgur.com/yPbsLjy.jpg
-http://themodzoo.com/forum/index.php/topic/280-diy-mod-guide-di-noc-carbon-fiber-gaming-mouse/
+* [Keyboard.io](http://shop.keyboard.io/)
+* [DataMancer Diviner](http://www.datamancer.com/cart/the-diviner-keyboard-p-204.html)
+* [Dave Smith carbon fibre project](http://linustechtips.com/main/topic/410454-a-keyboard-build-log-by-davsmith4/)
+* [The self-made marble keyboard](http://www.thiemo.net/misc/kezboard/)
+* [Carbon fibre keyboard](http://i.imgur.com/yPbsLjy.jpg)
+* [Carbon fibre mouse and keyboard](http://themodzoo.com/forum/index.php/topic/280-diy-mod-guide-di-noc-carbon-fiber-gaming-mouse/)
 
 To this end, KLE provides a selection of backgrounds which may possibly be used to aid in designing such keyboards.
 
@@ -18,21 +17,22 @@ to prevent unwanted tiling. The standard ANSI 104 fits happily into a 1250 px ba
 
 Materials currently in the lineup are:
 
-Carbon fibre
-Leather
-Metal
-Plastic
-Wood
+* Carbon fibre
+* Leather
+* Marble
+* Metal
+* Plastic
+* Wood
 
 The backgrounds were sourced from various sites around the web and are believed to all be
 free to use. If you feel your copyright is being infringed, please advise and the offending 
 material will be removed.
 
 The source materials were generally used as follows:
-  in some cases of close-up photos, reduced 50% x/y, and/or
-  rotated, and/or
-  cropped to around 2000x1000 px, and/or 
-  used as-is.
+*   in some cases of close-up photos, reduced 50% x/y, and/or
+*   rotated, and/or
+* cropped to around 2000x1000 px, and/or 
+* used as-is.
  
 
 The plastic backgrounds were created by selecting a small, defect-free region of photographs of Signature Plastics colour
@@ -44,18 +44,17 @@ road of using the textures as backgrounds to the keys themselves.
 
 
 Most of the following materials are from bgfons.com:
-Aluminium, Carbon fibres, Titanium, Iron/Steel, Marble, Leather:
-http://bgfons.com/img/materials/aluminum
-http://bgfons.com/img/materials/carbon
-http://bgfons.com/img/materials/titanium
-http://bgfons.com/img/materials/iron
-http://bgfons.com/img/materials/marble
-http://bgfons.com/img/materials/leather
+* [Aluminium](http://bgfons.com/img/materials/aluminum)
+* [Carbon fibres](http://bgfons.com/img/materials/carbon)
+* [Titanium](http://bgfons.com/img/materials/titanium)
+* [Iron/Steel](http://bgfons.com/img/materials/iron)
+* [Marble](http://bgfons.com/img/materials/marble)
+* [Leather](http://bgfons.com/img/materials/leather)
 
-Two leather textures are from 
-http://freepsdfiles.net/backgrounds/4-free-leather-textures
+Two leather textures (black.jpg and brown.jpg) are from 
+* [Free PSD file](http://freepsdfiles.net/backgrounds/4-free-leather-textures)
 
-Some metal and most wood textures are from CadNav (http://www.cadnav.com/), who have the following terms:
+Some metal and most wood textures are from [CadNav](http://www.cadnav.com/), who have the following terms:
 
 ===================================================================================================
 INFO:¡¡Please read and comply with the terms and conditions, otherwise please don't use this model!
@@ -67,6 +66,6 @@ INFO:¡¡Please read and comply with the terms and conditions, otherwise please 
 5. If you use this file (models or textures) in your project or website, please indicate the source from cadnav.com 
 ===================================================================================================
 
-The red mahogany is from http://sweetsoulsister.deviantart.com/art/Red-Mahogany-Wood-Texture-146083467
+The red mahogany is from [SweetSoulSister](http://sweetsoulsister.deviantart.com/art/Red-Mahogany-Wood-Texture-146083467)
 
 
