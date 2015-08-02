@@ -265,13 +265,27 @@
 			}
 		} else if($location.path()[0] === '/') {
 			var base = $serial.base_href;
-			if($location.path().substring(0,8) === '/samples') {
+			var path = $location.path();
+			var cssPath = null;
+			if(path.substring(0,9) === '/samples/') {
 				// Load samples from local folder
 				base = '';
+			} else if(path.substring(0,6) === '/gist/') {
+				// Load Gists from Github
+				base = 'https://gist.githubusercontent.com/';
+				cssPath = path.substring(6) + '/raw/style.css';
+				path = path.substring(6) + '/raw/kbd.json';
 			}
-			$http.get(base + $location.path()).success(function(data) {
+			$http.get(base + path).success(function(data) {
 				$scope.deserializeAndRender(data);
 				updateSerialized();
+				if(cssPath) {
+					$http.get(base + cssPath).success(function(data) {
+						updateFromCss($scope.meta.css = data);
+						$scope.keyboard.meta.css = $scope.meta.css;
+						updateSerialized();
+					});
+				}
 			}).error(function() {
 				$scope.loadError = true;
 			});
@@ -310,8 +324,8 @@
 				trans.modified = angular.copy($scope.keyboard);
 				trans.open = false;
 				redoStack = [];
-				if(type !== 'rawdata') { 
-					updateSerialized(); 
+				if(type !== 'rawdata') {
+					updateSerialized();
 				}
 				$scope.dirty = true;
 				$scope.saved = false;
@@ -602,8 +616,8 @@
 
 		var userGlyphsSentinel = {};
 		$scope.loadCharacterPicker = function(picker) {
-			$scope.picker = picker || { 
-				name: "User-Defined Glyphs", 
+			$scope.picker = picker || {
+				name: "User-Defined Glyphs",
 				glyphs: $scope.customGlyphs,
 				href: "https://github.com/ijprest/keyboard-layout-editor/wiki/Custom-Styles",
 				description: "This list will show any glyphs defined in your layout's 'Custom Styles' tab.  See the Commodore VIC-20 sample layout for an example.",
@@ -1082,7 +1096,7 @@
 
 		function github(path) {
 			return $http.get("https://api.github.com"+path, { headers: {
-				"Accept": "application/vnd.github.v3+json", 
+				"Accept": "application/vnd.github.v3+json",
 				"Authorization": "token " + $cookies.oauthToken,
 			}});
 		}
