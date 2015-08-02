@@ -26,6 +26,14 @@
 
 		// Github data
 		$scope.githubClientId = "631d93caeaa61c9057ab";
+		function github(path) {
+			var headers = {};
+			headers["Accept"] = "application/vnd.github.v3+json";
+			if($cookies.oauthToken) {
+				headers["Authorization"] = "token " + $cookies.oauthToken;
+			}
+			return $http.get("https://api.github.com"+path, {headers:headers});
+		}
 
 		// The selected tab; 0 == Properties, 1 == Kbd Properties, 3 == Custom Styles, 2 == Raw Data
 		$scope.selTab = 0;
@@ -255,30 +263,43 @@
 		});
 
 		function loadAndRender(path) {
-			var base = $serial.base_href;
-			var cssPath = null;
-			if(path.substring(0,9) === '/samples/') {
-				// Load samples from local folder
-				base = '';
-			} else if(path.substring(0,6) === '/gist/') {
+			if(path.substring(0,7) === '/gists/') {
 				// Load Gists from Github
-				base = 'https://gist.githubusercontent.com/';
-				cssPath = path.substring(6) + '/raw/style.css';
-				path = path.substring(6) + '/raw/kbd.json';
-			}
-			$http.get(base + path).success(function(data) {
-				$scope.deserializeAndRender(data);
-				updateSerialized();
-				if(cssPath) {
-					$http.get(base + cssPath).success(function(data) {
-						updateFromCss($scope.meta.css = data);
+				github(path).success(function(data) {
+					var json = "", css = "";
+					for(var fn in data.files) {
+						if(fn.indexOf(".kbd.json")>=0) {
+							json = data.files[fn].content;
+						} else if(fn.indexOf(".style.css")>=0) {
+							css = data.files[fn].content;
+						}
+					}
+
+					$scope.deserializeAndRender(jsonl.parse(json));
+					if(css) {
+						updateFromCss($scope.meta.css = css);
 						$scope.keyboard.meta.css = $scope.meta.css;
-						updateSerialized();
-					});
+					}
+					updateSerialized();
+					$scope.loadError = false;
+				}).error(function() {
+					$scope.loadError = true;
+				});
+
+			} else {
+				// Saved layouts & samples
+				var base = $serial.base_href;
+				if(path.substring(0,9) === '/samples/') {
+					base = ''; // Load samples from local folder
 				}
-			}).error(function() {
-				$scope.loadError = true;
-			});
+				$http.get(base + path).success(function(data) {
+					$scope.deserializeAndRender(data);
+					updateSerialized();
+					$scope.loadError = false;
+				}).error(function() {
+					$scope.loadError = true;
+				});
+			}
 		}
 
 		$renderKey.init();
@@ -1105,14 +1126,6 @@
 		$scope.keyboardTop = function() { var kbElem = $("#keyboard"); return kbElem.position().top + parseInt(kbElem.css('margin-top'),10); };
 		$scope.keyboardLeft = function() { var kbElem = $("#keyboard"); return kbElem.position().left + parseInt(kbElem.css('margin-left'),10); };
 
-
-		function github(path) {
-			return $http.get("https://api.github.com"+path, { headers: {
-				"Accept": "application/vnd.github.v3+json",
-				"Authorization": "token " + $cookies.oauthToken,
-			}});
-		}
-
 		function updateUserInfo() {
 			if($cookies.oauthToken) {
 				$scope.user = { name: "User", avatar: "<i class='fa fa-user'></i>" };
@@ -1176,7 +1189,7 @@
 			activeModal.result.then(function(params) {
 				if(params.load) {
 					confirmNavigate().then(function() {
-						var path = "/gist/"+$scope.user.name+"/"+params.load;
+						var path = "/gists/"+params.load;
 						$location.path(path).hash("").replace();
 						loadAndRender(path);
 					});
@@ -1206,9 +1219,12 @@
 		params.github("/gists").then(function(response) {
 			var index = 0;
 			response.data.forEach(function(layout) {
-				if(layout.files["kbd.json"]) {
-					layout.index = ++index;
-					$scope.layouts.push(layout);
+				for(var fn in layout.files) {
+					if(fn.indexOf(".kbd.json")>=0) {
+						layout.index = ++index;
+						$scope.layouts.push(layout);
+						break;
+					}
 				}
 			});
 		});
