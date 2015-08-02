@@ -19,7 +19,6 @@ Links
 -----
 * [Changelog](CHANGELOG.md)
 * [Contributors](CONTRIB.md)
-* [Backgrounds](BACKGROUND.md)
 * [License](LICENSE.md)
 
 Getting Started for Developers
