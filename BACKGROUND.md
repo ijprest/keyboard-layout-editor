@@ -56,15 +56,14 @@ Two leather textures (black.jpg and brown.jpg) are from
 
 Some metal and most wood textures are from [CadNav](http://www.cadnav.com/), who have the following terms:
 
--------------------------------------------------------------------------------------------------
-INFO:¡¡Please read and comply with the terms and conditions, otherwise please don't use this model!
 
-1. We doesn't accept any claims regarding quality of 3D model or any standards conformity.
+* INFO: Please read and comply with the terms and conditions, otherwise please don't use this model
+
+1. We don't accept any claims regarding quality of 3D model or any standards conformity.
 2. We will not participate in any technology or copyright issues.
 3. This file (models or textures) may be used in any commercial way only as a part of artwork or project. Single reselling or redistribution of this model is prohibited.  
-4. This file (models or textures) may be freely modificated or elaborated.
+4. This file (models or textures) may be freely modificated or elaborated. 
 5. If you use this file (models or textures) in your project or website, please indicate the source from cadnav.com
--------------------------------------------------------------------------------------------------
 
 
 The red mahogany is from [SweetSoulSister](http://sweetsoulsister.deviantart.com/art/Red-Mahogany-Wood-Texture-146083467)
