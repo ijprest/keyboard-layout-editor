@@ -103,7 +103,7 @@ Nav Bar / Header
       <li><a ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false"><i class="fa fa-link"></i> Permalink</a></li>
       <!-- User button -->
       <li ng-hide="user"><a href="#" ng-click="userLogin()"><i class="fa fa-github"></i> Sign in with GitHub</a></li>
-      <li ng-hide="!user" class="dropdown" dropdown>
+      <li ng-hide="!user" class="dropdown" dropdown ng-cloak>
         <a class="dropdown-toggle" dropdown-toggle><span ng-bind-html="user.avatar"></span> {{user.name}} <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li><a ng-click="showSavedLayouts()" href="#"><i class="fa fa-folder-open-o"></i> My Layouts</a></li>
