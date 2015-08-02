@@ -25,7 +25,7 @@ if(code && state) {
     } else if(!data.token) {
       window.opener.__oauthError('Gatekeeper did not return an OAuth token.');
     } else {
-      window.opener.__oauthSuccess(code, state);
+      window.opener.__oauthSuccess(data.token, state);
     }
     window.close();
   }).fail(function() {
