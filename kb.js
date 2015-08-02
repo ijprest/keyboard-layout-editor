@@ -1006,8 +1006,10 @@
 				resolve: { params: function() { return { moveStep:$scope.moveStep, sizeStep:$scope.sizeStep, rotateStep:$scope.rotateStep }; } }
 			});
 			activeModal.result.then(function(params) { $.extend($scope, params); });
-			event.preventDefault();
-			event.stopPropagation();
+			if(event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
 		};
 
 		// Clipboard functions
@@ -1135,17 +1137,47 @@
 				updateUserInfo();
 			}
 		};
+
+		$scope.showSavedLayouts = function(event) {
+			if(activeModal) activeModal.dismiss('cancel');
+			activeModal = $modal.open({
+				templateUrl:"savedLayouts.html",
+				controller:"savedLayoutsCtrl",
+				windowClass:"modal-xl",
+				scope:$scope,
+				resolve: { params: function() { return { github: github }; } }
+			});
+			activeModal.result.then(function(params) {});
+			if(event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		};
 	}]);
 
 	// Simple modal-popup controller
 	kbApp.controller('modalCtrl', function($scope, $modalInstance, params) {
 		$scope.params = params;
-		$scope.ok = function() {
-			$modalInstance.close($scope.params);
-		};
-		$scope.cancel = function() {
-			$modalInstance.dismiss('cancel');
-		};
+		$scope.ok = function() { $modalInstance.close($scope.params); };
+		$scope.cancel = function() { $modalInstance.dismiss('cancel'); };
+	});
+
+	kbApp.controller('savedLayoutsCtrl', function($scope, $modalInstance, params) {
+		$scope.params = params;
+		$scope.ok = function() { $modalInstance.close($scope.params); };
+		$scope.cancel = function() { $modalInstance.dismiss('cancel'); };
+
+		$scope.layouts = [];
+		params.github("/gists").then(function(response) {
+			console.log(response);
+			var index = 0;
+			response.data.forEach(function(layout) {
+				if(layout.files["kbd.json"]) {
+					layout.index = ++index;
+					$scope.layouts.push(layout);
+				}
+			});
+		});
 	});
 
 	kbApp.directive('kbdColorPicker', function($timeout) {
