@@ -201,6 +201,7 @@ for i in (1..9) {
 .hint--rounded:after { width: 300px; }
 .hint:after, [data-hint]:after { white-space: pre-line; }
 .hint:before, .hint:after, [data-hint]:before, [data-hint]:after { -webkit-transition: 0.05s ease; -moz-transition: 0.05s ease; transition: 0.05s ease; }
+.hint--no-animate:before, .hint--no-animate:after { transition: 0ms !important; }
 
 /* Help Dialog */
 .modal-xl .modal-dialog { width: 80vw; }

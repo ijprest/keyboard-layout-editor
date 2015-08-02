@@ -75,6 +75,9 @@
 		};
 
 		$scope.save = function(event) {
+			if(!$scope.user || !$scope.user.id) {
+				return;
+			}
 			if(event) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -132,7 +135,7 @@
 			}
 		};
 		$scope.canSave = function() {
-			return $scope.dirty;
+			return $scope.dirty && $scope.user && $scope.user.id;
 		};
 		$scope.downloadSvg = function() {
 			var data = $renderKey.fullSVG($scope.keys(), $scope.keyboard.meta);
@@ -1170,8 +1173,9 @@
 
 		function updateUserInfo() {
 			if($cookies.oauthToken) {
-				$scope.user = { name: "User", avatar: "<i class='fa fa-user'></i>" };
+				$scope.user = { id: '', name: "User", avatar: "<i class='fa fa-user'></i>" };
 				github('/user').success(function(data) {
+					$scope.user.id = data.login;
 					$scope.user.name = data.login;
 					if(data.avatar_url) {
 						$scope.user.avatar = "<img src='"+data.avatar_url+"' class='avatar'>";
