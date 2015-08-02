@@ -24,6 +24,9 @@
 		// The application version
 		$scope.version = "0.14";
 
+		// Github data
+		$scope.githubClientId = "631d93caeaa61c9057ab";
+
 		// The selected tab; 0 == Properties, 1 == Kbd Properties, 3 == Custom Styles, 2 == Raw Data
 		$scope.selTab = 0;
 
@@ -1074,12 +1077,33 @@
 		$scope.keyboardTop = function() { var kbElem = $("#keyboard"); return kbElem.position().top + parseInt(kbElem.css('margin-top'),10); };
 		$scope.keyboardLeft = function() { var kbElem = $("#keyboard"); return kbElem.position().left + parseInt(kbElem.css('margin-left'),10); };
 
+
+		function github(path) {
+			return $http.get("https://api.github.com"+path, { headers: {
+				"Accept": "application/vnd.github.v3+json", 
+				"Authorization": "token " + $cookies.oauthToken,
+			}});
+		}
+
+		function updateUserInfo() {
+			if($cookies.oauthToken) {
+				$scope.user = { name: "User", avatar: "<i class='fa fa-user'></i>" };
+				github('/user').success(function(data) {
+					$scope.user.name = data.login;
+					if(data.avatar_url) {
+						$scope.user.avatar = "<img src='"+data.avatar_url+"' class='avatar'>";
+					}
+				});
+			} else {
+				$scope.user = null;
+			}
+		}
+		updateUserInfo();
+
 		var userLoginSecret;
-		$scope.oauthToken = $cookies.oauthToken;
 		$scope.userLogin = function() {
-			if(!userLoginSecret && !$scope.oauthToken) {
-				$scope.oauthToken = null;
-				var parms = "&client_id=631d93caeaa61c9057ab&redirect_uri=http://localhost:8080/oauth.html";
+			if(!userLoginSecret && !$scope.user) {
+				var parms = "&client_id="+ $scope.githubClientId +"&redirect_uri=http://localhost:8080/oauth.html";
 				userLoginSecret = (window.performance && window.performance.now ? window.performance.now() : Date.now()).toString() + "_" + (Math.random()).toString();
 				var loginWindow = window.open("https://github.com/login/oauth/authorize?scope=gist&state="+userLoginSecret+parms,
 					"Sign in with Github", "left="+(window.left+50)+",top="+(window.top+50)+",width=1050,height=630,personalbar=0,toolbar=0,scrollbars=1,resizable=1");
@@ -1089,11 +1113,17 @@
 			}
 		};
 
+		$scope.userLogout = function() {
+			$cookies.oauthToken = "";
+			updateUserInfo();
+		};
+
 		$scope.oauthError = null;
 		window.__oauthError = function(error) {
 			userLoginSecret = null;
 			$scope.oauthError = error || 'Unknown error.';
-			$scope.oauthToken = null;
+			$scope.oauthToken = "";
+			updateUserInfo();
 		};
 
 		window.__oauthSuccess = function(code, secret) {
@@ -1101,8 +1131,8 @@
 				window.__oauthError('The server returned an incorrect login secret.');
 			} else {
 				userLoginSecret = null;
-				$scope.oauthToken = code;
-				$cookies.oauthToken = $scope.oauthToken;
+				$cookies.oauthToken = code;
+				updateUserInfo();
 			}
 		};
 	}]);

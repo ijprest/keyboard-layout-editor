@@ -102,7 +102,14 @@ Nav Bar / Header
       <!-- Permalink button -->
       <li><a ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false"><i class="fa fa-link"></i> Permalink</a></li>
       <!-- User button -->
-      <li><a href="#" ng-click="userLogin()" ng-hide="oauthToken"><i class="fa fa-github"></i> Sign in with GitHub</a></li>
+      <li ng-hide="user"><a href="#" ng-click="userLogin()"><i class="fa fa-github"></i> Sign in with GitHub</a></li>
+      <li ng-hide="!user" class="dropdown" dropdown>
+        <a class="dropdown-toggle" dropdown-toggle><span ng-bind-html="user.avatar"></span> {{user.name}} <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="https://github.com/settings/connections/applications/{{githubClientId}}" target="_blank"><i class="fa fa-key"></i> Manage GitHub Permissions</a></li>
+          <li><a ng-click="userLogout()" href="#"><i class="fa fa-sign-out"></i> Log out</a></li>
+        </ul>
+      </li>
     </ul>
   </div>
 </nav>
