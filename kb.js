@@ -17,7 +17,7 @@
 	});
 
 	// The main application controller
-	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', '$modal', '$cookies', function($scope, $http, $location, $timeout, $sce, $sanitize, $modal, $cookies) {
+	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', '$modal', '$cookies', '$confirm', '$q', function($scope, $http, $location, $timeout, $sce, $sanitize, $modal, $cookies, $confirm, $q) {
 		var serializedTimer = false;
 		var customStylesTimer = false;
 
@@ -254,18 +254,8 @@
 			}
 		});
 
-		$renderKey.init();
-		$scope.deserializeAndRender([]);
-		if($location.hash()) {
-			var loc = $location.hash();
-			if(loc[0]=='@') {
-				$scope.deserializeAndRender(URLON.parse(encodeURI(loc)));
-			} else {
-				$scope.deserializeAndRender($serial.fromJsonL(loc));
-			}
-		} else if($location.path()[0] === '/') {
+		function loadAndRender(path) {
 			var base = $serial.base_href;
-			var path = $location.path();
 			var cssPath = null;
 			if(path.substring(0,9) === '/samples/') {
 				// Load samples from local folder
@@ -289,6 +279,19 @@
 			}).error(function() {
 				$scope.loadError = true;
 			});
+		}
+
+		$renderKey.init();
+		$scope.deserializeAndRender([]);
+		if($location.hash()) {
+			var loc = $location.hash();
+			if(loc[0]=='@') {
+				$scope.deserializeAndRender(URLON.parse(encodeURI(loc)));
+			} else {
+				$scope.deserializeAndRender($serial.fromJsonL(loc));
+			}
+		} else if($location.path()[0] === '/') {
+			loadAndRender($location.path());
 		} else {
 			// Some simple default content... just a numpad
 			$scope.deserializeAndRender([["Num Lock","/","*","-"],["7\nHome","8\n↑","9\nPgUp",{h:2},"+"],["4\n←","5","6\n→"],["1\nEnd","2\n↓","3\nPgDn",{h:2},"Enter"],[{w:2},"0\nIns",".\nDel"]]);
@@ -303,9 +306,18 @@
 		$scope.dirty = false;
 		$scope.saved = false;
 		$scope.saveError = "";
+		var dirtyMessage = 'You have made changes to the layout that are not saved.  You can save your layout to the server by clicking the \'Save\' button.  You can also save your layout locally by bookmarking the \'Permalink\' in the application bar.';
 		window.onbeforeunload = function(e) {
-			if($scope.dirty) return 'You have made changes to the layout that are not saved.  You can save your layout to the server by clicking the \'Save\' button.  You can also save your layout locally by bookmarking the \'Permalink\' in the application bar.';
+			if($scope.dirty) return dirtyMessage;
 		};
+		function confirmNavigate() {
+			if(!$scope.dirty) {
+				var deferred = $q.defer();
+				deferred.resolve();
+				return deferred.promise;
+			}
+			return $confirm.show(dirtyMessage + "\n\nAre you sure you want to navigate away?");
+		}
 
 		function transaction(type, fn) {
 			var trans = undoStack.length>0 ? undoStack.last() : null;
@@ -1161,7 +1173,15 @@
 				scope:$scope,
 				resolve: { params: function() { return { github: github }; } }
 			});
-			activeModal.result.then(function(params) {});
+			activeModal.result.then(function(params) {
+				if(params.load) {
+					confirmNavigate().then(function() {
+						var path = "/gist/"+$scope.user.name+"/"+params.load;
+						$location.path(path).hash("").replace();
+						loadAndRender(path);
+					});
+				}
+			});
 			if(event) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -1180,10 +1200,10 @@
 		$scope.params = params;
 		$scope.ok = function() { $modalInstance.close($scope.params); };
 		$scope.cancel = function() { $modalInstance.dismiss('cancel'); };
+		$scope.load = function(gist) { $scope.params.load = gist;	$scope.ok(); }
 
 		$scope.layouts = [];
 		params.github("/gists").then(function(response) {
-			console.log(response);
 			var index = 0;
 			response.data.forEach(function(layout) {
 				if(layout.files["kbd.json"]) {
@@ -1216,4 +1236,23 @@
 		return { templateUrl: "multiNumbox.html", restrict: "E", scope: { field: "@", size:"@", min:"@", max:"@", step:"@" } };
 	});
 
+	// Runs a confirmation dialog asynchronously, using promises.
+	kbApp.service("$confirm", function($q, $timeout, $window) {
+		var current = null;
+		return { 
+			show: function(message) {
+				if(current) current.reject();
+				current = $q.defer();
+				$timeout(function() {
+					if($window.confirm(message)) {
+						current.resolve();
+					} else {
+						current.reject();
+					}
+					current = null;
+				}, 0,	false);
+				return current.promise;
+			}
+		}
+	});
 }());
