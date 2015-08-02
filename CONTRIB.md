@@ -10,6 +10,7 @@ The following users have contributed some of the sample keyboard layouts & prese
 * [BlueNalgene](https://github.com/BlueNalgene)
 * [alerque](https://github.com/alerque)
 * [jasonm23](https://github.com/jasonm23)
+* [iandoug](http://iandoug.com/?p=64)
 
 Third-Party Software
 --------------------
