@@ -26,14 +26,16 @@
 
 		// Github data
 		$scope.githubClientId = "631d93caeaa61c9057ab";
-		function github(path) {
+		function github(path, method, data) {
+			method = method || "GET";
 			var headers = {};
 			headers["Accept"] = "application/vnd.github.v3+json";
 			if($cookies.oauthToken) {
 				headers["Authorization"] = "token " + $cookies.oauthToken;
 			}
-			return $http.get("https://api.github.com"+path, {headers:headers});
+			return $http({method:method, url:"https://api.github.com"+path, headers:headers, data:data});
 		}
+		$scope.currentGist = null;
 
 		// The selected tab; 0 == Properties, 1 == Kbd Properties, 3 == Custom Styles, 2 == Raw Data
 		$scope.selTab = 0;
@@ -72,29 +74,61 @@
 			}
 		};
 
-		function saveLayout(layout) {
-			$serial.saveLayout($http, layout,
-				function(fn) {
-					//success
-					$scope.dirty = false;
-					$scope.saved = fn;
-					$location.path("/layouts/"+fn).hash("").replace();
-					$scope.saveError = "";
-				},
-				function(data,status) {
-					// error
-					$scope.saved = false;
-					$scope.saveError = status.toString() + " - " + data.toString();
-				}
-			);
-		}
 		$scope.save = function(event) {
 			if(event) {
 				event.preventDefault();
 				event.stopPropagation();
 			}
 			if($scope.dirty) {
-				saveLayout($serial.serialize($scope.keyboard));
+				// Make a copy of the keyboard, and extract the CSS
+				var layout = angular.copy($scope.keyboard);
+				var css = layout.meta.css;
+				delete layout.meta.css;
+				var description = layout.meta.name || "Untitled Keyboard Layout";
+
+				// Compute a reasonable filename base from the layout's name
+				var fn_base = (layout.meta.name || "layout").trim().replace(/[\"\']/g,'').replace(/\s/g,'-').replace(/[^-A-Za-z0-9_,;]/g,'_');
+				var fn_base_old = fn_base;
+
+				// Saving over existing Gist
+				var url = "/gists";
+				var method = "POST";
+				if($scope.currentGist) {
+					url = "/gists/" + $scope.currentGist.id;
+					method = "PATCH";
+
+					// Determine existing filename base
+					for(var fn in $scope.currentGist.files) {
+						var ndx = fn.indexOf(".kbd.json");
+						if(ndx >= 0) {
+							fn_base_old = fn.substring(0,ndx);
+							break;
+						}
+					}
+				}
+
+				// Build the data structure
+				var data = { description: description, files: {} };
+				data.files[fn_base_old + ".kbd.json"] = {filename: fn_base + ".kbd.json", content: angular.toJson($serial.serialize(layout), true /*pretty*/)};
+				if(css) {
+					data.files[fn_base_old + ".style.css"] = {filename: fn_base + ".style.css", content: css};
+				} else if($scope.currentGist.files[fn_base_old + ".style.css"]) {
+					data.files[fn_base_old + ".style.css"] = null; // Remove existing CSS file
+				}
+
+				// Post data to GitHub
+				github(url, method, data).success(function(response) {
+					//success
+					$scope.dirty = false;
+					$scope.saved = response.id;
+					$location.path("/gists/"+response.id).hash("").replace();
+					$scope.saveError = "";
+					$scope.currentGist = response;
+				}).error(function(data,status) {
+					// error
+					$scope.saved = false;
+					$scope.saveError = status.toString() + " - " + data.toString();
+				});
 			}
 		};
 		$scope.canSave = function() {
@@ -282,8 +316,10 @@
 					}
 					updateSerialized();
 					$scope.loadError = false;
+					$scope.currentGist = data;
 				}).error(function() {
 					$scope.loadError = true;
+					$scope.currentGist = null;
 				});
 
 			} else {
@@ -353,7 +389,9 @@
 			try {
 				fn();
 			} finally {
-				$location.path("").hash("").replace();
+				if(!$scope.currentGist) {
+					$location.path("").hash("").replace();
+				}
 				trans.modified = angular.copy($scope.keyboard);
 				trans.open = false;
 				redoStack = [];
@@ -692,7 +730,9 @@
 		$scope.loadSample = function(sample) {
 			$http.get(sample).success(function(data) {
 				$scope.loadPreset(data);
-				$location.path(sample).hash("").replace();
+				if(!$scope.currentGist) {
+					$location.path(sample).hash("").replace();
+				}
 			}).error(function() {
 				$scope.loadError = true;
 			});
@@ -1014,8 +1054,10 @@
 				windowClass:"modal-xxl markdownDialog",
 				resolve: { params: function() { return { parentScope: $scope }; } }
 			});
-			event.preventDefault();
-			event.stopPropagation();
+			if(event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
 		};
 		$scope.previewNotes = function(event) {
 			$scope.markdownTitle = 'About This Keyboard Layout';
@@ -1251,7 +1293,7 @@
 	// Runs a confirmation dialog asynchronously, using promises.
 	kbApp.service("$confirm", function($q, $timeout, $window) {
 		var current = null;
-		return { 
+		return {
 			show: function(message) {
 				if(current) current.reject();
 				current = $q.defer();

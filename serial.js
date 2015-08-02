@@ -357,35 +357,4 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 		}
 		return { meta:meta, keys:keys };
 	}
-
-	$serial.saveLayout = function($http, layout, success, error) {
-		var data = angular.toJson(layout);
-		var fn = CryptoJS.MD5(data).toString();
-
-		// First test to see if the file is already available
-		$http.get($serial.base_href+"/layouts/"+fn).success(function() { success(fn); }).error(function() {
-			// Nope... need to upload it
-			var fd = new FormData();
-			fd.append("key", "layouts/"+fn);
-			fd.append("AWSAccessKeyId", "AKIAJSXGG74EMFBC57QQ");
-			fd.append("acl", "public-read");
-			fd.append("success_action_redirect", $serial.base_href);
-			fd.append("policy", "eyJleHBpcmF0aW9uIjoiMjAyMC0wMS0wMVQwMDowMDowMFoiLCJjb25kaXRpb25zIjpbeyJidWNrZXQiOiJ3d3cua2V5Ym9hcmQtbGF5b3V0LWVkaXRvci5jb20ifSxbInN0YXJ0cy13aXRoIiwiJGtleSIsImxheW91dHMvIl0seyJhY2wiOiJwdWJsaWMtcmVhZCJ9LHsic3VjY2Vzc19hY3Rpb25fcmVkaXJlY3QiOiJodHRwOi8vd3d3LmtleWJvYXJkLWxheW91dC1lZGl0b3IuY29tIn0seyJDb250ZW50LVR5cGUiOiJhcHBsaWNhdGlvbi9qc29uIn0sWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsMCwxNjM4NF1dfQ==");
-			fd.append("signature", "RZiagiPbcicJPhE4RFRCsx91kAY=");
-			fd.append("Content-Type", "application/json");
-			fd.append("file", data);
-			$http.post("http://www.keyboard-layout-editor.com.s3.amazonaws.com/", fd, {
-				headers: {'Content-Type': undefined },
-				transformRequest: angular.identity
-			}).success(function() { success(fn); }).error(function(data, status) {
-				if(status == 0) {
-					// We seem to get a 'cancelled' notification even though the POST
-					// is successful, so we have to double-check.
-					$http.get($serial.base_href+"/layouts/"+fn).success(function() { success(fn); }).error(error);
-				} else {
-					error(data,status);
-				}
-			});
-		});
-	};
 }());
