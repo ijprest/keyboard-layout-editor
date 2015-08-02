@@ -16,6 +16,7 @@ All rights reserved.
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/angular.min.js"></script>
 <script type="text/javascript" src="js/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="js/angular-cookies.min.js"></script>
 <script type="text/javascript" src="js/ui-utils.min.js"></script>
 <script type="text/javascript" src="js/ui-bootstrap-tpls-0.12.0.min.js"></script>
 <script type="text/javascript" src="js/crypto-js.js"></script>
@@ -100,6 +101,8 @@ Nav Bar / Header
       <li><a href="#" ng-click="showOptions()"><i class="fa fa-cog"></i> Options</a></li>
       <!-- Permalink button -->
       <li><a ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false"><i class="fa fa-link"></i> Permalink</a></li>
+      <!-- User button -->
+      <li><a href="#" ng-click="userLogin()" ng-hide="oauthToken"><i class="fa fa-github"></i> Sign in with GitHub</a></li>
     </ul>
   </div>
 </nav>
@@ -608,6 +611,9 @@ Nav Bar / Header
     </alert>
     <alert type="danger" ng-hide="!loadError" close="loadError=false" ng-cloak>
       The requested layout does not exist.
+    </alert>
+    <alert type="danger" ng-hide="!oauthError" close="oauthError=null" ng-cloak>
+      An error occurred during login: {{oauthError}}
     </alert>
   </div>
 

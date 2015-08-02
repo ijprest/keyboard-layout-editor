@@ -11,13 +11,13 @@
 	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
 
 	// The angular module for our application
-	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ui.bootstrap", "ui.bootstrap.tooltip", "ngFileUpload", "ang-drag-drop", "colorpicker.module"], function($tooltipProvider) {
+	var kbApp = angular.module('kbApp', ["ngSanitize", "ngCookies", "ui.utils", "ui.bootstrap", "ui.bootstrap.tooltip", "ngFileUpload", "ang-drag-drop", "colorpicker.module"], function($tooltipProvider) {
 		// Default tooltip behaviour
     $tooltipProvider.options({animation: false, appendToBody: true});
 	});
 
 	// The main application controller
-	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', '$modal', function($scope, $http, $location, $timeout, $sce, $sanitize, $modal) {
+	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', '$modal', '$cookies', function($scope, $http, $location, $timeout, $sce, $sanitize, $modal, $cookies) {
 		var serializedTimer = false;
 		var customStylesTimer = false;
 
@@ -1073,6 +1073,38 @@
 
 		$scope.keyboardTop = function() { var kbElem = $("#keyboard"); return kbElem.position().top + parseInt(kbElem.css('margin-top'),10); };
 		$scope.keyboardLeft = function() { var kbElem = $("#keyboard"); return kbElem.position().left + parseInt(kbElem.css('margin-left'),10); };
+
+		var userLoginSecret;
+		$scope.oauthToken = $cookies.oauthToken;
+		$scope.userLogin = function() {
+			if(!userLoginSecret && !$scope.oauthToken) {
+				$scope.oauthToken = null;
+				var parms = "&client_id=631d93caeaa61c9057ab&redirect_uri=http://localhost:8080/oauth.html";
+				userLoginSecret = (window.performance && window.performance.now ? window.performance.now() : Date.now()).toString() + "_" + (Math.random()).toString();
+				var loginWindow = window.open("https://github.com/login/oauth/authorize?scope=gist&state="+userLoginSecret+parms,
+					"Sign in with Github", "left="+(window.left+50)+",top="+(window.top+50)+",width=1050,height=630,personalbar=0,toolbar=0,scrollbars=1,resizable=1");
+				if(loginWindow) {
+					loginWindow.focus();
+				}
+			}
+		};
+
+		$scope.oauthError = null;
+		window.__oauthError = function(error) {
+			userLoginSecret = null;
+			$scope.oauthError = error || 'Unknown error.';
+			$scope.oauthToken = null;
+		};
+
+		window.__oauthSuccess = function(code, secret) {
+			if(secret !== userLoginSecret) {
+				window.__oauthError('The server returned an incorrect login secret.');
+			} else {
+				userLoginSecret = null;
+				$scope.oauthToken = code;
+				$cookies.oauthToken = $scope.oauthToken;
+			}
+		};
 	}]);
 
 	// Simple modal-popup controller
