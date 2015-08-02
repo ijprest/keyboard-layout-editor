@@ -158,9 +158,13 @@ Nav Bar / Header
     <button type="button" class="btn btn-default" ng-class="{disabled:!canPaste()}" ng-click="paste()"><i class="fa fa-paste"></i> Paste</button>
   </div>
   <!-- Save button (right aligned) -->
-  <div class="btn-group pull-right">
-    <button type="button" class="btn btn-success hint--bottom hint--no-animate" ng-class="{disabled:!canSave()}" ng-click="save()"
-            ng-attr-data-hint="{{!user || !user.id ? 'Sign in to save your layouts.' : ''}}">
+  <div class="btn-group pull-right" ng-hide="user && user.id">
+    <button type="button" class="btn btn-success hint--bottom hint--no-animate disabled" data-hint="Sign in to save your layouts.">
+      <i class="fa fa-save"></i> Save
+    </button>
+  </div>
+  <div class="btn-group pull-right" ng-hide="!user || !user.id">
+    <button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()">
       <i class="fa fa-save"></i> Save
     </button>
   </div>
