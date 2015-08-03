@@ -1,5 +1,5 @@
 /* Helper function to set up our fonts */
-webfont(family, file, weight = 'normal', style='normal') {
+webfont(family, file, weight=normal, style=normal) {
   @font-face {
     font-family: family;
     src: url('/fonts/' + file + ".eot");
@@ -208,7 +208,7 @@ for i in (1..9) {
 .modal-xxl .modal-dialog { width: 90vw; }
 
 /* Our "README" dialog; we want the body of the dialog itself to be scrollable */
-.markdownDialog .modal-dialog { margin: 30 auto; } /*60px*/
+.markdownDialog .modal-dialog { margin: 30px auto; } /*60px*/
 .markdownDialog .modal-header { height: 55px; }
 .markdownDialog .modal-footer { height: 74px; margin-top: 0px; }
 .markdownDialog .modal-body {
