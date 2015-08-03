@@ -2,8 +2,10 @@
   {
     "name": "Programmer's Keyboard 1.90",
     "author": "Ian Douglas",
-    "backgroundimage": "bg/wood/Red_Mahogany_Wood.jpg",
-    "backgroundimagewidth": 1300,
+    "background": { 
+      "name": "Mahogany Red", 
+      "style" : "background-image: url('/bg/wood/Red_Mahogany_Wood.jpg');" 
+    },
     "backgroundradii": "30px 30px 50% 50%",
     "defaultkeyswitchstyle": "CherryMX",
     "defaultkeyswitchbrand": "Cherry",
