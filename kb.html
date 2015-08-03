@@ -548,7 +548,7 @@ Nav Bar / Header
                   <div class="btn-group btn-group-sm-form" dropdown>
                     <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle>{{meta.background ? meta.background.name : 'No Texture'}} <b class="caret"></b></button>
                     <ul class="dropdown-menu" role="menu" style="max-height:40vh;overflow-y:scroll;">
-                      <li><a ng-click='setBackground(null)'>None</a></li>
+                      <li><a ng-click='setBackground()'>None</a></li>
                       <li class="divider"></li>
                       <li ng-repeat="category in backgrounds">
                         <div class="dropdown-header" style="{{category.style}}">{{category.category}}:</div>

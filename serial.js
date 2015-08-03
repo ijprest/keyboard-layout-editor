@@ -108,7 +108,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 		color: "#cccccc", profile: "", nub: false, ghost: false, stepped: false	// cap appearance
 	};
 
-	var _defaultMetaData = { backcolor: '#eeeeee', name: '', author: '', notes: '' };
+	var _defaultMetaData = { backcolor: '#eeeeee', name: '', author: '', notes: '', background: undefined, radii: '' };
 	$serial.defaultKeyProps = function() { return copy(_defaultKeyProps); };
 	$serial.defaultMetaData = function() { return copy(_defaultMetaData); };
 
