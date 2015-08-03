@@ -274,11 +274,10 @@
 		});
 
 		// Known backgrounds
-		$scope.backgrounds = {}; //????
+		$scope.backgrounds = {};
 		$http.get('backgrounds.json').success(function(data) {
-		  $scope.backgrounds = data.backgrounds;
-		});
-		
+		  $scope.backgrounds = data;
+		});		
 		
 		// The currently selected palette & character-picker
 		$scope.palette = {};
@@ -311,13 +310,16 @@
 		// Helper to calculate the height of the keyboard layout; cached to improve performance.
 		$scope.kbHeight = 0;
 		$scope.calcKbHeight = function() {
-			var bottom = 0;
+			var right = 0, bottom = 0;
 			$scope.keys().forEach(function(key) {
+				right = Math.max(right, key.bbox.x2);
 				bottom = Math.max(bottom, key.bbox.y2);
 			});
-			if($scope.keyboard.meta.name || $scope.keyboard.meta.author)
-				bottom += 32;
+			$scope.kbWidth = right;
 			$scope.kbHeight = bottom;
+			$scope.kbFullHeight = bottom;
+			if($scope.keyboard.meta.name || $scope.keyboard.meta.author)
+				$scope.kbFullHeight += 32;
 		};
 
 		function updateFromCss(css) {
@@ -607,6 +609,10 @@
 			$scope.calcKbHeight();
 		};
 		$scope.validateMeta = function(prop) {
+		};
+		$scope.setBackground = function(bg) {
+			$scope.meta.background = bg;
+			$scope.updateMeta('background');
 		};
 
 		updateSerialized();
@@ -1004,7 +1010,7 @@
 				doingMarqueeSelect = false;
 
 				// Calculate the offset between #keyboard and the mouse-coordinates
-				var kbElem = $("#keyboard");
+				var kbElem = $("#keyboard-bg");
 				var kbPos = kbElem.position();
 				var offsetx = kbPos.left + parseInt(kbElem.css('padding-left'),10) + parseInt(kbElem.css('margin-left'),10);
 				var offsety = kbPos.top + parseInt(kbElem.css('padding-top'),10) + parseInt(kbElem.css('margin-top'),10);

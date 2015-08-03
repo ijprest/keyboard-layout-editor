@@ -182,10 +182,7 @@ Nav Bar / Header
   <!--***********************************************
   Main Keyboard Preview/Editor area
   ************************************************-->
-  <div id="keyboard" ng-cloak
-     tabindex="0"
-     ng-style="{height: kbHeight + 'px', 'background-color': keyboard.meta.backcolor, 'background-image':'url(' + keyboard.meta.backgroundimage + ')','width': keyboard.meta.backgroundimagewidth + 'px',
-		  'border-radius': keyboard.meta.backgroundradii }"
+  <div id="keyboard" ng-cloak tabindex="0"
      ui-keydown="{ left:'moveKeys(-moveStep,0,$event)',
                  right:'moveKeys(moveStep,0,$event)',
                  up:'moveKeys(0,-moveStep,$event)',
@@ -218,17 +215,19 @@ Nav Bar / Header
      ng-mousedown="selectClick($event)"
      ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
 
-    <div ng-repeat="key in keys()"
-       class="key {{key.profile}}"
-       ng-mouseover="hoveredKey=key"
-       ng-mouseleave="hoveredKey=null"
-       ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0, HOMING:key.nub}"
-       ng-bind-html="key.html">
+    <div id='keyboard-bg' 
+         style="height:{{kbHeight}}px; width:{{kbWidth}}px; background-color:{{keyboard.meta.backcolor}}; border-radius: {{keyboard.meta.backgroundradii}}; {{keyboard.meta.background.style}}">
+      <div ng-repeat="key in keys()"
+         class="key {{key.profile}}"
+         ng-mouseover="hoveredKey=key"
+         ng-mouseleave="hoveredKey=null"
+         ng-class="{hover: hoveredKey==key, selected: selectedKeys.indexOf(key)>=0, HOMING:key.nub}"
+         ng-bind-html="key.html">
+      </div>
     </div>
 
-    <div style="position:relative;line-height:1.2;" ng-style="{top:(kbHeight-26)+'px'}"
-         ng-hide="!keyboard.meta.name &amp;&amp; !keyboard.meta.author">
-         <a href="#" ng-click="previewNotes()">{{keyboard.meta.name}}<br/><i>{{keyboard.meta.author}}</i></a>
+    <div style="line-height:1.2em; padding:3px 5px;" ng-hide="!keyboard.meta.name &amp;&amp; !keyboard.meta.author">
+      <a href="#" ng-click="previewNotes()">{{keyboard.meta.name}}<br/><i>{{keyboard.meta.author}}</i></a>
     </div>
     <div style='clear:both'></div>
     {{calcKbHeight()}}
@@ -517,8 +516,8 @@ Nav Bar / Header
           </ul>
         </div>
         <div class="col-md-12 col-lg-12" style="padding:4px 0px;">
-          <input id="picker-html" class="form-control input-sm" type='text' 
-                ng-model="pickerSelection.html" placeholder="No glyph selected" 
+          <input id="picker-html" class="form-control input-sm" type='text'
+                ng-model="pickerSelection.html" placeholder="No glyph selected"
                 onClick="this.select();" readonly>
         </div>
         <alert type="warning" style="margin-top:40px;" ng-hide="pickerAlertHidden" close="pickerAlertHidden = true">
@@ -531,63 +530,47 @@ Nav Bar / Header
     <div id="kbdproperties" ng-class="{hidden:selTab!=1}">
       <form class="form-horizontal col-sm-12 col-md-12 col-lg-12">
 
-        <!-- Keyboard Color -->
+        <!-- Keyboard Background -->
         <div class="form-group form-group-sm">
-          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdcoloreditor">Keyboard Color:</label>
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdcoloreditor">Case Background:</label>
           <div class="col-md-10 col-lg-11">
             <div class="form-inline">
+              <!-- Color -->
               <kbd-color-picker picker-id="kbdcoloreditor"
                                 ng-model="meta.backcolor"
                                 ng-change="updateMeta('backcolor')"
                                 ng-blur="validateMeta('backcolor')"
                                 hint-text="Specify the background color for the keyboard."></kbd-color-picker>
+
+              <!-- Background image-->
+              <div class="form-group form-group-sm">
+                <div class="input-group input-group-sm hint--top hint--rounded" data-hint="Specify the background texture for the keyboard.">
+                  <div class="btn-group btn-group-sm-form" dropdown>
+                    <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle>{{meta.background ? meta.background.name : 'No Texture'}} <b class="caret"></b></button>
+                    <ul class="dropdown-menu" role="menu" style="max-height:40vh;overflow-y:scroll;">
+                      <li><a ng-click='setBackground(null)'>None</a></li>
+                      <li class="divider"></li>
+                      <li ng-repeat="category in backgrounds">
+                        <div class="dropdown-header" style="{{category.style}}">{{category.category}}:</div>
+                        <ul class="menu">
+                          <li ng-repeat="bg in category.content"><a ng-click='setBackground(bg)'>{{bg.name}}</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Keyboard background image src-->
-        <div class="form-group form-group-sm">
-          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdbackgroundimageeditor">Case Image:</label>
-
-          <div class="col-md-1 col-lg-1 form-outdent hint--top hint--rounded"
-               data-hint="Specify the background image for this keyboard layout.">
-            <select id="kbdbackgroundimageeditor" class="form-control input-sm dropdown"
-                   ng-model="meta.backgroundimage"
-                   ng-change="updateMeta('backgroundimage')"
-                   ng-blur="validateMeta('backgroundimage')">
-                   <option value="">None</option>
-                   <option value="" class="bg-dropdown-header bg-dropdown-header-carbon">Carbon fibre</option>
-		   <option ng-repeat="(k,v) in backgrounds.carbonfibre" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header bg-dropdown-header-leather">Leather</option>
-		   <option ng-repeat="(k,v) in backgrounds.leather" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header bg-dropdown-header-marble">Marble</option>
-		   <option ng-repeat="(k,v) in backgrounds.marble" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header bg-dropdown-header-metal">Metal</option>
-		   <option ng-repeat="(k,v) in backgrounds.metal" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header bg-dropdown-header-plastic">Plastic ABS 'white'</option>
-		   <option ng-repeat="(k,v) in backgrounds.plasticABSwhite" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header bg-dropdown-header-plastic">Plastic PBT 'brown_black'</option>
-		   <option ng-repeat="(k,v) in backgrounds.plasticPBTbrown_black" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header bg-dropdown-header-plastic">Plastic PBT 'white'</option>
-		   <option ng-repeat="(k,v) in backgrounds.plasticPBTwhite" value="{{v}}">{{k}}</option>
-                   <option value="" class="bg-dropdown-header bg-dropdown-header-wood">Wood</option>
-		   <option ng-repeat="(k,v) in backgrounds.wood" value="{{v}}">{{k}}</option>
-	      </select>
-			
-          </div>
-        </div>
-
-
-        
-        
-        
         <!-- Keyboard background image width-->
         <div class="form-group form-group-sm">
           <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdbackgroundimagewidtheditor">Case Width:</label>
 
           <div class="col-md-1 col-lg-1 form-outdent hint--top hint--rounded"
                data-hint="Specify the width for the background image for this keyboard layout.">
-            <input id="kbdbackgroundimagewidtheditor" class="form-control input-sm" type='number'  min="1" max="2000" step="1" 
+            <input id="kbdbackgroundimagewidtheditor" class="form-control input-sm" type='number'  min="1" max="2000" step="1"
                    ng-model="meta.backgroundimagewidth"
                    ng-change="updateMeta('backgroundimagewidth')"
                    ng-blur="validateMeta('backgroundimagewidth')">
@@ -608,7 +591,7 @@ Nav Bar / Header
             <input id="kbdbackgroundradiieditor" class="form-control input-sm" type='text'
                    ng-model="meta.backgroundradii"
                    ng-change="updateMeta('backgroundradii')"
-                   ng-blur="validateMeta('backgroundradii')"> 
+                   ng-blur="validateMeta('backgroundradii')">
           </div>
         </div>
 
@@ -1067,41 +1050,41 @@ DOT.js Templates
   {{?}}>
 
     <!-- Outer Border -->
-    <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}" 
-          width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}" 
+    <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}"
+          width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}"
           rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}" class="outer border"/>
     {{? parms.jShaped }}
-      <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}" 
-            width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}" 
+      <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}"
+            width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}"
             rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}" class="outer border"/>
     {{?}}
     <!-- Outer Fill -->
-    <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}" 
-          width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}" 
+    <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}"
+          width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}"
           rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}"/>
     {{? parms.jShaped }}
-      <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}" 
-            width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}" 
+      <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}"
+            width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}"
             rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}"/>
     {{?}}
 
     {{? !key.ghost }}
       <!-- Inner Border -->
-      <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}" 
-            width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}" 
+      <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}"
+            width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}"
             rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}" class="inner border"/>
       {{? parms.jShaped && !key.stepped }}
-        <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
-              width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
+        <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}"
+              width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}"
               rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}" class="inner border"/>
       {{?}}
       <!-- Inner Fill -->
-      <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}" 
-            width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}" 
+      <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}"
+            width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}"
             rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
       {{? parms.jShaped && !key.stepped }}
-        <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
-              width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
+        <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}"
+              width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}"
               rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
       {{?}}
       {{? sizes.profile !== "" }}
@@ -1110,7 +1093,7 @@ DOT.js Templates
           {{
             /*much harder to do j-shaped keys in SVG*/
             theProfile = '_fill'+parms.index;
-            var rect = { 
+            var rect = {
               left: Math.min(parms.innercapx, parms.innercapx2),
               top: Math.min(parms.innercapy, parms.innercapy2),
               right: Math.min(parms.innercapx+parms.innercapwidth, parms.innercapx2+parms.innercapwidth2),
@@ -1119,24 +1102,24 @@ DOT.js Templates
           }}
           {{? sizes.profile==="SA" || sizes.profile==="DSA" }}
             <radialGradient id="{{=theProfile}}" xlink:href="#{{=sizes.profile}}" gradientUnits="userSpaceOnUse"
-                            cx="{{=(rect.left+rect.right)/2}}" cy="{{=(rect.top+rect.bottom)/2}}" 
+                            cx="{{=(rect.left+rect.right)/2}}" cy="{{=(rect.top+rect.bottom)/2}}"
                             r="{{=Math.min(rect.right-rect.left, rect.bottom-rect.top)}}"/>
           {{??}}
             <linearGradient id="{{=theProfile}}" xlink:href="#{{=sizes.profile}}" gradientUnits="userSpaceOnUse"
                             x1="{{=rect.left}}" y1="{{=rect.top}}" x2="{{=rect.right}}" y2="{{=rect.top}}"/>
           {{?}}
-          <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
-                width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
+          <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}"
+                width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}"
                 rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
-          <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}" 
-                width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}" 
+          <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}"
+                width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}"
                 rx="{{=sizes.roundOuter}}" fill="url(#{{=theProfile}})"/>
-          <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}" 
-                width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}" 
+          <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}"
+                width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}"
                 rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
         {{?}}
-        <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}" 
-              width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}" 
+        <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}"
+              width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}"
               rx="{{=sizes.roundOuter}}" fill="url(#{{=theProfile}})"/>
       {{?}}
     {{?}}
@@ -1144,10 +1127,10 @@ DOT.js Templates
 </script>
 
 <script type="text/ng-template" id="keyboard_svg">
-  <svg width='{{=parms.width+parms.margin*2+parms.padding*2}}{{=parms.units}}' 
-       height='{{=parms.height+parms.margin*2+parms.padding*2}}{{=parms.units}}' 
-       viewBox='0 0 {{=parms.width+parms.margin*2+parms.padding*2}} {{=parms.height+parms.margin*2+parms.padding*2}}' 
-       xmlns='http://www.w3.org/2000/svg' 
+  <svg width='{{=parms.width+parms.margin*2+parms.padding*2}}{{=parms.units}}'
+       height='{{=parms.height+parms.margin*2+parms.padding*2}}{{=parms.units}}'
+       viewBox='0 0 {{=parms.width+parms.margin*2+parms.padding*2}} {{=parms.height+parms.margin*2+parms.padding*2}}'
+       xmlns='http://www.w3.org/2000/svg'
        xmlns:xlink="http://www.w3.org/1999/xlink">
 
     <style type='text/css'>
