@@ -93,10 +93,28 @@
 				var fn_base = (layout.meta.name || "layout").trim().replace(/[\"\']/g,'').replace(/\s/g,'-').replace(/[^-A-Za-z0-9_,;]/g,'_');
 				var fn_base_old = fn_base;
 
-				// Saving over existing Gist
 				var url = "/gists";
 				var method = "POST";
 				if($scope.currentGist) {
+					// Saving over existing Gist
+					if(!$scope.currentGist.owner || ($scope.currentGist.owner.login !== $scope.user.id)) {
+						// Different owner
+						if(window.confirm("This layout is owned by a different user.\n\nDid you want create your own fork of this layout?")) {
+							github("/gists/" + $scope.currentGist.id + "/forks", "POST").success(function(response) {
+								// success
+								$location.path("/gists/"+response.id).hash("").replace();
+								$scope.currentGist = response;
+								$scope.save(); // recurse to do the actual saving
+							}).error(function(data, status) {
+								// error
+								$scope.saved = false;
+								$scope.saveError = status.toString() + " - " + data.toString();
+							});
+						}
+						return;
+					}
+
+					// Updating our own Gist
 					url = "/gists/" + $scope.currentGist.id;
 					method = "PATCH";
 
