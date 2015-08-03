@@ -100,10 +100,10 @@
 				event.stopPropagation();
 			}
 			if($scope.dirty) {
-				// Make a copy of the keyboard, and extract the CSS
+				// Make a copy of the keyboard, and extract the CSS & notes
 				var layout = angular.copy($scope.keyboard);
-				var css = layout.meta.css;
-				delete layout.meta.css;
+				var css = layout.meta.css; delete layout.meta.css;
+				var notes = layout.meta.notes; delete layout.meta.notes;
 				var description = layout.meta.name || "Untitled Keyboard Layout";
 
 				// Compute a reasonable filename base from the layout's name
@@ -147,12 +147,16 @@
 
 				// Build the data structure
 				var data = { description: description, files: {} };
-				data.files[fn_base_old + ".kbd.json"] = {filename: fn_base + ".kbd.json", content: angular.toJson($serial.serialize(layout), true /*pretty*/)};
-				if(css) {
-					data.files[fn_base_old + ".style.css"] = {filename: fn_base + ".style.css", content: css};
-				} else if($scope.currentGist.files[fn_base_old + ".style.css"]) {
-					data.files[fn_base_old + ".style.css"] = null; // Remove existing CSS file
+				function doFile(suffix, fileData) {
+					if(fileData) {
+						data.files[fn_base_old+suffix] = {filename: fn_base+suffix, content: fileData};
+					} else if($scope.currentGist && $scope.currentGist.files[fn_base_old+suffix]) {
+						data.files[fn_base_old+suffix] = null; // Remove existing file
+					}
 				}
+				doFile(".kbd.json", angular.toJson($serial.serialize(layout), true /*pretty*/));
+				doFile(".style.css", css);
+				doFile(".notes.md", notes);
 
 				// Post data to GitHub
 				github(url, method, data).success(function(response) {
@@ -338,12 +342,14 @@
 			if(path.substring(0,7) === '/gists/') {
 				// Load Gists from Github
 				github(path).success(function(data) {
-					var json = "", css = "";
+					var json = "", css = "", notes = "";
 					for(var fn in data.files) {
 						if(fn.indexOf(".kbd.json")>=0) {
 							json = data.files[fn].content;
 						} else if(fn.indexOf(".style.css")>=0) {
 							css = data.files[fn].content;
+						} else if(fn.indexOf(".notes.md")>=0) {
+							notes = data.files[fn].content;
 						}
 					}
 
@@ -351,6 +357,9 @@
 					if(css) {
 						updateFromCss($scope.meta.css = css);
 						$scope.keyboard.meta.css = $scope.meta.css;
+					}
+					if(notes) {
+						$scope.keyboard.meta.notes = $scope.meta.notes = notes;
 					}
 					updateSerialized();
 					$scope.loadError = false;
