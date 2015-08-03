@@ -1,0 +1,107 @@
+{"backgrounds" : 
+  {
+	"wood" : {
+		"Bamboo" :  "bg/wood/bamboo.jpg",
+		"Bamboo dark" :  "bg/wood/bamboo-dark.jpg",
+		"Birch" :  "bg/wood/birch.jpg",
+		"Birch European white" :  "bg/wood/birch-european-white.jpg",
+		"Birch yellow" :  "bg/wood/birch-yellow.jpg",
+		"Cherry" :  "bg/wood/cherry.jpg",
+		"Chestnut American" :  "bg/wood/chestnut-american.jpg",
+		"Ebony Macassar" :  "bg/wood/ebony-macassar.jpg",
+		"Fir white" :  "bg/wood/fir-white.jpg",
+		"Maple orange" :  "bg/wood/maple-orange.jpg",
+		"Maple yellow" :  "bg/wood/maple-yellow.jpg",
+		"Mahogany African" :  "bg/wood/mahogany-african.jpg",
+		"Mahogany Red" :  "bg/wood/Red_Mahogany_Wood.jpg",
+		"Moringa" :  "bg/wood/moringa.jpg",
+		"Oak" :  "bg/wood/oak.jpg",
+		"Pine Oregon" :  "bg/wood/pine-oregon.jpg",
+		"Sandalwood African" :  "bg/wood/sandalwood-african.jpg",
+		"Teak African" :  "bg/wood/teak-african.jpg",
+		"Teak golden" :  "bg/wood/teak-golden.jpg",
+		"Walnut" :  "bg/wood/walnut.jpg"
+	},
+	"metal" : {
+		    "Aluminium brushed" :  "bg/metal/aluminum_texture1642.jpg",
+		    "Aluminium brushed black" :  "bg/metal/aluminum_texture1644.jpg",
+		    "Aluminium diagonal light" :  "bg/metal/aluminum_texture1645.jpg",
+		    "Aluminium brassed" :  "bg/metal/aluminum_texture1649.jpg",
+		    "Aluminium pattern" :  "bg/metal/aluminum_texture1735.jpg",
+		    "Aluminium brushed wavy" :  "bg/metal/aluminum_texture1738.jpg",
+		    "Aluminium diagonal dark" :  "bg/metal/aluminum_texture1784.jpg",
+		    "Steel brushed light" :  "bg/metal/iron_texture1744.jpg",
+		    "Steel brushed dark" :  "bg/metal/iron_texture1745.jpg",
+		    "Steel brushed wavy" :  "bg/metal/iron_texture61.jpg",
+		    "Steel brushed horizontal" :  "bg/metal/iron_texture66.jpg",
+		    "Titanium wavy" :  "bg/metal/titanium_texture1752.jpg"
+	},
+	"leather" : {
+		"Black" : "bg/leather/black.jpg",
+		"Black storm" : "bg/leather/leather_texture1051.jpg",
+		"Camel" : "bg/leather/leather_texture4327.jpg",
+		"Brown" : "bg/leather/brown.jpg",
+		"Brown oxblood" : "bg/leather/leather_texture4337.jpg",
+		"Brown shiny" : "bg/leather/leather_texture404.jpg",
+		"Brown suede" : "bg/leather/leather_texture4315.jpg",
+		"Navy" : "bg/leather/leather_texture4326.jpg",
+		"Orange" : "bg/leather/leather_texture4329.jpg",
+		"Red fire" : "bg/leather/leather_texture394.jpg",
+		"White" : "bg/leather/leather_texture4378.jpg"
+		
+	},
+	"carbonfibre" : {
+		"Carbon fibre 3" : "bg/carbonfibre/carbon_texture1869.jpg",
+		"Carbon fibre 4" : "bg/carbonfibre/carbon_texture1873.jpg",
+		"Carbon fibre 2" : "bg/carbonfibre/carbon_texture1874.jpg",
+		"Carbon fibre 5" : "bg/carbonfibre/carbon_texture1876.jpg",
+		"Carbon fibre 7" : "bg/carbonfibre/carbon_texture1877.jpg",
+		"Carbon fibre 1" : "bg/carbonfibre/carbon_texture1879.jpg",
+		"Carbon fibre 6" : "bg/carbonfibre/carbon_texture1882.jpg"
+	},
+	"marble" : {
+		"Marble beige" : "bg/marble/marble_texture4653.jpg",
+		"Marble black" : "bg/marble/marble_texture4510.jpg",
+		"Marble brown" : "bg/marble/marble_texture4512.jpg",
+		"Marble green" : "bg/marble/marble_texture1809.jpg",
+		"Marble grey" : "bg/marble/marble_texture4515.jpg",
+		"Marble navy" : "bg/marble/marble_texture4511.jpg",
+		"Marble rose" : "bg/marble/marble_texture1820.jpg",
+		"Marble Prussian blue" : "bg/marble/marble_texture4509.jpg",
+		"Marble red deep" : "bg/marble/marble_texture4496.jpg",
+		"Marble violet" : "bg/marble/marble_texture4617.jpg"
+	},
+	"plasticPBTbrown_black" : {
+		"PBT Black" : "bg/plastic/pbt-black.jpg",
+		"PBT UP" : "bg/plastic/pbt-up.jpg",
+		"PBT TGJ" : "bg/plastic/pbt-tgj.jpg",
+		"PBT TT" : "bg/plastic/pbt-tt.jpg"
+	},
+	"plasticPBTwhite" : {
+		"PBT WAN" : "bg/plastic/pbt-wan.jpg",
+		"PBT WAS" : "bg/plastic/pbt-was.jpg",
+		"PBT WAT" : "bg/plastic/pbt-wat.jpg",
+		"PBT WBK" : "bg/plastic/pbt-wbk.jpg",
+		"PBT WBR" : "bg/plastic/pbt-wbr.jpg",
+		"PBT WCS" : "bg/plastic/pbt-wcs.jpg",
+		"PBT WCV" : "bg/plastic/pbt-wcv.jpg",
+		"PBT WCX" : "bg/plastic/pbt-wcx.jpg",
+		"PBT WDG" : "bg/plastic/pbt-wdg.jpg",
+		"PBT WFJ" : "bg/plastic/pbt-wfj.jpg",
+		"PBT WFN" : "bg/plastic/pbt-wfn.jpg"
+	},
+	"plasticABSwhite" : {
+		"ABS WA"  : "bg/plastic/abs-wa.jpg",
+		"ABS WAR" : "bg/plastic/abs-war.jpg",
+		"ABS WBO" : "bg/plastic/abs-wbo.jpg",
+		"ABS WCK" : "bg/plastic/abs-wck.jpg",
+		"ABS WEA" : "bg/plastic/abs-wea.jpg",
+		"ABS WFK" : "bg/plastic/abs-wfk.jpg",
+		"ABS WFM" : "bg/plastic/abs-wfm.jpg",
+		"ABS WFO" : "bg/plastic/abs-wfo.jpg",
+		"ABS WQ"  : "bg/plastic/abs-wq.jpg",
+		"ABS WV"  : "bg/plastic/abs-wv.jpg",
+		"ABS WW"  : "bg/plastic/abs-ww.jpg"
+	}
+  }
+}

@@ -38,6 +38,7 @@ Required Tools:
 * Stylus: ```npm install -g stylus```
 * Jison: ```npm install -g jison```
 * Git-utils: ```npm install git-utils -g ```
+* FontForge
 
 Installing prerequisite components (once):
 

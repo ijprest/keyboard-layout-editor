@@ -270,3 +270,39 @@ for i in (1..9) {
   max-height: 1.25em;
 }
 
+/* make the background dropdown list headers stand out a bit */
+.bg-dropdown-header {
+  background-color: #ccc;
+  font-size: 1.618em;
+  text-align:  center;
+}
+
+.bg-dropdown-header-wood {
+  background: url('../bg/wood/wood-slice.jpg');
+  color: #000;
+}
+
+.bg-dropdown-header-metal {
+  background: url('../bg/metal/metal-slice.jpg');
+  color: #fff;
+}
+
+.bg-dropdown-header-marble {
+  background: url('../bg/marble/marble-slice.jpg');
+  color: #fff;
+}
+
+.bg-dropdown-header-plastic {
+  background: url('../bg/plastic/plastic-slice.jpg');
+  color: #000;
+}
+
+.bg-dropdown-header-leather {
+  background: url('../bg/leather/leather-slice.jpg');
+  color: #fff; 
+}
+
+.bg-dropdown-header-carbon {
+  background: url('../bg/carbonfibre/carbon-slice.jpg');
+  color: #fff; 
+}

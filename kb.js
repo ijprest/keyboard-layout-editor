@@ -273,6 +273,13 @@
 			$scope.samples = data.samples;
 		});
 
+		// Known backgrounds
+		$scope.backgrounds = {}; //????
+		$http.get('backgrounds.json').success(function(data) {
+		  $scope.backgrounds = data.backgrounds;
+		});
+		
+		
 		// The currently selected palette & character-picker
 		$scope.palette = {};
 		$scope.picker = {};
