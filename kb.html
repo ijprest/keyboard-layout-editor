@@ -216,7 +216,7 @@ Nav Bar / Header
      ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
 
     <div id='keyboard-bg' 
-         style="height:{{kbHeight}}px; width:{{kbWidth}}px; background-color:{{keyboard.meta.backcolor}}; border-radius: {{keyboard.meta.backgroundradii}}; {{keyboard.meta.background.style}}">
+         style="height:{{kbHeight}}px; width:{{kbWidth}}px; background-color:{{keyboard.meta.backcolor}}; border-radius: {{keyboard.meta.radii}}; {{keyboard.meta.background.style}}">
       <div ng-repeat="key in keys()"
          class="key {{key.profile}}"
          ng-mouseover="hoveredKey=key"
@@ -560,25 +560,27 @@ Nav Bar / Header
                   </div>
                 </div>
               </div>
+
+              <!-- Corner radii -->
+              <div class="form-group form-group-sm">
+                <label class="control-label text-nowrap" for="kbdradiieditor">Radii:</label>
+
+                <div class="hint--top hint--rounded"
+                     data-hint="Specify the corner radii for this keyboard, in CSS3 format.
+
+                     Some examples:
+                     &nbsp;&bull; 20px  /*all corners rounded equally*/
+                     &nbsp;&bull; 10px 10px 10px 10px /*ditto, but less rounding*/
+                     &nbsp;&bull; 10px 10px 10px 10px / 20px 20px 20px 20px
+                     &nbsp;&bull; 40% / 20px
+                     &nbsp;&bull; 30px 30px / 40%">
+                  <input id="kbdradiieditor" class="form-control input-sm" type='text'
+                         ng-model="meta.radii"
+                         ng-change="updateMeta('radii')"
+                         ng-blur="validateMeta('radii')">
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <!-- Keyboard background image corners radii-->
-        <div class="form-group form-group-sm">
-          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="kbdbackgroundradii">Case Radii:</label>
-
-          <div class="col-md-2 col-lg-2 form-outdent hint--top hint--rounded"
-               data-hint="Specify the corner radii for this keyboard background/case. Format is CSS3. Some examples:
-               20px  (all corners rounded equally)
-               10px 10px 10px 10px (ditto, but less rounding)
-               10px 10px 10px 10px / 20px 20px 20px 20px
-               40% / 20px
-               30px 30px / 40%">
-            <input id="kbdbackgroundradiieditor" class="form-control input-sm" type='text'
-                   ng-model="meta.backgroundradii"
-                   ng-change="updateMeta('backgroundradii')"
-                   ng-blur="validateMeta('backgroundradii')">
           </div>
         </div>
 

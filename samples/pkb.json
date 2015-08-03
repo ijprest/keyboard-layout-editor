@@ -6,7 +6,7 @@
       "name": "Mahogany Red", 
       "style" : "background-image: url('/bg/wood/Red_Mahogany_Wood.jpg');" 
     },
-    "backgroundradii": "30px 30px 50% 50%",
+    "radii": "30px 30px 50% 50%",
     "defaultkeyswitchstyle": "CherryMX",
     "defaultkeyswitchbrand": "Cherry",
     "defaultkeyswitchtype": "MX Brown"
