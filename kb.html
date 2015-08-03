@@ -16,6 +16,7 @@ All rights reserved.
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/angular.min.js"></script>
 <script type="text/javascript" src="js/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="js/angular-cookies.min.js"></script>
 <script type="text/javascript" src="js/ui-utils.min.js"></script>
 <script type="text/javascript" src="js/ui-bootstrap-tpls-0.12.0.min.js"></script>
 <script type="text/javascript" src="js/crypto-js.js"></script>
@@ -100,6 +101,18 @@ Nav Bar / Header
       <li><a href="#" ng-click="showOptions()"><i class="fa fa-cog"></i> Options</a></li>
       <!-- Permalink button -->
       <li><a ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false"><i class="fa fa-link"></i> Permalink</a></li>
+      <!-- User button -->
+      <li ng-hide="user"><a href="#" ng-click="userLogin()"><i class="fa fa-github"></i> Sign in with GitHub</a></li>
+      <li ng-hide="!user" class="dropdown" dropdown ng-cloak>
+        <a class="dropdown-toggle" dropdown-toggle><span ng-bind-html="user.avatar"></span> {{user.name}} <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a ng-click="showSavedLayouts(false)" href="#"><i class="fa fa-folder-open-o"></i> My Layouts</a></li>
+          <li><a ng-click="showSavedLayouts(true)" href="#"><i class="fa fa-star-o"></i> Starred Layouts</a></li>
+          <li class="divider"></li>
+          <li><a href="https://github.com/settings/connections/applications/{{githubClientId}}" target="_blank"><i class="fa fa-key"></i> Manage GitHub Permissions</a></li>
+          <li><a ng-click="userLogout()" href="#"><i class="fa fa-sign-out"></i> Log out</a></li>
+        </ul>
+      </li>
     </ul>
   </div>
 </nav>
@@ -144,9 +157,22 @@ Nav Bar / Header
     <button type="button" class="btn btn-default" ng-class="{disabled:!canCopy()}" ng-click="copy()"><i class="fa fa-copy"></i> Copy</button>
     <button type="button" class="btn btn-default" ng-class="{disabled:!canPaste()}" ng-click="paste()"><i class="fa fa-paste"></i> Paste</button>
   </div>
+  <div class="btn-group" ng-hide="!user || !user.id || !currentGist || isStarred">
+    <button type="button" class="btn btn-default" ng-click="setGistStar(currentGist, true)" ><i class="fa fa-star-o"></i> Star</button>
+  </div>
+  <div class="btn-group" ng-hide="!user || !user.id || !currentGist || !isStarred">
+    <button type="button" class="btn btn-default" ng-click="setGistStar(currentGist, false)" ><i class="fa fa-star"></i> Unstar</button>
+  </div>
   <!-- Save button (right aligned) -->
-  <div class="btn-group pull-right">
-    <button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()"><i class="fa fa-save"></i> Save</button>
+  <div class="btn-group pull-right" ng-hide="user && user.id">
+    <button type="button" class="btn btn-success hint--bottom hint--no-animate disabled" data-hint="Sign in to save your layouts.">
+      <i class="fa fa-save"></i> Save
+    </button>
+  </div>
+  <div class="btn-group pull-right" ng-hide="!user || !user.id">
+    <button type="button" class="btn btn-success" ng-class="{disabled:!canSave()}" ng-click="save()">
+      <i class="fa fa-save"></i> Save
+    </button>
   </div>
   <div class="btn-group pull-right" style="margin-right: 4px;">
     <button type="button" class="btn btn-success" ng-click="downloadSvg()"><i class="fa fa-download"></i> Download SVG (experimental)</button>
@@ -600,7 +626,7 @@ Nav Bar / Header
 
   <div class="col-md-12 col-lg-12 row" style="margin-top:1em;margin-left:0px;">
     <alert type="success" ng-hide="!saved" close="saved=false" ng-cloak>
-      Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/layouts/{{saved}}">this link</a>.
+      Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/gists/{{saved}}">this link</a>.
     </alert>
     <alert type="danger" ng-hide="!saveError" close="saveError=''" ng-cloak>
       <P>There was an error saving your layout on the server: {{saveError}}</P>
@@ -608,6 +634,9 @@ Nav Bar / Header
     </alert>
     <alert type="danger" ng-hide="!loadError" close="loadError=false" ng-cloak>
       The requested layout does not exist.
+    </alert>
+    <alert type="danger" ng-hide="!oauthError" close="oauthError=null" ng-cloak>
+      An error occurred during login: {{oauthError}}
     </alert>
   </div>
 
@@ -761,6 +790,49 @@ Options Dialog
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-primary" ng-click="ok()">OK</button>
+  </div>
+</script>
+
+<!--***********************************************
+Markdown dialog for displaying README, etc.
+************************************************-->
+<script type="text/ng-template" id="savedLayouts.html">
+  <div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()">&times;</button>
+    <h4 class="modal-title">{{params.starred ? 'Starred Layouts' : 'Saved Layouts'}}</h4>
+  </div>
+  <div class="modal-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Date</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-if="layouts.length === 0">
+          <td colspan='5'>{{params.starred ? 'No starred layouts.' : 'No saved layouts.'}}</td>
+        </tr>
+        <tr ng-repeat="layout in layouts">
+          <td>{{layout.index}}</td>
+          <td>{{layout.description}}</td>
+          <td>{{layout.updated_at}}</td>
+          <td nowrap>
+            <a class="btn btn-danger btn-xs" href="#" ng-click="delete(layout.id)" ng-hide="params.starred"><i class="fa fa-trash"></i> Delete</a>
+            <a class="btn btn-primary btn-xs" ng-href="{{layout.html_url}}" target='_blank'><i class="fa fa-github"></i> View on GitHub</a>
+          </td>
+          <td nowrap>
+            <a class="btn btn-success btn-xs" href="#" ng-click="load(layout.id)"><i class="fa fa-folder-open"></i> Load</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
     <button type="button" class="btn btn-primary" ng-click="ok()">OK</button>
   </div>
 </script>

@@ -52,3 +52,12 @@ Test:
 * ```webdriver-manager update```
 * ```webdriver-manager start```
 * ```make test```
+
+Notes:
+
+* You can use any HTTP server for local development; I'm using an ancient
+  version of [Mongoose](https://cesanta.com/mongoose.shtml), but whatever 
+  you've got handy should work.
+* However, if you want to be able to log in to GitHub via OAuth (without
+  hacking up the code and registering your own OAuth application), you will
+  need to put the server at: http://localhost:8080/

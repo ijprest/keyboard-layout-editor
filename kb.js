@@ -5,24 +5,61 @@
 
 	function toJsonPretty(obj) {
 		var res = [];
-		obj.forEach(function(elem) { res.push($serial.toJsonL(elem));	});
+		obj.forEach(function(elem,ndx) {
+			// We don't want CSS & notes in the Raw Data editor; they have their 
+			// own editors, and inclusion in the raw data tab just clutters it up.
+			// Other metadata isn't too bad, but doesn't really offer any benefit.
+			if(ndx > 0 || (elem instanceof Array)) {
+				res.push($serial.toJsonL(elem));
+			}
+		});
 		return res.join(",\n")+"\n";
 	}
 	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
 
 	// The angular module for our application
-	var kbApp = angular.module('kbApp', ["ngSanitize", "ui.utils", "ui.bootstrap", "ui.bootstrap.tooltip", "ngFileUpload", "ang-drag-drop", "colorpicker.module"], function($tooltipProvider) {
+	var kbApp = angular.module('kbApp', ["ngSanitize", "ngCookies", "ui.utils", "ui.bootstrap", "ui.bootstrap.tooltip", "ngFileUpload", "ang-drag-drop", "colorpicker.module"], function($tooltipProvider) {
 		// Default tooltip behaviour
     $tooltipProvider.options({animation: false, appendToBody: true});
 	});
 
 	// The main application controller
-	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', '$modal', function($scope, $http, $location, $timeout, $sce, $sanitize, $modal) {
+	kbApp.controller('kbCtrl', ['$scope','$http','$location','$timeout', '$sce', '$sanitize', '$modal', '$cookies', '$confirm', '$q', function($scope, $http, $location, $timeout, $sce, $sanitize, $modal, $cookies, $confirm, $q) {
 		var serializedTimer = false;
 		var customStylesTimer = false;
 
 		// The application version
 		$scope.version = "0.14";
+
+		// Github data
+		$scope.githubClientId = $location.host() === "localhost" ? "8b7b224a9e212c5c17e2" : "631d93caeaa61c9057ab";
+		function github(path, method, data) {
+			method = method || "GET";
+			var headers = {};
+			headers["Accept"] = "application/vnd.github.v3+json";
+			if($cookies.oauthToken) {
+				headers["Authorization"] = "token " + $cookies.oauthToken;
+			}
+			return $http({method:method, url:"https://api.github.com"+path, headers:headers, data:data, cache:false});
+		}
+		$scope.currentGist = null;
+		$scope.isStarred = false;
+		function setGist(gist) {
+			$scope.currentGist = gist;
+			$scope.isStarred = false;
+			if(gist) {
+				github("/gists/"+gist.id+"/star").success(function() { $scope.isStarred = true; });
+			}
+		}
+		$scope.setGistStar = function(gist, star) {
+			if($scope.user && $scope.user.id && gist && (gist != $scope.currentGist || $scope.isStarred != star)) {
+				github("/gists/"+gist.id+"/star", star ? "PUT" : "DELETE").success(function() {
+					if(gist === $scope.currentGist) {
+						$scope.isStarred = star;
+					}
+				});
+			}
+		}
 
 		// The selected tab; 0 == Properties, 1 == Kbd Properties, 3 == Custom Styles, 2 == Raw Data
 		$scope.selTab = 0;
@@ -44,6 +81,11 @@
 		$scope.keyboard = { keys: [], meta: {} };
 		$scope.keys = function(newKeys) { if(newKeys) { $scope.keyboard.keys = newKeys; } return $scope.keyboard.keys; };
 
+		// Custom Styles data
+		$scope.customStylesException = "";
+		$scope.customStyles = "";
+		$scope.customGlyphs = [];
+
 		// Helper function to select/deselect all keys
 		$scope.unselectAll = function() {
 			$scope.selectedKeys = [];
@@ -61,33 +103,90 @@
 			}
 		};
 
-		function saveLayout(layout) {
-			$serial.saveLayout($http, layout,
-				function(fn) {
-					//success
-					$scope.dirty = false;
-					$scope.saved = fn;
-					$location.path("/layouts/"+fn).hash("").replace();
-					$scope.saveError = "";
-				},
-				function(data,status) {
-					// error
-					$scope.saved = false;
-					$scope.saveError = status.toString() + " - " + data.toString();
-				}
-			);
-		}
 		$scope.save = function(event) {
+			if(!$scope.user || !$scope.user.id) {
+				return;
+			}
 			if(event) {
 				event.preventDefault();
 				event.stopPropagation();
 			}
 			if($scope.dirty) {
-				saveLayout($serial.serialize($scope.keyboard));
+				// Make a copy of the keyboard, and extract the CSS & notes
+				var layout = angular.copy($scope.keyboard);
+				var css = layout.meta.css; delete layout.meta.css;
+				var notes = layout.meta.notes; delete layout.meta.notes;
+				var description = layout.meta.name || "Untitled Keyboard Layout";
+
+				// Compute a reasonable filename base from the layout's name
+				var fn_base = (layout.meta.name || "layout").trim().replace(/[\"\']/g,'').replace(/\s/g,'-').replace(/[^-A-Za-z0-9_,;]/g,'_');
+				var fn_base_old = fn_base;
+
+				var url = "/gists";
+				var method = "POST";
+				if($scope.currentGist) {
+					// Saving over existing Gist
+					if(!$scope.currentGist.owner || ($scope.currentGist.owner.login !== $scope.user.id)) {
+						// Different owner
+						if(window.confirm("This layout is owned by a different user.\n\nDid you want create your own fork of this layout?")) {
+							github("/gists/" + $scope.currentGist.id + "/forks", "POST").success(function(response) {
+								// success
+								$location.path("/gists/"+response.id).hash("").replace();
+								setGist(response);
+								$scope.save(); // recurse to do the actual saving
+							}).error(function(data, status) {
+								// error
+								$scope.saved = false;
+								$scope.saveError = status.toString() + " - " + data.toString();
+							});
+						}
+						return;
+					}
+
+					// Updating our own Gist
+					url = "/gists/" + $scope.currentGist.id;
+					method = "PATCH";
+
+					// Determine existing filename base
+					for(var fn in $scope.currentGist.files) {
+						var ndx = fn.indexOf(".kbd.json");
+						if(ndx >= 0) {
+							fn_base_old = fn.substring(0,ndx);
+							break;
+						}
+					}
+				}
+
+				// Build the data structure
+				var data = { description: description, files: {} };
+				function doFile(suffix, fileData) {
+					if(fileData) {
+						data.files[fn_base_old+suffix] = {filename: fn_base+suffix, content: fileData};
+					} else if($scope.currentGist && $scope.currentGist.files[fn_base_old+suffix]) {
+						data.files[fn_base_old+suffix] = null; // Remove existing file
+					}
+				}
+				doFile(".kbd.json", angular.toJson($serial.serialize(layout), true /*pretty*/));
+				doFile(".style.css", css);
+				doFile(".notes.md", notes);
+
+				// Post data to GitHub
+				github(url, method, data).success(function(response) {
+					//success
+					$scope.dirty = false;
+					$scope.saved = response.id;
+					$location.path("/gists/"+response.id).hash("").replace();
+					$scope.saveError = "";
+					setGist(response);
+				}).error(function(data,status) {
+					// error
+					$scope.saved = false;
+					$scope.saveError = status.toString() + " - " + data.toString();
+				});
 			}
 		};
 		$scope.canSave = function() {
-			return $scope.dirty;
+			return $scope.dirty && $scope.user && $scope.user.id;
 		};
 		$scope.downloadSvg = function() {
 			var data = $renderKey.fullSVG($scope.keys(), $scope.keyboard.meta);
@@ -228,12 +327,22 @@
 			key.html = $sce.trustAsHtml($renderKey.html(key,$sanitize));
 		}
 
-		$scope.deserializeAndRender = function(data) {
+		$scope.deserializeAndRender = function(data, skipMetadata) {
 			$scope.serializedObjects = data; // cache serialized objects
+			var backup = angular.copy($scope.keyboard.meta);
 			$scope.keyboard = $serial.deserialize(data);
 			$scope.keys().forEach(function(key) {
 				renderKey(key);
 			});
+			if(skipMetadata) {
+				// Use backup metadata
+				var defaults = $serial.defaultMetaData();
+				for(var k in backup) {
+					if(backup.hasOwnProperty(k) && $scope.keyboard.meta[k] === defaults[k]) {
+						$scope.keyboard.meta[k] = backup[k];
+					}
+				}
+			}
 			$scope.meta = angular.copy($scope.keyboard.meta);
 			updateFromCss($scope.meta.css || '');
 		};
@@ -251,6 +360,53 @@
 			}
 		});
 
+		function loadAndRender(path) {
+			if(path.substring(0,7) === '/gists/') {
+				// Load Gists from Github
+				github(path).success(function(data) {
+					var json = "", css = "", notes = "";
+					for(var fn in data.files) {
+						if(fn.indexOf(".kbd.json")>=0) {
+							json = data.files[fn].content;
+						} else if(fn.indexOf(".style.css")>=0) {
+							css = data.files[fn].content;
+						} else if(fn.indexOf(".notes.md")>=0) {
+							notes = data.files[fn].content;
+						}
+					}
+
+					$scope.deserializeAndRender(jsonl.parse(json));
+					if(css) {
+						updateFromCss($scope.meta.css = css);
+						$scope.keyboard.meta.css = $scope.meta.css;
+					}
+					if(notes) {
+						$scope.keyboard.meta.notes = $scope.meta.notes = notes;
+					}
+					updateSerialized();
+					$scope.loadError = false;
+					setGist(data);
+				}).error(function() {
+					$scope.loadError = true;
+					setGist(null);
+				});
+
+			} else {
+				// Saved layouts & samples
+				var base = $serial.base_href;
+				if(path.substring(0,9) === '/samples/') {
+					base = ''; // Load samples from local folder
+				}
+				$http.get(base + path).success(function(data) {
+					$scope.deserializeAndRender(data);
+					updateSerialized();
+					$scope.loadError = false;
+				}).error(function() {
+					$scope.loadError = true;
+				});
+			}
+		}
+
 		$renderKey.init();
 		$scope.deserializeAndRender([]);
 		if($location.hash()) {
@@ -261,17 +417,7 @@
 				$scope.deserializeAndRender($serial.fromJsonL(loc));
 			}
 		} else if($location.path()[0] === '/') {
-			var base = $serial.base_href;
-			if($location.path().substring(0,8) === '/samples') {
-				// Load samples from local folder
-				base = '';
-			}
-			$http.get(base + $location.path()).success(function(data) {
-				$scope.deserializeAndRender(data);
-				updateSerialized();
-			}).error(function() {
-				$scope.loadError = true;
-			});
+			loadAndRender($location.path());
 		} else {
 			// Some simple default content... just a numpad
 			$scope.deserializeAndRender([["Num Lock","/","*","-"],["7\nHome","8\n↑","9\nPgUp",{h:2},"+"],["4\n←","5","6\n→"],["1\nEnd","2\n↓","3\nPgDn",{h:2},"Enter"],[{w:2},"0\nIns",".\nDel"]]);
@@ -286,9 +432,26 @@
 		$scope.dirty = false;
 		$scope.saved = false;
 		$scope.saveError = "";
+		var dirtyMessage = 'You have made changes to the layout that are not saved.  You can save your layout to the server by clicking the \'Save\' button.  You can also save your layout locally by bookmarking the \'Permalink\' in the application bar.';
 		window.onbeforeunload = function(e) {
-			if($scope.dirty) return 'You have made changes to the layout that are not saved.  You can save your layout to the server by clicking the \'Save\' button.  You can also save your layout locally by bookmarking the \'Permalink\' in the application bar.';
+			if($scope.dirty) return dirtyMessage;
 		};
+		function confirmNavigate() {
+			if(!$scope.dirty) {
+				var deferred = $q.defer();
+				deferred.resolve();
+				return deferred.promise;
+			}
+			return $confirm.show(dirtyMessage + "\n\nAre you sure you want to navigate away?");
+		}
+		function resetUndoStack() {
+			undoStack = [];
+			redoStack = [];
+			canCoalesce = false;
+			$scope.dirty = false;
+			$scope.saved = false;
+			$scope.saveError = "";
+		}
 
 		function transaction(type, fn) {
 			var trans = undoStack.length>0 ? undoStack.last() : null;
@@ -303,12 +466,14 @@
 			try {
 				fn();
 			} finally {
-				$location.path("").hash("").replace();
+				if(!$scope.currentGist) {
+					$location.path("").hash("").replace();
+				}
 				trans.modified = angular.copy($scope.keyboard);
 				trans.open = false;
 				redoStack = [];
-				if(type !== 'rawdata') { 
-					updateSerialized(); 
+				if(type !== 'rawdata') {
+					updateSerialized();
 				}
 				$scope.dirty = true;
 				$scope.saved = false;
@@ -599,8 +764,8 @@
 
 		var userGlyphsSentinel = {};
 		$scope.loadCharacterPicker = function(picker) {
-			$scope.picker = picker || { 
-				name: "User-Defined Glyphs", 
+			$scope.picker = picker || {
+				name: "User-Defined Glyphs",
 				glyphs: $scope.customGlyphs,
 				href: "https://github.com/ijprest/keyboard-layout-editor/wiki/Custom-Styles",
 				description: "This list will show any glyphs defined in your layout's 'Custom Styles' tab.  See the Commodore VIC-20 sample layout for an example.",
@@ -633,16 +798,20 @@
 			return "";
 		};
 
-		$scope.loadPreset = function(preset) {
-			transaction("preset", function() {
-				$scope.deserializeAndRender(preset);
+		$scope.loadPreset = function(preset, path) {
+			confirmNavigate().then(function() {
+				transaction("preset", function() {
+					$scope.deserializeAndRender(preset);
+				});
+				setGist(null);
+				resetUndoStack();
+				$location.path(path || "").hash("").replace();
+				$scope.dirty = false;
 			});
-			$scope.dirty = false;
 		};
 		$scope.loadSample = function(sample) {
 			$http.get(sample).success(function(data) {
-				$scope.loadPreset(data);
-				$location.path(sample).hash("").replace();
+				$scope.loadPreset(data, sample);
 			}).error(function() {
 				$scope.loadError = true;
 			});
@@ -742,7 +911,7 @@
 				try {
 					$scope.deserializeException = "";
 					transaction("rawdata", function() {
-						$scope.deserializeAndRender(fromJsonPretty($scope.serialized));
+						$scope.deserializeAndRender(fromJsonPretty($scope.serialized), true);
 					});
 					$scope.unselectAll();
 				} catch(e) {
@@ -751,9 +920,6 @@
 			}, 1000);
 		};
 
-		$scope.customStylesException = "";
-		$scope.customStyles = "";
-		$scope.customGlyphs = [];
 		$scope.updateCustomStyles = function() {
 			if(customStylesTimer) {
 				$timeout.cancel(customStylesTimer);
@@ -964,8 +1130,10 @@
 				windowClass:"modal-xxl markdownDialog",
 				resolve: { params: function() { return { parentScope: $scope }; } }
 			});
-			event.preventDefault();
-			event.stopPropagation();
+			if(event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
 		};
 		$scope.previewNotes = function(event) {
 			$scope.markdownTitle = 'About This Keyboard Layout';
@@ -1003,8 +1171,10 @@
 				resolve: { params: function() { return { moveStep:$scope.moveStep, sizeStep:$scope.sizeStep, rotateStep:$scope.rotateStep }; } }
 			});
 			activeModal.result.then(function(params) { $.extend($scope, params); });
-			event.preventDefault();
-			event.stopPropagation();
+			if(event) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
 		};
 
 		// Clipboard functions
@@ -1073,17 +1243,122 @@
 
 		$scope.keyboardTop = function() { var kbElem = $("#keyboard"); return kbElem.position().top + parseInt(kbElem.css('margin-top'),10); };
 		$scope.keyboardLeft = function() { var kbElem = $("#keyboard"); return kbElem.position().left + parseInt(kbElem.css('margin-left'),10); };
+
+		function updateUserInfo() {
+			if($cookies.oauthToken) {
+				$scope.user = { id: '', name: "User", avatar: "<i class='fa fa-user'></i>" };
+				github('/user').success(function(data) {
+					$scope.user.id = data.login;
+					$scope.user.name = data.login;
+					if(data.avatar_url) {
+						$scope.user.avatar = "<img src='"+data.avatar_url+"' class='avatar'>";
+					}
+				});
+			} else {
+				$scope.user = null;
+			}
+		}
+		updateUserInfo();
+
+		var userLoginSecret;
+		$scope.userLogin = function() {
+			if(!userLoginSecret && !$scope.user) {
+				var parms = "&client_id="+ $scope.githubClientId +"&redirect_uri="+ ($location.host() === "localhost" ? "http://localhost:8080/oauth.html" : "http://www.keyboard-layout-editor.com/oauth.html");
+				userLoginSecret = (window.performance && window.performance.now ? window.performance.now() : Date.now()).toString() + "_" + (Math.random()).toString();
+				var loginWindow = window.open("https://github.com/login/oauth/authorize?scope=gist&state="+userLoginSecret+parms,
+					"Sign in with Github", "left="+(window.left+50)+",top="+(window.top+50)+",width=1050,height=630,personalbar=0,toolbar=0,scrollbars=1,resizable=1");
+				if(loginWindow) {
+					loginWindow.focus();
+				}
+			}
+		};
+
+		$scope.userLogout = function() {
+			$cookies.oauthToken = "";
+			updateUserInfo();
+		};
+
+		$scope.oauthError = null;
+		window.__oauthError = function(error) {
+			userLoginSecret = null;
+			$scope.oauthError = error || 'Unknown error.';
+			$scope.oauthToken = "";
+			updateUserInfo();
+		};
+
+		window.__oauthSuccess = function(code, secret) {
+			if(secret !== userLoginSecret) {
+				window.__oauthError('The server returned an incorrect login secret.');
+			} else {
+				userLoginSecret = null;
+				$cookies.oauthToken = code;
+				updateUserInfo();
+			}
+		};
+
+		$scope.showSavedLayouts = function(starred) {
+			if(activeModal) activeModal.dismiss('cancel');
+			activeModal = $modal.open({
+				templateUrl:"savedLayouts.html",
+				controller:"savedLayoutsCtrl",
+				windowClass:"modal-xl",
+				scope:$scope,
+				resolve: { params: function() { return { github:github, starred:starred }; } }
+			});
+			activeModal.result.then(function(params) {
+				if(params.load) {
+					// Load the selected layout
+					confirmNavigate().then(function() {
+						var path = "/gists/"+params.load;
+						$location.path(path).hash("").replace();
+						loadAndRender(path);
+						resetUndoStack();
+					});
+				} else if(params.delete) {
+					// Delete the selected layout
+					$confirm.show("Are you sure you want to delete this layout?").then(function() {
+						github("/gists/"+params.delete, "DELETE").success(function() {
+							// If this was the current gist that was deleted, remove it and mark the editor as dirty
+							if($scope.currentGist.id == params.delete) {
+								$location.path("").hash("").replace();
+								setGist(null);
+								$scope.dirty = true;
+								undoStack.forEach(function(u) {	u.dirty = true;	});
+							}
+						});
+					});
+				}
+			});
+		};
 	}]);
 
 	// Simple modal-popup controller
 	kbApp.controller('modalCtrl', function($scope, $modalInstance, params) {
 		$scope.params = params;
-		$scope.ok = function() {
-			$modalInstance.close($scope.params);
-		};
-		$scope.cancel = function() {
-			$modalInstance.dismiss('cancel');
-		};
+		$scope.ok = function() { $modalInstance.close($scope.params); };
+		$scope.cancel = function() { $modalInstance.dismiss('cancel'); };
+	});
+
+	kbApp.controller('savedLayoutsCtrl', function($scope, $modalInstance, params) {
+		$scope.params = params;
+		$scope.ok = function() { $modalInstance.close($scope.params); };
+		$scope.cancel = function() { $modalInstance.dismiss('cancel'); };
+		$scope.load = function(gist) { $scope.params.load = gist;	$scope.ok(); }
+		$scope.delete = function(gist) { $scope.params.delete = gist;	$scope.ok(); }
+
+		$scope.layouts = [];
+		params.github(params.starred ? "/gists/starred" : "/gists").then(function(response) {
+			var index = 0;
+			response.data.forEach(function(layout) {
+				for(var fn in layout.files) {
+					if(fn.indexOf(".kbd.json")>=0) {
+						layout.index = ++index;
+						$scope.layouts.push(layout);
+						break;
+					}
+				}
+			});
+		});
 	});
 
 	kbApp.directive('kbdColorPicker', function($timeout) {
@@ -1108,4 +1383,23 @@
 		return { templateUrl: "multiNumbox.html", restrict: "E", scope: { field: "@", size:"@", min:"@", max:"@", step:"@" } };
 	});
 
+	// Runs a confirmation dialog asynchronously, using promises.
+	kbApp.service("$confirm", function($q, $timeout, $window) {
+		var current = null;
+		return {
+			show: function(message) {
+				if(current) current.reject();
+				current = $q.defer();
+				$timeout(function() {
+					if($window.confirm(message)) {
+						current.resolve();
+					} else {
+						current.reject();
+					}
+					current = null;
+				}, 0,	false);
+				return current.promise;
+			}
+		}
+	});
 }());

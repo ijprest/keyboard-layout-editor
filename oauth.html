@@ -1,0 +1,46 @@
+<!--***********************************************
+KEYBOARD LAYOUT EDITOR
+Copyright (C) 2013-2015 Ian Prest
+All rights reserved.
+************************************************-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Keyboard Layout Editor</title>
+<meta charset="utf-8">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+</head>
+<body>
+<h3>Signing in...</h3>
+<script type="text/javascript">
+if(!window.opener) {
+  window.close();
+}
+
+var code = (window.location.href.match(/[\?\&]code=([^\&]*)/) || [null])[1];
+var state = (window.location.href.match(/[\?\&]state=([^\&]*)/) || [null])[1];
+if(code && state) {
+  var gatekeeper = 'kle-gatekeeper';
+  if(window.location.href.match(/^http:\/\/localhost\:/)) {
+    gatekeeper += "-local";
+  }
+  $.getJSON('http://'+gatekeeper+'.azurewebsites.net/authenticate/'+code, function(data) {
+    if(data.error) {
+      window.opener.__oauthError('Gatekeeper returned an error code: ' + data.error);
+    } else if(!data.token) {
+      window.opener.__oauthError('Gatekeeper did not return an OAuth token.');
+    } else {
+      window.opener.__oauthSuccess(data.token, state);
+    }
+    window.close();
+  }).fail(function() {
+    window.opener.__oauthError('Could not communicate with the gatekeeper process.');
+    window.close();
+  });
+} else {
+  window.opener.__oauthError('Redirect called with incorrect parameters.');
+  window.close();
+}
+</script>
+</body>
+</html>
