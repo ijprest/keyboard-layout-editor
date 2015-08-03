@@ -12,7 +12,7 @@ describe('keyboard-layout-editor', function() {
     browser.driver.manage().window().setSize(1440,1024);
     browser.actions().mouseMove({x:0,y:0}).perform();
     browser.waitForAngular();
-    capture.snap(getSpecName(), $('#keyboard'));
+    capture.snap(getSpecName(), $('#keyboard-bg'));
   };
 
   beforeEach(function() {

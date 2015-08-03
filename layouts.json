@@ -119,6 +119,7 @@
 		"Televideo TS-800a" : "/samples/televideo-ts-800a",
 		"Symbolics PN 364000" : "/samples/symbolics-364000",
 		"Symbolics SpaceCadet" : "/samples/symbolics-spacecadet",
-		"Commodore VIC-20" : "/samples/commodore-vic20"
+		"Commodore VIC-20" : "/samples/commodore-vic20",
+		"Programmer's Keyboard": "/samples/pkb.json"
 	}
 }

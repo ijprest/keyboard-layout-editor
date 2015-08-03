@@ -46,17 +46,22 @@ html, body {
 
 /* The keyboard background */
 #keyboard {
-  padding: 9px;
-  position: relative;
-  border: solid 1px #ddd;
-  border-radius: 6px;
-  background-color: #eee;
-  min-height: 56px;
-  box-sizing: content-box;
+  padding: 4px;
+  border-radius: 3px;
   margin-top: 10px;
   margin-bottom: 10px;
+  border: dashed 1px #ddd;
 }
-#keyboard div {
+#keyboard #keyboard-bg {
+  position: inherit;
+  border: solid 1px #ddd;
+  padding: 9px;
+  box-sizing: content-box;
+  border-radius: 6px;
+  min-width: 56px;
+  min-height: 56px;
+}
+#keyboard-bg div {
   position: absolute;
   border-color: black;
   box-sizing: border-box;
@@ -270,3 +275,32 @@ for i in (1..9) {
   max-height: 1.25em;
 }
 
+/* nested dropdown menu lists; see bootstrap.css */
+.dropdown-menu ul {
+  list-style: none;
+  margin: 2px 0 0;
+  padding: 5px 0;
+}
+.dropdown-menu ul > li > a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+.dropdown-menu ul > li > a:hover,
+.dropdown-menu ul > li > a:focus {
+  color: #262626;
+  text-decoration: none;
+  background-color: #f5f5f5;
+}
+/* button size between sm & xs; meant for inline forms */
+.btn-sm-form,
+.btn-group-sm-form > .btn {
+  padding: 3px 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
