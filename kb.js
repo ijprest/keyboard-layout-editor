@@ -159,7 +159,7 @@
 
 				// Build the data structure
 				var data = { description: description, files: {} };
-				function doFile(suffix, fileData) {
+				var doFile = function(suffix, fileData) {
 					if(fileData) {
 						data.files[fn_base_old+suffix] = {filename: fn_base+suffix, content: fileData};
 					} else if($scope.currentGist && $scope.currentGist.files[fn_base_old+suffix]) {
