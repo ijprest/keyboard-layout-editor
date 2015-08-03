@@ -216,7 +216,7 @@ Nav Bar / Header
      ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
 
     <div id='keyboard-bg' 
-         style="height:{{kbHeight}}px; width:{{kbWidth}}px; background-color:{{keyboard.meta.backcolor}}; border-radius: {{keyboard.meta.radii || '6px'}}; {{keyboard.meta.background.style}}">
+         ng-attr-style="height:{{kbHeight}}px; width:{{kbWidth}}px; background-color:{{keyboard.meta.backcolor}}; border-radius: {{keyboard.meta.radii || '6px'}}; {{keyboard.meta.background.style}}">
       <div ng-repeat="key in keys()"
          class="key {{key.profile}}"
          ng-mouseover="hoveredKey=key"
@@ -551,7 +551,7 @@ Nav Bar / Header
                       <li><a ng-click='setBackground()'>None</a></li>
                       <li class="divider"></li>
                       <li ng-repeat="category in backgrounds">
-                        <div class="dropdown-header" style="{{category.style}}">{{category.category}}:</div>
+                        <div class="dropdown-header" ng-attr-style="{{category.style}}">{{category.category}}:</div>
                         <ul class="menu">
                           <li ng-repeat="bg in category.content"><a ng-click='setBackground(bg)'>{{bg.name}}</a></li>
                         </ul>
