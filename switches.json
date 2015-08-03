@@ -1,60 +1,78 @@
-{
+{"switches" : 
+  {
+    "Cherry MX": 
+	 {
+		"Cherry": 
+			    {
+			      "MX Blue": "MX Blue, MX1A-E1xx, Normal, Tactile Clicky, 50 cN",
+			      "MX Black": "MX Black, MX1A-11xx, Normal, Linear, 60 cN",
+			      "MX Brown": "MX Brown, MX1A-G1xx, Normal, Tactile Soft, 45 cN",
+			      "MX Clear": "MX Clear, MX1A-C1xx, Normal, Tactile Soft, 65 cN",
+			      "MX Green": "MX Green, MX1A-F1xx, Space bar, Tactile Clicky, 80 cN",
+			      "MX Linear Grey": "MX Linear Grey, MX1A-21xx, Space bar, Linear, 80 cN",
+			      "MX Lock": "MX Lock, MX1A-31xx, Alternate action, Linear, 60 cN ",
+			      "MX Red": "MX Red, MX1A-L1xx, Normal, Linear, 45 cN",
+			      "MX RGB Black": "MX RGB Black, MX1A-11xx, Normal, Linear, 60 cN",
+			      "MX RGB Blue": "MX RGB Blue, MX1A-E1xx, Normal, Tactile Clicky, 50 cN", 
+			      "MX RGB Brown": "MX RGB Brown, MX1A-G1xx, Normal, Tactile Soft, 45 cN",
+			      "MX RGB Red": "MX RGB Red, MX1A-L1xx, Normal, Linear, 45 cN",
+			      "MX Tactile Grey": "MX Tactile Grey, MX1A-D1xx, Space bar, Tactile, 80 cN",
+			      "MX White": "MX White, MX1A-A1xx, Normal, Tactile Clicky, 50 cN/80 cN"
+			    },
+		"Gaote_Outemu": 
+				{
+				  "Clear, Black Shaft": "Clear, Black Shaft, PG150B01-1, 65 cN",
+				  "Clear, Red Shaft": "Clear, Red Shaft, PG150R01-1, 50 cN",
+				  "Clear, Blue Shaft": "Clear, Blue Shaft, PG150Q01-1, 55 cN",
+				  "Clear, Brown Shaft": "Clear, Brown Shaft, PG150T01-1, 50 cN",
+				  "Black, Black Shaft": "Black, Black Shaft,  PG150B01, 65 cN",
+				  "Black, Red Shaft": "Black, Red Shaft, PG150R01, 50 cN",
+				  "Black, Blue Shaft": "Black, Blue Shaft, PG150Q01, 60 cN",
+				  "Black, Brown Shaft": "Black, Brown Shaft, PG150T01, 55 cN"
+				}, 
 
-	"Cherry" : {
-		"MX Blue": "MX Blue",
-		"MX Black": "MX Black",
-		"MX Brown": "MX Brown",
-		"MX Clear": "MX Clear",
-		"MX Green": "MX Green",
-		"MX Linear Grey": "MX Linear Grey",
-		"MX Lock": "MX Lock",
-		"MX Red": "MX Red",
-		"MX RGB Black": "MX RGB Black",
-		"MX RGB Blue": "MX RGB Blue",
-		"MX RGB Brown": "MX RGB Brown",
-		"MX RGB Red": "MX RGB Red",
-		"MX Tactile Grey": "MX Tactile Grey",
-		"MX White": "MX White"
-	},
-	"Gaote_Outemu" : {
-		"Clear, Black Shaft": "Clear, Black Shaft",
-		"Clear, Red Shaft": "Clear, Red Shaft",
-		"Clear, Blue Shaft": "Clear, Blue Shaft",
-		"Clear, Brown Shaft": "Clear, Brown Shaft",
-		"Black, Black Shaft": "Black, Black Shaft",
-		"Black, Red Shaft": "Black, Red Shaft",
-		"Black, Blue Shaft": "Black, Blue Shaft",
-		"Black, Brown Shaft": "Black, Brown Shaft"
-	},
-	"Gateron" : {
-		"KS-3 Black Shaft (black)": "KS-3 Black Shaft (black)",
-		"KS-3 Green Axis (blue)": "KS-3 Green Axis (blue)",
-		"KS-3 Red Axis (red)": "KS-3 Red Axis (red)",
-		"KS-3 Tea Axis (brown)": "KS-3 Tea Axis (brown)",
-		"KS-3 Yellow (yellow)": "KS-3 Yellow (yellow)",
-		"KS-3 White Shaft (translucent white)": "KS-3 White Shaft (translucent white)"
-	},
-	"Greetech" : {
-		"GT02 Red stem": "GT02 Red stem",
-		"GT02 Blue stem + pins": "GT02 Blue stem + pins",
-		"GTO2 Brown stem": "GTO2 Brown stem",
-		"GTO2 Black stem + pins + diode": "GTO2 Black stem + pins + diode",
-		"GTO2 Black stem + pins": "GTO2 Black stem + pins"
-	},
-	"Kailh" : {
-		"PG1511 Black": "PG1511 Black",
-		"PG1511 Blue": "PG1511 Blue",
-		"PG1511 Brown": "PG1511 Brown",
-		"PG1511 Red": "PG1511 Red"
-	},
-	"AlpsSwitches" : {
-		"SKCL/SKCM": "SKCL/SKCM",
-		"SKBL/SKBM": "SKBL/SKBM"
-	},
-	"Matias" : {
-		"Click": "Click",
-		"Linear": "Linear",
-		"Quiet Click": "Quiet Click"
-	}
+		"Gateron": 
+			    {
+			      "KS-3 Black Shaft (black)": "KS-3 Black Shaft (black), Linear, 50 cN",
+			      "KS-3 Green Axis (blue)": "KS-3 Green Axis (blue), Tactile Clicky, 55 cN",
+			      "KS-3 Red Axis (red)": "KS-3 Red Axis (red), Linear, 45 cN",
+			      "KS-3 Tea Axis (brown)": "KS-3 Tea Axis (brown), Tactile Soft, 450 cN",
+			      "KS-3 Yellow (yellow)": "KS-3 Yellow (yellow), Linear, 50 cN",
+			      "KS-3 White Shaft (translucent white)": "KS-3 White Shaft (translucent white), Linear, 35 cN"
+			    },
+
+		"Greetech":	
+			    {
+			      "GT02 Red stem": "Red stem, GT02A1Exx, Linear, 45 cN",
+			      "GT02 Blue stem": "Blue stem, GT02A1Dxx, Tactile Clicky, 55 cN",
+			      "GTO2 Brown stem": "Brown stem, GT02A1Bxx, Tactile Soft, 50 cN",
+			      "GTO2 Black stem": "Black stem, GT02A2Axx, Linear, 65 cN"
+			    },
+
+		"Kailh":
+			  {
+			    "PG1511 Black": "PG1511 Black, Linear, 60 cN",
+			    "PG1511 Blue": "PG1511 Blue, Tactile Click, 60 cN",
+			    "PG1511 Brown": "PG1511 Brown, Tactile Soft, 55 cN",
+			    "PG1511 Red": "PG1511 Red, Linear, 50 cN"
+			  }
+	  },
+    "Alps": {
+	 "Alps" : 
+		  {
+		    "SKCL/SKCM": "SKCL/SKCM",
+		    "SKBL/SKBM": "SKBL/SKBM"
+		  },
+	"Matias" : 
+		  {
+		    "Click": "Click, Tactile Clicky, 60 cN",
+		    "Quiet Linear": "Quiet Linear, Linear, 35 cN",
+		    "Quiet Click": "Quiet Click, Tactile Soft, 60 cN"
+		  }
+
+	  }
+
+  }
 }
+
 

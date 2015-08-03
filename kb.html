@@ -500,7 +500,7 @@ Nav Bar / Header
                    ng-change="updateMeta('defaultkeyswitchstyle')"
                    ng-blur="validateMeta('defaultkeyswitchstyle')">
                    <option value="" class="dropdown-header">Style</option>
-		   <option ng-repeat="(k,v) in keyswitchstyles" value="{{v}}">{{k}}</option>
+		   <option ng-repeat="(k,v) in switches" value="{{v}}" ng-selected="'{{meta.defaultkeyswitchstyle}}' == '{{v}}'">{{k}}</option>
                    </select>
                    
           </div>
@@ -514,7 +514,6 @@ Nav Bar / Header
                    ng-blur="validateMeta('defaultkeyswitchbrand')">
                    <option value="" class="dropdown-header">Brand</option>
 		   <option ng-repeat="(k,v) in $eval(meta.defaultkeyswitchstyle)" value="{{v}}" ng-selected="'{{meta.defaultkeyswitchbrand}}' == '{{v}}'">{{k}}</option>
-		   <!--<option ng-repeat="(k,v) in keyswitchbrands" value="{{v}}">{{k}}</option>-->
                    </select>
                    
           </div>
@@ -527,7 +526,7 @@ Nav Bar / Header
                    ng-change="updateMeta('defaultkeyswitchtype')"
                    ng-blur="validateMeta('defaultkeyswitchtype')">
                    <option value="" class="dropdown-header">Switch type</option>
-		   <option ng-repeat="(k,v) in $eval(meta.defaultkeyswitchbrand)" value="{{v}}" ng-selected="'{{meta.defaultkeyswitchtype}}' == '{{v}}'">{{k}}</option>
+		   <option ng-repeat="(k,v) in $eval(meta.defaultkeyswitchbrand)" value="{{k}}" ng-selected="'{{meta.defaultkeyswitchtype}}' == '{{k}}'">{{v}}</option>
                    </select>
                    
           </div>
