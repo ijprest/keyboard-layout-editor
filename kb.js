@@ -539,6 +539,7 @@
 				rotation_angle : function() { return Math.max(-180, Math.min(180, value)); },
 				rotation_x : function() { return Math.max(0, Math.min(36, value)); },
 				rotation_y : function() { return Math.max(0, Math.min(36, value)); },
+				"meta.radii" : function() { var ndx = value.indexOf(';'); return ndx>=0 ? value.substring(0,ndx) : value; }
 			};
 			return (v[prop] || v._)();
 		}
@@ -603,12 +604,23 @@
 		};
 
 		$scope.updateMeta = function(prop) {
+			var value = $scope.meta[prop];
+			var valid = validate($scope.meta, "meta."+prop, value);
+			if(valid !== value) {
+				return;
+			}
 			transaction("metadata", function() {
-				$scope.keyboard.meta[prop] = $scope.meta[prop];
+				$scope.keyboard.meta[prop] = value;
 			});
 			$scope.calcKbHeight();
 		};
 		$scope.validateMeta = function(prop) {
+			var value = $scope.meta[prop];
+			var valid = validate($scope.meta, "meta."+prop, value);
+			if(valid !== value) {
+				$scope.meta[prop] = valid;
+				$scope.updateMeta(prop);
+			}
 		};
 		$scope.setBackground = function(bg) {
 			$scope.meta.background = bg;
