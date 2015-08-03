@@ -33,9 +33,26 @@
 			if($cookies.oauthToken) {
 				headers["Authorization"] = "token " + $cookies.oauthToken;
 			}
-			return $http({method:method, url:"https://api.github.com"+path, headers:headers, data:data});
+			return $http({method:method, url:"https://api.github.com"+path, headers:headers, data:data, cache:false});
 		}
 		$scope.currentGist = null;
+		$scope.isStarred = false;
+		function setGist(gist) {
+			$scope.currentGist = gist;
+			$scope.isStarred = false;
+			if(gist) {
+				github("/gists/"+gist.id+"/star").success(function() { $scope.isStarred = true; });
+			}
+		}
+		$scope.setGistStar = function(gist, star) {
+			if($scope.user && $scope.user.id && gist && (gist != $scope.currentGist || $scope.isStarred != star)) {
+				github("/gists/"+gist.id+"/star", star ? "PUT" : "DELETE").success(function() {
+					if(gist === $scope.currentGist) {
+						$scope.isStarred = star;
+					}
+				});
+			}
+		}
 
 		// The selected tab; 0 == Properties, 1 == Kbd Properties, 3 == Custom Styles, 2 == Raw Data
 		$scope.selTab = 0;
@@ -103,7 +120,7 @@
 							github("/gists/" + $scope.currentGist.id + "/forks", "POST").success(function(response) {
 								// success
 								$location.path("/gists/"+response.id).hash("").replace();
-								$scope.currentGist = response;
+								setGist(response);
 								$scope.save(); // recurse to do the actual saving
 							}).error(function(data, status) {
 								// error
@@ -144,7 +161,7 @@
 					$scope.saved = response.id;
 					$location.path("/gists/"+response.id).hash("").replace();
 					$scope.saveError = "";
-					$scope.currentGist = response;
+					setGist(response);
 				}).error(function(data,status) {
 					// error
 					$scope.saved = false;
@@ -337,10 +354,10 @@
 					}
 					updateSerialized();
 					$scope.loadError = false;
-					$scope.currentGist = data;
+					setGist(data);
 				}).error(function() {
 					$scope.loadError = true;
-					$scope.currentGist = null;
+					setGist(null);
 				});
 
 			} else {

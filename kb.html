@@ -157,6 +157,12 @@ Nav Bar / Header
     <button type="button" class="btn btn-default" ng-class="{disabled:!canCopy()}" ng-click="copy()"><i class="fa fa-copy"></i> Copy</button>
     <button type="button" class="btn btn-default" ng-class="{disabled:!canPaste()}" ng-click="paste()"><i class="fa fa-paste"></i> Paste</button>
   </div>
+  <div class="btn-group" ng-hide="!user || !user.id || !currentGist || isStarred">
+    <button type="button" class="btn btn-default" ng-click="setGistStar(currentGist, true)" ><i class="fa fa-star-o"></i> Star</button>
+  </div>
+  <div class="btn-group" ng-hide="!user || !user.id || !currentGist || !isStarred">
+    <button type="button" class="btn btn-default" ng-click="setGistStar(currentGist, false)" ><i class="fa fa-star"></i> Unstar</button>
+  </div>
   <!-- Save button (right aligned) -->
   <div class="btn-group pull-right" ng-hide="user && user.id">
     <button type="button" class="btn btn-success hint--bottom hint--no-animate disabled" data-hint="Sign in to save your layouts.">
