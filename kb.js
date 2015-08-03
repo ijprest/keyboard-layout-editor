@@ -1261,14 +1261,25 @@
 		updateUserInfo();
 
 		var userLoginSecret;
+		var userLoginWindow;
 		$scope.userLogin = function() {
-			if(!userLoginSecret && !$scope.user) {
+			console.log(userLoginWindow);
+			if(userLoginWindow) {
+				if(userLoginWindow.closed) {
+					userLoginSecret = null;
+					userLoginWindow = null;
+				} else {
+					userLoginWindow.focus();
+				}
+			}
+
+			if(!userLoginWindow && !$scope.user) {
 				var parms = "&client_id="+ $scope.githubClientId +"&redirect_uri="+ ($location.host() === "localhost" ? "http://localhost:8080/oauth.html" : "http://www.keyboard-layout-editor.com/oauth.html");
 				userLoginSecret = (window.performance && window.performance.now ? window.performance.now() : Date.now()).toString() + "_" + (Math.random()).toString();
-				var loginWindow = window.open("https://github.com/login/oauth/authorize?scope=gist&state="+userLoginSecret+parms,
+				userLoginWindow = window.open("https://github.com/login/oauth/authorize?scope=gist&state="+userLoginSecret+parms,
 					"Sign in with Github", "left="+(window.left+50)+",top="+(window.top+50)+",width=1050,height=630,personalbar=0,toolbar=0,scrollbars=1,resizable=1");
-				if(loginWindow) {
-					loginWindow.focus();
+				if(userLoginWindow) {
+					userLoginWindow.focus();
 				}
 			}
 		};
@@ -1281,6 +1292,7 @@
 		$scope.oauthError = null;
 		window.__oauthError = function(error) {
 			userLoginSecret = null;
+			userLoginWindow = null;
 			$scope.oauthError = error || 'Unknown error.';
 			$scope.oauthToken = "";
 			updateUserInfo();
@@ -1291,6 +1303,7 @@
 				window.__oauthError('The server returned an incorrect login secret.');
 			} else {
 				userLoginSecret = null;
+				userLoginWindow = null;
 				$cookies.oauthToken = code;
 				updateUserInfo();
 			}
