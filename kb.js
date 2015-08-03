@@ -1277,11 +1277,25 @@
 			});
 			activeModal.result.then(function(params) {
 				if(params.load) {
+					// Load the selected layout
 					confirmNavigate().then(function() {
 						var path = "/gists/"+params.load;
 						$location.path(path).hash("").replace();
 						loadAndRender(path);
 						resetUndoStack();
+					});
+				} else if(params.delete) {
+					// Delete the selected layout
+					$confirm.show("Are you sure you want to delete this layout?").then(function() {
+						github("/gists/"+params.delete, "DELETE").success(function() {
+							// If this was the current gist that was deleted, remove it and mark the editor as dirty
+							if($scope.currentGist.id == params.delete) {
+								$location.path("").hash("").replace();
+								setGist(null);
+								$scope.dirty = true;
+								undoStack.forEach(function(u) {	u.dirty = true;	});
+							}
+						});
 					});
 				}
 			});
@@ -1300,6 +1314,7 @@
 		$scope.ok = function() { $modalInstance.close($scope.params); };
 		$scope.cancel = function() { $modalInstance.dismiss('cancel'); };
 		$scope.load = function(gist) { $scope.params.load = gist;	$scope.ok(); }
+		$scope.delete = function(gist) { $scope.params.delete = gist;	$scope.ok(); }
 
 		$scope.layouts = [];
 		params.github(params.starred ? "/gists/starred" : "/gists").then(function(response) {

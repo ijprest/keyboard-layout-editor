@@ -822,7 +822,7 @@ Markdown dialog for displaying README, etc.
           <td>{{layout.description}}</td>
           <td>{{layout.updated_at}}</td>
           <td nowrap>
-            <a class="btn btn-danger btn-xs" href="#" ng-hide="params.starred"><i class="fa fa-trash"></i> Delete</a>
+            <a class="btn btn-danger btn-xs" href="#" ng-click="delete(layout.id)" ng-hide="params.starred"><i class="fa fa-trash"></i> Delete</a>
             <a class="btn btn-primary btn-xs" ng-href="{{layout.html_url}}" target='_blank'><i class="fa fa-github"></i> View on GitHub</a>
           </td>
           <td nowrap>
