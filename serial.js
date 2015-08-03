@@ -282,7 +282,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 	$serial.deserialize = function(rows) {
 		// Initialize with defaults
 		var current = $serial.defaultKeyProps();
-		var meta = { backcolor: "#eeeeee" };
+		var meta = $serial.defaultMetaData();
 		var keys = [];
 		var cluster = { x: 0, y: 0 };
 		var align = 4;

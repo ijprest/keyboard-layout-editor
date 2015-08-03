@@ -6,14 +6,12 @@
 	function toJsonPretty(obj) {
 		var res = [];
 		obj.forEach(function(elem,ndx) {
-			if(ndx == 0 && !(elem instanceof Array)) {
-				// We don't want CSS & notes in the Raw Data editor; they have their 
-				// own editors, and inclusion in the raw data tab just clutters it up.
-				elem = angular.copy(elem);
-				delete elem.css;
-				delete elem.notes;
+			// We don't want CSS & notes in the Raw Data editor; they have their 
+			// own editors, and inclusion in the raw data tab just clutters it up.
+			// Other metadata isn't too bad, but doesn't really offer any benefit.
+			if(ndx > 0 || (elem instanceof Array)) {
+				res.push($serial.toJsonL(elem));
 			}
-			res.push($serial.toJsonL(elem));
 		});
 		return res.join(",\n")+"\n";
 	}
@@ -332,8 +330,13 @@
 				renderKey(key);
 			});
 			if(skipMetadata) {
-				if(!$scope.keyboard.meta.css) $scope.keyboard.meta.css = backup.css;
-				if(!$scope.keyboard.meta.notes) $scope.keyboard.meta.notes = backup.notes;
+				// Use backup metadata
+				var defaults = $serial.defaultMetaData();
+				for(var k in backup) {
+					if(backup.hasOwnProperty(k) && $scope.keyboard.meta[k] === defaults[k]) {
+						$scope.keyboard.meta[k] = backup[k];
+					}
+				}
 			}
 			$scope.meta = angular.copy($scope.keyboard.meta);
 			updateFromCss($scope.meta.css || '');
