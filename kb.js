@@ -5,7 +5,16 @@
 
 	function toJsonPretty(obj) {
 		var res = [];
-		obj.forEach(function(elem) { res.push($serial.toJsonL(elem));	});
+		obj.forEach(function(elem,ndx) {
+			if(ndx == 0 && !(elem instanceof Array)) {
+				// We don't want CSS & notes in the Raw Data editor; they have their 
+				// own editors, and inclusion in the raw data tab just clutters it up.
+				elem = angular.copy(elem);
+				delete elem.css;
+				delete elem.notes;
+			}
+			res.push($serial.toJsonL(elem));
+		});
 		return res.join(",\n")+"\n";
 	}
 	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
@@ -315,12 +324,17 @@
 			key.html = $sce.trustAsHtml($renderKey.html(key,$sanitize));
 		}
 
-		$scope.deserializeAndRender = function(data) {
+		$scope.deserializeAndRender = function(data, skipMetadata) {
 			$scope.serializedObjects = data; // cache serialized objects
+			var backup = angular.copy($scope.keyboard.meta);
 			$scope.keyboard = $serial.deserialize(data);
 			$scope.keys().forEach(function(key) {
 				renderKey(key);
 			});
+			if(skipMetadata) {
+				if(!$scope.keyboard.meta.css) $scope.keyboard.meta.css = backup.css;
+				if(!$scope.keyboard.meta.notes) $scope.keyboard.meta.notes = backup.notes;
+			}
 			$scope.meta = angular.copy($scope.keyboard.meta);
 			updateFromCss($scope.meta.css || '');
 		};
@@ -887,7 +901,7 @@
 				try {
 					$scope.deserializeException = "";
 					transaction("rawdata", function() {
-						$scope.deserializeAndRender(fromJsonPretty($scope.serialized));
+						$scope.deserializeAndRender(fromJsonPretty($scope.serialized), true);
 					});
 					$scope.unselectAll();
 				} catch(e) {
