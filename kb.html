@@ -308,7 +308,7 @@ Nav Bar / Header
             <div class="form-inline hint--top hint--rounded"
                  data-hint="Specify the size for the keycap legends. Setting this value will change the size of all legends, and will replace any existing size overrides.">
               <div class="form-group form-group-sm">
-                <input id="textSize-editor" class="form-control input-sm" size="6" type='number' min="1" max="9"
+                <input id="textSize-editor" class="form-control input-sm" style="max-width:64px" size="6" type='number' min="1" max="9"
                        ng-model="multi.default.textSize"
                        ng-change="updateMulti('textSize',-1)"
                        ng-blur="validateMulti('textSize',-1)"
@@ -878,7 +878,8 @@ Angular Templates
            ng-model="$parent.multi[field]"
            ng-change="$parent.updateMulti(field)"
            ng-blur="$parent.validateMulti(field)"
-           ng-disabled="$parent.selectedKeys.length<1">
+           ng-disabled="$parent.selectedKeys.length<1"
+           style="max-width:80px">
   </div>
 </script>
 
@@ -910,7 +911,7 @@ Angular Templates
              ng-blur="$parent.validateMulti('textSize',labelIndex)"
              ng-disabled="$parent.selectedKeys.length<1"
              ng-style="{visibility:labelIndex<9 ? 'inherit' : 'hidden'}"
-             style="max-width:30px;">
+             style="max-width:32px;">
     </div>
   </div>
 </script>
