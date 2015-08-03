@@ -81,6 +81,11 @@
 		$scope.keyboard = { keys: [], meta: {} };
 		$scope.keys = function(newKeys) { if(newKeys) { $scope.keyboard.keys = newKeys; } return $scope.keyboard.keys; };
 
+		// Custom Styles data
+		$scope.customStylesException = "";
+		$scope.customStyles = "";
+		$scope.customGlyphs = [];
+
 		// Helper function to select/deselect all keys
 		$scope.unselectAll = function() {
 			$scope.selectedKeys = [];
@@ -915,9 +920,6 @@
 			}, 1000);
 		};
 
-		$scope.customStylesException = "";
-		$scope.customStyles = "";
-		$scope.customGlyphs = [];
 		$scope.updateCustomStyles = function() {
 			if(customStylesTimer) {
 				$timeout.cancel(customStylesTimer);
