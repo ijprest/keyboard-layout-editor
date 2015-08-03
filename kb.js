@@ -378,6 +378,14 @@
 			}
 			return $confirm.show(dirtyMessage + "\n\nAre you sure you want to navigate away?");
 		}
+		function resetUndoStack() {
+			undoStack = [];
+			redoStack = [];
+			canCoalesce = false;
+			$scope.dirty = false;
+			$scope.saved = false;
+			$scope.saveError = "";
+		}
 
 		function transaction(type, fn) {
 			var trans = undoStack.length>0 ? undoStack.last() : null;
@@ -1238,6 +1246,7 @@
 						var path = "/gists/"+params.load;
 						$location.path(path).hash("").replace();
 						loadAndRender(path);
+						resetUndoStack();
 					});
 				}
 			});
