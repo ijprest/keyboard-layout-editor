@@ -30,6 +30,7 @@ Required Tools:
 
 * NodeJS/NPM: https://nodejs.org/
 * GNU Make: http://www.gnu.org/software/make/
+* FontForge: http://fontforge.github.io/en-US/
 * Bower: ```npm install -g bower```
 * Grunt: ```npm install -g grunt-cli```
 * Protractor: ```npm install -g protractor```
@@ -38,7 +39,6 @@ Required Tools:
 * Stylus: ```npm install -g stylus```
 * Jison: ```npm install -g jison```
 * Git-utils: ```npm install git-utils -g ```
-* FontForge
 
 Installing prerequisite components (once):
 
