@@ -790,18 +790,20 @@
 			return "";
 		};
 
-		$scope.loadPreset = function(preset) {
-			transaction("preset", function() {
-				$scope.deserializeAndRender(preset);
+		$scope.loadPreset = function(preset, path) {
+			confirmNavigate().then(function() {
+				transaction("preset", function() {
+					$scope.deserializeAndRender(preset);
+				});
+				setGist(null);
+				resetUndoStack();
+				$location.path(path || "").hash("").replace();
+				$scope.dirty = false;
 			});
-			$scope.dirty = false;
 		};
 		$scope.loadSample = function(sample) {
 			$http.get(sample).success(function(data) {
-				$scope.loadPreset(data);
-				if(!$scope.currentGist) {
-					$location.path(sample).hash("").replace();
-				}
+				$scope.loadPreset(data, sample);
 			}).error(function() {
 				$scope.loadError = true;
 			});
