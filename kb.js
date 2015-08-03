@@ -25,7 +25,7 @@
 		$scope.version = "0.14";
 
 		// Github data
-		$scope.githubClientId = "631d93caeaa61c9057ab";
+		$scope.githubClientId = $location.host() === "localhost" ? "8b7b224a9e212c5c17e2" : "631d93caeaa61c9057ab";
 		function github(path, method, data) {
 			method = method || "GET";
 			var headers = {};
@@ -1242,7 +1242,7 @@
 		var userLoginSecret;
 		$scope.userLogin = function() {
 			if(!userLoginSecret && !$scope.user) {
-				var parms = "&client_id="+ $scope.githubClientId +"&redirect_uri=http://localhost:8080/oauth.html";
+				var parms = "&client_id="+ $scope.githubClientId +"&redirect_uri="+ ($location.host() === "localhost" ? "http://localhost:8080/oauth.html" : "http://www.keyboard-layout-editor.com/oauth.html");
 				userLoginSecret = (window.performance && window.performance.now ? window.performance.now() : Date.now()).toString() + "_" + (Math.random()).toString();
 				var loginWindow = window.open("https://github.com/login/oauth/authorize?scope=gist&state="+userLoginSecret+parms,
 					"Sign in with Github", "left="+(window.left+50)+",top="+(window.top+50)+",width=1050,height=630,personalbar=0,toolbar=0,scrollbars=1,resizable=1");
