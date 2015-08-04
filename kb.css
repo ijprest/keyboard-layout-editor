@@ -67,9 +67,12 @@ html, body {
   box-sizing: border-box;
   background-clip: padding-box;
 }
-#keyboard .hover .keyborder { border-color: green !important; border-style: solid; }
-#keyboard .selected .keyborder { border-color: red !important; border-style: solid; }
+#keyboard .hover .keyborder, #keyboard .hover .decal .keyborder { border-color: green !important; border-style: solid; }
+#keyboard .selected .keyborder, #keyboard .selected .decal .keyborder { border-color: red !important; border-style: solid; }
 #keyboard .ghosted { opacity: 0.5; }
+#keyboard .decal .keyborder { border-style: none !important; background: transparent !important; }
+#keyboard .hover .decal .keyborder, 
+#keyboard .selected .decal .keyborder { border-style: dashed !important; border-width: 1px; }
 
 /* Key labels */
 .keylabel>div { display: table-cell; position: static !important; }

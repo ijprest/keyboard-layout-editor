@@ -371,9 +371,9 @@ Nav Bar / Header
           <div class="col-md-9 col-lg-9">
             <div class="form-inline hint--top hint--rounded"
                  data-hint="Specify the primary and secondary widths for the keycap. The secondary width is used to specify the size of non-rectangular or stepped keys.">
-              <kbd-multi-numbox field="width" size="6" min="0.5" max="12" step='{{sizeStep}}'></kbd-multi-numbox>
+              <kbd-multi-numbox field="width" size="6" min="0.5" max="18" step='{{sizeStep}}'></kbd-multi-numbox>
               <div class="form-group form-group-sm"> / </div>
-              <kbd-multi-numbox field="width2" size="6" min="0.5" max="12" step='{{sizeStep}}'></kbd-multi-numbox>
+              <kbd-multi-numbox field="width2" size="6" min="0.5" max="18" step='{{sizeStep}}' kbd-disable="multi.decal"></kbd-multi-numbox>
             </div>
 
             <!-- Swap Colors Button -->
@@ -397,9 +397,9 @@ Nav Bar / Header
           <div class="col-md-9 col-lg-9">
             <div class="form-inline hint--top hint--rounded"
                  data-hint="Specify the primary and secondary heights for the keycap. The secondary height is used to specify the size of non-rectangular or stepped keys.">
-              <kbd-multi-numbox field="height" size="6" min="0.5" max="12" step='{{sizeStep}}'></kbd-multi-numbox>
+              <kbd-multi-numbox field="height" size="6" min="0.5" max="18" step='{{sizeStep}}'></kbd-multi-numbox>
               <div class="form-group form-group-sm"> / </div>
-              <kbd-multi-numbox field="height2" size="6" min="0.5" max="12" step='{{sizeStep}}'></kbd-multi-numbox>
+              <kbd-multi-numbox field="height2" size="6" min="0.5" max="18" step='{{sizeStep}}' kbd-disable="multi.decal"></kbd-multi-numbox>
             </div>
           </div>
         </div>
@@ -412,7 +412,7 @@ Nav Bar / Header
                  data-hint="Specify the X position of the keycap. An X-offset can also be specified to indicate how non-rectangular keys should be displayed.">
               <kbd-multi-numbox field="x" size="6" min="0" max="36" step='{{moveStep}}'></kbd-multi-numbox>
               <div class="form-group form-group-sm"> + </div>
-              <kbd-multi-numbox field="x2" size="6" min="-6" max="6" step='{{moveStep}}'></kbd-multi-numbox>
+              <kbd-multi-numbox field="x2" size="6" min="-6" max="6" step='{{moveStep}}' kbd-disable="multi.decal"></kbd-multi-numbox>
             </div>
           </div>
         </div>
@@ -425,7 +425,7 @@ Nav Bar / Header
                  data-hint="Specify the Y position of the keycap. A Y-offset can also be specified to indicate how non-rectangular keys should be displayed.">
               <kbd-multi-numbox field="y" size="6" min="0" max="36" step='{{moveStep}}'></kbd-multi-numbox>
               <div class="form-group form-group-sm"> + </div>
-              <kbd-multi-numbox field="y2" size="6" min="-6" max="6" step='{{moveStep}}'></kbd-multi-numbox>
+              <kbd-multi-numbox field="y2" size="6" min="-6" max="6" step='{{moveStep}}' kbd-disable="multi.decal"></kbd-multi-numbox>
             </div>
           </div>
         </div>
@@ -470,6 +470,7 @@ Nav Bar / Header
               <kbd-multi-check field="ghost" hint-text="Specify whether the selected keys should be rendered slightly transparently; this is useful to draw attention to the other, non-ghosted keycaps.">Ghosted</kbd-multi-check>
               <kbd-multi-check field="stepped" hint-text="Specify whether the selected keys are 'stepped', i.e., part of the key is at a lower height than the rest.  The secondary 'width' indicates the width of the stepped part.">Stepped</kbd-multi-check>
               <kbd-multi-check field="nub" hint-text="Specifies that the selected keys are 'homing' keys, which help the user find the home-row by touch alone.">Homing</kbd-multi-check>
+              <kbd-multi-check field="decal" hint-text="Specifies that the selected keys are to be treated as 'decals', i.e., purely decorative additions to the layout.">Decal</kbd-multi-check>
             </div>
           </div>
         </div>
@@ -918,7 +919,7 @@ Angular Templates
            ng-model="$parent.multi[field]"
            ng-change="$parent.updateMulti(field)"
            ng-blur="$parent.validateMulti(field)"
-           ng-disabled="$parent.selectedKeys.length<1"
+           ng-disabled="$parent.selectedKeys.length<1 || kbdDisable"
            style="max-width:80px">
   </div>
 </script>
@@ -962,20 +963,20 @@ DOT.js Templates
 
 <!-- Keycap Template -->
 <script type="text/ng-template" id="keycap_html">
-  <div class='{{=key.ghost ? "ghosted keycap" : "keycap"}}'
+  <div class='{{=key.ghost ? "ghosted" : ""}} {{=key.decal ? "decal" : ""}} keycap'
     {{? key.rotation_angle }}
        style='transform:rotate({{=key.rotation_angle}}deg); transform-origin:{{=parms.origin_x}}px {{=parms.origin_y}}px;'
     {{?}}>
 
     <div style="left: {{=parms.capx}}px; top: {{=parms.capy}}px;
                 width: {{=parms.capwidth}}px; height: {{=parms.capheight}}px;
-                border: solid {{=sizes.strokeWidth}}px black; border-radius: {{=sizes.roundOuter}}px;
+                border-style: solid; border-width: {{=sizes.strokeWidth}}px; border-color: black; border-radius: {{=sizes.roundOuter}}px;
                 background-color: {{=parms.darkColor}};"
          class="keyborder"></div>
-  {{? parms.jShaped }}
+  {{? parms.jShaped}}
     <div style="left: {{=parms.capx2}}px; top: {{=parms.capy2}}px;
                 width: {{=parms.capwidth2}}px; height: {{=parms.capheight2}}px;
-                border: solid {{=sizes.strokeWidth}}px black; border-radius: {{=sizes.roundOuter}}px;
+                border-style: solid; border-width: {{=sizes.strokeWidth}}px; border-color: black; border-radius: {{=sizes.roundOuter}}px;
                 background-color: {{=parms.darkColor}};"
          class="keyborder"></div>
     <div style="left: {{=parms.capx + sizes.strokeWidth}}px; top: {{=parms.capy + sizes.strokeWidth}}px;
@@ -985,17 +986,18 @@ DOT.js Templates
                 border-radius: {{=sizes.roundOuter}}px;"></div>
   {{?}}
 
-  {{? !key.ghost }}
+{{? !key.ghost }}
+  {{? !key.decal}}
     <div style="left: {{=parms.innercapx}}px; top: {{=parms.innercapy}}px;
                 width: {{=parms.innercapwidth}}px; height: {{=parms.innercapheight}}px;
-                border: solid {{=sizes.strokeWidth}}px rgba(0,0,0,0.1);
+                border-style: solid; border-width: {{=sizes.strokeWidth}}px; border-color: rgba(0,0,0,0.1);
                 background-color: {{=parms.lightColor}};
                 border-radius: {{=sizes.roundInner}}px;"
          class="keytop"></div>
     {{? parms.jShaped && !key.stepped }}
       <div style="left: {{=parms.innercapx2}}px; top: {{=parms.innercapy2}}px;
                   width: {{=parms.innercapwidth2}}px; height: {{=parms.innercapheight2}}px;
-                  border: solid {{=sizes.strokeWidth}}px rgba(0,0,0,0.1); border-radius: {{=sizes.roundInner}}px;
+                  border-style: solid; border-width: {{=sizes.strokeWidth}}px; border-color: rgba(0,0,0,0.1); border-radius: {{=sizes.roundInner}}px;
                   background-color: {{=parms.lightColor}};
                   background-position: {{=Math.min(parms.innercapx-parms.innercapx2,0)}}px {{=Math.min(parms.innercapy-parms.innercapy2,0)}}px;
                   background-size: {{=Math.max(parms.innercapwidth,parms.innercapwidth2)}}px {{=Math.max(parms.innercapheight,parms.innercapheight2)}}px;"
@@ -1008,6 +1010,7 @@ DOT.js Templates
                   background-size: {{=Math.max(parms.innercapwidth,parms.innercapwidth2)}}px {{=Math.max(parms.innercapheight,parms.innercapheight2)}}px;"
            class="keytop"></div>
     {{?}}
+  {{?}} <!--!key.decal-->
 
     <div style='left: {{=parms.innercapx}}px; top: {{=parms.innercapy}}px; width: {{=parms.innercapwidth}}px; height: {{=parms.innercapheight}}px; padding: {{=sizes.padding}}px;' class='keylabels'>
       {{~key.labels :label:i}}
@@ -1062,7 +1065,7 @@ DOT.js Templates
       <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}"
             width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}"
             rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}" class="inner border"/>
-      {{? parms.jShaped && !key.stepped }}
+      {{? parms.jShaped && !key.stepped && !key.decal}}
         <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}"
               width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}"
               rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}" class="inner border"/>
@@ -1071,14 +1074,14 @@ DOT.js Templates
       <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}"
             width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}"
             rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
-      {{? parms.jShaped && !key.stepped }}
+      {{? parms.jShaped && !key.stepped && !key.decal}}
         <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}"
               width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}"
               rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
       {{?}}
       {{? sizes.profile !== "" }}
         {{var theProfile = sizes.profile; if(/\b(SPACE)\b/.exec(key.profile)) theProfile = "SPACE";}}
-        {{? parms.jShaped && !key.stepped }}
+        {{? parms.jShaped && !key.stepped && !key.decal}}
           {{
             /*much harder to do j-shaped keys in SVG*/
             theProfile = '_fill'+parms.index;

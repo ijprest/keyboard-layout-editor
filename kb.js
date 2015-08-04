@@ -531,10 +531,10 @@
 				y : function() { return Math.max(0, Math.min(36, value)); },
 				x2 : function() { return Math.max(-Math.abs(key.width-key.width2), Math.min(Math.abs(key.width-key.width2), value)); },
 				y2 : function() { return Math.max(-Math.abs(key.height-key.height2), Math.min(Math.abs(key.height-key.height2), value)); },
-				width : function() { return Math.max(0.5, Math.min(12, value)); },
-				height : function() { return Math.max(0.5, Math.min(12, value)); },
-				width2 : function() { return Math.max(0.5, Math.min(12, value)); },
-				height2 : function() { return Math.max(0.5, Math.min(12, value)); },
+				width : function() { return Math.max(0.5, Math.min(18, value)); },
+				height : function() { return Math.max(0.5, Math.min(18, value)); },
+				width2 : function() { return Math.max(0.5, Math.min(18, value)); },
+				height2 : function() { return Math.max(0.5, Math.min(18, value)); },
 				textSize : function() { return Math.max(1, Math.min(9, value)); },
 				rotation_angle : function() { return Math.max(-180, Math.min(180, value)); },
 				rotation_x : function() { return Math.max(0, Math.min(36, value)); },
@@ -562,6 +562,7 @@
 						}
 					}
 				},
+				decal : function() { key[prop] = value; key.x2 = key.y2 = 0; key.width2 = key.width; key.height2 = key.height; },
 				rotation_angle : function() { key.rotation_angle = value; key.rotation_x = $scope.multi.rotation_x; key.rotation_y = $scope.multi.rotation_y; },
 			};
 			return (u[prop] || u._)();
@@ -1418,7 +1419,7 @@
 		return { templateUrl: "multiCheck.html", restrict: "E", scope: { hintText: "@", field: "@" }, transclude: true };
 	});
 	kbApp.directive('kbdMultiNumbox', function() {
-		return { templateUrl: "multiNumbox.html", restrict: "E", scope: { field: "@", size:"@", min:"@", max:"@", step:"@" } };
+		return { templateUrl: "multiNumbox.html", restrict: "E", scope: { field: "@", size:"@", min:"@", max:"@", step:"@", kbdDisable: "=" } };
 	});
 
 	// Runs a confirmation dialog asynchronously, using promises.
