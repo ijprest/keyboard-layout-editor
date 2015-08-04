@@ -4,7 +4,6 @@ mongoose*.exe
 
 # Private data
 fonts/EngraversGothic-Regular-webfont.*
-aws-private-key.txt
 
 # Per-user stuff
 *.sublime-workspace
