@@ -1,6 +1,6 @@
 {"switches" : 
   {
-    "Cherry MX": 
+    "Cherry MX style": 
 	 {
 		"Cherry": 
 			    {
@@ -57,18 +57,19 @@
 			    "PG1511 Red": "PG1511 Red, Linear, 50 cN"
 			  }
 	  },
-    "Alps": {
-	 "Alps" : 
-		  {
-		    "SKCL/SKCM": "SKCL/SKCM",
-		    "SKBL/SKBM": "SKBL/SKBM"
-		  },
-	"Matias" : 
-		  {
-		    "Click": "Click, Tactile Clicky, 60 cN",
-		    "Quiet Linear": "Quiet Linear, Linear, 35 cN",
-		    "Quiet Click": "Quiet Click, Tactile Soft, 60 cN"
-		  }
+    "Alps style": 
+	  {
+		"Alps" : 
+			  {
+			    "SKCL/SKCM": "SKCL/SKCM",
+			    "SKBL/SKBM": "SKBL/SKBM"
+			  },
+		"Matias" : 
+			  {
+			    "Click": "Click, Tactile Clicky, 60 cN",
+			    "Quiet Linear": "Quiet Linear, Linear, 35 cN",
+			    "Quiet Click": "Quiet Click, Tactile Soft, 60 cN"
+			  }
 
 	  }
 
