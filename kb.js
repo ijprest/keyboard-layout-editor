@@ -441,7 +441,7 @@
 					"<li>There are a lot of available keyboard shortcuts; press '?' or 'F1' to see a list.</li></ul>"+
 					"<p>When you're ready to save your layout, simply 'Sign In' with your <a href='https://www.github.com'>GitHub</a> account and click the <i>Save</i> button.  Your layout will be saved in a GitHub Gist.</p>"+
 					"<p>Have fun!</p>"],
-				["7\nHome","8\n↑","9\nPgUp",{h:2},"+"],
+				[{f:3},"7\nHome","8\n↑","9\nPgUp",{h:2},"+"],
 				["4\n←","5","6\n→"],
 				["1\nEnd","2\n↓","3\nPgDn",{h:2},"Enter"],
 				[{w:2},"0\nIns",".\nDel"]
