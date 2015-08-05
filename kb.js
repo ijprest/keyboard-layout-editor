@@ -569,16 +569,20 @@
 				textSize : function() { if(index<0) { key.default.textSize = value; key.textSize = []; } else { key.textSize[index] = value; } },
 				labels : function() { key.labels[index] = value; },
 				stepped : function() {
-					key[prop] = value;
-					if(value && key.width === key.width2) {
-						if(key.width > 1) {
-							key.width = Math.max(1, key.width-0.5);
-						} else {
-							key.width2 = key.width+0.5;
+					if(!key.decal) {
+						key[prop] = value;
+						if(value && key.width === key.width2) {
+							if(key.width > 1) {
+								key.width = Math.max(1, key.width-0.5);
+							} else {
+								key.width2 = key.width+0.5;
+							}
 						}
 					}
 				},
-				decal : function() { key[prop] = value; key.x2 = key.y2 = 0; key.width2 = key.width; key.height2 = key.height; },
+				nub : function() { if(!key.decal) key[prop] = value; },
+				ghost : function() { if(!key.decal) key[prop] = value; },
+				decal : function() { key[prop] = value; key.x2 = key.y2 = 0; key.width2 = key.width; key.height2 = key.height; key.nub = key.stepped = key.ghost = false; },
 				rotation_angle : function() { key.rotation_angle = value; key.rotation_x = $scope.multi.rotation_x; key.rotation_y = $scope.multi.rotation_y; },
 			};
 			return (u[prop] || u._)();
