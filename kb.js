@@ -1432,7 +1432,7 @@
 		return { templateUrl: "labelEditor.html", restrict: "E", scope: { hintText: "@", labelIndex: "=" } };
 	});
 	kbApp.directive('kbdMultiCheck', function() {
-		return { templateUrl: "multiCheck.html", restrict: "E", scope: { hintText: "@", field: "@" }, transclude: true };
+		return { templateUrl: "multiCheck.html", restrict: "E", scope: { hintText: "@", field: "@", kbdDisable: "=" }, transclude: true };
 	});
 	kbApp.directive('kbdMultiNumbox', function() {
 		return { templateUrl: "multiNumbox.html", restrict: "E", scope: { field: "@", size:"@", min:"@", max:"@", step:"@", kbdDisable: "=" } };

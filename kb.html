@@ -340,7 +340,7 @@ Nav Bar / Header
                    data-hint="Swap the text and keycap colors.">
                 <button class="btn btn-default"
                         ng-click="swapColors()"
-                        ng-disabled="selectedKeys.length<1" >
+                        ng-disabled="selectedKeys.length<1 || multi.decal" >
                   <i class="fa fa-random"></i>
                 </button>
               </div>
@@ -357,7 +357,7 @@ Nav Bar / Header
                                 ng-model="multi.color"
                                 ng-change="updateMulti('color')"
                                 ng-blur="validateMulti('color')"
-                                ng-disabled="selectedKeys.length<1"
+                                ng-disabled="selectedKeys.length<1 || multi.decal"
                                 hint-text="Specify the color to use for the background of the selected keycaps."
                                 ui-on-Drop="dropSwatch($data,$event,false)" drop-channel="dragColor"></kbd-color-picker>
               <div class="form-group form-group-sm color-name">{{colorName(multi.color)}}</div>
@@ -376,14 +376,14 @@ Nav Bar / Header
               <kbd-multi-numbox field="width2" size="6" min="0.5" max="18" step='{{sizeStep}}' kbd-disable="multi.decal"></kbd-multi-numbox>
             </div>
 
-            <!-- Swap Colors Button -->
+            <!-- Swap Sizes Button -->
             <div>
               <div id="swap-sizes"
                    class="hint--top hint--rounded"
                    data-hint="Swap the primary &amp; secondary sizes (affects legend positioning on oddly shaped keys).">
                 <button class="btn btn-default"
                         ng-click="swapSizes()"
-                        ng-disabled="selectedKeys.length<1 || (multi.width == multi.width2 && multi.height == multi.height2)" >
+                        ng-disabled="selectedKeys.length<1 || (multi.width == multi.width2 && multi.height == multi.height2) || multi.decal" >
                   <i class="fa fa-random"></i>
                 </button>
               </div>
@@ -456,7 +456,7 @@ Nav Bar / Header
                        ng-model="multi.profile"
                        ng-change="updateMulti('profile')"
                        ng-blur="validateMulti('profile')"
-                       ng-disabled="selectedKeys.length<1">
+                       ng-disabled="selectedKeys.length<1 || multi.decal">
               </div>
             </div>
           </div>
@@ -467,9 +467,9 @@ Nav Bar / Header
           <label class="control-label col-md-3 col-lg-3 text-nowrap">Misc:</label>
           <div class="col-md-9 col-lg-9">
             <div class="form-inline">
-              <kbd-multi-check field="ghost" hint-text="Specify whether the selected keys should be rendered slightly transparently; this is useful to draw attention to the other, non-ghosted keycaps.">Ghosted</kbd-multi-check>
-              <kbd-multi-check field="stepped" hint-text="Specify whether the selected keys are 'stepped', i.e., part of the key is at a lower height than the rest.  The secondary 'width' indicates the width of the stepped part.">Stepped</kbd-multi-check>
-              <kbd-multi-check field="nub" hint-text="Specifies that the selected keys are 'homing' keys, which help the user find the home-row by touch alone.">Homing</kbd-multi-check>
+              <kbd-multi-check field="ghost" kbd-disable="multi.decal" hint-text="Specify whether the selected keys should be rendered slightly transparently; this is useful to draw attention to the other, non-ghosted keycaps.">Ghosted</kbd-multi-check>
+              <kbd-multi-check field="stepped" kbd-disable="multi.decal" hint-text="Specify whether the selected keys are 'stepped', i.e., part of the key is at a lower height than the rest.  The secondary 'width' indicates the width of the stepped part.">Stepped</kbd-multi-check>
+              <kbd-multi-check field="nub" kbd-disable="multi.decal" hint-text="Specifies that the selected keys are 'homing' keys, which help the user find the home-row by touch alone.">Homing</kbd-multi-check>
               <kbd-multi-check field="decal" hint-text="Specifies that the selected keys are to be treated as 'decals', i.e., purely decorative additions to the layout.">Decal</kbd-multi-check>
             </div>
           </div>
@@ -906,7 +906,7 @@ Angular Templates
                ng-model="$parent.multi[field]"
                ng-change="$parent.updateMulti(field)"
                ng-blur="$parent.validateMulti(field)"
-               ng-disabled="$parent.selectedKeys.length<1">
+               ng-disabled="$parent.selectedKeys.length<1 || kbdDisable">
         <span ng-transclude></span>
       </label>
     </div>
