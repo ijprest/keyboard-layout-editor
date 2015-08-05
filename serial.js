@@ -151,11 +151,10 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 	}
 
 	function compareTextSizes(current,key,labels) {
-		// console.log(current, key, labels);
 		if(typeof(current) === "number")
 			current = [current];
 		for(var i = 0; i < 12; ++i) {
-			if( labels[i] && (!!current[i] !== !!key[i]) || (current[i] && current[i] !== key[i]) )
+			if( labels[i] && ((!!current[i] !== !!key[i]) || (current[i] && current[i] !== key[i])) )
 				return false;
 		}
 		return true;
@@ -236,6 +235,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 			current.profile = serializeProp(props, "p", key.profile, current.profile);
 			current.align = serializeProp(props, "a", ordered.align, current.align);
 			current.default.textSize = serializeProp(props, "f", key.default.textSize, current.default.textSize);
+			if(props.f) current.textSize = [];
 			if(!compareTextSizes(current.textSize, ordered.textSize, ordered.labels)) {
 				var optimizeF2 = !ordered.textSize[0];
 				for(var i = 2; i < ordered.textSize.length && optimizeF2; ++i) {
@@ -243,7 +243,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 				}
 				if(optimizeF2) {
 					var f2 = ordered.textSize[1];
-					current.f2 = serializeProp(props, "f2", f2, current.f2);
+					current.f2 = serializeProp(props, "f2", f2, -1);
 					current.textSize = [0,f2,f2,f2,f2,f2,f2,f2,f2,f2,f2,f2];
 				} else {
 					current.f2 = undefined;

@@ -92,6 +92,12 @@ describe('keyboard serialization', function() {
       }
     });
 
+    it('should always output "f2" if "f" has been output when serializing', function() {
+      var original = [[ {"a":7,"f":7},"←",{"a":5},"!\n1",{"f":9,"f2":7}, "\"\n2", {"f":5,"f2":7}, "#\n3"]];
+      var kbd = $serial.deserialize(original);
+      expect($serial.serialize(kbd)).toEqual(original);
+    });
+
     it('should handle "fa"', function() {
       for(var align = 0; align < 7; ++align) {
         var original = [ [{f:1,fa:[1,2,3,4,5,6,7,8,9,10,11,12],a:align}, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12'] ];
