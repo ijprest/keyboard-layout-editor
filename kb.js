@@ -425,11 +425,27 @@
 			} else {
 				$scope.deserializeAndRender($serial.fromJsonL(loc));
 			}
-		} else if($location.path()[0] === '/') {
+		} else if($location.path()[0] === '/' && $location.path().length > 1) {
 			loadAndRender($location.path());
 		} else {
 			// Some simple default content... just a numpad
-			$scope.deserializeAndRender([["Num Lock","/","*","-"],["7\nHome","8\n↑","9\nPgUp",{h:2},"+"],["4\n←","5","6\n→"],["1\nEnd","2\n↓","3\nPgDn",{h:2},"Enter"],[{w:2},"0\nIns",".\nDel"]]);
+			$scope.deserializeAndRender([
+				["Num Lock","/","*","-",
+					{x:0.25,f:4,w:14,h:5,d:true},"<h5><b>Getting Started with Keyboard-Layout-Editor.com</b></h5>"+
+					"<p>Keyboard-layout-editor.com is a web application that enables the editing of keyboard-layouts, i.e., the position and appearance of each physical key.</p>"+
+					"<p>Start by exploring the presets and samples from the menu-bar to give you an idea of the possibilities.  Once you are ready to start designing your own keyboard, just load one of the presets and start customizing it!  Some tips:</p>"+
+					"<ul><li>The selected keys can be modified on the <i>Properties</i> tab.</li>"+
+					"<li>The <i>Keyboard Properties</i> tab lets you edit the keyboard background and keyboard metadata.</li>"+
+					"<li>The <i>Custom Styles</i> tab lets you write advanced CSS styling rules.</li>"+
+					"<li>Don't forget the <i>Color Swatches</i> and <i>Character Picker</i> menu items!  These give you easy access to colors and symbol characters, respectively.</li>"+
+					"<li>There are a lot of available keyboard shortcuts; press '?' or 'F1' to see a list.</li></ul>"+
+					"<p>When you're ready to save your layout, simply 'Sign In' with your <a href='https://www.github.com'>GitHub</a> account and click the <i>Save</i> button.  Your layout will be saved in a GitHub Gist.</p>"+
+					"<p>Have fun!</p>"],
+				["7\nHome","8\n↑","9\nPgUp",{h:2},"+"],
+				["4\n←","5","6\n→"],
+				["1\nEnd","2\n↓","3\nPgDn",{h:2},"Enter"],
+				[{w:2},"0\nIns",".\nDel"]
+			]);
 		}
 
 		// Undo/redo support
