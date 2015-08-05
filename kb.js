@@ -29,7 +29,7 @@
 		var customStylesTimer = false;
 
 		// The application version
-		$scope.version = "0.14";
+		$scope.version = "0.15";
 
 		// Github data
 		$scope.githubClientId = $location.host() === "localhost" ? "8b7b224a9e212c5c17e2" : "631d93caeaa61c9057ab";

@@ -1,3 +1,34 @@
+___Version 0.15:___ Aug 4, 2015
+* Now using GitHub Gists for storage:
+  * In order to save layouts, you now need to sign in to GitHub via OAuth.
+  * Once signed in, clicking 'Save' will store your layout as a GitHub Gist.
+    * Unlike before, if you modify your layout and save again, a new 
+      _revision_ of your Gist is created.  
+    * You can now share a link to your layout and it will be stable over time 
+      as you make edits to it.
+  * All Gists are created as 'Private'; this means that nobody can see it 
+    unless you share the link.
+* If you make modifications to another user's layout and try to save, you 
+  will be prompted to create a "fork" under your own account.
+  * The link between your copy and the original copy is maintained.
+  * Note that you can only have one fork of any given layout; if you try
+    to fork it a second time, you will end up overwriting your first fork
+    (though history is maintained, so you won't lose any data).  This appears
+    to be a limitation in how GitHub Gists work.
+* Get a list of all your saved layouts; go to 'My Layouts' in the user menu.
+* "Star" & "Unstar" your favorite layouts; go to 'Starred Layouts' in the 
+  user menu to go back to layouts you previously starred.
+* New "background" options:  (Thanks iandoug!)
+  * You can now add a background 'texture' to your layout to simulate the 
+    look of various materials (e.g., wood, aluminum, etc.).  
+  * You can now set the corner radius of your layout to better simulate 
+    the look of non-rectangular keyboards. 
+* You can now add 'decals' to your layout:
+  * These are purely decorative additions to the layout, and have many uses
+    (e.g., keyboard logos, 'caps lock' LEDs, labels, etc.)
+  * They have many of the same formatting options as regular keycaps, but 
+    they don't render any keycap background.
+
 ___Version 0.14:___ Aug 1, 2015
 * Custom Styles
   * You can now define custom styles for your keyboard using CSS
