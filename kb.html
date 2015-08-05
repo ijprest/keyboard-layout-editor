@@ -1010,7 +1010,7 @@ DOT.js Templates
                   background-size: {{=Math.max(parms.innercapwidth,parms.innercapwidth2)}}px {{=Math.max(parms.innercapheight,parms.innercapheight2)}}px;"
            class="keytop"></div>
     {{?}}
-  {{?}} <!--!key.decal-->
+  {{?}} {{ /*decal*/ }}
 
     <div style='left: {{=parms.innercapx}}px; top: {{=parms.innercapy}}px; width: {{=parms.innercapwidth}}px; height: {{=parms.innercapheight}}px; padding: {{=sizes.padding}}px;' class='keylabels'>
       {{~key.labels :label:i}}
@@ -1029,18 +1029,19 @@ DOT.js Templates
         {{?}}
       {{~}}
     </div>
-  {{?}} <!--!key.ghost-->
+  {{?}} {{ /*ghost*/ }}
 
   </div>
 </script>
 
 <!-- Keycap Template for SVG-->
 <script type="text/ng-template" id="keycap_svg">
-  <g class='{{=key.ghost ? "ghosted keycap" : "keycap"}}'
+  <g class='{{=key.ghost ? "ghosted" : ""}} {{=key.decal ? "decal" : ""}} keycap'
   {{? key.rotation_angle }}
      transform="rotate({{=key.rotation_angle}} {{=parms.origin_x}} {{=parms.origin_y}})"
   {{?}}>
 
+  {{? !key.decal }}
     <!-- Outer Border -->
     <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}"
           width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}"
@@ -1065,7 +1066,7 @@ DOT.js Templates
       <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}"
             width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}"
             rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}" class="inner border"/>
-      {{? parms.jShaped && !key.stepped && !key.decal}}
+      {{? parms.jShaped && !key.stepped }}
         <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}"
               width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}"
               rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}" class="inner border"/>
@@ -1074,14 +1075,14 @@ DOT.js Templates
       <rect x="{{=parms.innercapx+sizes.strokeWidth}}" y="{{=parms.innercapy+sizes.strokeWidth}}"
             width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}"
             rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
-      {{? parms.jShaped && !key.stepped && !key.decal}}
+      {{? parms.jShaped && !key.stepped }}
         <rect x="{{=parms.innercapx2+sizes.strokeWidth}}" y="{{=parms.innercapy2+sizes.strokeWidth}}"
               width="{{=parms.innercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.innercapheight2-sizes.strokeWidth*2}}"
               rx="{{=sizes.roundOuter}}" fill="{{=parms.lightColor}}"/>
       {{?}}
       {{? sizes.profile !== "" }}
         {{var theProfile = sizes.profile; if(/\b(SPACE)\b/.exec(key.profile)) theProfile = "SPACE";}}
-        {{? parms.jShaped && !key.stepped && !key.decal}}
+        {{? parms.jShaped && !key.stepped }}
           {{
             /*much harder to do j-shaped keys in SVG*/
             theProfile = '_fill'+parms.index;
@@ -1114,7 +1115,9 @@ DOT.js Templates
               width="{{=parms.innercapwidth-sizes.strokeWidth*2}}" height="{{=parms.innercapheight-sizes.strokeWidth*2}}"
               rx="{{=sizes.roundOuter}}" fill="url(#{{=theProfile}})"/>
       {{?}}
-    {{?}}
+
+    {{?}} {{ /*ghost*/ }}
+  {{?}} {{ /*decal*/ }}
   </g>
 </script>
 
