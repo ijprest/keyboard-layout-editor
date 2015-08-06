@@ -186,7 +186,6 @@ unquoted_attribute_value_char
 
 WS
   : /*empty*/                                                     { $$ = ''; }
-  | WHITESPACE                                                    { $$ = ''; }
-  | ws WHITESPACE                                                 { $$ = ''; }
+  | WHITESPACE+                                                   { $$ = ''; }
   ;
 

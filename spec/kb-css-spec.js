@@ -116,5 +116,10 @@ describe('css parser', function() {
     expect(css.parse('@foo { nested { arbitrary-stuff; } here(); }')).toEqual([ {name: '@foo', content: "nested { arbitrary-stuff; } here();"} ]);
   });
 
+  it('should ignore CSS comments', function() {
+    expect(css.parse('/*foo*/\n')).toEqual([]);
+    expect(css.parse('/*foo*/foo{}')).toEqual([ {selector: ["foo"]} ]);
+    expect(css.parse('foo{}/*foo*/')).toEqual([ {selector: ["foo"]} ]);
+  });
 });
 
