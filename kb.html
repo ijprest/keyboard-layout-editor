@@ -134,7 +134,7 @@ Nav Bar / Header
       <li><a ng-click="addKeys(10)">Add 10 Keys</a></li>
       <li><a ng-click="addKeys(25)">Add 25 Keys</a></li>
       <li class="divider" ng-class="{hidden: !specialKeys}"></li>
-      <li ng-repeat="(k,v) in specialKeys"><a ng-click="addKey(v)">Add '{{k}}' Key</a></li>
+      <li ng-repeat="(k,v) in specialKeys"><a ng-click="addKey(v)">{{k}}</a></li>
     </ul>
   </div>
 

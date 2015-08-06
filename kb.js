@@ -908,7 +908,7 @@
 				if(xpos >= 23) { xpos = 0; ypos++; }
 			} else {
 				$scope.keys().forEach(function(key) {
-					if(key.rotation_angle == $scope.multi.rotation_angle && key.rotation_x == $scope.multi.rotation_x && key.rotation_y == $scope.multi.rotation_y) {
+					if(!$scope.selectedKeys.length || (key.rotation_angle == $scope.multi.rotation_angle && key.rotation_x == $scope.multi.rotation_x && key.rotation_y == $scope.multi.rotation_y)) {
 						ypos = Math.max(ypos,key.y);
 					}
 				});
@@ -921,20 +921,28 @@
 			var newKey = null;
 			transaction("add", function() {
 				var pos = whereToAddNewKeys(nextline);
-				newKey = $serial.defaultKeyProps();
-				if($scope.selectedKeys.length>0) {
-					newKey.color = $scope.multi.color;
-					newKey.textColor = $scope.multi.textColor;
-					newKey.profile = $scope.multi.profile;
-					newKey.rotation_angle = $scope.multi.rotation_angle;
-					newKey.rotation_x = $scope.multi.rotation_x;
-					newKey.rotation_y = $scope.multi.rotation_y;
+				var _addKey = function(proto) {
+					newKey = $serial.defaultKeyProps();
+					if($scope.selectedKeys.length>0) {
+						newKey.color = $scope.multi.color;
+						newKey.textColor = $scope.multi.textColor;
+						newKey.profile = $scope.multi.profile;
+						newKey.rotation_angle = $scope.multi.rotation_angle;
+						newKey.rotation_x = $scope.multi.rotation_x;
+						newKey.rotation_y = $scope.multi.rotation_y;
+					}
+					$.extend(newKey, proto);
+					newKey.x += pos.x;
+					newKey.y += pos.y;
+					renderKey(newKey);
+					pos.x += Math.max(newKey.width, newKey.width2);
+					$scope.keys().push(newKey);
 				}
-				$.extend(newKey, proto);
-				newKey.x += pos.x;
-				newKey.y += pos.y;
-				renderKey(newKey);
-				$scope.keys().push(newKey);
+				if(proto instanceof Array) {
+					proto.forEach(_addKey);
+				} else {
+					_addKey(proto);
+				}
 			});
 			selectKey(newKey,{});
 			$scope.calcKbHeight();
