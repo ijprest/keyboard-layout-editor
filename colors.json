@@ -33,7 +33,7 @@
 		]
 	},
 	{
-		"name" : "Signature Plastic ABS",
+		"name" : "Signature Plastics ABS",
 		"href" : "http://www.keycapsdirect.com/colors.php",
 		"description" : "These are representations of the different ABS plastic colors available for order through Signature Plastics.  The colors were sampled from color-chips using an X-Rite ColorMunki photospectrometer, and converted to sRGB (D65) using the formulas on Bruce Lindbloom's website.  The representations you see here will only be accurate if your monitor is properly calibrated to display sRGB colors.",
 		"colors" : [
@@ -189,7 +189,7 @@
 		]
 	},
 	{
-		"name" : "Signature Plastic PBT",
+		"name" : "Signature Plastics PBT",
 		"href" : "http://www.keycapsdirect.com/colors.php",
 		"description" : "These are representations of the different PBT plastic colors available for order through Signature Plastics.  The colors were sampled from color-chips using an X-Rite ColorMunki photospectrometer, and converted to sRGB (D65) using the formulas on Bruce Lindbloom's website.  The representations you see here will only be accurate if your monitor is properly calibrated to display sRGB colors.",
 		"colors" : [
