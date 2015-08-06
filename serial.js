@@ -237,17 +237,21 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 			current.default.textSize = serializeProp(props, "f", key.default.textSize, current.default.textSize);
 			if(props.f) current.textSize = [];
 			if(!compareTextSizes(current.textSize, ordered.textSize, ordered.labels)) {
-				var optimizeF2 = !ordered.textSize[0];
-				for(var i = 2; i < ordered.textSize.length && optimizeF2; ++i) {
-					optimizeF2 = (ordered.textSize[i] == ordered.textSize[1]);
-				}
-				if(optimizeF2) {
-					var f2 = ordered.textSize[1];
-					current.f2 = serializeProp(props, "f2", f2, -1);
-					current.textSize = [0,f2,f2,f2,f2,f2,f2,f2,f2,f2,f2,f2];
+				if(ordered.textSize.length == 0) {
+					serializeProp(props, "f", key.default.textSize, -1); // Force 'f' to be written
 				} else {
-					current.f2 = undefined;
-					current.textSize = serializeProp(props, "fa", ordered.textSize, []);
+					var optimizeF2 = !ordered.textSize[0];
+					for(var i = 2; i < ordered.textSize.length && optimizeF2; ++i) {
+						optimizeF2 = (ordered.textSize[i] == ordered.textSize[1]);
+					}
+					if(optimizeF2) {
+						var f2 = ordered.textSize[1];
+						current.f2 = serializeProp(props, "f2", f2, -1);
+						current.textSize = [0,f2,f2,f2,f2,f2,f2,f2,f2,f2,f2,f2];
+					} else {
+						current.f2 = undefined;
+						current.textSize = serializeProp(props, "fa", ordered.textSize, []);
+					}
 				}
 			}
 			serializeProp(props, "w", key.width, 1);

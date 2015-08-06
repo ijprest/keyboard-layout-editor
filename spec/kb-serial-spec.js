@@ -98,6 +98,12 @@ describe('keyboard serialization', function() {
       expect($serial.serialize(kbd)).toEqual(original);
     });
 
+    it('should write "f" to reset back to default, even if default didn\'t change', function() {
+      var original = [[{f2:5},"X\nY",{f:3}, "X\nY"]];
+      var kbd = $serial.deserialize(original);
+      expect($serial.serialize(kbd)).toEqual(original);
+    });
+
     it('should handle "fa"', function() {
       for(var align = 0; align < 7; ++align) {
         var original = [ [{f:1,fa:[1,2,3,4,5,6,7,8,9,10,11,12],a:align}, '1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12'] ];
