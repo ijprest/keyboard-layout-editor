@@ -309,13 +309,21 @@
 			{ "name": "white", "r":255, "g":255, "b":255},
 			{ "name": "gray", "r":208, "g":204, "b":192},
 			{ "name": "dark-gray", "r":150, "g":147, "b":142},
+			{ "name": "graphite", "r":96, "g":96, "b":91},
+			{ "name": "charcoal", "r":55, "g":53, "b":53},
+			{ "name": "pink", "r":251, "g":187, "b":201},
 			{ "name": "red", "r":193, "g":56, "b":40},
 			{ "name": "blue", "r":94, "g":177, "b":231},
+			{ "name": "royal-blue", "r":0, "g":70, "b":173},
+			{ "name": "mint", "r":142, "g":215, "b":176},
 			{ "name": "green", "r":29, "g":182, "b":58},
+			{ "name": "olive", "r":83, "g":104, "b":43},
 			{ "name": "yellow", "r":248, "g":214, "b":21},
 			{ "name": "orange", "r":246, "g":127, "b":0},
-			{ "name": "pink", "r":251, "g":187, "b":201},
-			{ "name": "purple", "r":172, "g":151, "b":216}
+			{ "name": "graybrown-7497c", "r":118, "g":110, "b":84},
+			{ "name": "brown", "r":111, "g":76, "b":35},
+			{ "name": "purple", "r":172, "g":151, "b":216},
+			{ "name": "purple-2627c", "r":67, "g":22, "b":94}
 		]
 	}
 ]
