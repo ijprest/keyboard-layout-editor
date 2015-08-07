@@ -6,8 +6,9 @@ Special thanks to the following contributors:
   support
 * [jasonm23](https://github.com/jasonm23), for initial Custom Styles 
   implementation
-* [iandoug](http://iandoug.com/?p=64), for the case background textures & 
-  related options.
+* [iandoug](http://iandoug.com/?p=64), for first versions of: Move/Size/Angle stepsize; case background textures & 
+  related options; default switch options.
+* [Kevin Schoedel](https://github.com/datatravelandexperiments) for the Colors in Keyboard patch
 
 The following users have contributed some of the sample keyboard layouts & 
 presets:

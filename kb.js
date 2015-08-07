@@ -730,7 +730,65 @@
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 		};
-
+		
+		$scope.makePaletteFromKeys = function(event) {
+		  if (event) {
+		    event.preventDefault();
+		  }
+		  var unselect = false;
+		  if($scope.selectedKeys.length<1) {
+		    $scope.selectAll();
+		    unselect = true;
+		  }
+		  
+		  var colors = {};
+		  // Get the unique colors of selected keys.
+		  $scope.selectedKeys.forEach(function(selectedKey) {
+		    colors[selectedKey.color] = null;
+		    colors[selectedKey.text] = null;
+		  });
+		  // Build palette.
+		  var p = {
+		    "name": "Custom palette",
+		  "description": "This is a custom palette generated from existing colors in the keyboard layout.",
+		  "href": $scope.getPermalink(),
+			 "colors": []
+		  };
+		  // Build colors.
+		  for (var prop in colors) {
+		    if (colors.hasOwnProperty(prop) && prop[0] == '#') {
+		      var color = null;
+		      // Look for the color in the current palette, and use it if found,
+		      // in order to keep the name.
+		      if ($scope.palette && $scope.palette.colors) {
+			for (var i = 0, len = $scope.palette.colors.length; i < len; ++i) {
+			  if ($scope.palette.colors[i].css == prop) {
+			    color = $scope.palette.colors[i];
+			    break;
+			  }
+			}
+		      }
+		      if (color == null) {
+			// Make a new color.
+			color = $color.sRGB8(parseInt(prop.slice(1,3), 16),
+					     parseInt(prop.slice(3,5), 16),
+					     parseInt(prop.slice(5,7), 16));
+			color.css = color.hex();
+			color.name = color.css;
+		      }
+		      if (color) {
+			p.colors.push(color);
+		      }
+		    }
+		  }
+		  p.colors.sort(function(a, b) { return a.name.localeCompare(b.name); });
+		  $scope.loadPalette(p);
+		  
+		  if (unselect) {
+		    $scope.unselectAll();
+		  }
+		} 	
+		
 		$scope.moveKeys = function(x,y,$event) {
 			$event.preventDefault();
 			$event.stopPropagation();

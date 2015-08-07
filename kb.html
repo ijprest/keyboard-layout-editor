@@ -81,6 +81,8 @@ Nav Bar / Header
         <a class="dropdown-toggle" dropdown-toggle><i class="fa fa-th"></i> Color Swatches <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
+ 	  <li class="divider"></li>
+	  <li><a ng-click="makePaletteFromKeys()" href="#">Current key colors</a></li> 
         </ul>
       </li>
 
