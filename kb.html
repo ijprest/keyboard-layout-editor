@@ -651,6 +651,21 @@ Nav Bar / Header
           </div>
         </div>
 
+        <!-- Switch mounting -->
+        <div class="form-group form-group-sm form-horizontal">
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="pcb">Switch mounting:</label>
+            <div class="form-inline">
+              <input type="checkbox" id="pcb" class="checkbox"
+                      ng-model="meta.pcb"
+                      ng-change="updateMeta('pcb')"
+                      ng-blur="validateMeta('pcb')" field="pcb" hint-text="Specify if the switches are PCB mounted."> PCB</input>
+              <input type="checkbox" id="plate"  class="checkbox"
+                      ng-model="meta.plate"
+                      ng-change="updateMeta('plate')"
+                      ng-blur="validateMeta('plate')" field="plate"  hint-text="Specify if the switches are plate mounted."> Plate</input>
+            </div>
+        </div>
+
         <!-- Notes -->
         <div class="form-group form-group-sm">
           <label class="control-label col-md-2 col-lg-1 text-nowrap" for="noteseditor">Notes:</label>
