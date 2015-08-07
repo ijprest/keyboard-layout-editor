@@ -215,7 +215,7 @@ Nav Bar / Header
      ng-mousedown="selectClick($event)"
      ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
 
-    <div id='keyboard-bg' 
+    <div id='keyboard-bg'
          ng-attr-style="height:{{kbHeight}}px; width:{{kbWidth}}px; background-color:{{keyboard.meta.backcolor}}; border-radius: {{keyboard.meta.radii || '6px'}}; {{keyboard.meta.background.style}}">
       <div ng-repeat="key in keys()"
          class="key {{key.profile}}"
@@ -606,6 +606,48 @@ Nav Bar / Header
                    ng-model="meta.author"
                    ng-change="updateMeta('author')"
                    ng-blur="validateMeta('author')">
+          </div>
+        </div>
+
+        <!-- Default keyswitch options-->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="switcheditor">Default switch:</label>
+
+          <!-- Default keyswitch style-->
+          <div class="form-inline form-outdent col-md-10 col-lg-11">
+            <div class="hint--top hint--rounded" data-hint="Specify the default style of switch for this keyboard layout.">
+              <select id="switcheditor" class="form-control input-sm dropdown"
+                     ng-model="meta.switchMount"
+                     ng-change="updateMeta('switchMount')"
+                     ng-blur="validateMeta('switchMount')">
+                <option value="">Mount Style Not Specified</option>
+                <option ng-repeat="(k,v) in switches" value="{{k}}" ng-selected="meta.switchMount == k">{{v.name}}</option>
+              </select>
+            </div>
+
+            <!-- Default keyswitch brand-->
+            <div class="hint--top hint--rounded"
+                 data-hint="Specify the default brand of key switch for this keyboard layout.">
+              <select class="form-control input-sm dropdown"
+                      ng-model="meta.switchBrand"
+                      ng-change="updateMeta('switchBrand')"
+                      ng-blur="validateMeta('switchBrand')">
+                <option value="">Brand Not Specified</option>
+                <option ng-repeat="(k,v) in switches[meta.switchMount].brands" value="{{k}}" ng-selected="meta.switchBrand == k">{{v.name}}</option>
+              </select>
+            </div>
+
+            <!-- Default keyswitch type-->
+            <div class=" hint--top hint--rounded"
+                 data-hint="Specify the default type of key switch for this keyboard layout.">
+              <select class="form-control input-sm dropdown"
+                      ng-model="meta.switchType"
+                      ng-change="updateMeta('switchType')"
+                      ng-blur="validateMeta('switchType')">
+                <option value="">Switch Type Not Specified</option>
+                <option ng-repeat="v in switches[meta.switchMount].brands[meta.switchBrand].switches" value="{{v.part}}" ng-selected="meta.switchType == v.part">{{v.name + (v.feel ? ', '+v.feel : '') + (v.weight ? ', '+v.weight.toString()+' cN' : '')}}</option>
+              </select>
+            </div>
           </div>
         </div>
 

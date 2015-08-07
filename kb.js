@@ -277,7 +277,11 @@
 		$scope.backgrounds = {};
 		$http.get('backgrounds.json').success(function(data) {
 		  $scope.backgrounds = data;
-		});		
+		});
+		
+		$http.get('switches.json').success(function(data) {
+		  $scope.switches = data;
+		});
 		
 		// The currently selected palette & character-picker
 		$scope.palette = {};
@@ -632,7 +636,10 @@
 			}
 			transaction("metadata", function() {
 				$scope.keyboard.meta[prop] = value;
+				if(prop==='switchMount') { $scope.keyboard.meta.switchBrand = $scope.keyboard.meta.switchType = '';	}
+				else if(prop==='switchBrand') { $scope.keyboard.meta.switchType = '';	}
 			});
+			$scope.meta = angular.copy($scope.keyboard.meta);
 			$scope.calcKbHeight();
 		};
 		$scope.validateMeta = function(prop) {

@@ -7,9 +7,9 @@
       "style": "background-image: url('/bg/wood/Red_Mahogany_Wood.jpg');"
     },
     "radii": "30px 30px 50% 50%",
-    "defaultkeyswitchstyle": "CherryMX",
-    "defaultkeyswitchbrand": "Cherry",
-    "defaultkeyswitchtype": "MX Brown"
+    "switchMount": "cherry",
+    "switchBrand": "cherry",
+    "switchType": "MX1A-G1xx"
   },
   [
     {
