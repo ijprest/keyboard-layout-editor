@@ -1,79 +1,61 @@
-{"switches" : 
-  {
-    "Cherry MX style": 
-	 {
-		"Cherry": 
-			    {
-			      "MX Blue": "MX Blue, MX1A-E1xx, Normal, Tactile Clicky, 50 cN",
-			      "MX Black": "MX Black, MX1A-11xx, Normal, Linear, 60 cN",
-			      "MX Brown": "MX Brown, MX1A-G1xx, Normal, Tactile Soft, 45 cN",
-			      "MX Clear": "MX Clear, MX1A-C1xx, Normal, Tactile Soft, 65 cN",
-			      "MX Green": "MX Green, MX1A-F1xx, Space bar, Tactile Clicky, 80 cN",
-			      "MX Linear Grey": "MX Linear Grey, MX1A-21xx, Space bar, Linear, 80 cN",
-			      "MX Lock": "MX Lock, MX1A-31xx, Alternate action, Linear, 60 cN ",
-			      "MX Red": "MX Red, MX1A-L1xx, Normal, Linear, 45 cN",
-			      "MX RGB Black": "MX RGB Black, MX1A-11xx, Normal, Linear, 60 cN",
-			      "MX RGB Blue": "MX RGB Blue, MX1A-E1xx, Normal, Tactile Clicky, 50 cN", 
-			      "MX RGB Brown": "MX RGB Brown, MX1A-G1xx, Normal, Tactile Soft, 45 cN",
-			      "MX RGB Red": "MX RGB Red, MX1A-L1xx, Normal, Linear, 45 cN",
-			      "MX Tactile Grey": "MX Tactile Grey, MX1A-D1xx, Space bar, Tactile, 80 cN",
-			      "MX White": "MX White, MX1A-A1xx, Normal, Tactile Clicky, 50 cN/80 cN"
-			    },
-		"Gaote_Outemu": 
-				{
-				  "Clear, Black Shaft": "Clear, Black Shaft, PG150B01-1, 65 cN",
-				  "Clear, Red Shaft": "Clear, Red Shaft, PG150R01-1, 50 cN",
-				  "Clear, Blue Shaft": "Clear, Blue Shaft, PG150Q01-1, 55 cN",
-				  "Clear, Brown Shaft": "Clear, Brown Shaft, PG150T01-1, 50 cN",
-				  "Black, Black Shaft": "Black, Black Shaft,  PG150B01, 65 cN",
-				  "Black, Red Shaft": "Black, Red Shaft, PG150R01, 50 cN",
-				  "Black, Blue Shaft": "Black, Blue Shaft, PG150Q01, 60 cN",
-				  "Black, Brown Shaft": "Black, Brown Shaft, PG150T01, 55 cN"
-				}, 
-
-		"Gateron": 
-			    {
-			      "KS-3 Black Shaft (black)": "KS-3 Black Shaft (black), Linear, 50 cN",
-			      "KS-3 Green Axis (blue)": "KS-3 Green Axis (blue), Tactile Clicky, 55 cN",
-			      "KS-3 Red Axis (red)": "KS-3 Red Axis (red), Linear, 45 cN",
-			      "KS-3 Tea Axis (brown)": "KS-3 Tea Axis (brown), Tactile Soft, 450 cN",
-			      "KS-3 Yellow (yellow)": "KS-3 Yellow (yellow), Linear, 50 cN",
-			      "KS-3 White Shaft (translucent white)": "KS-3 White Shaft (translucent white), Linear, 35 cN"
-			    },
-
-		"Greetech":	
-			    {
-			      "GT02 Red stem": "Red stem, GT02A1Exx, Linear, 45 cN",
-			      "GT02 Blue stem": "Blue stem, GT02A1Dxx, Tactile Clicky, 55 cN",
-			      "GTO2 Brown stem": "Brown stem, GT02A1Bxx, Tactile Soft, 50 cN",
-			      "GTO2 Black stem": "Black stem, GT02A2Axx, Linear, 65 cN"
-			    },
-
-		"Kailh":
-			  {
-			    "PG1511 Black": "PG1511 Black, Linear, 60 cN",
-			    "PG1511 Blue": "PG1511 Blue, Tactile Click, 60 cN",
-			    "PG1511 Brown": "PG1511 Brown, Tactile Soft, 55 cN",
-			    "PG1511 Red": "PG1511 Red, Linear, 50 cN"
-			  }
-	  },
-    "Alps style": 
-	  {
-		"Alps" : 
-			  {
-			    "SKCL/SKCM": "SKCL/SKCM",
-			    "SKBL/SKBM": "SKBL/SKBM"
-			  },
-		"Matias" : 
-			  {
-			    "Click": "Click, Tactile Clicky, 60 cN",
-			    "Quiet Linear": "Quiet Linear, Linear, 35 cN",
-			    "Quiet Click": "Quiet Click, Tactile Soft, 60 cN"
-			  }
-
-	  }
-
-  }
+{
+  "cherry": { "mount": "cherry", "name": "Cherry MX Mount", "brands": {
+    "cherry": { "brand": "cherry", "name": "Cherry Electrical Products", "switches": [
+      { "part": "MX1A-E1xx", "name": "MX Blue", "feel": "clicky", "weight": 50 },
+      { "part": "MX1A-11xx", "name": "MX Black", "feel": "linear", "weight": 60 },
+      { "part": "MX1A-G1xx", "name": "MX Brown", "feel": "tactile", "weight": 45 },
+      { "part": "MX1A-C1xx", "name": "MX Clear", "feel": "tactile", "weight": 65 },
+      { "part": "MX1A-F1xx", "name": "MX Green", "feel": "clicky", "weight": 80 },
+      { "part": "MX1A-21xx", "name": "MX Linear Grey", "feel": "linear", "weight": 80 },
+      { "part": "MX1A-31xx", "name": "MX Lock", "feel": "linear", "weight": 60, "lock": true },
+      { "part": "MX1A-L1xx", "name": "MX Red", "feel": "linear", "weight": 45 },
+      { "part": "MX1A-11xx", "name": "MX RGB Black", "feel": "linear", "weight": 60 },
+      { "part": "MX1A-E1xx", "name": "MX RGB Blue", "feel": "clicky", "weight": 50 },
+      { "part": "MX1A-G1xx", "name": "MX RGB Brown", "feel": "tactile", "weight": 45 },
+      { "part": "MX1A-L1xx", "name": "MX RGB Red", "feel": "linear", "weight": 45 },
+      { "part": "MX1A-D1xx", "name": "MX Tactile Grey", "feel": "tactile", "weight": 80 },
+      { "part": "MX1A-A1xx", "name": "MX White", "feel": "clicky", "weight": 80 }
+    ]},
+    "gaote": { "brand": "gaote", "name": "Outemu / Gaote Electronics", "switches": [
+      { "part": "PG150B01-1", "name": "Clear, Black Shaft", "weight": 65 },
+      { "part": "PG150R01-1", "name": "Clear, Red Shaft", "weight": 50 },
+      { "part": "PG150Q01-1", "name": "Clear, Blue Shaft", "weight": 55 },
+      { "part": "PG150T01-1", "name": "Clear, Brown Shaft", "weight": 50 },
+      { "part": "PG150B01", "name": "Black, Black Shaft", "weight": 65 },
+      { "part": "PG150R01", "name": "Black, Red Shaft", "weight": 50 },
+      { "part": "PG150Q01", "name": "Black, Blue Shaft", "weight": 60 },
+      { "part": "PG150T01", "name": "Black, Brown Shaft", "weight": 55 }
+    ]},
+    "gateron": { "brand": "gateron", "name": "Gateron", "switches": [
+      { "part": "KS-3-Black", "name": "KS-3 Black Shaft (black)", "feel": "linear", "weight": 50 },
+      { "part": "KS-3-Green", "name": "KS-3 Green Axis (blue)", "feel": "clicky", "weight": 55 },
+      { "part": "KS-3-Red", "name": "KS-3 Red Axis (red)", "feel": "linear", "weight": 45 },
+      { "part": "KS-3-Tea", "name": "KS-3 Tea Axis (brown)", "feel": "tactile", "weight": 45 },
+      { "part": "KS-3-Yellow", "name": "KS-3 Yellow (yellow)", "feel": "linear", "weight": 50 },
+      { "part": "KS-3-White", "name": "KS-3 White Shaft (translucent white)", "feel": "linear", "weight": 35 }
+    ]},
+    "greetech": { "brand": "greetech", "name": "Greetech (Huizhou Greetech Electronics Co.)", "switches": [
+      { "part": "GT02A1Exx", "name": "GT02 Red stem", "feel": "linear", "weight": 45 },
+      { "part": "GT02A1Dxx", "name": "GT02 Blue stem", "feel": "clicky", "weight": 55 },
+      { "part": "GT02A1Bxx", "name": "GTO2 Brown stem", "feel": "tactile", "weight": 50 },
+      { "part": "GT02A2Axx", "name": "GTO2 Black stem", "feel": "linear", "weight": 65 }
+    ]},
+    "kailh": { "brand": "kailh", "name": "Kailh (Kaihua Electronics Co.)", "switches": [
+      { "part": "PG151101D01/D15", "name": "Kailh Black", "feel": "linear", "weight": 60 },
+      { "part": "PG151101D64/D10", "name": "Kailh Blue", "feel": "clicky", "weight": 60 },
+      { "part": "PG151101D49/D09", "name": "Kailh Brown", "feel": "tactile", "weight": 55 },
+      { "part": "PG151101D05/D43", "name": "Kailh Red", "feel": "linear", "weight": 50 }
+    ]}
+  }},
+  "alps": { "mount": "alps", "name": "Alps Mount", "brands": {
+    "alps": { "brand": "alps", "name": "Alps Electric Co.", "switches": [
+      { "part": "SKCL/SKCM", "name": "SKCL/SKCM (Complicated Alps)" },
+      { "part": "SKBL/SKBM", "name": "SKBL/SKBM (Simplified Alps)" }
+    ]},
+    "matias": { "brand": "matias", "name": "Matias Corporation", "switches": [
+      { "part": "PG155B02", "name": "Click", "feel": "clicky", "weight": 60 },
+      { "part": "KS102Q", "name": "Quiet Linear", "feel": "linear", "weight": 35 },
+      { "part": "PG155B01", "name": "Quiet Click", "feel": "tactile", "weight": 60 }
+    ]}
+  }}
 }
-
-
