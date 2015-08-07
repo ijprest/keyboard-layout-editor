@@ -302,8 +302,8 @@
 	},
 	{
 		"name" : "WASD keyboards",
-		"href" : "http://www.wasdkeyboards.com/index.php/products/sampler-kit/wasd-sampler-kit-o-ring-keycaps.html",
-		"description" : "These are the 11 colors and their RGB codes, taken from the HTML code of the shop pages.",
+		"href" : "http://www.wasdkeyboards.com/index.php/products/keycap-set/104-key-cherry-mx-keycap-set.html",
+		"description" : "These are the 19 colors and their RGB codes, taken from the HTML code of the shop pages.",
 		"colors" : [
 			{ "name": "black", "r":26, "g":26, "b":26},
 			{ "name": "white", "r":255, "g":255, "b":255},

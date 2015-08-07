@@ -16,7 +16,7 @@
       { "part": "MX1A-D1xx", "name": "MX Tactile Grey", "feel": "tactile", "weight": 80 },
       { "part": "MX1A-A1xx", "name": "MX White", "feel": "clicky", "weight": 80 }
     ]},
-    "gaote": { "brand": "gaote", "name": "Outemu / Gaote Electronics", "switches": [
+    "outemu": { "brand": "outemu", "name": "Outemu (Gaote Electronics)", "switches": [
       { "part": "PG150B01-1", "name": "Clear, Black Shaft", "weight": 65 },
       { "part": "PG150R01-1", "name": "Clear, Red Shaft", "weight": 50 },
       { "part": "PG150Q01-1", "name": "Clear, Blue Shaft", "weight": 55 },
