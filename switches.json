@@ -1,20 +1,24 @@
 {
   "cherry": { "mount": "cherry", "name": "Cherry MX Mount", "brands": {
     "cherry": { "brand": "cherry", "name": "Cherry Electrical Products", "switches": [
-      { "part": "MX1A-E1xx", "name": "MX Blue", "feel": "clicky", "weight": 50 },
+      { "part": "MX1A-A1xx", "name": "MX White", "feel": "clicky", "weight": 70 },
       { "part": "MX1A-11xx", "name": "MX Black", "feel": "linear", "weight": 60 },
+      { "part": "MX1A-C1xx", "name": "MX Clear", "feel": "tactile", "weight": 55 },
+      { "part": "MX1A-D1xx", "name": "MX Tactile Grey", "feel": "tactile", "weight": 80 },
+      { "part": "MX1A-E1xx", "name": "MX Blue", "feel": "clicky", "weight": 50 },
+      { "part": "MX1A-F1xx", "name": "MX Green", "feel": "clicky", "weight": 70 },
       { "part": "MX1A-G1xx", "name": "MX Brown", "feel": "tactile", "weight": 45 },
-      { "part": "MX1A-C1xx", "name": "MX Clear", "feel": "tactile", "weight": 65 },
-      { "part": "MX1A-F1xx", "name": "MX Green", "feel": "clicky", "weight": 80 },
+      { "part": "MX1A-L1xx", "name": "MX Red", "feel": "linear", "weight": 45 },
+      { "part": "MX1A-11Nx", "name": "MX RGB Black", "feel": "linear", "weight": 60 },
+      { "part": "MX1A-E1Nx", "name": "MX RGB Blue", "feel": "clicky", "weight": 50 },
+      { "part": "MX1A-G1Nx", "name": "MX RGB Brown", "feel": "tactile", "weight": 45 },
+      { "part": "MX1A-L1Nx", "name": "MX RGB Red", "feel": "linear", "weight": 45 },
       { "part": "MX1A-21xx", "name": "MX Linear Grey", "feel": "linear", "weight": 80 },
       { "part": "MX1A-31xx", "name": "MX Lock", "feel": "linear", "weight": 60, "lock": true },
-      { "part": "MX1A-L1xx", "name": "MX Red", "feel": "linear", "weight": 45 },
-      { "part": "MX1A-11xx", "name": "MX RGB Black", "feel": "linear", "weight": 60 },
-      { "part": "MX1A-E1xx", "name": "MX RGB Blue", "feel": "clicky", "weight": 50 },
-      { "part": "MX1A-G1xx", "name": "MX RGB Brown", "feel": "tactile", "weight": 45 },
-      { "part": "MX1A-L1xx", "name": "MX RGB Red", "feel": "linear", "weight": 45 },
-      { "part": "MX1A-D1xx", "name": "MX Tactile Grey", "feel": "tactile", "weight": 80 },
-      { "part": "MX1A-A1xx", "name": "MX White", "feel": "clicky", "weight": 80 }
+      { "part": "MX3A-11Nx", "name": "MX Silent RGB Black", "feel": "linear", "weight": 60 },
+      { "part": "MX3A-L1Nx", "name": "MX Silent RGB Red", "feel": "linear", "weight": 45 },
+      { "part": "MX3A-L1xx", "name": "MX Silent Red", "feel": "linear", "weight": 45 },
+      { "part": "MX3A-11xx", "name": "MX Silent Black", "feel": "linear", "weight": 60 }
     ]},
     "outemu": { "brand": "outemu", "name": "Outemu (Gaote Electronics)", "switches": [
       { "part": "PG150B01-1", "name": "Clear, Black Shaft", "weight": 65 },
