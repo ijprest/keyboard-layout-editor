@@ -464,6 +464,54 @@ Nav Bar / Header
           </div>
         </div>
 
+
+<!--#here#-->
+        <!-- Keyswitch options-->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="thisswitcheditor">Switch:</label>
+
+          <!-- Keyswitch style-->
+          <div class="form-inline form-outdent col-md-9 col-lg-9">
+            <div class="hint--top hint--rounded" data-hint="Specify the style of switch for this key.">
+              <select id="thisswitcheditor" class="form-control input-sm dropdown"
+                     ng-model="multi.sm"
+                     ng-change="updateMulti('sm')"
+                     ng-blur="validateMulti('sm')">
+                <option value="">Mount Style Not Specified</option>
+                <option ng-repeat="(k,v) in switches" value="{{k}}" ng-selected="multi.sm == k">{{v.name}}</option>
+              </select>
+            </div>
+
+            <!-- Default keyswitch brand-->
+            <div class="hint--top hint--rounded"
+                 data-hint="Specify the default brand of key switch for this key.">
+              <select class="form-control input-sm dropdown"
+                      ng-model="multi.sb"
+                      ng-change="updateMulti('sb')"
+                      ng-blur="validateMulti('sb')">
+                <option value="">Brand Not Specified</option>
+                <option ng-repeat="(k,v) in switches[multi.sm].brands" value="{{k}}" ng-selected="multi.sb == k">{{v.name}}</option>
+              </select>
+            </div>
+
+            <!-- Default keyswitch type-->
+            <div class=" hint--top hint--rounded"
+                 data-hint="Specify the default type of key switch for this key.">
+              <select class="form-control input-sm dropdown"
+                      ng-model="multi.st"
+                      ng-change="updateMulti('st')"
+                      ng-blur="validateMulti('st')">
+                <option value="">Switch Type Not Specified</option>
+                <option ng-repeat="v in switches[multi.sb].brands[multi.sb].switches" value="{{v.part}}" ng-selected="multi.st == v.part">{{v.name + (v.feel ? ', '+v.feel : '') + (v.weight ? ', '+v.weight.toString()+' cN' : '')}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+
+
+<!--#here#-->
+        
         <!-- Misc -->
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3 col-lg-3 text-nowrap">Misc:</label>
