@@ -85,7 +85,7 @@ Nav Bar / Header
         <ul class="dropdown-menu">
           <li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
  	  <li class="divider"></li>
-	  <li><a ng-click="makePaletteFromKeys()" href="#">Current key colors</a></li> 
+	  <li><a ng-click="makePaletteFromKeys()" href="#">Current key colors</a></li>
         </ul>
       </li>
 
@@ -179,9 +179,14 @@ Nav Bar / Header
       <i class="fa fa-save"></i> Save
     </button>
   </div>
-  <div class="btn-group pull-right" style="margin-right: 4px;">
-    <button type="button" class="btn btn-success" ng-click="downloadSvg()"><i class="fa fa-download"></i> Download SVG</button>
-    <button type="button" class="btn btn-success" ng-click="downloadPng()"><i class="fa fa-download"></i> Download PNG</button>
+  <div class="btn-group pull-right" style="margin-right: 4px;" dropdown>
+    <button type="button" class="btn btn-success dropdown-toggle" dropdown-toggle><i class="fa fa-download"></i> Download <span class="caret"></span></button>
+    <ul class="dropdown-menu" role="menu">
+      <li><a ng-click="downloadSvg()">Download SVG (Experimental)</a></li>
+      <li><a ng-click="downloadPng()">Download PNG (Experimental)</a></li>
+      <li class="divider"></li>
+      <li><a ng-click="downloadJson()">Download JSON</a></li>
+    </ul>
   </div>
 
 
@@ -698,7 +703,7 @@ Nav Bar / Header
             </div>
 	    <!-- Switch mounting -->
             <div class="form-group form-group-sm form-horizontal">
-               Mounted on: 
+               Mounted on:
               <div class=" hint--top hint--rounded"
                   data-hint="Specify if the switches are PCB mounted.">
                 <input type="checkbox" id="pcb" class="checkbox"
