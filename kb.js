@@ -3,6 +3,22 @@
 (function () {
 	"use strict";
 
+	$(function() { 
+	  $("#pngSave").click(function() { 
+	    html2canvas($("#keyboard"), {
+	      useCORS: true,
+	      onrendered: function(canvas) {
+		var theCanvas = canvas;
+		//document.body.appendChild(canvas);
+		
+		canvas.toBlob(function(blob) {
+		  saveAs(blob, "keyboard.png"); 
+		});
+	      }
+	    });
+	  });
+	}); 
+	
 	function toJsonPretty(obj) {
 		var res = [];
 		obj.forEach(function(elem,ndx) {
