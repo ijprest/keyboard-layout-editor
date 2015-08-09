@@ -27,7 +27,6 @@ Select(0uE616); Import("font-src/logo-linux-knoppix.svg",0,16);
 Select(0uE617); Import("font-src/logo-linux-redhat.svg",0,16);
 Select(0uE618); Import("font-src/logo-linux-opensuse.svg",0,16);
 Select(0uE619); Import("font-src/logo-android.svg",0,16);
-#Select(0uE620); Import("font-src/logo-linux-mint.svg",0,16);
 
 Select(0uE700); Import("font-src/community-hapster.svg",0,16);
 Select(0uE701); Import("font-src/community-awesome.svg",0,16);
@@ -35,7 +34,5 @@ Select(0uE702); Import("font-src/community-awesome-invert.svg",0,16);
 
 Select(0uE703); Import("font-src/copyleft.svg",0,16);
 Select(0uE704); Import("font-src/batman.svg",0,16);
-#Select(0uE705); Import("font-src/logo-ecorp.svg",0,16);
-#Select(0uE706); Import("font-src/running-woman.svg",0,16);
 
 Generate($2);
