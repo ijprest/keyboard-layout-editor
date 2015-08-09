@@ -1,22 +1,26 @@
 {
   "cherry": { "mount": "cherry", "name": "Cherry MX Mount", "brands": {
     "cherry": { "brand": "cherry", "name": "Cherry Electrical Products", "switches": [
-      { "part": "MX1A-E1xx", "name": "MX Blue", "feel": "clicky", "weight": 50 },
+      { "part": "MX1A-A1xx", "name": "MX White", "feel": "clicky", "weight": 70 },
       { "part": "MX1A-11xx", "name": "MX Black", "feel": "linear", "weight": 60 },
+      { "part": "MX1A-C1xx", "name": "MX Clear", "feel": "tactile", "weight": 55 },
+      { "part": "MX1A-D1xx", "name": "MX Tactile Grey", "feel": "tactile", "weight": 80 },
+      { "part": "MX1A-E1xx", "name": "MX Blue", "feel": "clicky", "weight": 50 },
+      { "part": "MX1A-F1xx", "name": "MX Green", "feel": "clicky", "weight": 70 },
       { "part": "MX1A-G1xx", "name": "MX Brown", "feel": "tactile", "weight": 45 },
-      { "part": "MX1A-C1xx", "name": "MX Clear", "feel": "tactile", "weight": 65 },
-      { "part": "MX1A-F1xx", "name": "MX Green", "feel": "clicky", "weight": 80 },
+      { "part": "MX1A-L1xx", "name": "MX Red", "feel": "linear", "weight": 45 },
+      { "part": "MX1A-11Nx", "name": "MX RGB Black", "feel": "linear", "weight": 60 },
+      { "part": "MX1A-E1Nx", "name": "MX RGB Blue", "feel": "clicky", "weight": 50 },
+      { "part": "MX1A-G1Nx", "name": "MX RGB Brown", "feel": "tactile", "weight": 45 },
+      { "part": "MX1A-L1Nx", "name": "MX RGB Red", "feel": "linear", "weight": 45 },
       { "part": "MX1A-21xx", "name": "MX Linear Grey", "feel": "linear", "weight": 80 },
       { "part": "MX1A-31xx", "name": "MX Lock", "feel": "linear", "weight": 60, "lock": true },
-      { "part": "MX1A-L1xx", "name": "MX Red", "feel": "linear", "weight": 45 },
-      { "part": "MX1A-11xx", "name": "MX RGB Black", "feel": "linear", "weight": 60 },
-      { "part": "MX1A-E1xx", "name": "MX RGB Blue", "feel": "clicky", "weight": 50 },
-      { "part": "MX1A-G1xx", "name": "MX RGB Brown", "feel": "tactile", "weight": 45 },
-      { "part": "MX1A-L1xx", "name": "MX RGB Red", "feel": "linear", "weight": 45 },
-      { "part": "MX1A-D1xx", "name": "MX Tactile Grey", "feel": "tactile", "weight": 80 },
-      { "part": "MX1A-A1xx", "name": "MX White", "feel": "clicky", "weight": 80 }
+      { "part": "MX3A-11Nx", "name": "MX Silent RGB Black", "feel": "linear", "weight": 60 },
+      { "part": "MX3A-L1Nx", "name": "MX Silent RGB Red", "feel": "linear", "weight": 45 },
+      { "part": "MX3A-L1xx", "name": "MX Silent Red", "feel": "linear", "weight": 45 },
+      { "part": "MX3A-11xx", "name": "MX Silent Black", "feel": "linear", "weight": 60 }
     ]},
-    "gaote": { "brand": "gaote", "name": "Outemu / Gaote Electronics", "switches": [
+    "outemu": { "brand": "outemu", "name": "Outemu (Gaote Electronics)", "switches": [
       { "part": "PG150B01-1", "name": "Clear, Black Shaft", "weight": 65 },
       { "part": "PG150R01-1", "name": "Clear, Red Shaft", "weight": 50 },
       { "part": "PG150Q01-1", "name": "Clear, Blue Shaft", "weight": 55 },
@@ -26,7 +30,7 @@
       { "part": "PG150Q01", "name": "Black, Blue Shaft", "weight": 60 },
       { "part": "PG150T01", "name": "Black, Brown Shaft", "weight": 55 }
     ]},
-    "gateron": { "brand": "gateron", "name": "Gateron", "switches": [
+    "gateron": { "brand": "gateron", "name": "Gateron (Huizhou Jia Electronic Technology Co.)", "switches": [
       { "part": "KS-3-Black", "name": "KS-3 Black Shaft (black)", "feel": "linear", "weight": 50 },
       { "part": "KS-3-Green", "name": "KS-3 Green Axis (blue)", "feel": "clicky", "weight": 55 },
       { "part": "KS-3-Red", "name": "KS-3 Red Axis (red)", "feel": "linear", "weight": 45 },
@@ -39,6 +43,12 @@
       { "part": "GT02A1Dxx", "name": "GT02 Blue stem", "feel": "clicky", "weight": 55 },
       { "part": "GT02A1Bxx", "name": "GTO2 Brown stem", "feel": "tactile", "weight": 50 },
       { "part": "GT02A2Axx", "name": "GTO2 Black stem", "feel": "linear", "weight": 65 }
+    ]},
+    "hua-jie": { "brand": "hua-jie", "name": "Hua-Jie (Hua-Jie (Taiwan) Corp)", "switches": [
+      { "part": "AX01-B", "name": "Black stem", "feel": "linear", "weight": 60 },
+      { "part": "AX01-R", "name": "Red stem", "feel": "linear", "weight": 45 },
+      { "part": "AX01-T", "name": "Tea/Brown stem", "feel": "tactile", "weight": 55 },
+      { "part": "AX01-C", "name": "Cyan/Blue stem", "feel": "clicky", "weight": 60 }
     ]},
     "kailh": { "brand": "kailh", "name": "Kailh (Kaihua Electronics Co.)", "switches": [
       { "part": "PG151101D01/D15", "name": "Kailh Black", "feel": "linear", "weight": 60 },

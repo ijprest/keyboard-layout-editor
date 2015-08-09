@@ -100,13 +100,14 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 	};
 
 	var _defaultKeyProps = {
-		x: 0, y: 0, x2: 0, y2: 0,													// position
-		width: 1, height: 1, width2: 1, height2: 1,				// size
+		x: 0, y: 0, x2: 0, y2: 0,				// position
+		width: 1, height: 1, width2: 1, height2: 1,		// size
 		rotation_angle: 0, rotation_x: 0, rotation_y: 0,	// rotation
-		labels:[], textColor: [], textSize: [],						// label properties
+		labels:[], textColor: [], textSize: [],			// label properties
 		default: { textColor: "#000000", textSize: 3 },		// label defaults
-		color: "#cccccc", profile: "", nub: false, 				// cap appearance
-		ghost: false, stepped: false, decal: false
+		color: "#cccccc", profile: "", nub: false, 		// cap appearance
+		ghost: false, stepped: false, decal: false,		// miscellaneous options
+		sm: "", sb:"", st:""					// switch
 	};
 
 	var _defaultMetaData = { backcolor: '#eeeeee', name: '', author: '', notes: '', background: undefined, radii: '', switchMount: '', switchBrand: '', switchType: '' };
@@ -233,6 +234,9 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 			current.textColor = serializeProp(props, "t", ordered.textColor.join("\n").trimEnd(), current.textColor);
 			current.ghost = serializeProp(props, "g", key.ghost, current.ghost);
 			current.profile = serializeProp(props, "p", key.profile, current.profile);
+			current.sm = serializeProp(props, "sm", key.sm, current.sm);
+			current.sb = serializeProp(props, "sb", key.sb, current.sb);
+			current.st = serializeProp(props, "st", key.st, current.st);
 			current.align = serializeProp(props, "a", ordered.align, current.align);
 			current.default.textSize = serializeProp(props, "f", key.default.textSize, current.default.textSize);
 			if(props.f) current.textSize = [];
@@ -351,6 +355,12 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 						if(key.l) { current.stepped = key.l; }
 						if(key.d) { current.decal = key.d; }
 						if(key.g != null) { current.ghost = key.g; }
+						if(key.sm != null) { current.sm = key.sm; }
+						  else { key.sm  = current.sm = meta.switchMount; }
+						if(key.sb != null) { current.sb = key.sb; }
+						  else { key.sb  = current.sb = meta.switchBrand; }
+						if(key.st != null) { current.st = key.st; }
+						  else { key.st  = current.st = meta.switchType; }
 					}
 				}
 

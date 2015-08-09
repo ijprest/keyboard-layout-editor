@@ -9,7 +9,9 @@
     "radii": "30px 30px 50% 50%",
     "switchMount": "cherry",
     "switchBrand": "cherry",
-    "switchType": "MX1A-G1xx"
+    "switchType": "MX1A-G1xx",
+    "plate": true,
+    "pcb": false
   },
   [
     {
@@ -328,8 +330,8 @@
       "fa": [
         0,
         0,
-        0,
-        0,
+        5,
+        5,
         5
       ]
     },

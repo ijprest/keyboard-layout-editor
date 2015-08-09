@@ -32,10 +32,14 @@ All rights reserved.
 <script type="text/javascript" src="js/cssparser.js"></script><script type="text/javascript">$cssParser = parser;</script>
 <script type="text/javascript" src="js/color.js"></script>
 <script type="text/javascript" src="js/jsonl.min.js"></script>
+<script type="text/javascript" src="html2canvas.js"></script>
 <script type="text/javascript" src="extensions.js"></script>
 <script type="text/javascript" src="render.js"></script>
 <script type="text/javascript" src="serial.js"></script>
 <script type="text/javascript" src="kb.js"></script>
+<!--<script type="text/javascript" src="pngsave.js"></script>-->
+
+
 </head>
 <body ng-controller="kbCtrl"
       ng-mouseup="selectRelease($event)"
@@ -83,6 +87,8 @@ Nav Bar / Header
         <a class="dropdown-toggle" dropdown-toggle><i class="fa fa-th"></i> Color Swatches <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
+ 	  <li class="divider"></li>
+	  <li><a ng-click="makePaletteFromKeys()" href="#">Current key colors</a></li> 
         </ul>
       </li>
 
@@ -177,14 +183,16 @@ Nav Bar / Header
     </button>
   </div>
   <div class="btn-group pull-right" style="margin-right: 4px;">
-    <button type="button" class="btn btn-success" ng-click="downloadSvg()"><i class="fa fa-download"></i> Download SVG (experimental)</button>
+    <button type="button" class="btn btn-success" ng-click="downloadSvg()" style="margin-right: 4px";><i class="fa fa-download"></i> Download SVG (experimental)</button>
+    &nbsp;
+    <button type="button" class="btn btn-success" id="pngSave"><i class="fa fa-download"></i> Download PNG (experimental)</button>
   </div>
 
 
   <!--***********************************************
   Main Keyboard Preview/Editor area
   ************************************************-->
-  <div id="keyboard" ng-cloak tabindex="0"
+  <div id="keyboard" ng-cloak tabindex="0" style="width:{{kbWidth+30}}px; border:0"
      ui-keydown="{ left:'moveKeys(-moveStep,0,$event)',
                  right:'moveKeys(moveStep,0,$event)',
                  up:'moveKeys(0,-moveStep,$event)',
@@ -464,6 +472,48 @@ Nav Bar / Header
           </div>
         </div>
 
+        <!-- Keyswitch options-->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="thisswitcheditor">Switch:</label>
+
+          <!-- Keyswitch style-->
+          <div class="form-inline form-outdent col-md-9 col-lg-9">
+            <div class="hint--top hint--rounded" data-hint="Specify the style of switch for this key.">
+              <select id="thisswitcheditor" class="form-control input-sm dropdown"
+                     ng-model="multi.sm"
+                     ng-change="updateMulti('sm')"
+                     ng-blur="validateMulti('sm')">
+                <option value="">Mount Style Not Specified</option>
+                <option ng-repeat="(k,v) in switches" value="{{k}}" ng-selected="multi.sm == k">{{v.name}}</option>
+              </select>
+            </div>
+
+            <!-- Keyswitch brand-->
+            <div class="hint--top hint--rounded"
+                 data-hint="Specify the default brand of key switch for this key.">
+              <select class="form-control input-sm dropdown"
+                      ng-model="multi.sb"
+                      ng-change="updateMulti('sb')"
+                      ng-blur="validateMulti('sb')">
+                <option value="">Brand Not Specified</option>
+                <option ng-repeat="(k,v) in switches[multi.sm].brands" value="{{k}}" ng-selected="multi.sb == k">{{v.name}}</option>
+              </select>
+            </div>
+
+            <!-- Keyswitch type-->
+            <div class=" hint--top hint--rounded"
+                 data-hint="Specify the default type of key switch for this key.">
+              <select class="form-control input-sm dropdown"
+                      ng-model="multi.st"
+                      ng-change="updateMulti('st')"
+                      ng-blur="validateMulti('st')">
+                <option value="">Switch Type Not Specified</option>
+                <option ng-repeat="v in switches[multi.sb].brands[multi.sb].switches" value="{{v.part}}" ng-selected="multi.st == v.part">{{v.name + (v.feel ? ', '+v.feel : '') + (v.weight ? ', '+v.weight.toString()+' cN' : '')}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <!-- Misc -->
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3 col-lg-3 text-nowrap">Misc:</label>
@@ -650,8 +700,29 @@ Nav Bar / Header
                 <option ng-repeat="v in switches[meta.switchMount].brands[meta.switchBrand].switches" value="{{v.part}}" ng-selected="meta.switchType == v.part">{{v.name + (v.feel ? ', '+v.feel : '') + (v.weight ? ', '+v.weight.toString()+' cN' : '')}}</option>
               </select>
             </div>
+	    <!-- Switch mounting -->
+            <div class="form-group form-group-sm form-horizontal">
+               Mounted on: 
+              <div class=" hint--top hint--rounded"
+                  data-hint="Specify if the switches are PCB mounted.">
+                <input type="checkbox" id="pcb" class="checkbox"
+                      ng-model="meta.pcb"
+                      ng-change="updateMeta('pcb')"
+                      ng-blur="validateMeta('pcb')" field="pcb"> PCB</input> &nbsp;
+              </div>
+              <div class=" hint--top hint--rounded"
+                  data-hint="Specify if the switches are plate mounted.">
+                <input type="checkbox" id="plate"  class="checkbox"
+                      ng-model="meta.plate"
+                      ng-change="updateMeta('plate')"
+                      ng-blur="validateMeta('plate')" field="plate"> Plate</input>
+              </div>
+            </div>
+
           </div>
         </div>
+
+
 
         <!-- Notes -->
         <div class="form-group form-group-sm">
