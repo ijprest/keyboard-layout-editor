@@ -701,22 +701,27 @@ Nav Bar / Header
                 <option ng-repeat="v in switches[meta.switchMount].brands[meta.switchBrand].switches" value="{{v.part}}" ng-selected="meta.switchType == v.part">{{v.name + (v.feel ? ', '+v.feel : '') + (v.weight ? ', '+v.weight.toString()+' cN' : '')}}</option>
               </select>
             </div>
-	    <!-- Switch mounting -->
+            
+            <!-- Switch mounting -->
             <div class="form-group form-group-sm form-horizontal">
-               Mounted on:
-              <div class=" hint--top hint--rounded"
-                  data-hint="Specify if the switches are PCB mounted.">
-                <input type="checkbox" id="pcb" class="checkbox"
-                      ng-model="meta.pcb"
-                      ng-change="updateMeta('pcb')"
-                      ng-blur="validateMeta('pcb')" field="pcb"> PCB</input> &nbsp;
+              <label class="control-label text-nowrap" for="pcb">Mounted on:</label>
+              <div class="checkbox hint--top hint--rounded" data-hint="Specify if the switches are PCB mounted.">
+                <label>
+                  <input type="checkbox" id="pcb" class="checkbox"
+                        ng-model="meta.pcb"
+                        ng-change="updateMeta('pcb')"
+                        ng-blur="validateMeta('pcb')" field="pcb">
+                  PCB
+                </label>
               </div>
-              <div class=" hint--top hint--rounded"
-                  data-hint="Specify if the switches are plate mounted.">
-                <input type="checkbox" id="plate"  class="checkbox"
-                      ng-model="meta.plate"
-                      ng-change="updateMeta('plate')"
-                      ng-blur="validateMeta('plate')" field="plate"> Plate</input>
+              <div class="checkbox hint--top hint--rounded" data-hint="Specify if the switches are plate mounted.">
+                <label>
+                  <input type="checkbox" id="plate"  class="checkbox"
+                        ng-model="meta.plate"
+                        ng-change="updateMeta('plate')"
+                        ng-blur="validateMeta('plate')" field="plate">
+                  Plate
+                </label>
               </div>
             </div>
 
