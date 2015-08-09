@@ -190,7 +190,7 @@ Nav Bar / Header
   <!--***********************************************
   Main Keyboard Preview/Editor area
   ************************************************-->
-  <div id="keyboard" ng-cloak tabindex="0" width="{{kbWidth}}"
+  <div id="keyboard" ng-cloak tabindex="0" style="width:{{kbWidth+30}}px; border:0"
      ui-keydown="{ left:'moveKeys(-moveStep,0,$event)',
                  right:'moveKeys(moveStep,0,$event)',
                  up:'moveKeys(0,-moveStep,$event)',
