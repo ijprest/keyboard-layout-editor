@@ -3,26 +3,24 @@
 (function () {
 	"use strict";
 
-	$(function() { 
-	  $("#pngSave").click(function() { 
-	    html2canvas($("#keyboard"), {
-	      useCORS: true,
-	      onrendered: function(canvas) {
-		var theCanvas = canvas;
-		//document.body.appendChild(canvas);
-		
-		canvas.toBlob(function(blob) {
-		  saveAs(blob, "keyboard.png"); 
+	$(function() {
+		$("#pngSave").click(function() {
+			html2canvas($("#keyboard"), {
+				useCORS: true,
+				onrendered: function(canvas) {
+					var theCanvas = canvas;
+					canvas.toBlob(function(blob) {
+						saveAs(blob, "keyboard.png");
+					});
+				}
+			});
 		});
-	      }
-	    });
-	  });
-	}); 
-	
+	});
+
 	function toJsonPretty(obj) {
 		var res = [];
 		obj.forEach(function(elem,ndx) {
-			// We don't want CSS & notes in the Raw Data editor; they have their 
+			// We don't want CSS & notes in the Raw Data editor; they have their
 			// own editors, and inclusion in the raw data tab just clutters it up.
 			// Other metadata isn't too bad, but doesn't really offer any benefit.
 			if(ndx > 0 || (elem instanceof Array)) {
@@ -294,11 +292,11 @@
 		$http.get('backgrounds.json').success(function(data) {
 		  $scope.backgrounds = data;
 		});
-		
+
 		$http.get('switches.json').success(function(data) {
 		  $scope.switches = data;
 		});
-		
+
 		// The currently selected palette & character-picker
 		$scope.palette = {};
 		$scope.picker = {};
@@ -746,7 +744,7 @@
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 		};
-		
+
 		$scope.makePaletteFromKeys = function(event) {
 		  if (event) {
 		    event.preventDefault();
@@ -756,7 +754,7 @@
 		    $scope.selectAll();
 		    unselect = true;
 		  }
-		  
+
 		  var colors = {};
 		  // Get the unique colors of selected keys.
 		  $scope.selectedKeys.forEach(function(selectedKey) {
@@ -799,12 +797,12 @@
 		  }
 		  p.colors.sort(function(a, b) { return a.name.localeCompare(b.name); });
 		  $scope.loadPalette(p);
-		  
+
 		  if (unselect) {
 		    $scope.unselectAll();
 		  }
-		} 	
-		
+		}
+
 		$scope.moveKeys = function(x,y,$event) {
 			$event.preventDefault();
 			$event.stopPropagation();
