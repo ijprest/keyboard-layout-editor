@@ -3,20 +3,6 @@
 (function () {
 	"use strict";
 
-	$(function() {
-		$("#pngSave").click(function() {
-			html2canvas($("#keyboard"), {
-				useCORS: true,
-				onrendered: function(canvas) {
-					var theCanvas = canvas;
-					canvas.toBlob(function(blob) {
-						saveAs(blob, "keyboard.png");
-					});
-				}
-			});
-		});
-	});
-
 	function toJsonPretty(obj) {
 		var res = [];
 		obj.forEach(function(elem,ndx) {
@@ -207,6 +193,17 @@
 			var blob = new Blob([data], {type:"image/svg+xml"});
 			saveAs(blob, "keyboard-layout.svg");
 		};
+		$scope.downloadPng = function() {
+			html2canvas($("#keyboard"), {
+				useCORS: true,
+				onrendered: function(canvas) {
+					canvas.toBlob(function(blob) {
+						saveAs(blob, "keyboard-layout.png");
+					});
+				}
+			});
+		};
+
 		$scope.downloadJson = function() {
 			var data = angular.toJson($serial.serialize($scope.keyboard), true /*pretty*/);
 			var blob = new Blob([data], {type:"application/json"});
