@@ -21,7 +21,11 @@ js/%.js: %.grammar.js
 	$(call mkdir,$(dir $@))
 	node "$^" > "$@"
 js/%.js: %.y
+	$(call mkdir,$(dir $@))
 	jison "$^" -o "$@"
+js/%.js: ./%.js
+	$(call mkdir,$(dir $@))
+	uglifyjs "$^" > "$@"
 
 .PRECIOUS: js/%.js
 
@@ -70,6 +74,14 @@ $(call BOWER,bower_components/ng-file-upload/ng-file-upload.min.js)
 $(call BOWER,bower_components/angular-native-dragdrop/draganddrop.js)
 $(call BOWER,bower_components/angular-ui-bootstrap/dist/ui-bootstrap-tpls-0.12.0.min.js)
 $(call BOWER,bower_components/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.min.js)
+# Ace editor
+$(call BOWER,bower_components/angular-ui-ace/ui-ace.min.js)
+$(call BOWER,bower_components/ace-builds/src-min-noconflict/ace.js)
+$(call BOWER,bower_components/ace-builds/src-min-noconflict/mode-css.js)
+$(call BOWER,bower_components/ace-builds/src-min-noconflict/mode-json.js)
+$(call BOWER,bower_components/ace-builds/src-min-noconflict/mode-markdown.js)
+$(call BOWER,bower_components/ace-builds/src-min-noconflict/theme-textmate.js)
+$(call BOWER,bower_components/ace-builds/src-min-noconflict/ext-searchbox.js)
 # Misc
 $(call BOWER,bower_components/hint.css/hint.min.css)
 $(call BOWER,bower_components/crypto-js/crypto-js.js)

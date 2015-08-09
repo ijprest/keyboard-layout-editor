@@ -17,6 +17,7 @@ presets:
 * [alerque](https://github.com/alerque)
 * [jasonm23](https://github.com/jasonm23)
 * [iandoug](http://iandoug.com/?p=64)
+* [mikebell](https://github.com/mikebell)
 
 Third-Party Software
 --------------------
@@ -29,6 +30,7 @@ keyboard-layout-editor.com:
 * [angular-bootstrap-colorpicker](https://github.com/buberdds/angular-bootstrap-colorpicker)
 * [Bootstrap](http://getbootstrap.com/)
 * [JQuery](https://jquery.com/)
+* [ACE Editor](http://ace.c9.io/#nav=about)
 * [colors.js](https://gist.github.com/mikelikespie/641528) (quick RGB to LAB conversions)
 * [marked](https://github.com/chjj/marked) (Markdown parser)
 * [crypto-js](https://code.google.com/p/crypto-js/) 
@@ -40,6 +42,8 @@ keyboard-layout-editor.com:
 * [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
 * [C64 TrueType Font](http://style64.org/c64-truetype) font (by 
   [Style64.org](https://www.style64.org))
+* [GitHub API](https://developer.github.com/v3/)
+* [Gatekeeper](https://github.com/prose/gatekeeper) (server-side, for GitHub OAuth logins)
 
 Backgrounds Textures
 --------------------

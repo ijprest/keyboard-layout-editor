@@ -18,7 +18,7 @@
 	function fromJsonPretty(json) { return $serial.fromJsonL('['+json+']'); }
 
 	// The angular module for our application
-	var kbApp = angular.module('kbApp', ["ngSanitize", "ngCookies", "ui.utils", "ui.bootstrap", "ui.bootstrap.tooltip", "ngFileUpload", "ang-drag-drop", "colorpicker.module"], function($tooltipProvider) {
+	var kbApp = angular.module('kbApp', ["ngSanitize", "ngCookies", "ui.utils", "ui.bootstrap", "ui.bootstrap.tooltip", "ui.ace", "ngFileUpload", "ang-drag-drop", "colorpicker.module"], function($tooltipProvider) {
 		// Default tooltip behaviour
     $tooltipProvider.options({animation: false, appendToBody: true});
 	});
@@ -1403,6 +1403,13 @@
 					});
 				}
 			});
+		};
+
+		$scope.aceLoaded = function(editor) {
+			editor.$blockScrolling = Infinity;
+			editor.getSession().setUseWorker(false);
+			editor.setFontSize(14);
+			editor.renderer.setVScrollBarAlwaysVisible(true);
 		};
 	}]);
 

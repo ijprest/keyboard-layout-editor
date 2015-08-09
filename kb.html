@@ -14,9 +14,11 @@ All rights reserved.
 <link rel="stylesheet" type="text/css" href="css/colorpicker.min.css">
 <link rel="stylesheet" type="text/css" href="css/kb.css">
 <script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/ace.js"></script>
 <script type="text/javascript" src="js/angular.min.js"></script>
 <script type="text/javascript" src="js/angular-sanitize.min.js"></script>
 <script type="text/javascript" src="js/angular-cookies.min.js"></script>
+<script type="text/javascript" src="js/ui-ace.min.js"></script>
 <script type="text/javascript" src="js/ui-utils.min.js"></script>
 <script type="text/javascript" src="js/ui-bootstrap-tpls-0.12.0.min.js"></script>
 <script type="text/javascript" src="js/crypto-js.js"></script>
@@ -657,10 +659,11 @@ Nav Bar / Header
           <div class="col-md-10 col-lg-11 form-outdent">
             <div class="hint--top hint--rounded" style="width:100%"
                  data-hint="Specify any additional notes about this keyboard layout, e.g., links to manufacturers, colors used, additional credits, etc.  GitHub-Flavored Markdown is supported for rich formatting.">
-              <textarea id="noteseditor" class="form-control" rows="15" spellcheck="true"
-                        ng-model="meta.notes"
-                        ng-change="updateMeta('notes')"
-                        ng-blur="validateMeta('notes')"></textarea>
+              <div id="noteseditor" class="form-control"
+                   ui-ace="{mode:'markdown',theme:'textmate',onLoad:aceLoaded,useWrapMode:true,rendererOptions:{animatedScroll:true,showPrintMargin:false}}"
+                   ng-model="meta.notes"
+                   ng-change="updateMeta('notes')"
+                   ng-blur="validateMeta('notes')"></div>
             </div>
             <div class="text-right">
               <div class="btn-group btn-group-xs" role="group">
@@ -678,7 +681,11 @@ Nav Bar / Header
     <!-- CUSTOM STYLES EDITOR -->
     <div id="tab-customstyles" ng-class="{hidden:selTab!=3}">
       <div ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
-        <textarea id="customstyles" spellcheck="false" ng-model="meta.css" ng-change="updateCustomStyles()" ng-class="{error:customStylesException!==''}" rows="15"></textarea>
+        <div id="customstyles"
+             ui-ace="{mode:'css',theme:'textmate',onLoad:aceLoaded,useWrapMode:true,rendererOptions:{animatedScroll:true,showPrintMargin:false}}"
+             ng-model="meta.css"
+             ng-change="updateCustomStyles()"
+             ng-class="{error:customStylesException!==''}"></div>
       </div>
       <div style='text-align:right;margin-top:4px;'>
         <div class="btn-group btn-group-xs" role="group">
@@ -691,7 +698,11 @@ Nav Bar / Header
     <!-- RAW DATA EDITOR -->
     <div id="tab-rawdata" ng-class="{hidden:selTab!=2}">
       <div ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
-        <textarea id="rawdata" spellcheck="false" ng-model="serialized" ng-change="updateFromSerialized()" ng-class="{error:deserializeException!==''}" rows="15"></textarea>
+        <div id="rawdata"
+             ui-ace="{mode:'json',theme:'textmate',onLoad:aceLoaded,useWrapMode:true,rendererOptions:{animatedScroll:true,showPrintMargin:false}}"
+             ng-model="serialized"
+             ng-change="updateFromSerialized()"
+             ng-class="{error:deserializeException!==''}"></div>
       </div>
       <div style='text-align:right;margin-top:4px;'>
         <div class="btn-group btn-group-xs" role="group">
