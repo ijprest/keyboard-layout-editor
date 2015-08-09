@@ -30,7 +30,7 @@
       { "part": "PG150Q01", "name": "Black, Blue Shaft", "weight": 60 },
       { "part": "PG150T01", "name": "Black, Brown Shaft", "weight": 55 }
     ]},
-    "gateron": { "brand": "gateron", "name": "Gateron", "switches": [
+    "gateron": { "brand": "gateron", "name": "Gateron (Huizhou Jia Electronic Technology Co.)", "switches": [
       { "part": "KS-3-Black", "name": "KS-3 Black Shaft (black)", "feel": "linear", "weight": 50 },
       { "part": "KS-3-Green", "name": "KS-3 Green Axis (blue)", "feel": "clicky", "weight": 55 },
       { "part": "KS-3-Red", "name": "KS-3 Red Axis (red)", "feel": "linear", "weight": 45 },
@@ -43,6 +43,12 @@
       { "part": "GT02A1Dxx", "name": "GT02 Blue stem", "feel": "clicky", "weight": 55 },
       { "part": "GT02A1Bxx", "name": "GTO2 Brown stem", "feel": "tactile", "weight": 50 },
       { "part": "GT02A2Axx", "name": "GTO2 Black stem", "feel": "linear", "weight": 65 }
+    ]},
+    "hua-jie": { "brand": "hua-jie", "name": "Hua-Jie (Hua-Jie (Taiwan) Corp)", "switches": [
+      { "part": "AX01-B", "name": "Black stem", "feel": "linear", "weight": 60 },
+      { "part": "AX01-R", "name": "Red stem", "feel": "linear", "weight": 45 },
+      { "part": "AX01-T", "name": "Tea/Brown stem", "feel": "tactile", "weight": 55 },
+      { "part": "AX01-C", "name": "Cyan/Blue stem", "feel": "clicky", "weight": 60 }
     ]},
     "kailh": { "brand": "kailh", "name": "Kailh (Kaihua Electronics Co.)", "switches": [
       { "part": "PG151101D01/D15", "name": "Kailh Black", "feel": "linear", "weight": 60 },
