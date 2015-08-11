@@ -308,3 +308,32 @@ for i in (1..9) {
   line-height: 1.5;
   border-radius: 3px;
 }
+
+
+.dropdown-fixedwidth {
+  width:110px;
+  max-width:110px;
+  height: 26px;
+}
+.dropdown-fixedwidth>:first-child {
+  display: block;
+  left: 5px;
+  width: calc(100% - 12px);
+  text-align: left;
+  overflow: hidden;
+}
+.dropdown-fixedwidth .caret {
+  display: block;
+  position: absolute;
+  right: 5px;
+  top: 11px;
+}
+
+.dropdown-select {
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.dropdown-fixedwidth:disabled {
+  background-color: #eee !important;
+}

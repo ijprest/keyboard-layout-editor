@@ -6,7 +6,7 @@
 	function toJsonPretty(obj) {
 		var res = [];
 		obj.forEach(function(elem,ndx) {
-			// We don't want CSS & notes in the Raw Data editor; they have their 
+			// We don't want CSS & notes in the Raw Data editor; they have their
 			// own editors, and inclusion in the raw data tab just clutters it up.
 			// Other metadata isn't too bad, but doesn't really offer any benefit.
 			if(ndx > 0 || (elem instanceof Array)) {
@@ -193,6 +193,17 @@
 			var blob = new Blob([data], {type:"image/svg+xml"});
 			saveAs(blob, "keyboard-layout.svg");
 		};
+		$scope.downloadPng = function() {
+			html2canvas($("#keyboard-bg"), {
+				useCORS: true,
+				onrendered: function(canvas) {
+					canvas.toBlob(function(blob) {
+						saveAs(blob, "keyboard-layout.png");
+					});
+				}
+			});
+		};
+
 		$scope.downloadJson = function() {
 			var data = angular.toJson($serial.serialize($scope.keyboard), true /*pretty*/);
 			var blob = new Blob([data], {type:"application/json"});
@@ -278,11 +289,11 @@
 		$http.get('backgrounds.json').success(function(data) {
 		  $scope.backgrounds = data;
 		});
-		
+
 		$http.get('switches.json').success(function(data) {
 		  $scope.switches = data;
 		});
-		
+
 		// The currently selected palette & character-picker
 		$scope.palette = {};
 		$scope.picker = {};
@@ -543,7 +554,7 @@
 			}
 		};
 
-		// Validate a key's property values (in the case of an array property, only validates a single value)
+		// Validate a key's property values
 		function validate(key,prop,value) {
 			var v = {
 				_ : function() { return value; },
@@ -588,6 +599,9 @@
 				ghost : function() { if(!key.decal) key[prop] = value; },
 				decal : function() { key[prop] = value; key.x2 = key.y2 = 0; key.width2 = key.width; key.height2 = key.height; key.nub = key.stepped = key.ghost = false; },
 				rotation_angle : function() { key.rotation_angle = value; key.rotation_x = $scope.multi.rotation_x; key.rotation_y = $scope.multi.rotation_y; },
+				sm : function() { if(value===$scope.meta.switchMount) value=''; if(value != key.sm) { key.sm = value; key.sb = key.st = ''; } },
+				sb : function() { if(value===$scope.meta.switchBrand) value=''; if(value != key.sb) { key.sb = value; key.st = ''; } },
+				st : function() { if(value===$scope.meta.switchType) value=''; if(value != key.st) { key.st = value; } },
 			};
 			return (u[prop] || u._)();
 		}
@@ -609,6 +623,10 @@
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
+		};
+		$scope.setMulti = function(prop, value) {
+			$scope.multi[prop] = value;
+			$scope.updateMulti(prop);
 		};
 
 		$scope.validateMulti = function(prop, index) {
@@ -730,6 +748,64 @@
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
 		};
+
+		$scope.makePaletteFromKeys = function(event) {
+		  if (event) {
+		    event.preventDefault();
+		  }
+		  var unselect = false;
+		  if($scope.selectedKeys.length<1) {
+		    $scope.selectAll();
+		    unselect = true;
+		  }
+
+		  var colors = {};
+		  // Get the unique colors of selected keys.
+		  $scope.selectedKeys.forEach(function(selectedKey) {
+		    colors[selectedKey.color] = null;
+		    colors[selectedKey.text] = null;
+		  });
+		  // Build palette.
+		  var p = {
+		    "name": "Custom palette",
+		  "description": "This is a custom palette generated from existing colors in the keyboard layout.",
+		  "href": $scope.getPermalink(),
+			 "colors": []
+		  };
+		  // Build colors.
+		  for (var prop in colors) {
+		    if (colors.hasOwnProperty(prop) && prop[0] == '#') {
+		      var color = null;
+		      // Look for the color in the current palette, and use it if found,
+		      // in order to keep the name.
+		      if ($scope.palette && $scope.palette.colors) {
+			for (var i = 0, len = $scope.palette.colors.length; i < len; ++i) {
+			  if ($scope.palette.colors[i].css == prop) {
+			    color = $scope.palette.colors[i];
+			    break;
+			  }
+			}
+		      }
+		      if (color == null) {
+			// Make a new color.
+			color = $color.sRGB8(parseInt(prop.slice(1,3), 16),
+					     parseInt(prop.slice(3,5), 16),
+					     parseInt(prop.slice(5,7), 16));
+			color.css = color.hex();
+			color.name = color.css;
+		      }
+		      if (color) {
+			p.colors.push(color);
+		      }
+		    }
+		  }
+		  p.colors.sort(function(a, b) { return a.name.localeCompare(b.name); });
+		  $scope.loadPalette(p);
+
+		  if (unselect) {
+		    $scope.unselectAll();
+		  }
+		}
 
 		$scope.moveKeys = function(x,y,$event) {
 			$event.preventDefault();
