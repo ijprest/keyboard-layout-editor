@@ -193,7 +193,7 @@ Nav Bar / Header
   <!--***********************************************
   Main Keyboard Preview/Editor area
   ************************************************-->
-  <div id="keyboard" ng-cloak tabindex="0" style="width:{{kbWidth+30}}px; border:0"
+  <div id="keyboard" ng-cloak tabindex="0"
      ui-keydown="{ left:'moveKeys(-moveStep,0,$event)',
                  right:'moveKeys(moveStep,0,$event)',
                  up:'moveKeys(0,-moveStep,$event)',
@@ -475,43 +475,48 @@ Nav Bar / Header
 
         <!-- Keyswitch options-->
         <div class="form-group form-group-sm">
-          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="thisswitcheditor">Switch:</label>
-
-          <!-- Keyswitch style-->
+          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="switcheditor">Switch:</label>
           <div class="form-inline form-outdent col-md-9 col-lg-9">
-            <div class="hint--top hint--rounded" data-hint="Specify the style of switch for this key.">
-              <select id="thisswitcheditor" class="form-control input-sm dropdown"
-                     ng-model="multi.sm"
-                     ng-change="updateMulti('sm')"
-                     ng-blur="validateMulti('sm')">
-                <option value="">Mount Style Not Specified</option>
-                <option ng-repeat="(k,v) in switches" value="{{k}}" ng-selected="multi.sm == k">{{v.name}}</option>
-              </select>
+
+          <!-- Keyswitch mount style-->
+            <div class="hint--bottom hint--rounded" data-hint="Specify the mount style of switch for this key.">
+              <div class="btn-group btn-group-sm-form dropup" dropdown>
+                <button id="switcheditor" type="button" class="btn btn-default dropdown-toggle dropdown-fixedwidth" ng-disabled="selectedKeys.length<1 || multi.decal" dropdown-toggle>
+                  <div>{{(multi.sm || meta.switchMount) ? switches[multi.sm || meta.switchMount].name : 'Mount N/A'}}</div>
+                  <b class="caret"></b>
+                </button>
+                <ul class="dropdown-menu dropdown-select" role="menu">
+                  <li ng-repeat="(k,v) in switches"><a ng-click="setMulti('sm',k)">{{v.name + (meta.switchMount===k ? ' (default)' : '')}}</a></li>
+                </ul>
+              </div>
             </div>
 
             <!-- Keyswitch brand-->
-            <div class="hint--top hint--rounded"
-                 data-hint="Specify the default brand of key switch for this key.">
-              <select class="form-control input-sm dropdown"
-                      ng-model="multi.sb"
-                      ng-change="updateMulti('sb')"
-                      ng-blur="validateMulti('sb')">
-                <option value="">Brand Not Specified</option>
-                <option ng-repeat="(k,v) in switches[multi.sm].brands" value="{{k}}" ng-selected="multi.sb == k">{{v.name}}</option>
-              </select>
+            <div class="hint--bottom hint--rounded" data-hint="Specify the brand of key switch for this key.">
+              <div class="btn-group btn-group-sm-form dropup" dropdown>
+                <button type="button" class="btn btn-default dropdown-toggle dropdown-fixedwidth" dropdown-toggle ng-disabled="selectedKeys.length<1 || !(multi.sm || meta.switchMount) || multi.decal">
+                  <div>{{(multi.sb || meta.switchBrand) ? switches[multi.sm || meta.switchMount].brands[multi.sb || meta.switchBrand].name : 'Brand N/A'}}</div>
+                  <b class="caret"></b>
+                </button>
+                <ul class="dropdown-menu dropdown-select" role="menu">
+                  <li ng-repeat="(k,v) in switches[multi.sm || meta.switchMount].brands"><a ng-click="setMulti('sb',k)">{{v.name + (meta.switchBrand===k ? ' (default)' : '')}}</a></li>
+                </ul>
+              </div>
             </div>
 
             <!-- Keyswitch type-->
-            <div class=" hint--top hint--rounded"
-                 data-hint="Specify the default type of key switch for this key.">
-              <select class="form-control input-sm dropdown"
-                      ng-model="multi.st"
-                      ng-change="updateMulti('st')"
-                      ng-blur="validateMulti('st')">
-                <option value="">Switch Type Not Specified</option>
-                <option ng-repeat="v in switches[multi.sb].brands[multi.sb].switches" value="{{v.part}}" ng-selected="multi.st == v.part">{{v.name + (v.feel ? ', '+v.feel : '') + (v.weight ? ', '+v.weight.toString()+' cN' : '')}}</option>
-              </select>
+            <div class="hint--bottom hint--rounded" data-hint="Specify the type of key switch for this key.">
+              <div class="btn-group btn-group-sm-form dropup" dropdown>
+                <button type="button" class="btn btn-default dropdown-toggle dropdown-fixedwidth" dropdown-toggle ng-disabled="selectedKeys.length<1 || !(multi.sm || meta.switchMount) || !(multi.sb || meta.switchBrand) || multi.decal">
+                  <div>{{(multi.st || meta.switchType) ? switches[multi.sm || meta.switchMount].brands[multi.sb || meta.switchBrand].switches[multi.st || meta.switchType].name : 'Switch N/A'}}</div>
+                  <b class="caret"></b>
+                </button>
+                <ul class="dropdown-menu dropdown-select" role="menu">
+                  <li ng-repeat="(k,v) in switches[multi.sm || meta.switchMount].brands[multi.sb || meta.switchBrand].switches"><a ng-click="setMulti('st',k)">{{v.name + (v.feel ? ', '+v.feel : '') + (v.weight ? ', '+v.weight.toString()+' cN' : '') + (meta.switchType===k ? ' (default)' : '')}}</a></li>
+                </ul>
+              </div>
             </div>
+
           </div>
         </div>
 
@@ -601,7 +606,7 @@ Nav Bar / Header
                 <div class="input-group input-group-sm hint--top hint--rounded" data-hint="Specify the background texture for the keyboard.">
                   <div class="btn-group btn-group-sm-form" dropdown>
                     <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle>{{meta.background ? meta.background.name : 'No Texture'}} <b class="caret"></b></button>
-                    <ul class="dropdown-menu" role="menu" style="max-height:40vh;overflow-y:scroll;">
+                    <ul class="dropdown-menu dropdown-select" role="menu">
                       <li><a ng-click='setBackground()'>None</a></li>
                       <li class="divider"></li>
                       <li ng-repeat="category in backgrounds">
@@ -617,7 +622,7 @@ Nav Bar / Header
 
               <!-- Corner radii -->
               <div class="form-group form-group-sm">
-                <label class="control-label text-nowrap" for="kbdradiieditor">Radii:</label>
+                <label class="control-label text-nowrap" style='margin-left: 5px;' for="kbdradiieditor">Radii:</label>
 
                 <div class="hint--top hint--rounded"
                      data-hint="Specify the corner radii for this keyboard, in CSS3 format.
@@ -664,12 +669,12 @@ Nav Bar / Header
 
         <!-- Default keyswitch options-->
         <div class="form-group form-group-sm">
-          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="switcheditor">Default switch:</label>
+          <label class="control-label col-md-2 col-lg-1 text-nowrap" for="defaultswitcheditor">Default switch:</label>
 
-          <!-- Default keyswitch style-->
+          <!-- Default keyswitch mount style-->
           <div class="form-inline form-outdent col-md-10 col-lg-11">
-            <div class="hint--top hint--rounded" data-hint="Specify the default style of switch for this keyboard layout.">
-              <select id="switcheditor" class="form-control input-sm dropdown"
+            <div class="hint--top hint--rounded" data-hint="Specify the default mount style of switch for this keyboard layout.">
+              <select id="defaultswitcheditor" class="form-control input-sm dropdown"
                      ng-model="meta.switchMount"
                      ng-change="updateMeta('switchMount')"
                      ng-blur="validateMeta('switchMount')">
@@ -684,7 +689,8 @@ Nav Bar / Header
               <select class="form-control input-sm dropdown"
                       ng-model="meta.switchBrand"
                       ng-change="updateMeta('switchBrand')"
-                      ng-blur="validateMeta('switchBrand')">
+                      ng-blur="validateMeta('switchBrand')"
+                      ng-disabled="!meta.switchMount">
                 <option value="">Brand Not Specified</option>
                 <option ng-repeat="(k,v) in switches[meta.switchMount].brands" value="{{k}}" ng-selected="meta.switchBrand == k">{{v.name}}</option>
               </select>
@@ -696,30 +702,31 @@ Nav Bar / Header
               <select class="form-control input-sm dropdown"
                       ng-model="meta.switchType"
                       ng-change="updateMeta('switchType')"
-                      ng-blur="validateMeta('switchType')">
+                      ng-blur="validateMeta('switchType')"
+                      ng-disabled="!meta.switchMount || !meta.switchBrand">
                 <option value="">Switch Type Not Specified</option>
                 <option ng-repeat="v in switches[meta.switchMount].brands[meta.switchBrand].switches" value="{{v.part}}" ng-selected="meta.switchType == v.part">{{v.name + (v.feel ? ', '+v.feel : '') + (v.weight ? ', '+v.weight.toString()+' cN' : '')}}</option>
               </select>
             </div>
-            
+
             <!-- Switch mounting -->
             <div class="form-group form-group-sm form-horizontal">
-              <label class="control-label text-nowrap" for="pcb">Mounted on:</label>
+              <label class="control-label text-nowrap" style='margin-left: 5px;' for="pcb">Mounted on:</label>
               <div class="checkbox hint--top hint--rounded" data-hint="Specify if the switches are PCB mounted.">
-                <label>
+                <label style='margin-bottom: -3px;'>
                   <input type="checkbox" id="pcb" class="checkbox"
                         ng-model="meta.pcb"
                         ng-change="updateMeta('pcb')"
-                        ng-blur="validateMeta('pcb')" field="pcb">
+                        ng-blur="validateMeta('pcb')">
                   PCB
                 </label>
               </div>
               <div class="checkbox hint--top hint--rounded" data-hint="Specify if the switches are plate mounted.">
-                <label>
+                <label style='margin-bottom: -3px;'>
                   <input type="checkbox" id="plate"  class="checkbox"
                         ng-model="meta.plate"
                         ng-change="updateMeta('plate')"
-                        ng-blur="validateMeta('plate')" field="plate">
+                        ng-blur="validateMeta('plate')">
                   Plate
                 </label>
               </div>

@@ -194,7 +194,7 @@
 			saveAs(blob, "keyboard-layout.svg");
 		};
 		$scope.downloadPng = function() {
-			html2canvas($("#keyboard"), {
+			html2canvas($("#keyboard-bg"), {
 				useCORS: true,
 				onrendered: function(canvas) {
 					canvas.toBlob(function(blob) {
@@ -554,7 +554,7 @@
 			}
 		};
 
-		// Validate a key's property values (in the case of an array property, only validates a single value)
+		// Validate a key's property values
 		function validate(key,prop,value) {
 			var v = {
 				_ : function() { return value; },
@@ -599,6 +599,9 @@
 				ghost : function() { if(!key.decal) key[prop] = value; },
 				decal : function() { key[prop] = value; key.x2 = key.y2 = 0; key.width2 = key.width; key.height2 = key.height; key.nub = key.stepped = key.ghost = false; },
 				rotation_angle : function() { key.rotation_angle = value; key.rotation_x = $scope.multi.rotation_x; key.rotation_y = $scope.multi.rotation_y; },
+				sm : function() { if(value===$scope.meta.switchMount) value=''; if(value != key.sm) { key.sm = value; key.sb = key.st = ''; } },
+				sb : function() { if(value===$scope.meta.switchBrand) value=''; if(value != key.sb) { key.sb = value; key.st = ''; } },
+				st : function() { if(value===$scope.meta.switchType) value=''; if(value != key.st) { key.st = value; } },
 			};
 			return (u[prop] || u._)();
 		}
@@ -620,6 +623,10 @@
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
 			});
+		};
+		$scope.setMulti = function(prop, value) {
+			$scope.multi[prop] = value;
+			$scope.updateMulti(prop);
 		};
 
 		$scope.validateMulti = function(prop, index) {

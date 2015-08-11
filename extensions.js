@@ -112,7 +112,7 @@
   };
 
   // Polyfill for HTMLCanvasElement.toBlob, which is currently only available on Firefox
-  if (!HTMLCanvasElement.prototype.toBlob) {
+  if (typeof(HTMLCanvasElement) !== 'undefined' && !HTMLCanvasElement.prototype.toBlob) {
     Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
       value: function (callback, type, quality) {
         var binStr = atob( this.toDataURL(type, quality).split(',')[1] ),
