@@ -203,7 +203,18 @@
 				}
 			});
 		};
-
+		
+		$scope.downloadJpg = function() {
+		  html2canvas($("#keyboard-bg"), {
+			    useCORS: true,
+			    onrendered: function(canvas) {
+				canvas.toBlob(function(blob) {
+				      saveAs(blob, "keyboard-layout.jpg");
+				},"image/jpeg", 1.0);
+			    }
+		      });
+		};
+		
 		$scope.downloadJson = function() {
 			var data = angular.toJson($serial.serialize($scope.keyboard), true /*pretty*/);
 			var blob = new Blob([data], {type:"application/json"});
