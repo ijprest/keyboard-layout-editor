@@ -210,7 +210,7 @@
 			    onrendered: function(canvas) {
 				canvas.toBlob(function(blob) {
 				      saveAs(blob, "keyboard-layout.jpg");
-				},"image/jpeg", 1.0);
+				},"image/jpeg");
 			    }
 		      });
 		};
