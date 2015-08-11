@@ -214,6 +214,44 @@
 			    }
 		      });
 		};
+
+		
+		function getResizedCanvas(canvas,newWidth,newHeight) {
+		  var tmpCanvas = document.createElement('canvas');
+		  tmpCanvas.width = newWidth;
+		  tmpCanvas.height = newHeight;
+		  
+		  var ctx = tmpCanvas.getContext('2d');
+		  ctx.drawImage(canvas,0,0,canvas.width,canvas.height,0,0,newWidth,newHeight);
+		  
+		  return tmpCanvas;
+		}
+		
+		function getResizedCanvas(canvas,newWidth,newHeight) {
+		  var tmpCanvas = document.createElement('canvas');
+		  tmpCanvas.width = newWidth;
+		  tmpCanvas.height = newHeight;
+		  
+		  var ctx = tmpCanvas.getContext('2d');
+		  ctx.drawImage(canvas,0,0,canvas.width,canvas.height,0,0,newWidth,newHeight);
+		  
+		  return tmpCanvas;
+		}
+		
+		$scope.downloadThumb = function() {
+			    html2canvas($("#keyboard-bg"), {
+					      useCORS: true,
+					      onrendered: function(canvas) {
+						    var p = 110 / canvas.width; //alert(p);
+						    var thmwidth = canvas.width * p;
+						    var thmheight = canvas.height * p; 
+						    var thm = getResizedCanvas(canvas,thmwidth,thmheight);
+						    thm.toBlob(function(blob) {
+								    saveAs(blob, "keyboard-thumb.png");
+						    })
+					      }
+			    })
+		};
 		
 		$scope.downloadJson = function() {
 			var data = angular.toJson($serial.serialize($scope.keyboard), true /*pretty*/);
