@@ -271,8 +271,33 @@
 				reader.readAsText(file[0]);
 			}
 		};
+            
+	     // count the keys
+		$scope.keyCount = function() {
+		  var counts = new Object();
+		  counts["Total"] = 0;
+		  counts["Decals"] = 0;
 
-		// Helper function to select a single key
+		  angular.forEach($scope.keys(), function(key){
+		    counts["Total"]++;
+		    if (key.decal)
+			{
+			 counts["Decals"]++;
+			 var thisk = "Decal ";
+			}
+		    else
+			{var thisk = "";};
+		    thisk += key.width + " x " + key.height; 
+		    if (counts[thisk])
+			{counts[thisk]++;}
+		    else
+			{counts[thisk] = 1;}
+		  });
+		  counts["Total less decals"] = counts["Total"] - counts["Decals"];
+		  return counts; 
+		};
+		
+	  // Helper function to select a single key
 		function selectKey(key,event) {
 			if(key) {
 				// If SHIFT is held down, we want to *extend* the selection from the last
