@@ -287,7 +287,7 @@
 			}
 		    else
 			{var thisk = "";};
-		    thisk += key.width + " x " + key.height; 
+		    thisk += key.width + " x " + key.height + " (" + key.color + ")"; 
 		    if (counts[thisk])
 			{counts[thisk]++;}
 		    else
