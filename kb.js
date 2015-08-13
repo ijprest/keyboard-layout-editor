@@ -203,12 +203,29 @@
 				}
 			});
 		};
+		function getResizedCanvas(canvas,newWidth,newHeight,bgcolor) {
+		  var tmpCanvas = document.createElement('canvas');
+		  tmpCanvas.width = newWidth;
+		  tmpCanvas.height = newHeight;
+		  
+		  var ctx = tmpCanvas.getContext('2d');
+		  if (bgcolor != '') {
+		    ctx.rect(0,0,newWidth,newHeight);
+		    ctx.fillStyle=bgcolor;
+		    ctx.fill(); 
+		  };
+		  
+		  ctx.drawImage(canvas,0,0,canvas.width,canvas.height,0,0,newWidth,newHeight);
+		  
+		  return tmpCanvas;
+		}
 		
 		$scope.downloadJpg = function() {
 		  html2canvas($("#keyboard-bg"), {
 			    useCORS: true,
 			    onrendered: function(canvas) {
-				canvas.toBlob(function(blob) {
+			        var thm = getResizedCanvas(canvas,canvas.width,canvas.height,'white'); // not actually resize, just get white background
+				thm.toBlob(function(blob) {
 				      saveAs(blob, "keyboard-layout.jpg");
 				},"image/jpeg");
 			    }
@@ -216,27 +233,6 @@
 		};
 
 		
-		function getResizedCanvas(canvas,newWidth,newHeight) {
-		  var tmpCanvas = document.createElement('canvas');
-		  tmpCanvas.width = newWidth;
-		  tmpCanvas.height = newHeight;
-		  
-		  var ctx = tmpCanvas.getContext('2d');
-		  ctx.drawImage(canvas,0,0,canvas.width,canvas.height,0,0,newWidth,newHeight);
-		  
-		  return tmpCanvas;
-		}
-		
-		function getResizedCanvas(canvas,newWidth,newHeight) {
-		  var tmpCanvas = document.createElement('canvas');
-		  tmpCanvas.width = newWidth;
-		  tmpCanvas.height = newHeight;
-		  
-		  var ctx = tmpCanvas.getContext('2d');
-		  ctx.drawImage(canvas,0,0,canvas.width,canvas.height,0,0,newWidth,newHeight);
-		  
-		  return tmpCanvas;
-		}
 		
 		$scope.downloadThumb = function() {
 			    html2canvas($("#keyboard-bg"), {
@@ -245,7 +241,7 @@
 						    var p = 110 / canvas.width; //alert(p);
 						    var thmwidth = canvas.width * p;
 						    var thmheight = canvas.height * p; 
-						    var thm = getResizedCanvas(canvas,thmwidth,thmheight);
+						    var thm = getResizedCanvas(canvas,thmwidth,thmheight,'');
 						    thm.toBlob(function(blob) {
 								    saveAs(blob, "keyboard-thumb.png");
 						    })
