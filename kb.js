@@ -273,28 +273,66 @@
 		};
             
 	     // count the keys
+	     // use ~Total instead of Total to force it to bottom when displeyed
 		$scope.keyCount = function() {
-		  var counts = new Object();
-		  counts["Total"] = 0;
-		  counts["Decals"] = 0;
-
+		  var kcounts = new Object();
+		  kcounts["~Total"] = 0;
+		  kcounts["Decals"] = 0;
 		  angular.forEach($scope.keys(), function(key){
-		    counts["Total"]++;
+		    kcounts["~Total"]++;
+		    var thisk = "";
 		    if (key.decal)
 			{
-			 counts["Decals"]++;
-			 var thisk = "Decal ";
-			}
+			 kcounts["Decals"]++;
+			 thisk = "Decal ";
+			};
+
+		    thisk += key.width + " x " + key.height; 
+
+		    if (!key.decal){
+		      thisk +=  " (" + key.color + ")"; 
+		    };  
+		    if (kcounts[thisk])
+			{kcounts[thisk]++;}
 		    else
-			{var thisk = "";};
-		    thisk += key.width + " x " + key.height + " (" + key.color + ")"; 
-		    if (counts[thisk])
-			{counts[thisk]++;}
-		    else
-			{counts[thisk] = 1;}
+			{kcounts[thisk] = 1;}
+
 		  });
-		  counts["Total less decals"] = counts["Total"] - counts["Decals"];
-		  return counts; 
+		  kcounts["~Total less decals"] = kcounts["~Total"] - kcounts["Decals"];
+		  return kcounts; 
+		};
+
+		// count the switches
+		// use ~Total instead of Total to force it to bottom when displeyed
+		$scope.switchCount = function() {
+		  var scounts = new Object();
+		  scounts["~Total"] = 0;
+		  angular.forEach($scope.keys(), function(key) {
+		    if (!key.decal) {
+		      scounts["~Total"]++;
+		      var thissw = "";
+		      if ($scope.meta.switchType) {
+			  thissw = $scope.meta.switchBrand + " " + $scope.meta.switchType;
+		      };
+		      if (key.st) {
+			  if (key.sb) {
+				thissw = key.sb + " " + key.st; 
+			  }
+			  else {
+			        thissw = $scope.meta.switchBrand + " " + key.st;
+			  }  
+		      };
+		      if (thissw) {
+			if (scounts[thissw]) {
+			  scounts[thissw]++;
+			}
+			else {
+			    scounts[thissw] = 1;
+			}
+		      }	
+		    };
+		  });
+		  return scounts; 
 		};
 		
 	  // Helper function to select a single key
