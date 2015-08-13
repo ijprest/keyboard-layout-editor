@@ -829,7 +829,7 @@ Nav Bar / Header
 	      Author: {{meta.author}}<br>
               Key sizes summary:<br>
               <ul>
-	      <div ng-repeat="(k,v) in keyCount()"><li>{{k}} : {{v}}</li></div>
+	      <div ng-repeat="(k,v) in keyCount()" ng-style="{ 'color':getTextColour(k)}"><li>{{k}} : {{v}}</li></div>
 	      </ul>
               Switches summary:<br>
               <ul>

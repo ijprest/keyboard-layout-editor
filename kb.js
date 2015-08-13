@@ -334,6 +334,21 @@
 		  });
 		  return scounts; 
 		};
+
+		
+		// strip the colour string out of the switch colour
+		// todo: handle white or near-white since it will be invisible.
+		$scope.getTextColour = function(butt) {
+		  if ((butt.substring(0,1) == "~") ||(butt.substring(0,1) == "D"))
+		  {return "#000000";}; // leave the decals and totals lines alone
+		  var hex1 = butt;
+		  var re = /.*\(/;
+		  var hex2 = hex1.replace(re, '');
+		  var re = /\).*/;
+		  hex1 = hex2.replace(re, '');
+		  return hex1; 
+		};
+
 		
 	  // Helper function to select a single key
 		function selectKey(key,event) {
