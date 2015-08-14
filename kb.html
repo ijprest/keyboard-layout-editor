@@ -828,13 +828,13 @@ Nav Bar / Header
 	      Title: {{meta.name}}<br>
 	      Author: {{meta.author}}<br>
               Key sizes summary:<br>
-              <ul>
-	      <div ng-repeat="(k,v) in keyCount()" ng-style="{ 'color':getTextColour(k)}"><li>{{k}} : {{v}}</li></div>
-	      </ul>
+              <ol>
+	      <li ng-repeat="(k,v) in keyCount()"><span class="fa fa-square"  ng-style="{'color':getTextColour(k)}"></span> {{k}} : {{v}}</li>
+	      </ol>
               Switches summary:<br>
-              <ul>
-	      <div ng-repeat="(k,v) in switchCount()"><li>{{k}} : {{v}}</li></div>
-	      </ul>
+              <ol>
+	      <li ng-repeat="(k,v) in switchCount()"> {{k}} : {{v}}</li>
+	      </ol>
 	</div>
     </div>
 </div>
