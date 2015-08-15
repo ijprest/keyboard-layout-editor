@@ -149,10 +149,10 @@ for i in (1..9) {
   padding: 0px;
 }
 .glyph {
-  width: 20px;
+  width: 1.7em;
   text-align: center;
-  padding-top: 8px;
-  font-size: 16px;
+  padding-top: 0px;
+  font-size: 1.618em;
   border: solid 1px #eee;
   background-color: #fff;
 }

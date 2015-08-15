@@ -487,5 +487,11 @@
 		"href" : "http://fontawesome.io/",
 		"description" : "Font Awesome is a large collection of general-purpose scalable vector icons.",
 		"css": "css/font-awesome.min.css"
+	},
+	{
+		"name": "Keyboard Layout Editor Icons",
+		"href" : "http://www.keyboard-layout-editor.com/",
+		"description" : "A selection of commonly used glyhs for keyboards.",
+		"css": "kbd-webfont.css"
 	}
 ]
