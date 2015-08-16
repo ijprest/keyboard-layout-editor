@@ -30,7 +30,7 @@ js/%.js: ./%.js
 .PRECIOUS: js/%.js
 
 # Rules to run Stylus on our .css files
-css_files: css/kb.css css/kbd-webfont.css
+css_files: css/kb.css css/kbd-webfont.css 
 css/%.css: %.css
 	$(call mkdir,$(dir $@))
 	stylus --out css -c -m --inline --with {limit:1024} $^
@@ -122,6 +122,8 @@ CUSTOM_FONT = $(eval $(call _CUSTOM_FONT,$(1).ttf,$(2)))$(eval $(call _CUSTOM_FO
 $(call CUSTOM_FONT,kbd-custom,$(kbd-custom-glyphs))
 
 # above not working? then run from fonts dir: fontforge -script '../font-src/kbd-custom.pe'
+# and fontforge -script '../font-src/combining-diacritical.pe'
+
 
 test: e2e-test unit-test
 unit-test:

@@ -14,6 +14,26 @@ webfont(family, file, weight=normal, style=normal) {
 /* Set up all the web-fonts we host */
 webfont('engravers_gothic_fsregular', 'EngraversGothic-Regular-webfont');
 
+/* font and css for combining-diacritical things */
+@font-face {
+  font-family: 'combining-diacritical';
+  src:  url('/fonts/combining-diacritical.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+.cd {
+  display: inline-block;
+  font: normal normal normal 14px/1 combining-diacritical;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+}
+
+
+
+
 /* Basic style */
 html, body {
   height: 100%;
@@ -148,7 +168,7 @@ for i in (1..9) {
   margin-bottom: -6px;
   padding: 0px;
 }
-.glyph {
+.glyph {font-family: 'combining-diacritical';
   width: 1.7em;
   text-align: center;
   padding-top: 0px;
@@ -272,7 +292,7 @@ for i in (1..9) {
 .combine-rect:before {
   content: '\25AD';
   font-style: normal; 
-  margin: 0 -0.66em 0 -0.33em;
+  /*margin: 0 -0.66em 0 -0.33em;*/
 }
 
 .avatar {
