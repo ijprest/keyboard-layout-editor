@@ -397,11 +397,11 @@
   content: "\e81A";
 }
 
-.kb-Unicode-BackSpace-DeleteRight-Small:before {
+.kb-Unicode-DeleteRight-Small:before {
   content: "\e81B";
 }
 
-.kb-Unicode-DeleteLeft-Small:before {
+.kb-Unicode-BackSpace-DeleteLeft-Small:before {
   content: "\e81C";
 }
 
