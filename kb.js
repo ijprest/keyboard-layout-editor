@@ -20,7 +20,7 @@
 	// The angular module for our application
 	var kbApp = angular.module('kbApp', ["ngSanitize", "ngCookies", "ui.utils", "ui.bootstrap", "ui.bootstrap.tooltip", "ui.ace", "ngFileUpload", "ang-drag-drop", "colorpicker.module"], function($tooltipProvider) {
 		// Default tooltip behaviour
-    $tooltipProvider.options({animation: false, appendToBody: true});
+		$tooltipProvider.options({animation: false, appendToBody: true});
 	});
 
 	// The main application controller
@@ -203,6 +203,47 @@
 				}
 			});
 		};
+		function getResizedCanvas(canvas,newWidth,newHeight,bgcolor) {
+			var tmpCanvas = document.createElement('canvas');
+			tmpCanvas.width = newWidth;
+			tmpCanvas.height = newHeight;
+
+			var ctx = tmpCanvas.getContext('2d');
+			if (bgcolor != '') {
+				ctx.rect(0,0,newWidth,newHeight);
+				ctx.fillStyle=bgcolor;
+				ctx.fill();
+			};
+			ctx.drawImage(canvas,0,0,canvas.width,canvas.height,0,0,newWidth,newHeight);
+			return tmpCanvas;
+		}
+
+		$scope.downloadJpg = function() {
+			html2canvas($("#keyboard-bg"), {
+				useCORS: true,
+				onrendered: function(canvas) {
+					var thm = getResizedCanvas(canvas,canvas.width,canvas.height,'white'); // not actually resize, just get white background
+					thm.toBlob(function(blob) {
+						saveAs(blob, "keyboard-layout.jpg");
+					},"image/jpeg");
+				}
+			});
+		};
+
+		$scope.downloadThumb = function() {
+			html2canvas($("#keyboard-bg"), {
+				useCORS: true,
+				onrendered: function(canvas) {
+					var p = 110 / canvas.width;
+					var thmwidth = canvas.width * p;
+					var thmheight = canvas.height * p;
+					var thm = getResizedCanvas(canvas,thmwidth,thmheight,'');
+					thm.toBlob(function(blob) {
+						saveAs(blob, "keyboard-thumb.png");
+					});
+				}
+			})
+		};
 
 		$scope.downloadJson = function() {
 			var data = angular.toJson($serial.serialize($scope.keyboard), true /*pretty*/);
@@ -221,6 +262,78 @@
 				};
 				reader.readAsText(file[0]);
 			}
+		};
+
+		// count the keys
+		// use ~Total instead of Total to force it to bottom when displeyed
+		$scope.keyCount = function() {
+			var kcounts = new Object();
+			kcounts["~Total"] = 0;
+			kcounts["Decals"] = 0;
+			angular.forEach($scope.keys(), function(key) {
+				kcounts["~Total"]++;
+				var thisk = "";
+				if(key.decal) {
+					kcounts["Decals"]++;
+					thisk = "Decal ";
+				}
+				thisk += key.width + " x " + key.height;
+				if(!key.decal) {
+					thisk += " (" + key.color + ")";
+				}
+				if(kcounts[thisk]) {
+					kcounts[thisk]++;
+				} else {
+					kcounts[thisk] = 1;
+				}
+			});
+			kcounts["~Total less decals"] = kcounts["~Total"] - kcounts["Decals"];
+			return kcounts;
+		};
+
+		// count the switches
+		// use ~Total instead of Total to force it to bottom when displeyed
+		$scope.switchCount = function() {
+			var scounts = new Object();
+			scounts["~Total"] = 0;
+			angular.forEach($scope.keys(), function(key) {
+				if (!key.decal) {
+					scounts["~Total"]++;
+					var thissw = "";
+					if ($scope.meta.switchType) {
+						thissw = $scope.meta.switchBrand + " " + $scope.meta.switchType;
+					}
+					if (key.st) {
+						if (key.sb) {
+							thissw = key.sb + " " + key.st;
+						}	else {
+							thissw = $scope.meta.switchBrand + " " + key.st;
+						}
+					}
+					if (thissw) {
+						if (scounts[thissw]) {
+							scounts[thissw]++;
+						} else {
+							scounts[thissw] = 1;
+						}
+					}
+				}
+			});
+			return scounts;
+		};
+
+		// strip the colour string out of the switch color
+		// todo: handle white or near-white since it will be invisible.
+		$scope.getTextColor = function(butt) {
+			if((butt.substring(0,1) == "~") || (butt.substring(0,1) == "D")) {
+				return "#000000"; // leave the decals and totals lines alone
+			}
+			var hex1 = butt;
+			var re = /.*\(/;
+			var hex2 = hex1.replace(re, '');
+			var re = /\).*/;
+			hex1 = hex2.replace(re, '');
+			return hex1;
 		};
 
 		// Helper function to select a single key
@@ -287,11 +400,11 @@
 		// Known backgrounds
 		$scope.backgrounds = {};
 		$http.get('backgrounds.json').success(function(data) {
-		  $scope.backgrounds = data;
+			$scope.backgrounds = data;
 		});
 
 		$http.get('switches.json').success(function(data) {
-		  $scope.switches = data;
+			$scope.switches = data;
 		});
 
 		// The currently selected palette & character-picker
@@ -750,61 +863,63 @@
 		};
 
 		$scope.makePaletteFromKeys = function(event) {
-		  if (event) {
-		    event.preventDefault();
-		  }
-		  var unselect = false;
-		  if($scope.selectedKeys.length<1) {
-		    $scope.selectAll();
-		    unselect = true;
-		  }
-
-		  var colors = {};
-		  // Get the unique colors of selected keys.
-		  $scope.selectedKeys.forEach(function(selectedKey) {
-		    colors[selectedKey.color] = null;
-		    colors[selectedKey.text] = null;
-		  });
-		  // Build palette.
-		  var p = {
-		    "name": "Custom palette",
-		  "description": "This is a custom palette generated from existing colors in the keyboard layout.",
-		  "href": $scope.getPermalink(),
-			 "colors": []
-		  };
-		  // Build colors.
-		  for (var prop in colors) {
-		    if (colors.hasOwnProperty(prop) && prop[0] == '#') {
-		      var color = null;
-		      // Look for the color in the current palette, and use it if found,
-		      // in order to keep the name.
-		      if ($scope.palette && $scope.palette.colors) {
-			for (var i = 0, len = $scope.palette.colors.length; i < len; ++i) {
-			  if ($scope.palette.colors[i].css == prop) {
-			    color = $scope.palette.colors[i];
-			    break;
-			  }
+			if(event) {
+				event.preventDefault();
 			}
-		      }
-		      if (color == null) {
-			// Make a new color.
-			color = $color.sRGB8(parseInt(prop.slice(1,3), 16),
-					     parseInt(prop.slice(3,5), 16),
-					     parseInt(prop.slice(5,7), 16));
-			color.css = color.hex();
-			color.name = color.css;
-		      }
-		      if (color) {
-			p.colors.push(color);
-		      }
-		    }
-		  }
-		  p.colors.sort(function(a, b) { return a.name.localeCompare(b.name); });
-		  $scope.loadPalette(p);
+			var unselect = false;
+			if($scope.selectedKeys.length<1) {
+				$scope.selectAll();
+				unselect = true;
+			}
 
-		  if (unselect) {
-		    $scope.unselectAll();
-		  }
+			var colors = {};
+			// Get the unique colors of selected keys.
+			$scope.selectedKeys.forEach(function(selectedKey) {
+				colors[selectedKey.color] = null;
+				colors[selectedKey.text] = null;
+			});
+
+			// Build palette.
+			var p = {
+				"name": "Custom palette",
+				"description": "This is a custom palette generated from existing colors in the keyboard layout.",
+				"href": $scope.getPermalink(),
+				"colors": []
+			};
+
+			// Build colors.
+			for (var prop in colors) {
+				if (colors.hasOwnProperty(prop) && prop[0] == '#') {
+					var color = null;
+					// Look for the color in the current palette, and use it if found,
+					// in order to keep the name.
+					if($scope.palette && $scope.palette.colors) {
+						for (var i = 0, len = $scope.palette.colors.length; i < len; ++i) {
+							if ($scope.palette.colors[i].css == prop) {
+								color = $scope.palette.colors[i];
+								break;
+							}
+						}
+					}
+					if(color == null) {
+						// Make a new color.
+						color = $color.sRGB8(parseInt(prop.slice(1,3), 16),
+						                     parseInt(prop.slice(3,5), 16),
+						                     parseInt(prop.slice(5,7), 16));
+						color.css = color.hex();
+						color.name = color.css;
+					}
+					if(color) {
+						p.colors.push(color);
+					}
+				}
+			}
+			p.colors.sort(function(a, b) { return a.name.localeCompare(b.name); });
+			$scope.loadPalette(p);
+
+			if (unselect) {
+				$scope.unselectAll();
+			}
 		}
 
 		$scope.moveKeys = function(x,y,$event) {
@@ -1278,8 +1393,8 @@
 			var author = $scope.keyboard.meta.author;
 			var notes = $scope.keyboard.meta.notes;
 			var markdown = (name ? ("### " + name + "\n") : "") +
-									   (author ? ("#### _" + author + "_\n") : "") +
-								     (notes ? (notes) : "");
+			               (author ? ("#### _" + author + "_\n") : "") +
+			               (notes ? (notes) : "");
 			$scope.markdownContent = $sce.trustAsHtml($sanitize(marked(markdown)));
 			$scope.showMarkdown($scope.markdownTitle, event);
 		};
