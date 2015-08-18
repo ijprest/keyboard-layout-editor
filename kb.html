@@ -803,6 +803,22 @@ Nav Bar / Header
       <div id="rawdata-error" class="alert alert-danger" style='margin-top:1em;margin-bottom:0px' ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
     </div>
 
+    <!-- SUMMARY -->
+    <div id="summary" ng-class="{hidden:selTab!=4}">
+      <div class="col-md-12 col-lg-12 row">
+        Title: {{meta.name}}<br>
+        Author: {{meta.author}}<br>
+        Key sizes summary:<br>
+        <ol>
+          <li ng-repeat="(k,v) in keyCount()"><span class="fa fa-square"  ng-style="{'color':getTextColor(k)}"></span> {{k}} : {{v}}</li>
+        </ol>
+        Switches summary:<br>
+        <ol>
+          <li ng-repeat="(k,v) in switchCount()"> {{k}} : {{v}}</li>
+        </ol>
+      </div>
+    </div>
+
   </div>
 
   <div class="col-md-12 col-lg-12 row" style="margin-top:1em;margin-left:0px;">
@@ -821,23 +837,8 @@ Nav Bar / Header
     </alert>
   </div>
 
-</div>
-   <!-- SUMMARY -->
-    <div id="summary" ng-class="{hidden:selTab!=4}">
-        <div class="col-md-12 col-lg-12 row">
-	      Title: {{meta.name}}<br>
-	      Author: {{meta.author}}<br>
-              Key sizes summary:<br>
-              <ol>
-	      <li ng-repeat="(k,v) in keyCount()"><span class="fa fa-square"  ng-style="{'color':getTextColor(k)}"></span> {{k}} : {{v}}</li>
-	      </ol>
-              Switches summary:<br>
-              <ol>
-	      <li ng-repeat="(k,v) in switchCount()"> {{k}} : {{v}}</li>
-	      </ol>
-	</div>
-    </div>
-</div>
+</div> <!-- body -->
+</div> <!-- wrap -->
 
 <!--***********************************************
 Footer
