@@ -184,6 +184,8 @@ Nav Bar / Header
     <ul class="dropdown-menu" role="menu">
       <li><a ng-click="downloadSvg()">Download SVG (Experimental)</a></li>
       <li><a ng-click="downloadPng()">Download PNG (Experimental)</a></li>
+      <li><a ng-click="downloadJpg()">Download JPG (Experimental)</a></li>
+      <li><a ng-click="downloadThumb()">Download Thumbnail (PNG) (Experimental)</a></li>
       <li class="divider"></li>
       <li><a ng-click="downloadJson()">Download JSON</a></li>
     </ul>
@@ -257,6 +259,7 @@ Nav Bar / Header
     <li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="fa fa-keyboard-o"></i> Keyboard Properties</a></li>
     <li ng-class="{active:selTab==3}"><a ng-click="selTab=3" data-toggle="tab"><i class="fa fa-file-text-o"></i> Custom Styles</a></li>
     <li ng-class="{active:selTab==2}"><a ng-click="selTab=2" data-toggle="tab"><i class="fa fa-code"></i> Raw data</a></li>
+    <li ng-class="{active:selTab==4}"><a ng-click="selTab=4" data-toggle="tab"><i class="fa fa-file-text-o"></i> Summary</a></li>
   </ul>
   <div id="tab-content" class='col-md-12 col-lg-12 row' ui-keydown="{esc:'focusKb()'}" ng-cloak>
 
@@ -819,6 +822,21 @@ Nav Bar / Header
   </div>
 
 </div>
+   <!-- SUMMARY -->
+    <div id="summary" ng-class="{hidden:selTab!=4}">
+        <div class="col-md-12 col-lg-12 row">
+	      Title: {{meta.name}}<br>
+	      Author: {{meta.author}}<br>
+              Key sizes summary:<br>
+              <ol>
+	      <li ng-repeat="(k,v) in keyCount()"><span class="fa fa-square"  ng-style="{'color':getTextColour(k)}"></span> {{k}} : {{v}}</li>
+	      </ol>
+              Switches summary:<br>
+              <ol>
+	      <li ng-repeat="(k,v) in switchCount()"> {{k}} : {{v}}</li>
+	      </ol>
+	</div>
+    </div>
 </div>
 
 <!--***********************************************

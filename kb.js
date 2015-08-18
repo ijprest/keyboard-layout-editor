@@ -203,7 +203,52 @@
 				}
 			});
 		};
+		function getResizedCanvas(canvas,newWidth,newHeight,bgcolor) {
+		  var tmpCanvas = document.createElement('canvas');
+		  tmpCanvas.width = newWidth;
+		  tmpCanvas.height = newHeight;
+		  
+		  var ctx = tmpCanvas.getContext('2d');
+		  if (bgcolor != '') {
+		    ctx.rect(0,0,newWidth,newHeight);
+		    ctx.fillStyle=bgcolor;
+		    ctx.fill(); 
+		  };
+		  
+		  ctx.drawImage(canvas,0,0,canvas.width,canvas.height,0,0,newWidth,newHeight);
+		  
+		  return tmpCanvas;
+		}
+		
+		$scope.downloadJpg = function() {
+		  html2canvas($("#keyboard-bg"), {
+			    useCORS: true,
+			    onrendered: function(canvas) {
+			        var thm = getResizedCanvas(canvas,canvas.width,canvas.height,'white'); // not actually resize, just get white background
+				thm.toBlob(function(blob) {
+				      saveAs(blob, "keyboard-layout.jpg");
+				},"image/jpeg");
+			    }
+		      });
+		};
 
+		
+		
+		$scope.downloadThumb = function() {
+			    html2canvas($("#keyboard-bg"), {
+					      useCORS: true,
+					      onrendered: function(canvas) {
+						    var p = 110 / canvas.width; //alert(p);
+						    var thmwidth = canvas.width * p;
+						    var thmheight = canvas.height * p; 
+						    var thm = getResizedCanvas(canvas,thmwidth,thmheight,'');
+						    thm.toBlob(function(blob) {
+								    saveAs(blob, "keyboard-thumb.png");
+						    })
+					      }
+			    })
+		};
+		
 		$scope.downloadJson = function() {
 			var data = angular.toJson($serial.serialize($scope.keyboard), true /*pretty*/);
 			var blob = new Blob([data], {type:"application/json"});
@@ -222,8 +267,86 @@
 				reader.readAsText(file[0]);
 			}
 		};
+            
+	     // count the keys
+	     // use ~Total instead of Total to force it to bottom when displeyed
+		$scope.keyCount = function() {
+		  var kcounts = new Object();
+		  kcounts["~Total"] = 0;
+		  kcounts["Decals"] = 0;
+		  angular.forEach($scope.keys(), function(key){
+		    kcounts["~Total"]++;
+		    var thisk = "";
+		    if (key.decal)
+			{
+			 kcounts["Decals"]++;
+			 thisk = "Decal ";
+			};
 
-		// Helper function to select a single key
+		    thisk += key.width + " x " + key.height; 
+
+		    if (!key.decal){
+		      thisk +=  " (" + key.color + ")"; 
+		    };  
+		    if (kcounts[thisk])
+			{kcounts[thisk]++;}
+		    else
+			{kcounts[thisk] = 1;}
+
+		  });
+		  kcounts["~Total less decals"] = kcounts["~Total"] - kcounts["Decals"];
+		  return kcounts; 
+		};
+
+		// count the switches
+		// use ~Total instead of Total to force it to bottom when displeyed
+		$scope.switchCount = function() {
+		  var scounts = new Object();
+		  scounts["~Total"] = 0;
+		  angular.forEach($scope.keys(), function(key) {
+		    if (!key.decal) {
+		      scounts["~Total"]++;
+		      var thissw = "";
+		      if ($scope.meta.switchType) {
+			  thissw = $scope.meta.switchBrand + " " + $scope.meta.switchType;
+		      };
+		      if (key.st) {
+			  if (key.sb) {
+				thissw = key.sb + " " + key.st; 
+			  }
+			  else {
+			        thissw = $scope.meta.switchBrand + " " + key.st;
+			  }  
+		      };
+		      if (thissw) {
+			if (scounts[thissw]) {
+			  scounts[thissw]++;
+			}
+			else {
+			    scounts[thissw] = 1;
+			}
+		      }	
+		    };
+		  });
+		  return scounts; 
+		};
+
+		
+		// strip the colour string out of the switch colour
+		// todo: handle white or near-white since it will be invisible.
+		$scope.getTextColour = function(butt) {
+		  if ((butt.substring(0,1) == "~") ||(butt.substring(0,1) == "D"))
+		  {return "#000000";}; // leave the decals and totals lines alone
+		  var hex1 = butt;
+		  var re = /.*\(/;
+		  var hex2 = hex1.replace(re, '');
+		  var re = /\).*/;
+		  hex1 = hex2.replace(re, '');
+		  return hex1; 
+		};
+
+		
+	  // Helper function to select a single key
 		function selectKey(key,event) {
 			if(key) {
 				// If SHIFT is held down, we want to *extend* the selection from the last
