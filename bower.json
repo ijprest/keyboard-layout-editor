@@ -45,6 +45,6 @@
     "angular-cookies": "1.2.28",
     "ace-builds": "1.2.0",
     "angular-ui-ace": "0.2.3",
-    "html2canvas": "0.4.1"
+    "html2canvas": "0.5.0-alpha1"
   }
 }
