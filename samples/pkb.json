@@ -111,7 +111,7 @@
       "t": "#32CD32\n\n\n\n\n\n#fdd017",
       "d": true
     },
-    "<i class=\"fa fa-circle\"></i>\n\n\n\n\n\n<i class=\"fa fa-lock\"></i>",
+    "<i class=\"fa fa-circle\"></i>\n\n\n\n\n\n<i class=\"fa fa-lock\"></i>",
     {
       "t": "#ffffff\n\n\n\n\n\n#fdd017",
       "fa": [
@@ -388,7 +388,7 @@
       "f2": 6,
       "w": 1.5
     },
-    "<i class=\"fa fa-lock\"></i> <i class=\"fa fa-unlock\"></i>\n⇧",
+    "<i class=\"fa fa-lock\"></i> <i class=\"fa fa-unlock\"></i>\n⇧",
     {
       "c": "#e5dbca",
       "t": "#000000\n\n#0000ff\n\n#f00\n\n\n#0000ff",
@@ -577,7 +577,7 @@
       "f": 9,
       "w": 1.5
     },
-    "←\n→"
+    "→\n←"
   ],
   [
     {
@@ -618,7 +618,7 @@
       "f2": 6,
       "w": 1.5
     },
-    "</i><i class=\"fa fa-lock\"></i> <i class=\"fa fa-unlock\"></i>\n⇧"
+    "<i class=\"fa fa-lock\"></i> <i class=\"fa fa-unlock\"></i>\n⇧"
   ],
   [
     {
