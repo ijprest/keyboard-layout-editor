@@ -339,12 +339,6 @@ for i in (1..9) {
   background-color: #eee !important;
 }
 
-table.summary {
-    padding: 5px;
-    border: 1px black;
-  
-}
-
 table.summarytable {
   border-collapse: collapse;
 }
