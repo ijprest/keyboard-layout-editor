@@ -278,7 +278,7 @@
 					thisk = "Decal ";
 				}
 				thisk += key.width + " x " + key.height;
-				if(!key.decal) {//alert(key.color);
+				if(!key.decal) {
 						var foo = key.color; // next line refused to work with key.color.
 						var colourname  = reverseColors[foo]; 
 						if (!colourname)  // not a defined name
@@ -329,7 +329,7 @@
 		// todo: handle white or near-white since it will be invisible.
 		$scope.getTextColor = function(butt) {
 			if((butt.substring(0,1) == "~") || (butt.substring(0,1) == "D")) {
-				return "#000000"; // leave the decals and totals lines alone
+				return "#ffffff"; // leave the decals and totals lines alone
 			}
 			var hex1 = butt;
 			var re = /.*\(/;
