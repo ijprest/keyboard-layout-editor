@@ -808,17 +808,22 @@ Nav Bar / Header
       <div class="col-md-12 col-lg-12 row">
         Title: {{meta.name}}<br>
         Author: {{meta.author}}<br>
-        Key sizes summary:<br>
-        <ol>
-          <li ng-repeat="(k,v) in keyCount()"><span class="fa fa-square"  ng-style="{'color':getTextColor(k)}"></span> {{k}} : {{v}}</li>
-        </ol>
-        Switches summary:<br>
-        <ol>
-          <li ng-repeat="(k,v) in switchCount()"> {{k}} : {{v}}</li>
-        </ol>
+        <br>
+        <table class='summarytable'>
+          <tr><th class='summarytable' colspan='3'>Key sizes summary</th></tr>
+          <tr ng-repeat="(k,v) in keyCount()" class='summarytable'>
+            <td>{{k}}</td>
+            <td><span class="fa fa-square" ng-style="{'color':getTextColor(k)}">&nbsp;</span></td>
+            <td align='right'>{{v}}</td>
+          </tr>
+        </table>
+        <br>
+        <table class='summarytable'>
+          <tr><th colspan='2'>Switches summary</th></tr>
+          <tr ng-repeat="(k,v) in switchCount()"><td>{{k}}</td><td>{{v}}</td></tr>
+        </table>
       </div>
     </div>
-
   </div>
 
   <div class="col-md-12 col-lg-12 row" style="margin-top:1em;margin-left:0px;">

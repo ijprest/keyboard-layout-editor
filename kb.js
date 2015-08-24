@@ -279,7 +279,11 @@
 				}
 				thisk += key.width + " x " + key.height;
 				if(!key.decal) {
-					thisk += " (" + key.color + ")";
+						var foo = key.color; // next line refused to work with key.color.
+						var colourname  = reverseColors[foo]; 
+						if (!colourname)  // not a defined name
+						      {colourname = ""};
+					thisk += " " + colourname + " (" + key.color + ")"; 
 				}
 				if(kcounts[thisk]) {
 					kcounts[thisk]++;
@@ -290,7 +294,6 @@
 			kcounts["~Total less decals"] = kcounts["~Total"] - kcounts["Decals"];
 			return kcounts;
 		};
-
 		// count the switches
 		// use ~Total instead of Total to force it to bottom when displeyed
 		$scope.switchCount = function() {
@@ -326,7 +329,7 @@
 		// todo: handle white or near-white since it will be invisible.
 		$scope.getTextColor = function(butt) {
 			if((butt.substring(0,1) == "~") || (butt.substring(0,1) == "D")) {
-				return "#000000"; // leave the decals and totals lines alone
+				return "#ffffff"; // leave the decals and totals lines alone
 			}
 			var hex1 = butt;
 			var re = /.*\(/;
@@ -412,6 +415,8 @@
 		$scope.picker = {};
 		$scope.pickerSelection = {};
 
+		var reverseColors = []; // array to provide fast reverse lookups of colour names for Summary.
+					// might be an issue if a colour features twice... only last will stick
 		// The set of known palettes
 		$scope.palettes = {};
 		$http.get('colors.json').success(function(data) {
@@ -419,6 +424,7 @@
 			$scope.palettes.forEach(function(palette) {
 				palette.colors.forEach(function(color) {
 					color.css = $color.sRGB8(color.r,color.g,color.b).hex();
+					reverseColors[color.css] = palette.name + " " + color.name; 
 				});
 			});
 		});

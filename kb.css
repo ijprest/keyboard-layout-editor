@@ -340,3 +340,12 @@ for i in (1..9) {
 .dropdown-fixedwidth:disabled {
   background-color: #eee !important;
 }
+
+table.summarytable {
+  border-collapse: collapse;
+}
+
+.summarytable table, th, td {
+  border: 1px solid black;
+  padding: 2px 5px;
+}
