@@ -501,7 +501,7 @@
   content: "\e834";
 }
 
-.kb-Undo-:before {
+.kb-Undo-1:before {
   content: "\e835";
 }
 
@@ -513,7 +513,7 @@
   content: "\e837";
 }
 
-.kb-Redo:before {
+.kb-Redo-1:before {
   content: "\e838";
 }
 
@@ -770,3 +770,98 @@
 }
 
 
+.mss {
+  display: inline-block;
+  font: normal normal normal 14px/1 'Segoe UI Symbol';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+}
+
+.mss-Undo-5:before {
+  content: "\21B6";
+}
+
+.mss-Redo-2:before {
+  content: "\21B7";
+}
+.mss-Unicode-Page-Up-5:before {
+  content: "\21DE";
+}
+.mss-Unicode-Page-Down-5:before {
+  content: "\21DF";
+}
+
+.mss-Unicode-Scroll-3:before {
+  content: "\21F3";
+}
+
+.mss-Search-3:before {
+  content: "\2315";
+}
+.mss-Unicode-Command-3:before {
+  content: "\2318";
+}
+.mss-Unicode-Option-3:before {
+  content: "\2325";
+}
+.mss-Unicode-DeleteRight-Big-2:before {
+  content: "\2326";
+}
+.mss-Unicode-BackSpace-DeleteLeft-Big-2:before {
+  content: "\232B";
+}
+.mss-Unicode-Insert-3:before {
+  content: "\2380";
+}
+.mss-Unicode-Enter-3:before {
+  content: "\2386";
+}
+.mss-Unicode-Alternate-3:before {
+  content: "\2387";
+}
+.mss-Unicode-Control-4:before {
+  content: "\2388";
+}
+.mss-Unicode-Pause-3:before {
+  content: "\2389";
+}
+.mss-Unicode-Break-3:before {
+  content: "\238A";
+}
+.mss-Unicode-Escape-3:before {
+  content: "\238B";
+}
+.mss-Undo-4:before {
+  content: "\238C";
+}
+.mss-Unicode-Page-Up-4:before {
+  content: "\2397";
+}
+.mss-Unicode-Page-Down-4:before {
+  content: "\2398";
+}
+.mss-Unicode-PrintScreen-3:before {
+  content: "\2399";
+}
+.mss-Unicode-ClearScreen-3:before {
+  content: "\239A";
+}
+.mss-Return-5:before {
+  content: "\23CE";
+}
+
+.mss-Warning-1:before {
+  content: "\26A0";
+}
+.mss-Symbol-Skull-Bones-3:before {
+  content: "\2620";
+}
+.mss-Symbol-RadioActive-1:before {
+  content: "\2622";
+}
+.mss-Symbol-Biohazard-1:before {
+  content: "\2623";
+}
