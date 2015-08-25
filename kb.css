@@ -343,9 +343,11 @@ for i in (1..9) {
 
 table.summarytable {
   border-collapse: collapse;
+  margin-top: 1em;
 }
 
-.summarytable table, th, td {
+table.summarytable th, table.summarytable td {
   border: 1px solid black;
   padding: 2px 5px;
 }
+
