@@ -7,8 +7,8 @@
       "style": "background-image: url('/bg/wood/Red_Mahogany_Wood.jpg');"
     },
     "radii": "30px 30px 50% 50%",
-    "switchMount": "Cherry",
-    "switchBrand": "Cherry",
+    "switchMount": "cherry",
+    "switchBrand": "cherry",
     "switchType": "MX1A-G1xx",
     "plate": true,
     "pcb": false

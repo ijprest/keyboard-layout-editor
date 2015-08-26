@@ -29,9 +29,9 @@ All rights reserved.
 <script type="text/javascript" src="js/bootstrap-colorpicker-module.min.js"></script>
 <script type="text/javascript" src="js/doT.min.js"></script>
 <script type="text/javascript" src="js/urlon.js"></script>
-<script type="text/javascript" src="js/cssparser.js"></script><script type="text/javascript">$cssParser = parser;</script>
+<script type="text/javascript" src="js/cssparser.min.js"></script><script type="text/javascript">$cssParser = parser;</script>
 <script type="text/javascript" src="js/color.js"></script>
-<script type="text/javascript" src="js/jsonl.min.js"></script>
+<script type="text/javascript" src="js/jsonl.min.js"></script><script type="text/javascript">jsonl = parser;</script>
 <script type="text/javascript" src="js/html2canvas.min.js"></script>
 <script type="text/javascript" src="extensions.js"></script>
 <script type="text/javascript" src="render.js"></script>
@@ -804,6 +804,25 @@ Nav Bar / Header
       <div id="rawdata-error" class="alert alert-danger" style='margin-top:1em;margin-bottom:0px' ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
     </div>
 
+    <!-- SUMMARY -->
+    <div id="summary" ng-class="{hidden:selTab!=4}">
+      <div class="col-md-12 col-lg-12 row">
+        <div>Title: {{meta.name}}</div>
+        <div>Author: {{meta.author}}</div>
+        <table class='summarytable'>
+          <tr><th class='summarytable' colspan='3'>Key sizes summary</th></tr>
+          <tr ng-repeat="(k,v) in keyCount()" class='summarytable'>
+            <td>{{k}}</td>
+            <td><span class="fa fa-square" ng-style="{'color':getTextColor(k)}">&nbsp;</span></td>
+            <td align='right'>{{v}}</td>
+          </tr>
+        </table>
+        <table class='summarytable'>
+          <tr><th colspan='3'>Switches summary</th></tr>
+          <tr ng-repeat="(k,v) in switchCount()"><td>{{k}}</td><td>{{switchNames[k]}}</td><td>{{v}}</td></tr>
+        </table>
+      </div>
+    </div>
   </div>
 
   <div class="col-md-12 col-lg-12 row" style="margin-top:1em;margin-left:0px;">
@@ -822,6 +841,7 @@ Nav Bar / Header
     </alert>
   </div>
 
+<<<<<<< HEAD
 </div>
    <!-- SUMMARY -->
     <div id="summary" ng-class="{hidden:selTab!=4}">
@@ -844,6 +864,10 @@ Nav Bar / Header
     <div><button type="button" class="btn btn-success" ng-click="printDiv('printSummary')"><i class="fa fa-print"></i> Print summary</button></div>
     </div>
 </div>
+=======
+</div> <!-- body -->
+</div> <!-- wrap -->
+>>>>>>> 2cfb50c1e544cddea99772f4cf691d88c7d998fd
 
 <!--***********************************************
 Footer

@@ -191,7 +191,9 @@ for i in (1..9) {
   text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
-#rawdata, #rawdata-error, #customstyles, #customstyles-error, #noteseditor, #picker-html, #summary { font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace; line-height: 1.42857143 !important; border: solid 1px #ccc; }
+#rawdata, #rawdata-error, #customstyles, #customstyles-error, #noteseditor, #picker-html, #summary { font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace; line-height: 1.42857143 !important; }
+#rawdata, #rawdata-error, #customstyles, #customstyles-error, #noteseditor, #picker-html { border: solid 1px #ccc; }
+
 #rawdata, #customstyles { width: 100%; height: 400px; }
 #noteseditor { height: 275px; }
 #rawdata-error, #customstyles-error { white-space: pre; }
@@ -341,9 +343,11 @@ for i in (1..9) {
 
 table.summarytable {
   border-collapse: collapse;
+  margin-top: 1em;
 }
 
-.summarytable table, th, td {
+table.summarytable th, table.summarytable td {
   border: 1px solid black;
   padding: 2px 5px;
 }
+

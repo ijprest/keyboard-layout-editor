@@ -281,8 +281,9 @@
 				if(!key.decal) {
 						var foo = key.color; // next line refused to work with key.color.
 						var colourname  = reverseColors[foo]; 
-						if (!colourname)  // not a defined name
-						      {colourname = ""};
+						if(!colourname) { // not a defined name
+							colourname = "";
+						}
 					thisk += " " + colourname + " (" + key.color + ")"; 
 				}
 				if(kcounts[thisk]) {
@@ -300,25 +301,11 @@
 			var scounts = new Object();
 			scounts["~Total"] = 0;
 			angular.forEach($scope.keys(), function(key) {
-				if (!key.decal) {
+				if(!key.decal) {
 					scounts["~Total"]++;
-					var thissw = "";
-					if ($scope.meta.switchType) {
-						thissw = $scope.meta.switchBrand + " " + $scope.meta.switchType;
-					}
-					if (key.st) {
-						if (key.sb) {
-							thissw = key.sb + " " + key.st;
-						}	else {
-							thissw = $scope.meta.switchBrand + " " + key.st;
-						}
-					}
-					if (thissw) {
-						if (scounts[thissw]) {
-							scounts[thissw]++;
-						} else {
-							scounts[thissw] = 1;
-						}
+					var thissw = key.st || $scope.meta.switchType;
+					if(thissw) {
+						scounts[thissw] = (scounts[thissw] || 0) + 1;
 					}
 				}
 			});
@@ -420,6 +407,17 @@
 
 		$http.get('switches.json').success(function(data) {
 			$scope.switches = data;
+			$scope.switchNames = {};
+			for(var mountName in $scope.switches) {
+				var mountType = $scope.switches[mountName];
+				for(var brandName in mountType.brands) {
+					var brandType = mountType.brands[brandName];
+					for(var part in brandType.switches) {
+						var switchType = brandType.switches[part];
+						$scope.switchNames[part] = brandType.name + " / " + switchType.name;
+					}
+				}
+			}
 		});
 
 		// The currently selected palette & character-picker
@@ -427,9 +425,9 @@
 		$scope.picker = {};
 		$scope.pickerSelection = {};
 
-		var reverseColors = []; // array to provide fast reverse lookups of colour names for Summary.
-					// might be an issue if a colour features twice... only last will stick
-		// The set of known palettes
+		var reverseColors = {}; // array to provide fast reverse lookups of colour names for Summary.
+		                        // might be an issue if a colour features twice... only last will stick
+		                        // The set of known palettes
 		$scope.palettes = {};
 		$http.get('colors.json').success(function(data) {
 			$scope.palettes = data;
@@ -785,8 +783,8 @@
 			}
 			transaction("metadata", function() {
 				$scope.keyboard.meta[prop] = value;
-				if(prop==='switchMount') { $scope.keyboard.meta.switchBrand = $scope.keyboard.meta.switchType = '';	}
-				else if(prop==='switchBrand') { $scope.keyboard.meta.switchType = '';	}
+				if(prop==='switchMount') { $scope.keyboard.meta.switchBrand = $scope.keyboard.meta.switchType = ''; }
+				else if(prop==='switchBrand') { $scope.keyboard.meta.switchType = ''; }
 			});
 			$scope.meta = angular.copy($scope.keyboard.meta);
 			$scope.calcKbHeight();
@@ -1533,7 +1531,6 @@
 		var userLoginSecret;
 		var userLoginWindow;
 		$scope.userLogin = function() {
-			console.log(userLoginWindow);
 			if(userLoginWindow) {
 				if(userLoginWindow.closed) {
 					userLoginSecret = null;
