@@ -46,6 +46,7 @@ All rights reserved.
                   118 : 'showOptions($event)',
                   'ctrl-83' : 'save($event)' }">
 <style type="text/css" ng-bind-html="customStyles"></style>
+<div id='body_all'><!-- this wrapper is to allow the magic that prints just the summary -->
 <div id="wrap">
 <!--***********************************************
 Nav Bar / Header
@@ -825,6 +826,7 @@ Nav Bar / Header
    <!-- SUMMARY -->
     <div id="summary" ng-class="{hidden:selTab!=4}">
         <div class="col-md-12 col-lg-12 row">
+          <div id='printSummary'>
 	      Title: {{meta.name}}<br>
 	      Author: {{meta.author}}<br>
               <br>
@@ -837,7 +839,9 @@ Nav Bar / Header
               <tr><th colspan='2'>Switches summary</th></tr>
 	      <tr ng-repeat="(k,v) in switchCount()"><td> {{k}}</td><td> {{v}}</td></tr>
 	      </table>
-	</div>
+	  </div>
+	</div> 
+    <div><button type="button" class="btn btn-success" ng-click="printDiv('printSummary')"><i class="fa fa-print"></i> Print summary</button></div>
     </div>
 </div>
 
@@ -1319,6 +1323,7 @@ DOT.js Templates
     </g>
   </svg>
 </script>
-
+</div>
+<div id='summary_print'></div><!-- just a div to make the summary print work -->
 </body>
 </html>
