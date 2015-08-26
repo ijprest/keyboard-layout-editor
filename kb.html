@@ -807,6 +807,7 @@ Nav Bar / Header
     <!-- SUMMARY -->
     <div id="summary" ng-class="{hidden:selTab!=4}">
       <div class="col-md-12 col-lg-12 row">
+       <div id='printSummary'>
         <div>Title: {{meta.name}}</div>
         <div>Author: {{meta.author}}</div>
         <table class='summarytable'>
@@ -821,7 +822,11 @@ Nav Bar / Header
           <tr><th colspan='3'>Switches summary</th></tr>
           <tr ng-repeat="(k,v) in switchCount()"><td>{{k}}</td><td>{{switchNames[k]}}</td><td>{{v}}</td></tr>
         </table>
-      </div>
+       </div>
+      </div> 
+     <div class="btn-group btn-group-xs" role="group">
+      <br><button type="button" class="btn btn-success" ng-click="printDiv('printSummary')"><i class="fa fa-print"></i> Print summary</button>
+     </div>
     </div>
   </div>
 
@@ -841,33 +846,9 @@ Nav Bar / Header
     </alert>
   </div>
 
-<<<<<<< HEAD
 </div>
-   <!-- SUMMARY -->
-    <div id="summary" ng-class="{hidden:selTab!=4}">
-        <div class="col-md-12 col-lg-12 row">
-          <div id='printSummary'>
-	      Title: {{meta.name}}<br>
-	      Author: {{meta.author}}<br>
-              <br>
-              <table class='summarytable'>
-              <tr><th  class='summarytable' colspan='3'>Key sizes summary</th></tr>
-	      <tr ng-repeat="(k,v) in keyCount()"  class='summarytable'><td> {{k}}</td><td> <span class="fa fa-square"  ng-style="{'color':getTextColor(k)}"> </td><td align='right'> {{v}}</td></tr>
-	      </table>
-	      <br>
-              <table class='summarytable'>
-              <tr><th colspan='2'>Switches summary</th></tr>
-	      <tr ng-repeat="(k,v) in switchCount()"><td> {{k}}</td><td> {{v}}</td></tr>
-	      </table>
-	  </div>
-	</div> 
-    <div><button type="button" class="btn btn-success" ng-click="printDiv('printSummary')"><i class="fa fa-print"></i> Print summary</button></div>
-    </div>
-</div>
-=======
 </div> <!-- body -->
 </div> <!-- wrap -->
->>>>>>> 2cfb50c1e544cddea99772f4cf691d88c7d998fd
 
 <!--***********************************************
 Footer
