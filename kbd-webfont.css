@@ -7,7 +7,7 @@
 @font-face {
   font-family: 'kbd-webfont';
   src: url('../fonts/kbd-webfont.eot');
-  src: url('../fonts/kbd-webfont.eot') format('embedded-opentype'), url('../fonts/kbd-webfont.woff2') format('woff2'), url('../fonts/kbd-webfont.woff') format('woff'), 
+  src: url('../fonts/kbd-webfont.eot') format('embedded-opentype'), url('../fonts/kbd-webfont.woff') format('woff'), 
   url('../fonts/kbd-webfont.ttf') format('truetype'), url('../fonts/kbd-webfont.svg') format('svg');
   font-weight: normal;
   font-style: normal;

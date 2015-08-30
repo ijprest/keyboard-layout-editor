@@ -487,9 +487,9 @@
 		"css": "css/font-awesome.min.css"
 	},
 	{
-		"name": "Keyboard Layout Editor Icons",
+		"name": "Keyboard-Layout-Editor Icons",
 		"href" : "http://www.keyboard-layout-editor.com/",
-		"description" : "A selection of commonly used glyhs for keyboards.",
-		"css": "kbd-webfont.css"
+		"description" : "A selection of commonly used glyphs for keyboards.  All logos are trademarks of their respective owners.",
+		"css": "css/kbd-webfont.css"
 	}
 ]
