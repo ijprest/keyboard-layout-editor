@@ -1,0 +1,867 @@
+/*!
+ *  Kbd webfont, modified from Font Awesome 4.3.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'kbd-webfont';
+  src: url('../fonts/kbd-webfont.eot');
+  src: url('../fonts/kbd-webfont.eot') format('embedded-opentype'), url('../fonts/kbd-webfont.woff') format('woff'), 
+  url('../fonts/kbd-webfont.ttf') format('truetype'), url('../fonts/kbd-webfont.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+.kb {
+  display: inline-block;
+  font: normal normal normal 14px/1 kbd-webfont;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+}
+/* makes the font 33% larger relative to the icon container */
+.kb-lg {
+  font-size: 1.33333333em;
+  line-height: 0.75em;
+  vertical-align: -15%;
+}
+.kb-2x {
+  font-size: 2em;
+}
+.kb-3x {
+  font-size: 3em;
+}
+.kb-4x {
+  font-size: 4em;
+}
+.kb-5x {
+  font-size: 5em;
+}
+.kb-fw {
+  width: 1.28571429em;
+  text-align: center;
+}
+.kb-ul {
+  padding-left: 0;
+  margin-left: 2.14285714em;
+  list-style-type: none;
+}
+.kb-ul > li {
+  position: relative;
+}
+.kb-li {
+  position: absolute;
+  left: -2.14285714em;
+  width: 2.14285714em;
+  top: 0.14285714em;
+  text-align: center;
+}
+.kb-li.kb-lg {
+  left: -1.85714286em;
+}
+.kb-border {
+  padding: .2em .25em .15em;
+  border: solid 0.08em #eeeeee;
+  border-radius: .1em;
+}
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
+}
+.kb.pull-left {
+  margin-right: .3em;
+}
+.kb.pull-right {
+  margin-left: .3em;
+}
+.kb-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+  animation: fa-spin 2s infinite linear;
+}
+.kb-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+  animation: fa-spin 1s infinite steps(8);
+}
+@-webkit-keyframes kb-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes kb-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+.kb-rotate-90 {
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+.kb-rotate-180 {
+  -webkit-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+.kb-rotate-270 {
+  -webkit-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+.kb-flip-horizontal {
+  -webkit-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+}
+.kb-flip-vertical {
+  -webkit-transform: scale(1, -1);
+  -ms-transform: scale(1, -1);
+  transform: scale(1, -1);
+}
+:root .kb-rotate-90,
+:root .kb-rotate-180,
+:root .kb-rotate-270,
+:root .kb-flip-horizontal,
+:root .kb-flip-vertical {
+  filter: none;
+}
+.kb-stack {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 2em;
+  line-height: 2em;
+  vertical-align: middle;
+}
+.kb-stack-1x,
+.kb-stack-2x {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+.kb-stack-1x {
+  line-height: inherit;
+}
+.kb-stack-2x {
+  font-size: 2em;
+}
+.kb-inverse {
+  color: #ffffff;
+}
+/* kbd-webfont uses the Unicode Private Use Area (PUA) to ensure screen
+   readers do not read off random characters that represent icons */
+.kb-logo-windows-7:before {
+  content: "\e600";
+}
+
+.kb-logo-windows-8:before {
+  content: "\e601";
+}
+
+.kb-logo-apple:before {
+  content: "\e602";
+}
+
+.kb-logo-apple-outline:before {
+  content: "\e603";
+}
+
+.kb-logo-vim:before {
+  content: "\e604";
+}
+
+.kb-logo-commodore:before {
+  content: "\e605";
+}
+
+.kb-logo-amiga:before {
+  content: "\e606";
+}
+
+.kb-logo-ubuntu_cof:before {
+  content: "\e607";
+}
+
+.kb-logo-ubuntu_cof-circle:before {
+  content: "\e608";
+}
+
+.kb-logo-linux-tux:before {
+  content: "\e609";
+}
+
+.kb-logo-linux-tux-ibm:before {
+  content: "\e60A";
+}
+
+.kb-logo-linux-tux-ibm-invert:before {
+  content: "\e60B";
+}
+
+
+.kb-logo-atari:before {
+  content: "\e60C";
+}
+
+.kb-logo-linux-archlinux:before {
+  content: "\e60D";
+}
+
+.kb-logo-bsd-freebsd:before {
+  content: "\e60E";
+}
+
+.kb-logo-linux-centos:before {
+  content: "\e60F";
+}
+
+.kb-logo-winlin-cygwin:before {
+  content: "\e610";
+}
+
+.kb-logo-linux-debian:before {
+  content: "\e611";
+}
+
+.kb-logo-linux-edubuntu:before {
+  content: "\e612";
+}
+
+.kb-logo-linux-fedora:before {
+  content: "\e613";
+}
+
+.kb-logo-linux-gentoo:before {
+  content: "\e614";
+}
+
+.kb-logo-gnu:before {
+  content: "\e615";
+}
+
+.kb-logo-linux-knoppix:before {
+  content: "\e616";
+}
+
+.kb-logo-linux-redhat:before {
+  content: "\e617";
+}
+
+.kb-logo-linux-opensuse:before {
+  content: "\e618";
+}
+
+.kb-logo-android:before {
+  content: "\e619";
+}
+
+.kb-community-hapster:before {
+  content: "\e700";
+}
+
+.kb-community-awesome:before {
+  content: "\e701";
+}
+
+.kb-community-awesome-invert:before {
+  content: "\e702";
+}
+
+.kb-copyleft:before {
+  content: "\e703";
+}
+
+.kb-batman:before {
+  content: "\e704";
+}
+
+.kb-Unicode-Escape-1:before {
+  content: "\e800";
+}
+
+.kb-Unicode-Escape-2:before {
+  content: "\e801";
+}
+
+.kb-Unicode-Pause-1:before {
+  content: "\e802";
+}
+
+.kb-Unicode-Pause-2:before {
+  content: "\e803";
+}
+
+.kb-Unicode-Break-1:before {
+  content: "\e804";
+}
+
+.kb-Unicode-Break-2:before {
+  content: "\e805";
+}
+
+.kb-Unicode-PrintScreen-1:before {
+  content: "\e806";
+}
+
+.kb-Unicode-PrintScreen-2:before {
+  content: "\e807";
+}
+
+.kb-Unicode-ClearScreen-1:before {
+  content: "\e808";
+}
+
+.kb-Unicode-ClearScreen-2:before {
+  content: "\e809";
+}
+
+.kb-Unicode-Alternate-1:before {
+  content: "\e80A";
+}
+
+.kb-Unicode-Alternate-2:before {
+  content: "\e80B";
+}
+
+.kb-Unicode-Option-1:before {
+  content: "\e80C";
+}
+
+.kb-Unicode-Option-2:before {
+  content: "\e80D";
+}
+
+.kb-Unicode-Command-1:before {
+  content: "\e80E";
+}
+
+.kb-Unicode-Command-3:before {
+  content: "\e80F";
+}
+
+.kb-Unicode-Control-1:before {
+  content: "\e810";
+}
+
+.kb-Unicode-Control-2:before {
+  content: "\e811";
+}
+
+.kb-Unicode-Control-3:before {
+  content: "\e812";
+}
+
+.kb-Unicode-Enter-1:before {
+  content: "\e813";
+}
+
+.kb-Unicode-Enter-2:before {
+  content: "\e814";
+}
+
+.kb-Return-1:before {
+  content: "\e815";
+}
+
+.kb-Return-2:before {
+  content: "\e816";
+}
+
+.kb-Return-3:before {
+  content: "\e817";
+}
+
+.kb-Return-4:before {
+  content: "\e818";
+}
+
+.kb-Unicode-BackSpace-DeleteLeft-Big:before {
+  content: "\e819";
+}
+
+.kb-Unicode-DeleteRight-Big:before {
+  content: "\e81A";
+}
+
+.kb-Unicode-DeleteRight-Small:before {
+  content: "\e81B";
+}
+
+.kb-Unicode-BackSpace-DeleteLeft-Small:before {
+  content: "\e81C";
+}
+
+.kb-Unicode-Insert-1:before {
+  content: "\e81D";
+}
+
+.kb-Unicode-Insert-2:before {
+  content: "\e81E";
+}
+
+.kb-1-Round-Filled-1:before {
+  content: "\e81F";
+}
+
+.kb-1-Round-Filled-2:before {
+  content: "\e820";
+}
+
+.kb-1-Round:before {
+  content: "\e821";
+}
+
+.kb-A-Round-Filled-Serif:before {
+  content: "\e822";
+}
+
+.kb-A-Round-Filled-SanSerif:before {
+  content: "\e823";
+}
+
+.kb-A-Square-Filled-Serif:before {
+  content: "\e824";
+}
+
+.kb-A-Square-Filled-SanSerif:before {
+  content: "\e825";
+}
+
+.kb-A-Round-SanSerif:before {
+  content: "\e826";
+}
+
+.kb-Hamburger-Menu:before {
+  content: "\e827";
+}
+
+.kb-Unicode-Hourglass-1:before {
+  content: "\e828";
+}
+
+.kb-Unicode-Hourglass-2:before {
+  content: "\e829";
+}
+
+.kb-Unicode-Stopwatch:before {
+  content: "\e82A";
+}
+
+.kb-Unicode-Clock:before {
+  content: "\e82B";
+}
+
+.kb-Unicode-Lock-Closed-1:before {
+  content: "\e82C";
+}
+
+.kb-Unicode-Lock-Open-1:before {
+  content: "\e82D";
+}
+
+.kb-Unicode-Lock-Closed-2:before {
+  content: "\e82E";
+}
+
+.kb-Unicode-Lock-Open-2:before {
+  content: "\e82F";
+}
+
+.kb-Search-1:before {
+  content: "\e830";
+}
+
+.kb-Search-2:before {
+  content: "\e831";
+}
+
+.kb-Scissors-1:before {
+  content: "\e832";
+}
+
+.kb-Scissors-2:before {
+  content: "\e833";
+}
+
+.kb-Scissors-3:before {
+  content: "\e834";
+}
+
+.kb-Undo-1:before {
+  content: "\e835";
+}
+
+.kb-Undo-2:before {
+  content: "\e836";
+}
+
+.kb-Undo-3:before {
+  content: "\e837";
+}
+
+.kb-Redo-1:before {
+  content: "\e838";
+}
+
+.kb-Unicode-Scroll-1:before {
+  content: "\e839";
+}
+
+.kb-Unicode-Scroll-2:before {
+  content: "\e83A";
+}
+
+.kb-Unicode-Decimal-Separator-1:before {
+  content: "\e83B";
+}
+
+.kb-Unicode-Decimal-Separator-2:before {
+  content: "\e83C";
+}
+
+.kb-Unicode-Screen-Dim:before {
+  content: "\e83D";
+}
+
+.kb-Unicode-Screen-Bright:before {
+  content: "\e83E";
+}
+
+.kb-Arrows-Top-1:before {
+  content: "\e83F";
+}
+
+.kb-Arrows-Top-2:before {
+  content: "\e840";
+}
+
+.kb-Arrows-Top-3:before {
+  content: "\e841";
+}
+
+.kb-Arrows-Top-4:before {
+  content: "\e842";
+}
+
+.kb-Arrows-Bottom-1:before {
+  content: "\e843";
+}
+
+.kb-Arrows-Bottom-2:before {
+  content: "\e844";
+}
+
+.kb-Arrows-Bottom-3:before {
+  content: "\e845";
+}
+
+.kb-Arrows-Bottom-4:before {
+  content: "\e846";
+}
+
+.kb-Unicode-Page-Up-1:before {
+  content: "\e847";
+}
+
+.kb-Unicode-Page-Up-2:before {
+  content: "\e848";
+}
+
+.kb-Unicode-Page-Up-3:before {
+  content: "\e849";
+}
+
+.kb-Unicode-Page-Down-1:before {
+  content: "\e84A";
+}
+
+.kb-Unicode-Page-Down-2:before {
+  content: "\e84B";
+}
+
+.kb-Unicode-Page-Down-3:before {
+  content: "\e84C";
+}
+
+.kb-Arrows-Left:before {
+  content: "\e84D";
+}
+
+.kb-Arrows-Up:before {
+  content: "\e84E";
+}
+
+.kb-Arrows-Right:before {
+  content: "\e84F";
+}
+
+.kb-Arrows-Down:before {
+  content: "\e850";
+}
+
+.kb-Arrows-Up-Left:before {
+  content: "\e851";
+}
+
+.kb-Arrows-Up-Right:before {
+  content: "\e852";
+}
+
+.kb-Line-Start:before {
+  content: "\e853";
+}
+
+.kb-Line-End:before {
+  content: "\e854";
+}
+
+.kb-Line-Start-End:before {
+  content: "\e855";
+}
+
+.kb-Tab-1:before {
+  content: "\e856";
+}
+
+.kb-Tab-2:before {
+  content: "\e857";
+}
+
+.kb-Arrows-Left-Circle-Filled:before {
+  content: "\e858";
+}
+
+.kb-Arrows-Up-Circle-Filled:before {
+  content: "\e859";
+}
+
+.kb-Arrows-Right-Circle-Filled:before {
+  content: "\e85A";
+}
+
+.kb-Arrows-Down-Circle-Filled:before {
+  content: "\e85B";
+}
+
+.kb-Multimedia-Eject:before {
+  content: "\e85C";
+}
+
+.kb-Multimedia-Mute-1:before {
+  content: "\e85D";
+}
+
+.kb-Multimedia-Mute-2:before {
+  content: "\e85E";
+}
+
+.kb-Multimedia-Mute-3:before {
+  content: "\e85F";
+}
+
+.kb-Multimedia-Mute-4:before {
+  content: "\e860";
+}
+
+.kb-Multimedia-Volume-Down-1:before {
+  content: "\e861";
+}
+
+.kb-Multimedia-Volume-Down-2:before {
+  content: "\e862";
+}
+
+.kb-Multimedia-Volume-Up-1:before {
+  content: "\e863";
+}
+
+.kb-Multimedia-Volume-Up-2:before {
+  content: "\e864";
+}
+
+.kb-Multimedia-FastForwar:before {
+  content: "\e865";
+}
+
+.kb-Multimedia-Rewind:before {
+  content: "\e866";
+}
+
+.kb-Multimedia-FastForward-End:before {
+  content: "\e867";
+}
+
+.kb-Multimedia-Rewind-Start:before {
+  content: "\e868";
+}
+
+.kb-Multimedia-Play-Pause:before {
+  content: "\e869";
+}
+
+.kb-Multimedia-Back:before {
+  content: "\e86A";
+}
+
+.kb-Multimedia-Play:before {
+  content: "\e86B";
+}
+
+.kb-Multimedia-Up:before {
+  content: "\e86C";
+}
+
+.kb-Multimedia-Down:before {
+  content: "\e86D";
+}
+
+.kb-Multimedia-Pause:before {
+  content: "\e86E";
+}
+
+.kb-Multimedia-Stop:before {
+  content: "\e86F";
+}
+
+.kb-Multimedia-Record:before {
+  content: "\e870";
+}
+
+.kb-Symbol-Ankh:before {
+  content: "\e8A0";
+}
+
+.kb-Symbol-Peace:before {
+  content: "\e8A1";
+}
+
+.kb-Symbol-Alien:before {
+  content: "\e8A2";
+}
+
+.kb-Symbol-Skull-Bones-1:before {
+  content: "\e8A3";
+}
+
+.kb-Symbol-Skull-Bones-2:before {
+  content: "\e8A4";
+}
+
+.kb-Symbol-Keyboard:before {
+  content: "\e8A5";
+}
+
+.kb-Symbol-YinYang:before {
+  content: "\e8A6";
+}
+
+
+.mss {
+  display: inline-block;
+  font: normal normal normal 14px/1 'Segoe UI Symbol';
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+}
+
+.mss-Undo-5:before {
+  content: "\21B6";
+}
+
+.mss-Redo-2:before {
+  content: "\21B7";
+}
+.mss-Unicode-Page-Up-5:before {
+  content: "\21DE";
+}
+.mss-Unicode-Page-Down-5:before {
+  content: "\21DF";
+}
+
+.mss-Unicode-Scroll-3:before {
+  content: "\21F3";
+}
+
+.mss-Search-3:before {
+  content: "\2315";
+}
+.mss-Unicode-Command-3:before {
+  content: "\2318";
+}
+.mss-Unicode-Option-3:before {
+  content: "\2325";
+}
+.mss-Unicode-DeleteRight-Big-2:before {
+  content: "\2326";
+}
+.mss-Unicode-BackSpace-DeleteLeft-Big-2:before {
+  content: "\232B";
+}
+.mss-Unicode-Insert-3:before {
+  content: "\2380";
+}
+.mss-Unicode-Enter-3:before {
+  content: "\2386";
+}
+.mss-Unicode-Alternate-3:before {
+  content: "\2387";
+}
+.mss-Unicode-Control-4:before {
+  content: "\2388";
+}
+.mss-Unicode-Pause-3:before {
+  content: "\2389";
+}
+.mss-Unicode-Break-3:before {
+  content: "\238A";
+}
+.mss-Unicode-Escape-3:before {
+  content: "\238B";
+}
+.mss-Undo-4:before {
+  content: "\238C";
+}
+.mss-Unicode-Page-Up-4:before {
+  content: "\2397";
+}
+.mss-Unicode-Page-Down-4:before {
+  content: "\2398";
+}
+.mss-Unicode-PrintScreen-3:before {
+  content: "\2399";
+}
+.mss-Unicode-ClearScreen-3:before {
+  content: "\239A";
+}
+.mss-Return-5:before {
+  content: "\23CE";
+}
+
+.mss-Warning-1:before {
+  content: "\26A0";
+}
+.mss-Symbol-Skull-Bones-3:before {
+  content: "\2620";
+}
+.mss-Symbol-RadioActive-1:before {
+  content: "\2622";
+}
+.mss-Symbol-Biohazard-1:before {
+  content: "\2623";
+}
