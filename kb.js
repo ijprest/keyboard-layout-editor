@@ -326,6 +326,18 @@
 			return hex1;
 		};
 
+		// for printing the summary only. Modified from http://stackoverflow.com/questions/468881/print-div-id-printarea-div-only/7532581#7532581 answered Feb 27 '14 at 17:47
+		$scope.printDiv = function(divName){
+		  var printContents = document.getElementById(divName).innerHTML;
+		  document.getElementById("summary_print").innerHTML = printContents;
+		  document.getElementById("body_all").style.display = "none";
+		  document.getElementById("summary_print").style.display = "";
+		  window.print();
+		  document.getElementById("summary_print").innerHTML = "";
+		  document.getElementById("body_all").style.display = "";
+		  document.getElementById("summary_print").style.display = "none";
+		};
+		
 		// Helper function to select a single key
 		function selectKey(key,event) {
 			if(key) {

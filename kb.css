@@ -234,7 +234,7 @@ for i in (1..9) {
 /* Only show the keyboard layout itself when printing */
 @media print {
   html, body { overflow: hidden; height: 100%; margin: 0 !important; padding: 0 !important; }
-  #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog, #markdownDialog { display: none; margin: 0 !important; padding: 0 !important; }
+  #wrap > .navbar, #wrap > .body > .btn-group, #keyboard ~ *, #keyboard + *, #footer, #helpDialog, #markdownDialog, #summary { display: none; margin: 0 !important; padding: 0 !important; }
   div.body { margin: 0 !important; padding: 0 !important; }
   a { color: black; text-decoration: none; }
   #keyboard {
