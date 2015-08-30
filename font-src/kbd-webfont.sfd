@@ -1,9 +1,9 @@
 SplineFontDB: 3.0
-FontName: kbd-custom
-FullName: kbd-custom
-FamilyName: kbd-custom
+FontName: kbd-webfont
+FullName: kbd-webfont
+FamilyName: kbd-webfont
 Weight: Medium
-Copyright: Copyright(C) 2013 Ian Prest; All rights reserved.
+Copyright: Copyright(C) 2013-2015 Ian Prest; All rights reserved.
 UComments: "2013-11-16: Created." 
 Version: 001.000
 ItalicAngle: 0
