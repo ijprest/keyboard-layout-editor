@@ -1014,6 +1014,7 @@ Tools Dialog
   </div>
   <div class="modal-body">
     <h5>Remove or Move Legends:</h5>
+       <p>You should save your work before using these tools, their is no Undo.</p>
        <div class="form-group form-group-sm form-horizontal">
        <label class="control-label text-nowrap" style='margin-left: 5px;'>Remove Legends:</label>
            <div class="btn-group btn-group-xs" role="group">
@@ -1026,13 +1027,16 @@ Tools Dialog
 		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Number keys." ng-click="removeLegends('nums')"> Nums</button>
             </div>
             <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Punctuation keys." ng-click="removeLegends('punct')"> Punct</button>
+		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Punctuation keys." ng-click="removeLegends('punct')"> !@#$p[};"<.?..</button>
             </div>
             <div class="btn-group btn-group-xs" role="group">
 		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Function keys." ng-click="removeLegends('fn')"> Fn</button>
             </div>
             <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the other keys except decals." ng-click="removeLegends('others')"> Others</button>
+		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the special legends, like FontAwesome, WebFont, images, etc, and anything between them in the same slot." ng-click="removeLegends('specials')"> Specials</button>
+            </div>
+            <div class="btn-group btn-group-xs" role="group">
+		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from (almost) all the other keys except decals." ng-click="removeLegends('others')"> Others</button>
             </div>
             <div class="btn-group btn-group-xs" role="group">
 		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Decals." ng-click="removeLegends('decals')"> Decals</button>
