@@ -347,7 +347,7 @@
 		    case 'punct' : var re = /^[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$/; break;
 		    case 'fn' : var re = /F\d\d?/; break;
 		    case 'specials' : var re = /<.*>/; break;
-		    case 'others' :  var re = /^[^A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$|^[A-Za-z\s][A-Za-z\s]+$/; break;
+		    case 'others' :  var re = /^[^A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$|^[A-Za-z\s][A-Za-z\s]+$|\&\#.*|\&.*?;/; break;
 		    case 'decals' : {
 		      angular.forEach($scope.keys(), function(key) {
 			if(key.decal) {
