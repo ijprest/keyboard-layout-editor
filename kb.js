@@ -375,6 +375,16 @@
 		      } 
 		    });
 		};
+
+		$scope.unhideDecals = function() {
+		  var prop = 'decal';
+		  angular.forEach($scope.keys(), function(key) {
+		    if(key.decal) {
+			  update(key,prop,false);
+			  renderKey(key);
+			}
+		  });
+		};
 		
 		
 		// Helper function to select a single key

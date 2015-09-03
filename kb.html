@@ -1013,8 +1013,8 @@ Tools Dialog
     <h4 class="modal-title">Tools</h4>
   </div>
   <div class="modal-body">
-    <h5>Remove or Move Legends:</h5>
-       <p>You should save your work before using these tools, their is no Undo.</p>
+    <h5>Remove or Move Legends</h5>
+       <p>You should save your work before using these tools, there is no Undo.</p>
        <div class="form-group form-group-sm form-horizontal">
        <label class="control-label text-nowrap" style='margin-left: 5px;'>Remove Legends:</label>
            <div class="btn-group btn-group-xs" role="group">
@@ -1041,11 +1041,17 @@ Tools Dialog
             <div class="btn-group btn-group-xs" role="group">
 		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Decals." ng-click="removeLegends('decals')"> Decals</button>
             </div>
-  
     </div>
+    <hr>
+       <div class="form-group form-group-sm form-horizontal">
+       <label class="control-label text-nowrap" style='margin-left: 5px;'>Unhide decal keys:</label>
+           <div class="btn-group btn-group-xs" role="group">
+		<button type="button" class="btn btn-success hint--top hint--rounded" data-hint="Show the hidden decal keys." ng-click="unhideDecals()"> Unhide</button>
+            </div>
+        </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
+    <button type="button" class="btn btn-danger" ng-click="cancel()">Done</button>
   </div>
 </script>
 
