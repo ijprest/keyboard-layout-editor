@@ -337,6 +337,31 @@
 		  document.getElementById("body_all").style.display = "";
 		  document.getElementById("summary_print").style.display = "none";
 		};
+
+		$scope.removeLegends = function(param) {
+                  switch (param) {
+		    case 'all' : var re = /.*/; break;
+		    case 'alphas' : var re = /^[A-Za-z]$/; break;
+		    case 'nums' : var re = /^[0-9]*$/; break;
+		    case 'punct' : var re = /^[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$/; break;
+		    case 'fn' : var re = /F\d\d?/; break;
+		    case 'others' : var re = /^[^A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$|^[A-Za-z\s][A-Za-z\s]+$/; break;
+		  }
+		    var prop = 'labels';
+		    angular.forEach($scope.keys(), function(key) {
+		      if(!key.decal) {
+			for (var i=0; i<=11; i++){
+                             if (key.labels[i]){
+			       var lab = key.labels[i];
+			       lab = lab.replace(re, '');
+			       update(key,prop,lab,i);
+			       renderKey(key);
+			     }
+			}
+		      } 
+		    });
+		};
+		
 		
 		// Helper function to select a single key
 		function selectKey(key,event) {
@@ -427,7 +452,7 @@
 
 		var reverseColors = {}; // array to provide fast reverse lookups of colour names for Summary.
 		                        // might be an issue if a colour features twice... only last will stick
-		                        // The set of known palettes
+		// The set of known palettes
 		$scope.palettes = {};
 		$http.get('colors.json').success(function(data) {
 			$scope.palettes = data;
@@ -704,7 +729,7 @@
 			return (v[prop] || v._)();
 		}
 
-		function update(key,prop,value,index) {
+		function update(key,prop,value,index) {//alert("yes ian");
 			var u = {
 				_ : function() { key[prop] = value; },
 				width : function() { key.width = value; if(!key.stepped || key.width > key.width2) key.width2 = value; },
@@ -1443,6 +1468,21 @@
 				event.preventDefault();
 				event.stopPropagation();
 			}
+		};
+
+		$scope.showTools = function(event) {
+		  if(activeModal) activeModal.dismiss('cancel');
+			 activeModal = $modal.open({
+			   templateUrl:"toolsDialog.html",
+			   controller:"modalCtrl",
+			   scope:$scope,
+			   resolve: { params: function() { return { moveStep:$scope.moveStep, sizeStep:$scope.sizeStep, rotateStep:$scope.rotateStep }; } }
+			 });
+		  activeModal.result.then(function(params) { $.extend($scope, params); });
+		  if(event) {
+		    event.preventDefault();
+		    event.stopPropagation();
+		  }
 		};
 
 		// Clipboard functions
