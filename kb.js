@@ -339,15 +339,28 @@
 		};
 
 		$scope.removeLegends = function(param) {
-                  switch (param) {
+		  var prop = 'labels';
+		  switch (param) {
 		    case 'all' : var re = /.*/; break;
 		    case 'alphas' : var re = /^[A-Za-z]$/; break;
 		    case 'nums' : var re = /^[0-9]*$/; break;
 		    case 'punct' : var re = /^[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$/; break;
 		    case 'fn' : var re = /F\d\d?/; break;
-		    case 'others' : var re = /^[^A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$|^[A-Za-z\s][A-Za-z\s]+$/; break;
+		    case 'others' :  var re = /^[^A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$|^[A-Za-z\s][A-Za-z\s]+$/; break;
+		    case 'decals' : {
+		      angular.forEach($scope.keys(), function(key) {
+			if(key.decal) {
+			  for (var i=0; i<=11; i++){
+			    if (key.labels[i]){
+			      var lab = "";
+			      update(key,prop,lab,i);
+			      renderKey(key);
+			    }
+			  }
+			} 
+		      }); break;
+		    }
 		  }
-		    var prop = 'labels';
 		    angular.forEach($scope.keys(), function(key) {
 		      if(!key.decal) {
 			for (var i=0; i<=11; i++){
@@ -729,7 +742,7 @@
 			return (v[prop] || v._)();
 		}
 
-		function update(key,prop,value,index) {//alert("yes ian");
+		function update(key,prop,value,index) {
 			var u = {
 				_ : function() { key[prop] = value; },
 				width : function() { key.width = value; if(!key.stepped || key.width > key.width2) key.width2 = value; },
