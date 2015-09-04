@@ -1013,8 +1013,9 @@ Tools Dialog
     <h4 class="modal-title">Tools</h4>
   </div>
   <div class="modal-body">
-    <h5>Remove or Move Legends</h5>
-       <p>You should save your work before using these tools, there is no Undo.</p>
+
+       <p>You should save your work before using these tools, there is no Undo.<br>
+       Actions will affect selected keys only. If no keys are selected, actions will affect all keys.</p>
        <div class="form-group form-group-sm form-horizontal">
        <label class="control-label text-nowrap" style='margin-left: 5px;'>Remove Legends:</label>
            <div class="btn-group btn-group-xs" role="group">
@@ -1042,7 +1043,96 @@ Tools Dialog
 		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Decals." ng-click="removeLegends('decals')"> Decals</button>
             </div>
     </div>
-    <hr>
+    <br>
+       <div class="form-group form-group-sm form-horizontal">
+       <label class="control-label text-nowrap" style='margin-left: 5px;'>Move Legends Pairs:</label>
+           <div class="btn-group btn-group-xs" role="group">
+           <table class="imgtable">
+              <tr>
+               <td>
+		 <a class="hint--top hint--rounded" data-hint="Move both left column legends to the middle column." ng-click="moveLegends('move',0,6,1,7)"><img src="img/left2middle.png"></a>
+		</td>
+               <td>
+		 <a class="hint--top hint--rounded" data-hint="Move both middle column legends to the right column." ng-click="moveLegends('move',1,7,2,8)"><img src="img/middle2right.png"></a>
+		</td>
+               <td>
+		 <a class="hint--top hint--rounded" data-hint="Move both right column legends to the left column." ng-click="moveLegends('move',2,8,0,6)"><img src="img/right2left.png"></a>
+		</td>
+               <td>
+		 <a class="hint--top hint--rounded" data-hint="Swap left column top and bottom legends." ng-click="moveLegends('swap',0,6)"><img src="img/swaptopbottom.png"></a>
+		</td>
+	       </tr>
+	      </table>
+            </div>
+        </div>
+    <br>
+       <form>
+       <div class="form-group form-group-sm form-horizontal">
+       <label class="control-label text-nowrap" style='margin-left: 5px;'>Move Single Legends:</label>
+           <div class="btn-group btn-group-xs" role="group">
+          <table class='keystable'>
+          <tr><td>
+           <label for='fromtable'>From</label>
+           <table class="keytable" id='fromtable'>
+             <tr>
+               <td><input type='radio' name='fromId' value='0'></td>
+               <td><input type='radio' name='fromId' value='1'></td>
+               <td><input type='radio' name='fromId' value='2'></td>
+	      </tr>
+              <tr>
+               <td><input type='radio' name='fromId' value='3'></td>
+               <td><input type='radio' name='fromId' value='4'></td>
+               <td><input type='radio' name='fromId' value='5'></td>
+	      </tr>
+              <tr>
+               <td><input type='radio' name='fromId' value='6'></td>
+               <td><input type='radio' name='fromId' value='7'></td>
+               <td><input type='radio' name='fromId' value='8'></td>
+	      </tr>
+	      </table>
+           <table class="keytable">
+             <tr>
+               <td><input type='radio' name='fromId' value='9'></td>
+               <td><input type='radio' name='fromId' value='10'></td>
+               <td><input type='radio' name='fromId' value='11'></td>
+	      </tr>
+	     </table> 
+	    </td>
+	    <td>
+           <label for='totable'>To</label>
+           <table class="keytable" id='totable'>
+             <tr>
+               <td><input type='radio' name='toId' value='0'></td>
+               <td><input type='radio' name='toId' value='1'></td>
+               <td><input type='radio' name='toId' value='2'></td>
+	      </tr>
+              <tr>
+               <td><input type='radio' name='toId' value='3'></td>
+               <td><input type='radio' name='toId' value='4'></td>
+               <td><input type='radio' name='toId' value='5'></td>
+	      </tr>
+              <tr>
+               <td><input type='radio' name='toId' value='6'></td>
+               <td><input type='radio' name='toId' value='7'></td>
+               <td><input type='radio' name='toId' value='8'></td>
+	      </tr>
+	      </table>
+           <table class="keytable">
+             <tr>
+               <td><input type='radio' name='toId' value='9'></td>
+               <td><input type='radio' name='toId' value='10'></td>
+               <td><input type='radio' name='toId' value='11'></td>
+	      </tr>
+	     </table> 
+	    </td>
+	    <td>
+	     <button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="I want to move it move it." ng-click="moveSingleLegends()"> Go</button>
+	    </td>
+	    </tr>
+	    </table>
+            </div>
+        </div>
+    <br>
        <div class="form-group form-group-sm form-horizontal">
        <label class="control-label text-nowrap" style='margin-left: 5px;'>Unhide decal keys:</label>
            <div class="btn-group btn-group-xs" role="group">
@@ -1051,7 +1141,7 @@ Tools Dialog
         </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" ng-click="cancel()">Done</button>
+    <button type="button" class="btn btn-primary" ng-click="cancel()">Done</button>
   </div>
 </script>
 

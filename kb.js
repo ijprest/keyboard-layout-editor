@@ -386,6 +386,55 @@
 		  });
 		};
 		
+		$scope.moveLegends = function(moveOrSwap,a,b,c,d) {
+		  var move = (moveOrSwap == 'move'? true : false);
+		  var all = ($scope.selectedKeys.length>0 ? false : true);
+		  
+		  angular.forEach($scope.keys(), function(key) {
+		    var ndx =$scope.selectedKeys.indexOf(key); 
+		    if(!key.decal && (ndx>=0 || all) && move) {
+		      if ((key.labels[a] && key.labels[b]) && !((key.labels[c] || key.labels[d])))
+		      {
+			key.labels[c] = key.labels[a];
+			key.labels[d] = key.labels[b];
+			key.labels[a] = '';
+			key.labels[b] = '';
+		      };
+		    };
+		      if(!key.decal && (ndx>=0 || all) && !move) {
+			if (key.labels[a] && key.labels[b])
+			{
+			  var swap = key.labels[b];
+			  key.labels[b] = key.labels[a];
+			  key.labels[a] = swap;
+			};
+		      };
+		      renderKey(key);
+		    
+		  });
+		};
+
+		$scope.moveSingleLegends = function() {
+		  var fromId = document.querySelector('input[name = "fromId"]:checked').value;
+		   // alert(fromId);
+		  var toId = document.querySelector('input[name = "toId"]:checked').value;
+		 // alert(toId);
+		  var all = ($scope.selectedKeys.length>0 ? false : true);
+		  if ((fromId >=0) && (toId >= 0))
+		  {angular.forEach($scope.keys(), function(key) {
+		    var ndx =$scope.selectedKeys.indexOf(key); 
+		    if(!key.decal && (ndx>=0 || all)) {
+		      if (key.labels[fromId] && !(key.labels[toId]))
+		      {
+			key.labels[toId] = key.labels[fromId];
+			key.labels[fromId] = '';
+		      };
+		    };
+		    renderKey(key);
+		  }) 
+		  }
+		};
+		
 		
 		// Helper function to select a single key
 		function selectKey(key,event) {
