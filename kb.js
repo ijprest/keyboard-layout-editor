@@ -354,7 +354,7 @@
 			  for (var i=0; i<=11; i++){
 			    if (key.labels[i]){
 			      var lab = "";
-			      update(key,prop,lab,i);
+			      update(key,prop,lab,i); // should we wipe the textSize and textColor too?
 			      renderKey(key);
 			    }
 			  }
@@ -368,7 +368,7 @@
                              if (key.labels[i]){
 			       var lab = key.labels[i];
 			       lab = lab.replace(re, '');
-			       update(key,prop,lab,i);
+			       update(key,prop,lab,i);  // should we wipe the textSize and textColor too?
 			       renderKey(key);
 			     }
 			}
@@ -399,6 +399,14 @@
 			key.labels[d] = key.labels[b];
 			key.labels[a] = '';
 			key.labels[b] = '';
+			key.textColor[c] = key.textColor[a];
+			key.textColor[d] = key.textColor[b];
+			key.textColor[a] = '';
+			key.textColor[b] = '';
+			key.textSize[c] = key.textSize[a];
+			key.textSize[d] = key.textSize[b];
+			key.textSize[a] = '';
+			key.textSize[b] = '';
 		      };
 		    };
 		      if(!key.decal && (ndx>=0 || all) && !move) {
@@ -407,6 +415,12 @@
 			  var swap = key.labels[b];
 			  key.labels[b] = key.labels[a];
 			  key.labels[a] = swap;
+			  var swap = key.textColor[b];
+			  key.textColor[b] = key.textColor[a];
+			  key.textColor[a] = swap;
+			  var swap = key.textSize[b];
+			  key.textSize[b] = key.textSize[a];
+			  key.textSize[a] = swap;
 			};
 		      };
 		      renderKey(key);
@@ -428,6 +442,10 @@
 		      {
 			key.labels[toId] = key.labels[fromId];
 			key.labels[fromId] = '';
+			key.textColor[toId] = key.textColor[fromId];
+			key.textColor[fromId] = '';
+			key.textSize[toId] = key.textSize[fromId];
+			key.textSize[fromId] = '';
 		      };
 		    };
 		    renderKey(key);
