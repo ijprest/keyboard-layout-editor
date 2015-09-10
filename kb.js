@@ -245,6 +245,22 @@
 			})
 		};
 
+		$scope.downloadHiRes = function() {
+		  html2canvas($("#keyboard-bg"), {
+		    useCORS: true,
+		onrendered: function(canvas) {
+		  var p = 300 / 72;  // assume screen res is 72 DPI.
+		  alert (p);
+		  var thmwidth = canvas.width * p; alert(thmwidth);
+		  var thmheight = canvas.height * p;
+		  var thm = getResizedCanvas(canvas,thmwidth,thmheight,'');
+		  thm.toBlob(function(blob) {
+		    saveAs(blob, "keyboard-hires.png");
+		  });
+		}
+		  })
+		};
+		
 		$scope.downloadJson = function() {
 			var data = angular.toJson($serial.serialize($scope.keyboard), true /*pretty*/);
 			var blob = new Blob([data], {type:"application/json"});
