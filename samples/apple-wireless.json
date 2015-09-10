@@ -1,0 +1,313 @@
+[
+  {
+    "backcolor": "#dbdbdb",
+    "name": "Apple Wireless Keyboard",
+    "author": "Alistair Calder",
+    "radii": "6px 6px 12px 12px / 18px 18px 12px 12px",
+    "css": "@import url(http://fonts.googleapis.com/css?family=Varela+Round);\n\n#keyboard-bg { \n    background-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 4%, rgba(255,255,255,0.3) 6%, rgba(0,0,0,0) 10%), \n                      linear-gradient(to right, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%) !important; \n}\n\n.keylabel {\n    font-family: 'volkswagen_serialregular';\n}\n\n/* Strangely, \"Volkswagen Serial\" doesn't have a tilde character */\n.varela { \n    font-family: 'Varela Round'; \n    display: inline-block; \n    font-size: inherit; \n    text-rendering: auto; \n    -webkit-font-smoothing: antialiased; \n    -moz-osx-font-smoothing: grayscale;\n    transform: translate(0, 0);\n}\n.varela-tilde:after { content: \"\\07e\"; }"
+  },
+  [
+    {
+      "y": 0.75,
+      "t": "#666666",
+      "p": "CHICKLET",
+      "a": 7,
+      "f": 2,
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "esc",
+    {
+      "a": 4,
+      "fa": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF1",
+    {
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF2",
+    {
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF3",
+    {
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF4",
+    {
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF5",
+    {
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF6",
+    {
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF7\n\n\n\n\n\n<i class='fa fa-backward'></i>",
+    {
+      "fa": [
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF8\n\n\n\n\n\n<i class='fa fa-play'></i><i class='fa fa-pause'></i>",
+    {
+      "fa": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF9\n\n\n\n\n\n<i class='fa fa-forward'></i>",
+    {
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF10\n\n\n\n\n\n<i class='fa fa-volume-off'></i>",
+    {
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF11\n\n\n\n\n\n<i class='fa fa-volume-down'></i>",
+    {
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "\n\n\nF12\n\n\n\n\n\n<i class='fa fa-volume-up'></i>",
+    {
+      "a": 7,
+      "w": 1.0357,
+      "h": 0.75
+    },
+    "<i class='fa fa-eject'></i>"
+  ],
+  [
+    {
+      "y": -0.25,
+      "a": 5,
+      "f": 5
+    },
+    "<i class=\"varela varela-tilde\"></i>\n`",
+    "!\n1",
+    "@\n2",
+    "#\n3",
+    "$\n4",
+    "%\n5",
+    "^\n6",
+    "&\n7",
+    "*\n8",
+    "(\n9",
+    ")\n0",
+    "_\n-",
+    "+\n=",
+    {
+      "a": 4,
+      "f": 2,
+      "w": 1.5
+    },
+    "\n\n\ndelete"
+  ],
+  [
+    {
+      "w": 1.5
+    },
+    "\ntab",
+    {
+      "a": 7,
+      "f": 5
+    },
+    "Q",
+    "W",
+    "E",
+    "R",
+    "T",
+    "Y",
+    "U",
+    "I",
+    "O",
+    "P",
+    {
+      "a": 5
+    },
+    "{\n[",
+    "}\n]",
+    "|\n\\"
+  ],
+  [
+    {
+      "a": 4,
+      "f": 2,
+      "fa": [
+        1
+      ],
+      "w": 1.75
+    },
+    "<i class='kb kb-Multimedia-Record'></i>\ncaps lock",
+    {
+      "a": 7,
+      "f": 5
+    },
+    "A",
+    "S",
+    "D",
+    {
+      "n": true
+    },
+    "F",
+    "G",
+    "H",
+    {
+      "n": true
+    },
+    "J",
+    "K",
+    "L",
+    {
+      "a": 5
+    },
+    ":\n;",
+    "\"\n'",
+    {
+      "a": 4,
+      "f": 2,
+      "fa": [
+        0,
+        0,
+        1
+      ],
+      "w": 1.75
+    },
+    "\n\nenter\nreturn"
+  ],
+  [
+    {
+      "w": 2.25
+    },
+    "\nshift",
+    {
+      "a": 7,
+      "f": 5
+    },
+    "Z",
+    "X",
+    "C",
+    "V",
+    "B",
+    "N",
+    "M",
+    {
+      "a": 5
+    },
+    "<\n,",
+    ">\n.",
+    "?\n/",
+    {
+      "a": 4,
+      "f": 2,
+      "w": 2.25
+    },
+    "\n\n\nshift"
+  ],
+  [
+    {
+      "h": 1.111
+    },
+    "\nfn",
+    {
+      "h": 1.111
+    },
+    "\ncontrol",
+    {
+      "fa": [
+        1
+      ],
+      "h": 1.111
+    },
+    "alt\noption",
+    {
+      "fa": [
+        1,
+        0,
+        5
+      ],
+      "w": 1.25,
+      "h": 1.111
+    },
+    "\n\n⌘\ncommand",
+    {
+      "a": 7,
+      "w": 5,
+      "h": 1.111
+    },
+    "",
+    {
+      "a": 4,
+      "fa": [
+        5
+      ],
+      "w": 1.25,
+      "h": 1.111
+    },
+    "⌘\ncommand",
+    {
+      "fa": [
+        5,
+        0,
+        1
+      ],
+      "h": 1.111
+    },
+    "\n\nalt\noption",
+    {
+      "x": 1,
+      "a": 7,
+      "f": 5,
+      "h": 0.611
+    },
+    "↑"
+  ],
+  [
+    {
+      "y": -0.5,
+      "x": 11.5,
+      "h": 0.6111
+    },
+    "←",
+    {
+      "h": 0.6111
+    },
+    "↓",
+    {
+      "h": 0.6111
+    },
+    "→"
+  ]
+]

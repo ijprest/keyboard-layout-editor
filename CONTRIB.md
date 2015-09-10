@@ -19,6 +19,7 @@ presets:
 * [jasonm23](https://github.com/jasonm23)
 * [iandoug](http://iandoug.com/?p=64)
 * [mikebell](https://github.com/mikebell)
+* [alistaircom](https://github.com/alistaircom)
 
 Third-Party Software
 --------------------
