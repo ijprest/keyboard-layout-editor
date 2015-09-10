@@ -13,6 +13,7 @@ webfont(family, file, weight=normal, style=normal) {
 }
 /* Set up all the web-fonts we host */
 webfont('engravers_gothic_fsregular', 'EngraversGothic-Regular-webfont');
+webfont('volkswagen_serialregular', 'Volkswagen_Serial-Regular-webfont');
 
 /* font and css for combining-diacritical things */
 @font-face {

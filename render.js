@@ -13,10 +13,11 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 		px : {
 			unit : 54,
 			strokeWidth: 1,
-			"" : 		{ profile: "" , keySpacing: 0, bevelMargin: 6, bevelOffsetY: 3, padding: 3, roundOuter: 5, roundInner: 3 },
-			"DCS" : { profile: "DCS", keySpacing: 0, bevelMargin: 6, bevelOffsetY: 3, padding: 3, roundOuter: 5, roundInner: 3 },
-			"DSA" : { profile: "DSA", keySpacing: 0, bevelMargin: 6, bevelOffsetY: 0, padding: 3, roundOuter: 5, roundInner: 8 },
-			"SA" :  { profile: "SA", keySpacing: 0, bevelMargin: 6, bevelOffsetY: 2, padding: 3, roundOuter: 5, roundInner: 5 }
+			"" : 		{ profile: "" , keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 3, bevelOffsetBottom: 3, padding: 3, roundOuter: 5, roundInner: 3 },
+			"DCS" : { profile: "DCS", keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 3, bevelOffsetBottom: 3, padding: 3, roundOuter: 5, roundInner: 3 },
+			"DSA" : { profile: "DSA", keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 0, bevelOffsetBottom: 0, padding: 3, roundOuter: 5, roundInner: 8 },
+			"SA" :  { profile: "SA", keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 2, bevelOffsetBottom: 2, padding: 3, roundOuter: 5, roundInner: 5 },
+			"CHICKLET" :  { profile: "CHICKLET", keySpacing: 3, bevelMargin: 1, bevelOffsetTop: 0, bevelOffsetBottom: 2, padding: 4, roundOuter: 4, roundInner: 4 },
 		},
 		mm : {
 			unit: 19.05,
@@ -24,11 +25,12 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 			"" :    {  profile: "" , keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
 			"DCS" : {  profile: "DCS", keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
 			"DSA" : {  profile: "DSA", keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
-			"SA" : {  profile: "SA", keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 }
+			"SA" : {  profile: "SA", keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
+			"CHICKLET" : {  profile: "CHICKLET", keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
 		}
 	};
 	["px","mm"].forEach(function(unit) {
-		["","DCS","DSA", "SA"].forEach(function(profile) {
+		["","DCS","DSA", "SA", "CHICKLET"].forEach(function(profile) {
 			unitSizes[unit][profile].unit = unitSizes[unit].unit;
 			unitSizes[unit][profile].strokeWidth = unitSizes[unit].strokeWidth;
 		});
@@ -43,7 +45,7 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 	}
 
 	function getProfile(key) {
-		return (/\b(SA|DSA|DCS|OEM)\b/.exec(key.profile) || [""])[0];
+		return (/\b(SA|DSA|DCS|OEM|CHICKLET)\b/.exec(key.profile) || [""])[0];
 	}
 
 	function getRenderParms(key, sizes) {
@@ -77,14 +79,14 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 
 		// Dimensions of the top of the cap
 		parms.innercapwidth   = parms.outercapwidth   - sizes.bevelMargin*2;
-		parms.innercapheight  = parms.outercapheight  - sizes.bevelMargin*2;
+		parms.innercapheight  = parms.outercapheight  - sizes.bevelMargin*2 - (sizes.bevelOffsetBottom-sizes.bevelOffsetTop);
 		parms.innercapx       = parms.outercapx       + sizes.bevelMargin;
-		parms.innercapy       = parms.outercapy       + sizes.bevelMargin - sizes.bevelOffsetY;
+		parms.innercapy       = parms.outercapy       + sizes.bevelMargin - sizes.bevelOffsetTop;
 		if(parms.jShaped) {
 			parms.innercapwidth2  = parms.outercapwidth2  - sizes.bevelMargin*2;
 			parms.innercapheight2 = parms.outercapheight2 - sizes.bevelMargin*2;
 			parms.innercapx2      = parms.outercapx2      + sizes.bevelMargin;
-			parms.innercapy2      = parms.outercapy2      + sizes.bevelMargin - sizes.bevelOffsetY;
+			parms.innercapy2      = parms.outercapy2      + sizes.bevelMargin - sizes.bevelOffsetTop;
 		}
 
 		// Dimensions of the text part of the cap
@@ -232,7 +234,9 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 			rules.forEach(function(rule) {
 				if(!rule.name) {
 					for(var i = 0; i < rule.selector.length; ++i) {
-						rule.selector[i] = "#keyboard .keycap " + rule.selector[i] + ", #glyphScroller " + rule.selector[i];
+						if(rule.selector[i] !== "#keyboard-bg") {
+							rule.selector[i] = "#keyboard .keycap " + rule.selector[i] + ", #glyphScroller " + rule.selector[i];
+						}
 					}
 				}
 			})
