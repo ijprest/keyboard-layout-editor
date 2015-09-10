@@ -337,6 +337,122 @@
 		  document.getElementById("body_all").style.display = "";
 		  document.getElementById("summary_print").style.display = "none";
 		};
+
+		$scope.removeLegends = function(param) {
+		  var prop = 'labels';
+		  switch (param) {
+		    case 'all' : var re = /.*/; break;
+		    case 'alphas' : var re = /^[A-Za-z]$/; break;
+		    case 'nums' : var re = /^[0-9]*$/; break;
+		    case 'punct' : var re = /^[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$/; break;
+		    case 'fn' : var re = /F\d\d?/; break;
+		    case 'specials' : var re = /<.*>/; break;
+		    case 'others' :  var re = /^[^A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$|^[A-Za-z\s][A-Za-z\s]+$|\&\#.*|\&.*?;/; break;
+		    case 'decals' : {
+		      angular.forEach($scope.keys(), function(key) {
+			if(key.decal) {
+			  for (var i=0; i<=11; i++){
+			    if (key.labels[i]){
+			      var lab = "";
+			      update(key,prop,lab,i); // should we wipe the textSize and textColor too?
+			      renderKey(key);
+			    }
+			  }
+			} 
+		      }); break;
+		    }
+		  }
+		    angular.forEach($scope.keys(), function(key) {
+		      if(!key.decal) {
+			for (var i=0; i<=11; i++){
+                             if (key.labels[i]){
+			       var lab = key.labels[i];
+			       lab = lab.replace(re, '');
+			       update(key,prop,lab,i);  // should we wipe the textSize and textColor too?
+			       renderKey(key);
+			     }
+			}
+		      } 
+		    });
+		};
+
+		$scope.unhideDecals = function() {
+		  var prop = 'decal';
+		  angular.forEach($scope.keys(), function(key) {
+		    if(key.decal) {
+			  update(key,prop,false);
+			  renderKey(key);
+			}
+		  });
+		};
+		
+		$scope.moveLegends = function(moveOrSwap,a,b,c,d) {
+		  var move = (moveOrSwap == 'move'? true : false);
+		  var all = ($scope.selectedKeys.length>0 ? false : true);
+		  
+		  angular.forEach($scope.keys(), function(key) {
+		    var ndx =$scope.selectedKeys.indexOf(key); 
+		    if(!key.decal && (ndx>=0 || all) && move) {
+		      if ((key.labels[a] && key.labels[b]) && !((key.labels[c] || key.labels[d])))
+		      {
+			key.labels[c] = key.labels[a];
+			key.labels[d] = key.labels[b];
+			key.labels[a] = '';
+			key.labels[b] = '';
+			key.textColor[c] = key.textColor[a];
+			key.textColor[d] = key.textColor[b];
+			key.textColor[a] = '';
+			key.textColor[b] = '';
+			key.textSize[c] = key.textSize[a];
+			key.textSize[d] = key.textSize[b];
+			key.textSize[a] = '';
+			key.textSize[b] = '';
+		      };
+		    };
+		      if(!key.decal && (ndx>=0 || all) && !move) {
+			if (key.labels[a] && key.labels[b])
+			{
+			  var swap = key.labels[b];
+			  key.labels[b] = key.labels[a];
+			  key.labels[a] = swap;
+			  var swap = key.textColor[b];
+			  key.textColor[b] = key.textColor[a];
+			  key.textColor[a] = swap;
+			  var swap = key.textSize[b];
+			  key.textSize[b] = key.textSize[a];
+			  key.textSize[a] = swap;
+			};
+		      };
+		      renderKey(key);
+		    
+		  });
+		};
+
+		$scope.moveSingleLegends = function() {
+		  var fromId = document.querySelector('input[name = "fromId"]:checked').value;
+		   // alert(fromId);
+		  var toId = document.querySelector('input[name = "toId"]:checked').value;
+		 // alert(toId);
+		  var all = ($scope.selectedKeys.length>0 ? false : true);
+		  if ((fromId >=0) && (toId >= 0))
+		  {angular.forEach($scope.keys(), function(key) {
+		    var ndx =$scope.selectedKeys.indexOf(key); 
+		    if(!key.decal && (ndx>=0 || all)) {
+		      if (key.labels[fromId] && !(key.labels[toId]))
+		      {
+			key.labels[toId] = key.labels[fromId];
+			key.labels[fromId] = '';
+			key.textColor[toId] = key.textColor[fromId];
+			key.textColor[fromId] = '';
+			key.textSize[toId] = key.textSize[fromId];
+			key.textSize[fromId] = '';
+		      };
+		    };
+		    renderKey(key);
+		  }) 
+		  }
+		};
+		
 		
 		// Helper function to select a single key
 		function selectKey(key,event) {
@@ -427,7 +543,7 @@
 
 		var reverseColors = {}; // array to provide fast reverse lookups of colour names for Summary.
 		                        // might be an issue if a colour features twice... only last will stick
-		                        // The set of known palettes
+		// The set of known palettes
 		$scope.palettes = {};
 		$http.get('colors.json').success(function(data) {
 			$scope.palettes = data;
@@ -1443,6 +1559,21 @@
 				event.preventDefault();
 				event.stopPropagation();
 			}
+		};
+
+		$scope.showTools = function(event) {
+		  if(activeModal) activeModal.dismiss('cancel');
+			 activeModal = $modal.open({
+			   templateUrl:"toolsDialog.html",
+			   controller:"modalCtrl",
+			   scope:$scope,
+			   resolve: { params: function() { return { moveStep:$scope.moveStep, sizeStep:$scope.sizeStep, rotateStep:$scope.rotateStep }; } }
+			 });
+		  activeModal.result.then(function(params) { $.extend($scope, params); });
+		  if(event) {
+		    event.preventDefault();
+		    event.stopPropagation();
+		  }
 		};
 
 		// Clipboard functions

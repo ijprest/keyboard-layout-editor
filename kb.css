@@ -372,3 +372,18 @@ table.summarytable th, table.summarytable td {
   padding: 2px 5px;
 }
 
+table.imgtable th, table.imgtable td {
+  padding: 2px;
+}
+
+table.keytable {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+table.keytable th, table.keytable td {
+  padding: 2px;
+}
+
+table.keystable th, table.keystable td {
+  padding: 5px;
+}
