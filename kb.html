@@ -466,7 +466,13 @@ Nav Bar / Header
           <label class="control-label col-md-3 col-lg-3 text-nowrap" for="profileeditor-search">Profile / Row:</label>
           <div class="col-md-9 col-lg-9">
             <div class="form-inline hint--top hint--rounded"
-               data-hint="Specify the profile and (optionally) the row-number of the selected keys, e.g., 'DCS R1', 'DSA', 'DSA SPACE', etc.">
+               data-hint="Specify the profile and (optionally) the row-number of the selected keys, e.g., 'DCS R1', 'DSA', 'DSA SPACE', etc.
+
+               Supported profiles:
+               &nbsp;&bull; SA, DSA, DCS, OEM, CHICKLET
+
+               Supported rows:
+               &nbsp;&bull; R1, R2, R3, R4, R5, SPACE">
               <div class="form-group form-group-sm">
                 <input id="profileeditor-search" class="form-control input-sm" size="24" type='text' autocomplete="off"
                        ng-model="multi.profile"
@@ -1135,20 +1141,20 @@ DOT.js Templates
        style='transform:rotate({{=key.rotation_angle}}deg); transform-origin:{{=parms.origin_x}}px {{=parms.origin_y}}px;'
     {{?}}>
 
-    <div style="left: {{=parms.capx}}px; top: {{=parms.capy}}px;
-                width: {{=parms.capwidth}}px; height: {{=parms.capheight}}px;
+    <div style="left: {{=parms.outercapx}}px; top: {{=parms.outercapy}}px;
+                width: {{=parms.outercapwidth}}px; height: {{=parms.outercapheight}}px;
                 border-style: solid; border-width: {{=sizes.strokeWidth}}px; border-color: black; border-radius: {{=sizes.roundOuter}}px;
                 background-color: {{=parms.darkColor}};"
          class="keyborder"></div>
   {{? parms.jShaped}}
-    <div style="left: {{=parms.capx2}}px; top: {{=parms.capy2}}px;
-                width: {{=parms.capwidth2}}px; height: {{=parms.capheight2}}px;
+    <div style="left: {{=parms.outercapx2}}px; top: {{=parms.outercapy2}}px;
+                width: {{=parms.outercapwidth2}}px; height: {{=parms.outercapheight2}}px;
                 border-style: solid; border-width: {{=sizes.strokeWidth}}px; border-color: black; border-radius: {{=sizes.roundOuter}}px;
                 background-color: {{=parms.darkColor}};"
          class="keyborder"></div>
-    <div style="left: {{=parms.capx + sizes.strokeWidth}}px; top: {{=parms.capy + sizes.strokeWidth}}px;
-                width: {{=parms.capwidth - sizes.strokeWidth*2}}px;
-                height: {{=parms.capheight - sizes.strokeWidth*2}}px;
+    <div style="left: {{=parms.outercapx + sizes.strokeWidth}}px; top: {{=parms.outercapy + sizes.strokeWidth}}px;
+                width: {{=parms.outercapwidth - sizes.strokeWidth*2}}px;
+                height: {{=parms.outercapheight - sizes.strokeWidth*2}}px;
                 background-color: {{=parms.darkColor}};
                 border-radius: {{=sizes.roundOuter}}px;"></div>
   {{?}}
@@ -1210,21 +1216,21 @@ DOT.js Templates
 
   {{? !key.decal }}
     <!-- Outer Border -->
-    <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}"
-          width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}"
+    <rect x="{{=parms.outercapx+sizes.strokeWidth}}" y="{{=parms.outercapy+sizes.strokeWidth}}"
+          width="{{=parms.outercapwidth-sizes.strokeWidth*2}}" height="{{=parms.outercapheight-sizes.strokeWidth*2}}"
           rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}" class="outer border"/>
     {{? parms.jShaped }}
-      <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}"
-            width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}"
+      <rect x="{{=parms.outercapx2+sizes.strokeWidth}}" y="{{=parms.outercapy2+sizes.strokeWidth}}"
+            width="{{=parms.outercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.outercapheight2-sizes.strokeWidth*2}}"
             rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}" class="outer border"/>
     {{?}}
     <!-- Outer Fill -->
-    <rect x="{{=parms.capx+sizes.strokeWidth}}" y="{{=parms.capy+sizes.strokeWidth}}"
-          width="{{=parms.capwidth-sizes.strokeWidth*2}}" height="{{=parms.capheight-sizes.strokeWidth*2}}"
+    <rect x="{{=parms.outercapx+sizes.strokeWidth}}" y="{{=parms.outercapy+sizes.strokeWidth}}"
+          width="{{=parms.outercapwidth-sizes.strokeWidth*2}}" height="{{=parms.outercapheight-sizes.strokeWidth*2}}"
           rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}"/>
     {{? parms.jShaped }}
-      <rect x="{{=parms.capx2+sizes.strokeWidth}}" y="{{=parms.capy2+sizes.strokeWidth}}"
-            width="{{=parms.capwidth2-sizes.strokeWidth*2}}" height="{{=parms.capheight2-sizes.strokeWidth*2}}"
+      <rect x="{{=parms.outercapx2+sizes.strokeWidth}}" y="{{=parms.outercapy2+sizes.strokeWidth}}"
+            width="{{=parms.outercapwidth2-sizes.strokeWidth*2}}" height="{{=parms.outercapheight2-sizes.strokeWidth*2}}"
             rx="{{=sizes.roundOuter}}" fill="{{=parms.darkColor}}"/>
     {{?}}
 
