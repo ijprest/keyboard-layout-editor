@@ -280,11 +280,11 @@
 				thisk += key.width + " x " + key.height;
 				if(!key.decal) {
 						var foo = key.color; // next line refused to work with key.color.
-						var colourname  = reverseColors[foo]; 
+						var colourname = reverseColors[foo];
 						if(!colourname) { // not a defined name
 							colourname = "";
 						}
-					thisk += " " + colourname + " (" + key.color + ")"; 
+					thisk += " " + colourname + " (" + key.color + ")";
 				}
 				if(kcounts[thisk]) {
 					kcounts[thisk]++;
@@ -327,17 +327,128 @@
 		};
 
 		// for printing the summary only. Modified from http://stackoverflow.com/questions/468881/print-div-id-printarea-div-only/7532581#7532581 answered Feb 27 '14 at 17:47
-		$scope.printDiv = function(divName){
-		  var printContents = document.getElementById(divName).innerHTML;
-		  document.getElementById("summary_print").innerHTML = printContents;
-		  document.getElementById("body_all").style.display = "none";
-		  document.getElementById("summary_print").style.display = "";
-		  window.print();
-		  document.getElementById("summary_print").innerHTML = "";
-		  document.getElementById("body_all").style.display = "";
-		  document.getElementById("summary_print").style.display = "none";
+		$scope.printDiv = function(divName) {
+			var printContents = document.getElementById(divName).innerHTML;
+			document.getElementById("summary_print").innerHTML = printContents;
+			document.getElementById("body_all").style.display = "none";
+			document.getElementById("summary_print").style.display = "";
+			window.print();
+			document.getElementById("summary_print").innerHTML = "";
+			document.getElementById("body_all").style.display = "";
+			document.getElementById("summary_print").style.display = "none";
 		};
-		
+
+		$scope.removeLegendsButtons = [
+			{ label: "All", re: /.*/, tooltip: "Remove all the legends from all the keys. Does not remove decals." },
+			{ label: "Alphas", re: /^[A-Za-z]$/, tooltip: "Remove the legends from all the Alphabetical keys." },
+			{ label: "Numbers", re: /^[0-9]*$/, tooltip: "Remove the legends from all the Number keys." },
+			{ label: "Punctuation", re: /^[\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$/, tooltip: "Remove the legends from all the Punctuation keys." },
+			{ label: "Function", re: /F\d\d?/, tooltip: "Remove the legends from all the Function keys." },
+			{ label: "Specials", re: /<.*>/, tooltip: "Remove the special legends, like FontAwesome, WebFont, images, etc, and anything between them in the same slot." },
+			{ label: "Others", re: /^[^A-Za-z0-9\`\~\!\@\#\$\%\^\&\*\(\)\-\_\=\+\[\{\]\}\;\:\'\"\,\<\.\>\/\?\\\|]$|^[A-Za-z\s][A-Za-z\s]+$|\&\#.*|\&.*?;/, tooltip: "Remove the legends from (almost) all the other keys except decals." },
+			{ label: "Decals", re: /.*/, decals: true, tooltip: "Remove the legends from all the Decals." },
+		];
+		$scope.removeLegends = function(button) {
+			var keys = $scope.selectedKeys.length > 0 ? $scope.selectedKeys : $scope.keys();
+			transaction("remove-legends", function() {
+				angular.forEach(keys, function(key) {
+					if(key.decal === (!!button.decals)) {
+						for(var i=0; i<12; i++) {
+							if(key.labels[i]) {
+								update(key,"labels",key.labels[i].replace(button.re,''),i); // should we wipe the textSize and textColor too?
+								renderKey(key);
+							}
+						}
+					}
+				});
+			});
+		};
+
+		var align = { hmask:0x0f, hcenter:0x00, left:0x01, right:0x02, vmask:0xf0, vcenter:0x00, top:0x10, bottom:0x20, center:0x00, };
+		$scope.alignLegendsButtons = [
+			{ label: "&#8598;", flags: align.left    | align.top     },
+			{ label: "&#8593;", flags: align.hcenter | align.top     },
+			{ label: "&#8599;", flags: align.right   | align.top     },
+			{ label: "&#8592;", flags: align.left    | align.vcenter },
+			{ label: "&#9679;", flags: align.hcenter | align.vcenter },
+			{ label: "&#8594;", flags: align.right   | align.vcenter },
+			{ label: "&#8601;", flags: align.left    | align.bottom  },
+			{ label: "&#8595;", flags: align.hcenter | align.bottom  },
+			{ label: "&#8600;", flags: align.right   | align.bottom  },
+		];
+
+		function moveLabel(key, from, to) {
+			key.labels[to] = key.labels[from];
+			key.labels[from] = '';
+			key.textColor[to] = key.textColor[from];
+			key.textColor[from] = '';
+			key.textSize[to] = key.textSize[from];
+			key.textSize[from] = 0;
+		}
+
+		function alignSingleRow(key, flags, left, middle, right) {
+			var render = false;
+			switch(flags) {
+				case align.left:
+					if(!key.labels[left]) { render = true; moveLabel(key, middle, left); moveLabel(key, right, middle); }
+					if(!key.labels[left]) { render = true; moveLabel(key, middle, left); }
+					break;
+				case align.right:
+					if(!key.labels[right]) { render = true; moveLabel(key, middle, right); moveLabel(key, left, middle); }
+					if(!key.labels[right]) { render = true; moveLabel(key, middle, right); }
+					break;
+				case align.hcenter:
+					if(key.labels[left] && !key.labels[middle] && !key.labels[right]) { render = true; moveLabel(key, left, middle); }
+					if(key.labels[right] && !key.labels[middle] && !key.labels[left]) { render = true; moveLabel(key, right, middle); }
+					break;
+			}
+			return render;
+		}
+
+		$scope.alignLegends = function(flags) {
+			var keys = $scope.selectedKeys.length > 0 ? $scope.selectedKeys : $scope.keys();
+			transaction("align-legends", function() {
+				angular.forEach(keys, function(key) {
+					if(!key.decal) {
+						var render = false;
+						for(var i = 0; i < 12; i += 3) // horizontal alignment
+							render = alignSingleRow(key, flags & align.hmask, i, i+1, i+2) || render;
+						for(var i = 0; i < 3; i += 1) // vertical alignment
+							render = alignSingleRow(key, (flags & align.vmask) >> 4, i, i+3, i+6) || render;
+						if(render) renderKey(key);
+					}
+				});
+			});
+		};
+
+		$scope.unhideDecals = function() {
+			var keys = $scope.selectedKeys.length > 0 ? $scope.selectedKeys : $scope.keys();
+			transaction("unhide-decals", function() {
+				angular.forEach(keys, function(key) {
+					if(key.decal) {
+						update(key,'decal',false);
+						renderKey(key);
+					}
+				});
+			});
+		};
+
+		$scope.moveFromId = null;
+		$scope.moveToId = null;
+		$scope.moveSingleLegends = function() {
+			var keys = $scope.selectedKeys.length > 0 ? $scope.selectedKeys : $scope.keys();
+			if($scope.moveFromId >= 0 && $scope.moveToId >= 0) {
+				transaction("move-legends", function() {
+					angular.forEach(keys, function(key) {
+						if(!key.decal && key.labels[$scope.moveFromId] && !key.labels[$scope.moveToId]) {
+							moveLabel(key, $scope.moveFromId, $scope.moveToId);
+							renderKey(key);
+						}
+					});
+				});
+			}
+		};
+
 		// Helper function to select a single key
 		function selectKey(key,event) {
 			if(key) {
@@ -427,14 +538,14 @@
 
 		var reverseColors = {}; // array to provide fast reverse lookups of colour names for Summary.
 		                        // might be an issue if a colour features twice... only last will stick
-		                        // The set of known palettes
+		// The set of known palettes
 		$scope.palettes = {};
 		$http.get('colors.json').success(function(data) {
 			$scope.palettes = data;
 			$scope.palettes.forEach(function(palette) {
 				palette.colors.forEach(function(color) {
 					color.css = $color.sRGB8(color.r,color.g,color.b).hex();
-					reverseColors[color.css] = palette.name + " " + color.name; 
+					reverseColors[color.css] = palette.name + " " + color.name;
 				});
 			});
 		});

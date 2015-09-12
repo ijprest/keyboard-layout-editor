@@ -92,7 +92,7 @@ html, body {
 #keyboard .selected .keyborder, #keyboard .selected .decal .keyborder { border-color: red !important; border-style: solid; }
 #keyboard .ghosted { opacity: 0.5; }
 #keyboard .decal .keyborder { border-style: none !important; background: transparent !important; }
-#keyboard .hover .decal .keyborder, 
+#keyboard .hover .decal .keyborder,
 #keyboard .selected .decal .keyborder { border-style: dashed !important; border-width: 1px; }
 
 /* Key labels */
@@ -294,7 +294,7 @@ for i in (1..9) {
 /* Combining rectangle glyph */
 .combine-rect:before {
   content: '\25AD';
-  font-style: normal; 
+  font-style: normal;
   /*margin: 0 -0.66em 0 -0.33em;*/
 }
 
@@ -372,3 +372,73 @@ table.summarytable th, table.summarytable td {
   padding: 2px 5px;
 }
 
+settings-key(size, adjust = 0) {
+  position: relative;
+  width: size px;
+  height: size px;
+  float: left;
+
+  outerPad = 6
+  innerPad = 3
+  innerSize = (size - outerPad * 2)
+  labelSize = (innerSize - innerPad * 2)
+
+  & .keyborder {
+    position: absolute;
+    width: size px;
+    height: size px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 5px;
+    background-color: #cccccc;
+    pointer-events: none;
+  }
+  & .keylabels {
+    position: absolute;
+    left: outerPad px;
+    top: 3px;
+    width: innerSize px;
+    height: (innerSize - adjust) px;
+    padding: innerPad px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgba(0,0,0,0.1);
+    background-color: #fcfcfc;
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  & .keylabel {
+    position: absolute;
+    width: labelSize px;
+    height: (labelSize - adjust) px;
+    pointer-events: none;
+  }
+  & .keylabel div {
+    position: absolute;
+    width: labelSize px;
+    max-width: labelSize px;
+    height: (labelSize - adjust) px;
+    pointer-events: none;
+  }
+  & .keylabel div * { 
+    pointer-events: all;
+  }
+}
+
+#label-move-src, #label-move-dst {
+  settings-key(108, 8);
+  .keylabel9, .keylabel10, .keylabel11 { overflow: visible; }
+  input { z-index: 1; }
+}
+
+#text-align {
+  settings-key(108);
+  .keylabel button {
+    display: inline-block;
+    font-size: 16px;
+    width: 28px;
+    z-index: 1;
+    float: none;
+  }
+}

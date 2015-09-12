@@ -47,8 +47,8 @@ All rights reserved.
                   118 : 'showOptions($event)',
                   'ctrl-83' : 'save($event)' }">
 <style type="text/css" ng-bind-html="customStyles"></style>
-<div id='body_all'><!-- this wrapper is to allow the magic that prints just the summary -->
 <div id="wrap">
+<div id='body_all'><!-- this wrapper is to allow the magic that prints just the summary -->
 <!--***********************************************
 Nav Bar / Header
 ************************************************-->
@@ -86,8 +86,8 @@ Nav Bar / Header
         <a class="dropdown-toggle" dropdown-toggle><i class="fa fa-th"></i> Color Swatches <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
- 	  <li class="divider"></li>
-	  <li><a ng-click="makePaletteFromKeys()" href="#">Current key colors</a></li>
+          <li class="divider"></li>
+          <li><a ng-click="makePaletteFromKeys()" href="#">Current key colors</a></li>
         </ul>
       </li>
 
@@ -262,6 +262,7 @@ Nav Bar / Header
     <li ng-class="{active:selTab==3}"><a ng-click="selTab=3" data-toggle="tab"><i class="fa fa-file-text-o"></i> Custom Styles</a></li>
     <li ng-class="{active:selTab==2}"><a ng-click="selTab=2" data-toggle="tab"><i class="fa fa-code"></i> Raw data</a></li>
     <li ng-class="{active:selTab==4}"><a ng-click="selTab=4" data-toggle="tab"><i class="fa fa-file-text-o"></i> Summary</a></li>
+    <li ng-class="{active:selTab==5}"><a ng-click="selTab=5" data-toggle="tab"><i class="fa fa-wrench"></i> Tools</a></li>
   </ul>
   <div id="tab-content" class='col-md-12 col-lg-12 row' ui-keydown="{esc:'focusKb()'}" ng-cloak>
 
@@ -835,7 +836,73 @@ Nav Bar / Header
       <br><button type="button" class="btn btn-success" ng-click="printDiv('printSummary')"><i class="fa fa-print"></i> Print summary</button>
      </div>
     </div>
-  </div>
+
+    <div id="tools" ng-class="{hidden:selTab!=5}">
+
+      <div class="col-md-4 col-lg-4 row">
+        <h5>Remove Legends:</h5>
+        <div class="form-group form-group-sm form-horizontal">
+          <div ng-repeat="button in removeLegendsButtons" class="btn-group btn-group-xs" style="margin-right: 3px;" role="group">
+            <button type="button" class="btn btn-success hint--top hint--rounded" data-hint="{{button.tooltip}}" ng-click="removeLegends(button)">{{button.label}}</button>
+          </div>
+        </div>
+
+        <h5>Misc:</h5>
+        <div class="btn-group btn-group-xs">
+          <button type="button" class="btn btn-success hint--top hint--rounded" data-hint="Convert decals back into normal keys." ng-click="unhideDecals()"> Unhide decals</button>
+        </div>
+
+      </div>
+
+      <div class="col-md-2 col-lg-2 row">
+        <h5>Align Legends:</h5>
+        <div class="keycap" id="text-align">
+          <div class="keyborder"></div>
+          <div class="keylabels">
+            <div ng-repeat="(i,button) in alignLegendsButtons" class="keylabel keylabel{{i}}">
+              <div class="btn-group btn-group-xs">
+                <button type="button" class="btn btn-success" ng-click="alignLegends(button.flags)" ng-bind-html="button.label"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-lg-4 row">
+        <h5>Move Legends:</h5>
+        <form>
+          <div class="keycap" id="label-move-src">
+            <div class="keyborder"></div>
+            <div class="keylabels">
+              <div ng-repeat="i in [0,1,2,3,4,5,6,7,8,9,10,11]" class="keylabel keylabel{{i}}">
+                <div><input type='radio' name='fromId' ng-model="$parent.moveFromId" ng-value='i'></div>
+              </div>
+            </div>
+          </div>
+          <div style="float:left;margin-top:40px;">&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;</div>
+          <div class="keycap" id="label-move-dst">
+            <div class="keyborder"></div>
+            <div class="keylabels">
+              <div ng-repeat="i in [0,1,2,3,4,5,6,7,8,9,10,11]" class="keylabel keylabel{{i}}">
+                <div><input type='radio' name='toId' ng-model="$parent.moveToId" ng-value='i'></div>
+              </div>
+            </div>
+          </div>
+          &nbsp;
+          <button type="button" class="btn btn-success hint--top hint--rounded" data-hint="Move the legends in the From spot to the To spot." ng-click="moveSingleLegends()">Go</button>
+        </form>
+
+      </div>
+
+      <div class="col-md-4 col-lg-4 row">
+        <alert type="warning" style="margin-top:10px; margin-right:15px;" ng-hide="toolsAlertHidden" close="toolsAlertHidden = true">
+          <i class="fa fa-info-circle"></i> All tools will affect the selected keys only; if no keys are selected, tools will affect all keys.
+        </alert>
+      </div>
+
+    </div>
+
+  </div> <!-- END OF TAB CONTENT -->
 
   <div class="col-md-12 col-lg-12 row" style="margin-top:1em;margin-left:0px;">
     <alert type="success" ng-hide="!saved" close="saved=false" ng-cloak>
@@ -853,8 +920,8 @@ Nav Bar / Header
     </alert>
   </div>
 
-</div>
 </div> <!-- body -->
+</div> <!-- body_all -->
 </div> <!-- wrap -->
 
 <!--***********************************************

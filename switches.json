@@ -1,5 +1,8 @@
 {
   "cherry": { "mount": "cherry", "name": "Cherry MX Mount", "brands": {
+    "aula": { "brand": "aula", "name": "AULA (HiDeep Inc.)", "switches": {
+      "Blue": { "part": "Blue", "name": "AULA Blue", "feel": "clicky", "weight": 50 }
+    }},
     "cherry": { "brand": "cherry", "name": "Cherry Electrical Products", "switches": {
       "MX1A-A1xx": { "part": "MX1A-A1xx", "name": "MX White", "feel": "clicky", "weight": 70 },
       "MX1A-11xx": { "part": "MX1A-11xx", "name": "MX Black", "feel": "linear", "weight": 60 },
@@ -55,6 +58,13 @@
       "PG151101D64/D10": { "part": "PG151101D64/D10", "name": "Kailh Blue", "feel": "clicky", "weight": 60 },
       "PG151101D49/D09": { "part": "PG151101D49/D09", "name": "Kailh Brown", "feel": "tactile", "weight": 55 },
       "PG151101D05/D43": { "part": "PG151101D05/D43", "name": "Kailh Red", "feel": "linear", "weight": 50 }
+    }},
+    "nimxo": { "brand": "nimxo", "name": "NIMXO (Ni Mosuo)", "switches": {
+      "Gray": { "part": "Gray", "name": "NIMXO Gray", "feel": "clicky", "weight": 60 }
+    }},
+    "razor": { "brand": "razor", "name": "Razor Inc.", "switches": {
+      "Green": { "part": "Green", "name": "Razor Green", "feel": "clicky", "weight": 50 },
+      "Orange": { "part": "Orange", "name": "Razor Orange", "feel": "tactile", "weight": 45 }
     }}
   }},
   "alps": { "mount": "alps", "name": "Alps Mount", "brands": {
