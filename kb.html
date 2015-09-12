@@ -86,8 +86,8 @@ Nav Bar / Header
         <a class="dropdown-toggle" dropdown-toggle><i class="fa fa-th"></i> Color Swatches <b class="caret"></b></a>
         <ul class="dropdown-menu">
           <li ng-repeat="pal in palettes"><a ng-click="loadPalette(pal)" href="#">{{pal.name}}</a></li>
- 	  <li class="divider"></li>
-	  <li><a ng-click="makePaletteFromKeys()" href="#">Current key colors</a></li>
+          <li class="divider"></li>
+          <li><a ng-click="makePaletteFromKeys()" href="#">Current key colors</a></li>
         </ul>
       </li>
 
@@ -106,8 +106,6 @@ Nav Bar / Header
     <ul class="nav navbar-nav navbar-right" style="">
       <!-- Options button -->
       <li><a href="#" ng-click="showOptions()"><i class="fa fa-cog"></i> Options</a></li>
-      <!-- Tools button -->
-      <li><a href="#" ng-click="showTools()"><i class="fa fa-wrench"></i> Tools</a></li>
       <!-- Permalink button -->
       <li><a ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false"><i class="fa fa-link"></i> Permalink</a></li>
       <!-- User button -->
@@ -264,6 +262,7 @@ Nav Bar / Header
     <li ng-class="{active:selTab==3}"><a ng-click="selTab=3" data-toggle="tab"><i class="fa fa-file-text-o"></i> Custom Styles</a></li>
     <li ng-class="{active:selTab==2}"><a ng-click="selTab=2" data-toggle="tab"><i class="fa fa-code"></i> Raw data</a></li>
     <li ng-class="{active:selTab==4}"><a ng-click="selTab=4" data-toggle="tab"><i class="fa fa-file-text-o"></i> Summary</a></li>
+    <li ng-class="{active:selTab==5}"><a ng-click="selTab=5" data-toggle="tab"><i class="fa fa-wrench"></i> Tools</a></li>
   </ul>
   <div id="tab-content" class='col-md-12 col-lg-12 row' ui-keydown="{esc:'focusKb()'}" ng-cloak>
 
@@ -837,7 +836,73 @@ Nav Bar / Header
       <br><button type="button" class="btn btn-success" ng-click="printDiv('printSummary')"><i class="fa fa-print"></i> Print summary</button>
      </div>
     </div>
-  </div>
+
+    <div id="tools" ng-class="{hidden:selTab!=5}">
+
+      <div class="col-md-4 col-lg-4 row">
+        <h5>Remove Legends:</h5>
+        <div class="form-group form-group-sm form-horizontal">
+          <div ng-repeat="button in removeLegendsButtons" class="btn-group btn-group-xs" style="margin-right: 3px;" role="group">
+            <button type="button" class="btn btn-success hint--top hint--rounded" data-hint="{{button.tooltip}}" ng-click="removeLegends(button)">{{button.label}}</button>
+          </div>
+        </div>
+
+        <h5>Misc:</h5>
+        <div class="btn-group btn-group-xs">
+          <button type="button" class="btn btn-success hint--top hint--rounded" data-hint="Convert decals back into normal keys." ng-click="unhideDecals()"> Unhide decals</button>
+        </div>
+
+      </div>
+
+      <div class="col-md-2 col-lg-2 row">
+        <h5>Align Legends:</h5>
+        <div class="keycap" id="text-align">
+          <div class="keyborder"></div>
+          <div class="keylabels">
+            <div ng-repeat="(i,button) in alignLegendsButtons" class="keylabel keylabel{{i}}">
+              <div class="btn-group btn-group-xs">
+                <button type="button" class="btn btn-success" ng-click="alignLegends(button.flags)" ng-bind-html="button.label"></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 col-lg-3 row">
+        <h5>Move Legends:</h5>
+        <form>
+          <div class="keycap" id="label-move-src">
+            <div class="keyborder"></div>
+            <div class="keylabels">
+              <div ng-repeat="i in [0,1,2,3,4,5,6,7,8,9,10,11]" class="keylabel keylabel{{i}}">
+                <div><input type='radio' name='fromId' ng-model="$parent.moveFromId" ng-value='i'></div>
+              </div>
+            </div>
+          </div>
+          <div style="float:left;margin-top:40px;">&nbsp;<i class="fa fa-arrow-right"></i>&nbsp;</div>
+          <div class="keycap" id="label-move-dst">
+            <div class="keyborder"></div>
+            <div class="keylabels">
+              <div ng-repeat="i in [0,1,2,3,4,5,6,7,8,9,10,11]" class="keylabel keylabel{{i}}">
+                <div><input type='radio' name='toId' ng-model="$parent.moveToId" ng-value='i'></div>
+              </div>
+            </div>
+          </div>
+          &nbsp;
+          <button type="button" class="btn btn-success hint--top hint--rounded" data-hint="Move the legends in the From spot to the To spot." ng-click="moveSingleLegends()">Go</button>
+        </form>
+
+      </div>
+
+      <div class="col-md-3 col-lg-3 row">
+        <alert type="warning" style="margin-top:10px; margin-right:15px;" ng-hide="toolsAlertHidden" close="toolsAlertHidden = true">
+          <i class="fa fa-info-circle"></i> All tools will affect the selected keys only; if no keys are selected, tools will affect all keys.
+        </alert>
+      </div>
+
+    </div>
+
+  </div> <!-- END OF TAB CONTENT -->
 
   <div class="col-md-12 col-lg-12 row" style="margin-top:1em;margin-left:0px;">
     <alert type="success" ng-hide="!saved" close="saved=false" ng-cloak>
@@ -1007,147 +1072,6 @@ Options Dialog
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" ng-click="cancel()">Cancel</button>
     <button type="button" class="btn btn-primary" ng-click="ok()">OK</button>
-  </div>
-</script>
-
-<!--***********************************************
-Tools Dialog
-************************************************-->
-<script type="text/ng-template" id="toolsDialog.html">
-  <div class="modal-header">
-    <button type="button" class="close" ng-click="cancel()">&times;</button>
-    <h4 class="modal-title">Tools</h4>
-  </div>
-  <div class="modal-body">
-
-       <p>You should save your work before using these tools, there is no Undo.<br>
-       Actions will affect selected keys only. If no keys are selected, actions will affect all keys.</p>
-       <div class="form-group form-group-sm form-horizontal">
-       <label class="control-label text-nowrap" style='margin-left: 5px;'>Remove Legends:</label>
-           <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success hint--top hint--rounded" data-hint="Remove all the legends from all the keys. Does not remove decals." ng-click="removeLegends('all')"> All</button>
-            </div>
-            <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Alphabetical keys." ng-click="removeLegends('alphas')"> Alphas</button>
-	    </div>
-            <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Number keys." ng-click="removeLegends('nums')"> Nums</button>
-            </div>
-            <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Punctuation keys." ng-click="removeLegends('punct')"> !@#$p[};"<.?..</button>
-            </div>
-            <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Function keys." ng-click="removeLegends('fn')"> Fn</button>
-            </div>
-            <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the special legends, like FontAwesome, WebFont, images, etc, and anything between them in the same slot." ng-click="removeLegends('specials')"> Specials</button>
-            </div>
-            <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from (almost) all the other keys except decals." ng-click="removeLegends('others')"> Others</button>
-            </div>
-            <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Remove the legends from all the Decals." ng-click="removeLegends('decals')"> Decals</button>
-            </div>
-    </div>
-    <br>
-       <div class="form-group form-group-sm form-horizontal">
-       <label class="control-label text-nowrap" style='margin-left: 5px;'>Move Legends Pairs:</label>
-           <div class="btn-group btn-group-xs" role="group">
-           <table class="imgtable">
-              <tr>
-               <td>
-		 <a class="hint--top hint--rounded" data-hint="Move both left column legends to the middle column." ng-click="moveLegends('move',0,6,1,7)"><img src="img/left2middle.png"></a>
-		</td>
-               <td>
-		 <a class="hint--top hint--rounded" data-hint="Move both middle column legends to the right column." ng-click="moveLegends('move',1,7,2,8)"><img src="img/middle2right.png"></a>
-		</td>
-               <td>
-		 <a class="hint--top hint--rounded" data-hint="Move both right column legends to the left column." ng-click="moveLegends('move',2,8,0,6)"><img src="img/right2left.png"></a>
-		</td>
-               <td>
-		 <a class="hint--top hint--rounded" data-hint="Swap left column top and bottom legends." ng-click="moveLegends('swap',0,6)"><img src="img/swaptopbottom.png"></a>
-		</td>
-	       </tr>
-	      </table>
-            </div>
-        </div>
-    <br>
-       <form>
-       <div class="form-group form-group-sm form-horizontal">
-       <label class="control-label text-nowrap" style='margin-left: 5px;'>Move Single Legends:</label>
-           <div class="btn-group btn-group-xs" role="group">
-          <table class='keystable'>
-          <tr><td>
-           <label for='fromtable'>From</label>
-           <table class="keytable" id='fromtable'>
-             <tr>
-               <td><input type='radio' name='fromId' value='0'></td>
-               <td><input type='radio' name='fromId' value='1'></td>
-               <td><input type='radio' name='fromId' value='2'></td>
-	      </tr>
-              <tr>
-               <td><input type='radio' name='fromId' value='3'></td>
-               <td><input type='radio' name='fromId' value='4'></td>
-               <td><input type='radio' name='fromId' value='5'></td>
-	      </tr>
-              <tr>
-               <td><input type='radio' name='fromId' value='6'></td>
-               <td><input type='radio' name='fromId' value='7'></td>
-               <td><input type='radio' name='fromId' value='8'></td>
-	      </tr>
-	      </table>
-           <table class="keytable">
-             <tr>
-               <td><input type='radio' name='fromId' value='9'></td>
-               <td><input type='radio' name='fromId' value='10'></td>
-               <td><input type='radio' name='fromId' value='11'></td>
-	      </tr>
-	     </table> 
-	    </td>
-	    <td>
-           <label for='totable'>To</label>
-           <table class="keytable" id="totable">
-             <tr>
-               <td><input type='radio' name='toId' value='0'></td>
-               <td><input type='radio' name='toId' value='1'></td>
-               <td><input type='radio' name='toId' value='2'></td>
-	      </tr>
-              <tr>
-               <td><input type='radio' name='toId' value='3'></td>
-               <td><input type='radio' name='toId' value='4'></td>
-               <td><input type='radio' name='toId' value='5'></td>
-	      </tr>
-              <tr>
-               <td><input type='radio' name='toId' value='6'></td>
-               <td><input type='radio' name='toId' value='7'></td>
-               <td><input type='radio' name='toId' value='8'></td>
-	      </tr>
-	      </table>
-           <table class="keytable">
-             <tr>
-               <td><input type='radio' name='toId' value='9'></td>
-               <td><input type='radio' name='toId' value='10'></td>
-               <td><input type='radio' name='toId' value='11'></td>
-	      </tr>
-	     </table> 
-	    </td>
-	    <td>
-	     <button type="button" class="btn btn-success  hint--top hint--rounded" data-hint="Move the legends in the From spot to the To spot." ng-click="moveSingleLegends()"> Go</button>
-	    </td>
-	    </tr>
-	    </table>
-            </div>
-        </div>
-    <br>
-       <div class="form-group form-group-sm form-horizontal">
-       <label class="control-label text-nowrap" style='margin-left: 5px;'>Unhide decal keys:</label>
-           <div class="btn-group btn-group-xs" role="group">
-		<button type="button" class="btn btn-success hint--top hint--rounded" data-hint="Show the hidden decal keys." ng-click="unhideDecals()"> Unhide</button>
-            </div>
-        </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" ng-click="cancel()">Done</button>
   </div>
 </script>
 
