@@ -1,9 +1,8 @@
 {
   "cherry": { "mount": "cherry", "name": "Cherry MX Mount", "brands": {
     "aula": { "brand": "aula", "name": "AULA (HiDeep Inc.)", "switches": {
-    "Blue": { "part": "Blue", "name": "AULA Blue", "feel": "clicky", "weight": 50 }
+      "Blue": { "part": "Blue", "name": "AULA Blue", "feel": "clicky", "weight": 50 }
     }},
-
     "cherry": { "brand": "cherry", "name": "Cherry Electrical Products", "switches": {
       "MX1A-A1xx": { "part": "MX1A-A1xx", "name": "MX White", "feel": "clicky", "weight": 70 },
       "MX1A-11xx": { "part": "MX1A-11xx", "name": "MX Black", "feel": "linear", "weight": 60 },
@@ -80,6 +79,3 @@
     }}
   }}
 }
-
-
-
