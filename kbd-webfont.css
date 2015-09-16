@@ -613,6 +613,14 @@
   content: "\e850";
 }
 
+.kb-Arrows-Down-Left:before {
+  content: "\e871";
+}
+
+.kb-Arrows-Down-Right:before {
+  content: "\e872";
+}
+
 .kb-Arrows-Up-Left:before {
   content: "\e851";
 }
