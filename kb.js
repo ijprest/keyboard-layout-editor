@@ -245,19 +245,23 @@
 			})
 		};
 
-		$scope.downloadHiRes = function() {
+		$scope.downloadLifeSize = function() { // some code adapted from http://www.infobyip.com/detectmonitordpi.php
+		  var devicePixelRatio = window.devicePixelRatio || 1;
+		  var dpi_x = document.getElementById('oneinchsquare').offsetWidth * devicePixelRatio;alert(dpi_x);
+		  var dpi_y = document.getElementById('oneinchsquare').offsetHeight * devicePixelRatio;
+		  //var devicePixels = dpi_x + " x " + dpi_y; alert(devicePixels);
 		  html2canvas($("#keyboard-bg"), {
 		    useCORS: true,
-		onrendered: function(canvas) {
-		  var p = 300 / 72;  // assume screen res is 72 DPI.
-		  alert (p);
-		  var thmwidth = canvas.width * p; alert(thmwidth);
-		  var thmheight = canvas.height * p;
-		  var thm = getResizedCanvas(canvas,thmwidth,thmheight,'');
-		  thm.toBlob(function(blob) {
-		    saveAs(blob, "keyboard-hires.png");
-		  });
-		}
+		    onrendered: function(canvas) {  
+			var px = dpi_x / 72;  // typically 96/72 == 1.3333333 ... this seems to work.
+			var py = dpi_x / 72;  // typically 96/72 == 1.3333333 ... this seems to work.
+			var thmwidth = canvas.width * px; 
+			var thmheight = canvas.height * py;
+			var thm = getResizedCanvas(canvas,thmwidth,thmheight,'');
+			thm.toBlob(function(blob) {
+			  saveAs(blob, "keyboard-lifesize.png");
+			});
+		    }
 		  })
 		};
 		

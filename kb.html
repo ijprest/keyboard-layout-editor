@@ -188,7 +188,7 @@ Nav Bar / Header
       <li><a ng-click="downloadPng()">Download PNG (Experimental)</a></li>
       <li><a ng-click="downloadJpg()">Download JPG (Experimental)</a></li>
       <li><a ng-click="downloadThumb()">Download Thumbnail (PNG) (Experimental)</a></li>
-      <li><a ng-click="downloadHiRes()">Download HiRes 300DPI (PNG) (Experimental)</a></li>
+      <li><a ng-click="downloadLifeSize()">Download Lifesize (PNG) (Experimental)</a></li>
       <li class="divider"></li>
       <li><a ng-click="downloadJson()">Download JSON</a></li>
     </ul>
@@ -838,6 +838,7 @@ Nav Bar / Header
      </div>
     </div>
 
+    <!-- TOOLS -->
     <div id="tools" ng-class="{hidden:selTab!=5}">
 
       <div class="col-md-4 col-lg-4 row">
@@ -1404,6 +1405,7 @@ DOT.js Templates
   </svg>
 </script>
 </div>
+<div id='oneinchsquare' style='width: 1in; height: 1in; left: -100%; top: -100%; position: absolute;'></div>  <!-- just a 1 inch div to measure DPI, borrowed from http://www.infobyip.com/detectmonitordpi.php -->
 <div id='summary_print'></div><!-- just a div to make the summary print work -->
 </body>
 </html>
