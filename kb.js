@@ -386,15 +386,15 @@
 
 		var align = { hmask:0x0f, hcenter:0x00, left:0x01, right:0x02, vmask:0xf0, vcenter:0x00, top:0x10, bottom:0x20, center:0x00, };
 		$scope.alignLegendsButtons = [
-			{ label: "&#8598;", flags: align.left    | align.top     },
-			{ label: "&#8593;", flags: align.hcenter | align.top     },
-			{ label: "&#8599;", flags: align.right   | align.top     },
-			{ label: "&#8592;", flags: align.left    | align.vcenter },
-			{ label: "&#9679;", flags: align.hcenter | align.vcenter },
-			{ label: "&#8594;", flags: align.right   | align.vcenter },
-			{ label: "&#8601;", flags: align.left    | align.bottom  },
-			{ label: "&#8595;", flags: align.hcenter | align.bottom  },
-			{ label: "&#8600;", flags: align.right   | align.bottom  },
+			{ label: "<i class='kb kb-Arrows-Up-Left'></i>", flags: align.left    | align.top     },
+			{ label: "<i class='kb kb-Arrows-Up'></i>", flags: align.right | align.top     },
+			{ label: "<i class='kb kb-Arrows-Up-Right'></i>", flags: align.right   | align.top     },
+			{ label: "<i class='kb kb-Arrows-Left'></i>", flags: align.left    | align.vcenter },
+			{ label: "<i class='kb kb-Multimedia-Record'></i>", flags: align.hcenter | align.vcenter },
+			{ label: "<i class='kb kb-Arrows-Right'></i>", flags: align.right   | align.vcenter },
+			{ label: "<i class='kb kb-Arrows-Down-Left'></i>", flags: align.left    | align.bottom  },
+			{ label: "<i class='kb kb-Arrows-Down'></i>", flags: align.right | align.bottom  },
+			{ label: "<i class='kb kb-Arrows-Down-Right'></i>", flags: align.right   | align.bottom  },
 		];
 
 		function moveLabel(key, from, to) {
