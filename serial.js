@@ -107,6 +107,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 		default: { textColor: "#000000", textSize: 3 },   // label defaults
 		color: "#cccccc", profile: "", nub: false,        // cap appearance
 		ghost: false, stepped: false, decal: false,       // miscellaneous options
+		lock: false,                                      // misc options cont'd
 		sm: "", sb:"", st:""                              // switch
 	};
 
@@ -267,6 +268,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 			serializeProp(props, "n", key.nub || false, false);
 			serializeProp(props, "l", key.stepped || false, false);
 			serializeProp(props, "d", key.decal || false, false);
+			serializeProp(props, "k", key.lock || false, false);
 			if(!isEmptyObject(props)) { row.push(props); }
 			current.labels = ordered.labels;
 			row.push(ordered.labels.join("\n").trimEnd());
@@ -326,7 +328,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 						current.x += current.width;
 						current.width = current.height = 1;
 						current.x2 = current.y2 = current.width2 = current.height2 = 0;
-						current.nub = current.stepped = current.decal = false;
+						current.nub = current.stepped = current.decal = current.lock = false;
 
 					} else {
 						if(key.r != null) { if(k!=0) {deserializeError("'r' can only be used on the first key in a row", key);} current.rotation_angle = key.r; }
@@ -354,6 +356,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 						if(key.n) { current.nub = key.n; }
 						if(key.l) { current.stepped = key.l; }
 						if(key.d) { current.decal = key.d; }
+						if(key.k) { current.lock = key.k; }
 						if(key.g != null) { current.ghost = key.g; }
 						if(key.sm) { current.sm = key.sm; }
 						if(key.sb) { current.sb = key.sb; }
