@@ -191,7 +191,7 @@
 	{
 		"name" : "Signature Plastics PBT",
 		"href" : "http://www.keycapsdirect.com/colors.php",
-		"description" : "These are representations of the different PBT plastic colors available for order through Signature Plastics.  The colors were sampled from color-chips using an X-Rite ColorMunki photospectrometer, and converted to sRGB (D65) using the formulas on Bruce Lindbloom's website.  The representations you see here will only be accurate if your monitor is properly calibrated to display sRGB colors.",
+		"description" : "These are representations of the different PBT plastic colors available for order through Signature Plastics.  Unless noted, the colors were sampled from color-chips using an X-Rite ColorMunki photospectrometer, and converted to sRGB (D65) using the formulas on Bruce Lindbloom's website.  The representations you see here will only be accurate if your monitor is properly calibrated to display sRGB colors.",
 		"colors" : [
 			{ "name": "BCT", "r": 0, "g": 117, "b": 173 },
 			{ "name": "BDJ", "r": 39, "g": 144, "b": 194 },
@@ -263,6 +263,7 @@
 			{ "name": "RCL", "r": 243, "g": 150, "b": 171 },
 			{ "name": "RCM", "r": 155, "g": 100, "b": 130 },
 			{ "name": "RCP", "r": 205, "g": 47, "b": 44 },
+			{ "name": "TGT (not color corrected)", "r": 73, "g": 33, "b": 13 },
 			{ "name": "TT", "r": 192, "g": 164, "b": 128 },
 			{ "name": "UP", "r": 227, "g": 226, "b": 221 },
 			{ "name": "VAL", "r": 108, "g": 162, "b": 157 },
@@ -294,16 +295,16 @@
 			{ "name": "YAS", "r": 249, "g": 205, "b": 49 },
 			{ "name": "YBT", "r": 244, "g": 220, "b": 156 },
 			{ "name": "YBV", "r": 250, "g": 208, "b": 61 },
+			{ "name": "YBX (not color corrected)", "r": 213, "g": 213, "b": 75 },
 			{ "name": "YBZ", "r": 212, "g": 135, "b": 42 },
 			{ "name": "YCJ", "r": 232, "g": 169, "b": 0 },
-			{ "name": "YR", "r": 255, "g": 193, "b": 0 },
-			{ "name": "YBX (not color corrected)", "r": 213, "g": 213, "b": 75 }
+			{ "name": "YR", "r": 255, "g": 193, "b": 0 }
 		]
 	},
 	{
 		"name" : "WASD keyboards",
 		"href" : "http://www.wasdkeyboards.com/index.php/products/keycap-set/104-key-cherry-mx-keycap-set.html",
-		"description" : "These are the 19 colors and their RGB codes, taken from the HTML code of the shop pages.",
+		"description" : "These are the 21 colors and their RGB codes, taken from the HTML code of the shop pages.",
 		"colors" : [
 			{ "name": "black", "r":26, "g":26, "b":26},
 			{ "name": "white", "r":255, "g":255, "b":255},
