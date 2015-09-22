@@ -47,6 +47,7 @@ Installing prerequisite components (once):
 Build:
 
 * ```make```
+* ```make fonts```
 
 Test:
 
