@@ -213,15 +213,17 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 		// Find rules that look like glyphs
 		var glyphs = [];
 		rules.forEach(function(rule) {
-			if(!rule.name && rule.selector.length === 1) {
-				var matches = rule.selector[0].match(/^\.([a-zA-Z0-9]+)-([-a-zA-Z0-9]+)\:(before|after)$/);
-				if(matches) {
-					var theClass = classes.indexOf(matches[1]);
-					if(theClass != -1) {
-						var glyph = { name: matches[2], html: "<i class='" + classes[theClass] + " " + matches[1]+"-"+matches[2] +"'></i>" };
-						glyphs.push(glyph);
+			if(!rule.name && rule.selector.length > 0) {
+				rule.selector.forEach(function(selector) {
+					var matches = selector.match(/^\.([a-zA-Z0-9]+)-([-a-zA-Z0-9]+)\:(before|after)$/);
+					if(matches) {
+						var theClass = classes.indexOf(matches[1]);
+						if(theClass != -1) {
+							var glyph = { name: matches[2], html: "<i class='" + classes[theClass] + " " + matches[1]+"-"+matches[2] +"'></i>" };
+							glyphs.push(glyph);
+						}
 					}
-				}
+				});
 			}
 		});
 		glyphs.sort(function(a,b) { return a.name.localeCompare(b.name); });
