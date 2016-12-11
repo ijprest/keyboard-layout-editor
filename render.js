@@ -256,7 +256,7 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 					css += "}\n";
 				} else {
 					var ok = (rule.name === "@font-face")
-					      || (rule.name === "@import" && !rule.content && rule.selector.match(/^url\(http:\/\/fonts.googleapis.com\/css\?family=[^\)]+\)$/));
+					      || (rule.name === "@import" && !rule.content && rule.selector.match(/^url\('?https?:\/\/fonts.googleapis.com\/css\?family=[^\)]+'?\)$/));
 					if(ok) {
 						css += rule.name;
 						if(rule.selector) css += ' ' + rule.selector;
