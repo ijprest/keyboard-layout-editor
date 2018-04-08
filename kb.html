@@ -904,20 +904,22 @@ Nav Bar / Header
 
   </div> <!-- END OF TAB CONTENT -->
 
-  <div class="col-md-12 col-lg-12 row" style="margin-top:1em;margin-left:0px;">
-    <alert type="success" ng-hide="!saved" close="saved=false" ng-cloak>
-      Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/gists/{{saved}}">this link</a>.
-    </alert>
-    <alert type="danger" ng-hide="!saveError" close="saveError=''" ng-cloak>
-      <P>There was an error saving your layout on the server: {{saveError}}</P>
-      <P>To ensure you don't lose any data, it is recommended that you <a class="alert-link" ng-click="downloadJson()">download your layout as JSON</a>.</P>
-    </alert>
-    <alert type="danger" ng-hide="!loadError" close="loadError=false" ng-cloak>
-      The requested layout does not exist.
-    </alert>
-    <alert type="danger" ng-hide="!oauthError" close="oauthError=null" ng-cloak>
-      An error occurred during login: {{oauthError}}
-    </alert>
+  <div class="row" style="margin-top:1em;margin-left:0px;">
+    <div class="col-md-12 col-lg-12">
+      <alert type="success" ng-hide="!saved" close="saved=false" ng-cloak>
+        Saved!  Your saved layout can be accessed via <a class="alert-link" ng-href="#/gists/{{saved}}">this link</a>.
+      </alert>
+      <alert type="danger" ng-hide="!saveError" close="saveError=''" ng-cloak>
+        <P>There was an error saving your layout on the server: {{saveError}}</P>
+        <P>To ensure you don't lose any data, it is recommended that you <a class="alert-link" ng-click="downloadJson()">download your layout as JSON</a>.</P>
+      </alert>
+      <alert type="danger" ng-hide="!loadError" close="loadError=false" ng-cloak>
+        The requested layout does not exist.
+      </alert>
+      <alert type="danger" ng-hide="!oauthError" close="oauthError=null" ng-cloak>
+        An error occurred during login: {{oauthError}}
+      </alert>
+    </div>
   </div>
 
 </div> <!-- body -->
