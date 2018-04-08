@@ -61,7 +61,7 @@ html, body {
 
 /* Set the fixed height of the footer here */
 #footer {
-  height: 70px;
+  padding: 2em 0 1.6em;
   background-color: #f5f5f5;
 }
 
