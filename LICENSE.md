@@ -1,7 +1,7 @@
 LICENSE
 =======
     Keyboard-Layout-Editor
-    Copyright(C) 2013-2015 by Ian Prest
+    Copyright(C) 2013-2018 by Ian Prest
     All rights reserved.
 
     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
