@@ -88,6 +88,7 @@ html, body {
   box-sizing: border-box;
   background-clip: padding-box;
 }
+#keyboard .keyborder { border-color: black; border-style: solid; }
 #keyboard .hover .keyborder, #keyboard .hover .decal .keyborder { border-color: green !important; border-style: solid; }
 #keyboard .selected .keyborder, #keyboard .selected .decal .keyborder { border-color: red !important; border-style: solid; }
 #keyboard .ghosted { opacity: 0.5; }
