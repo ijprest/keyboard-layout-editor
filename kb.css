@@ -158,6 +158,14 @@ for i in (1..9) {
 }
 .DSA.HOMING .keylabels, .SA.HOMING .keylabels { background-image: none; }
 
+.FLAT .keytop {
+  display: none;
+}
+.CHICKLET .keylabel9, .CHICKLET .keylabel10, .CHICKLET .keylabel11,
+.FLAT .keylabel9, .FLAT .keylabel10, .FLAT .keylabel11 {
+  display: none;
+}
+
 /* color swatches */
 #swatches, #glyphs { list-style-type: none; margin: 0px; padding: 0px; }
 .swatch, .glyph {
