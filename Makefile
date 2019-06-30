@@ -39,8 +39,8 @@ _BOWER_DIR[.css] = css
 _BOWER_DIR[*] = fonts
 _BOWER_TARGET = $(or $(_BOWER_DIR[$(suffix $(1))]),$(_BOWER_DIR[*]))/$(notdir $(1))
 define _BOWER
-bower_copy: $(call _BOWER_TARGET,$(1))
-$(call _BOWER_TARGET,$(1)): $1
+bower_copy: $(call _BOWER_TARGET,$(or $(2),$(1)))
+$(call _BOWER_TARGET,$(or $(2),$(1))): $1
 	$$(call mkdir,$$(dir $$@)) 
 	$$(call cp,$$<,$$@)
 endef
@@ -87,6 +87,8 @@ $(call BOWER,bower_components/FileSaver/FileSaver.min.js)
 $(call BOWER,bower_components/doT/doT.min.js)
 $(call BOWER,bower_components/URLON/src/urlon.js)
 $(call BOWER,bower_components/html2canvas/dist/html2canvas.min.js)
+# Newer NPM stuff
+$(call BOWER,node_modules/@ijprest/kle-serial/dist/index.js,kle-serial.js)
 
 
 # Rules to generate a webfont from our source .svg files
@@ -109,6 +111,7 @@ e2e-test:
 
 install:
 	bower install
+	npm install
 	cd bower_components/angular-ui-bootstrap $& npm install
 	cd bower_components/angular-ui-bootstrap $& grunt before-test after-test
 	cd bower_components/angular-ui-utils $& npm install

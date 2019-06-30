@@ -29,7 +29,7 @@
 		var customStylesTimer = false;
 
 		// The application version
-		$scope.version = "0.15";
+		$scope.version = "0.15.1";
 
 		// Github data
 		$scope.githubClientId = $location.host() === "localhost" ? "8b7b224a9e212c5c17e2" : "631d93caeaa61c9057ab";
@@ -664,7 +664,7 @@
 
 			} else {
 				// Saved layouts & samples
-				var base = $serial.base_href;
+				var base = "http://www.keyboard-layout-editor.com";
 				if(path.substring(0,9) === '/samples/') {
 					base = ''; // Load samples from local folder
 				}

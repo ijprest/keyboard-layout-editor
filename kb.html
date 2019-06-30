@@ -34,6 +34,9 @@ All rights reserved.
 <script type="text/javascript" src="js/color.js"></script>
 <script type="text/javascript" src="js/jsonl.min.js"></script>
 <script type="text/javascript" src="js/html2canvas.min.js"></script>
+<!-- Workaround for the weird way we're importing the kle-serial module -->
+<script type="text/javascript">var exports = {};var require = function() {return {stringify:JSON.stringify};};</script>
+<script type="text/javascript" src="js/kle-serial.js"></script><script type="text/javascript">$kle = {Serial:exports.Serial};</script>
 <script type="text/javascript" src="extensions.js"></script>
 <script type="text/javascript" src="render.js"></script>
 <script type="text/javascript" src="serial.js"></script>
