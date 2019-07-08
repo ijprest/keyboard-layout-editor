@@ -252,6 +252,29 @@
 			})
 		};
 
+		$scope.downloadLifeSize = function() { // some code adapted from http://www.infobyip.com/detectmonitordpi.php
+		  //var devicePixelRatio = window.devicePixelRatio || 1;
+		  //var dpi_x = document.getElementById('oneinchsquare').offsetWidth * devicePixelRatio;alert(dpi_x);
+		  //var dpi_y = document.getElementById('oneinchsquare').offsetHeight * devicePixelRatio;
+		  //var devicePixels = dpi_x + " x " + dpi_y; alert(devicePixels);
+		  
+		  html2canvas($("#keyboard-bg"), {
+		    useCORS: true,
+		    onrendered: function(canvas) {  
+			//var px = dpi_x / 72;  // typically 96/72 == 1.3333333 ... this seems to work.
+			//var py = dpi_x / 72;  // typically 96/72 == 1.3333333 ... this seems to work.
+			var px = 96 / 72;  // typically 96/72 == 1.3333333 ... this seems to work.
+			var py = 96 / 72;  // typically 96/72 == 1.3333333 ... this seems to work.
+			var thmwidth = canvas.width * px; 
+			var thmheight = canvas.height * py;
+			var thm = getResizedCanvas(canvas,thmwidth,thmheight,'');
+			thm.toBlob(function(blob) {
+			  saveAs(blob, "keyboard-lifesize.png");
+			});
+		    }
+		  })
+		};
+		
 		$scope.downloadJson = function() {
 			var data = angular.toJson($serial.serialize($scope.keyboard), true /*pretty*/);
 			var blob = new Blob([data], {type:"application/json"});
@@ -373,15 +396,15 @@
 
 		var align = { hmask:0x0f, hcenter:0x00, left:0x01, right:0x02, vmask:0xf0, vcenter:0x00, top:0x10, bottom:0x20, center:0x00, };
 		$scope.alignLegendsButtons = [
-			{ label: "&#8598;", flags: align.left    | align.top     },
-			{ label: "&#8593;", flags: align.hcenter | align.top     },
-			{ label: "&#8599;", flags: align.right   | align.top     },
-			{ label: "&#8592;", flags: align.left    | align.vcenter },
-			{ label: "&#9679;", flags: align.hcenter | align.vcenter },
-			{ label: "&#8594;", flags: align.right   | align.vcenter },
-			{ label: "&#8601;", flags: align.left    | align.bottom  },
-			{ label: "&#8595;", flags: align.hcenter | align.bottom  },
-			{ label: "&#8600;", flags: align.right   | align.bottom  },
+			{ label: "<i class='kb kb-Arrows-Up-Left'></i>", flags: align.left    | align.top     },
+			{ label: "<i class='kb kb-Arrows-Up'></i>", flags: align.right | align.top     },
+			{ label: "<i class='kb kb-Arrows-Up-Right'></i>", flags: align.right   | align.top     },
+			{ label: "<i class='kb kb-Arrows-Left'></i>", flags: align.left    | align.vcenter },
+			{ label: "<i class='kb kb-Multimedia-Record'></i>", flags: align.hcenter | align.vcenter },
+			{ label: "<i class='kb kb-Arrows-Right'></i>", flags: align.right   | align.vcenter },
+			{ label: "<i class='kb kb-Arrows-Down-Left'></i>", flags: align.left    | align.bottom  },
+			{ label: "<i class='kb kb-Arrows-Down'></i>", flags: align.right | align.bottom  },
+			{ label: "<i class='kb kb-Arrows-Down-Right'></i>", flags: align.right   | align.bottom  },
 		];
 
 		function moveLabel(key, from, to) {

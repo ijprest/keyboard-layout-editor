@@ -144,6 +144,8 @@ Select(0uE86D); Import("font-src/kbd-webfont/Multimedia-Down.svg",0,16);
 Select(0uE86E); Import("font-src/kbd-webfont/Multimedia-Pause.svg",0,16);
 Select(0uE86F); Import("font-src/kbd-webfont/Multimedia-Stop.svg",0,16);
 Select(0uE870); Import("font-src/kbd-webfont/Multimedia-Record.svg",0,16);
+Select(0uE871); Import("font-src/kbd-webfont/Arrows-Down-Left.svg",0,16);
+Select(0uE872); Import("font-src/kbd-webfont/Arrows-Down-Right.svg",0,16);
 Select(0uE8A0); Import("font-src/kbd-webfont/Symbol-Ankh.svg",0,16);
 Select(0uE8A1); Import("font-src/kbd-webfont/Symbol-Peace.svg",0,16);
 Select(0uE8A2); Import("font-src/kbd-webfont/Symbol-Alien.svg",0,16);
