@@ -1,0 +1,148 @@
+[
+  {
+    "name": "Pok3r Default Layer",
+    "author": "me",
+    "notes": "Vortex Pok3r config \n\nKeyboard manual: http://www.vortexgear.tw/db/upload/webdata4/6vortex_20166523361966663.pdf\nshort link: https://bit.ly/2FC86e2\n\n\nDefault Layout: http://www.keyboard-layout-editor.com/#/gists/afedd21d74755c1097d80829ef305692\n\t\t\n\nLayer4: http://www.keyboard-layout-editor.com/#/gists/0d8ab63137a9c0d5f59726000f96dc1b\n\tshort link: https://bit.ly/2IU3IZR\n"
+  },
+  [
+    {
+      "y": 1.5,
+      "c": "#1a1a1a",
+      "t": "#aba18b",
+      "p": "DCS",
+      "a": 7
+    },
+    "Esc\n\n\n\n` ~",
+    {
+      "c": "#3c4041",
+      "a": 4
+    },
+    "!\n1\n\n\nF1",
+    "@\n2\n\n\nF2",
+    "#\n3\n\n\nF3",
+    "$\n4\n\n\nF4",
+    "%\n5\n\n\nF5",
+    "^\n6\n\n\nF6",
+    "&\n7\n\n\nF7",
+    "*\n8\n\n\nF8",
+    "(\n9\n\n\nF9",
+    ")\n0\n\n\nF10",
+    "_\n-\n\n\nF11",
+    "+\n=\n\n\nF12",
+    {
+      "w": 2
+    },
+    "\nBackspace\n\n\nDel"
+  ],
+  [
+    {
+      "w": 1.5
+    },
+    "\nTab",
+    "Q\n\n\n\nprev",
+    "W\n\n\n\nplay",
+    "E\n\n\n\nnext",
+    "R\n\n\n\nReset",
+    "T\n\n\n\n15ms",
+    "Y\n\n\n\nCal",
+    "U\n\n\n\nPgUp",
+    "I\n\n\n\n^",
+    "O\n\n\n\nPgDn",
+    "P\n\n\n\nPrtSc",
+    "{\n[\n\n\nScrlk",
+    "}\n]\n\n\nPause",
+    {
+      "w": 1.5
+    },
+    "|\n\\"
+  ],
+  [
+    {
+      "w": 1.25,
+      "w2": 1.75
+    },
+    "\nFn",
+    {
+      "x": 0.5
+    },
+    "A",
+    "S\n\n\n\nvol -",
+    "D\n\n\n\nvol +",
+    "F\n\n\n\nmute",
+    "G\n\n\n\n0.1s",
+    "H\n\n\n\nHome",
+    "J\n\n\n\n<",
+    "K\n\n\n\nV",
+    "L\n\n\n\n>",
+    ":\n;\n\n\nIns",
+    "\"\n'\n\n\nDel",
+    {
+      "w": 2.25
+    },
+    "\nEnter"
+  ],
+  [
+    {
+      "w": 2.25
+    },
+    "\nShift",
+    "Z",
+    "X",
+    {
+      "a": 0
+    },
+    "C\n\n\n\n\nlight -",
+    "V\n\n\n\n\nlight +",
+    {
+      "a": 4
+    },
+    "B\n\n\n\n0.5s",
+    "N\n\n\n\nEnd",
+    "M\n\n\n\nDefault",
+    "<\n,\n\n\nLayer 2",
+    ">\n.\n\n\nLayer 3",
+    "?\n/\n\n\nLayer 4",
+    {
+      "w": 2.75
+    },
+    "\nShift"
+  ],
+  [
+    {
+      "w": 1.25
+    },
+    "\nCtrl",
+    {
+      "w": 1.25
+    },
+    "\nWin",
+    {
+      "w": 1.25
+    },
+    "\nAlt",
+    {
+      "p": "DCS SPACE",
+      "a": 7,
+      "w": 6.25
+    },
+    "",
+    {
+      "p": "DCS",
+      "a": 4,
+      "w": 1.25
+    },
+    "\nAlt",
+    {
+      "w": 1.25
+    },
+    "\nFn",
+    {
+      "w": 1.25
+    },
+    "\nPn",
+    {
+      "w": 1.25
+    },
+    "\nCtrl"
+  ]
+]
