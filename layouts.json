@@ -135,5 +135,6 @@
 		"Symbolics SpaceCadet" : "/samples/symbolics-spacecadet",
 		"Commodore VIC-20" : "/samples/commodore-vic20",
 		"Programmer's Keyboard": "/samples/pkb.json"
+		"Vortex Pok3r": "/samples/pok3r-default-layer.json"
 	}
 }
