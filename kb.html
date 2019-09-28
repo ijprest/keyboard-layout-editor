@@ -541,6 +541,7 @@ Nav Bar / Header
               <kbd-multi-check field="stepped" kbd-disable="multi.decal" hint-text="Specify whether the selected keys are 'stepped', i.e., part of the key is at a lower height than the rest.  The secondary 'width' indicates the width of the stepped part.">Stepped</kbd-multi-check>
               <kbd-multi-check field="nub" kbd-disable="multi.decal" hint-text="Specifies that the selected keys are 'homing' keys, which help the user find the home-row by touch alone.">Homing</kbd-multi-check>
               <kbd-multi-check field="decal" hint-text="Specifies that the selected keys are to be treated as 'decals', i.e., purely decorative additions to the layout.">Decal</kbd-multi-check>
+              <kbd-multi-check field="coloredBorder" hint-text="With this option color of border calculated from color of keycap.">Colored Border</kbd-multi-check>
             </div>
           </div>
         </div>
@@ -1213,12 +1214,18 @@ DOT.js Templates
     <div style="left: {{=parms.outercapx}}px; top: {{=parms.outercapy}}px;
                 width: {{=parms.outercapwidth}}px; height: {{=parms.outercapheight}}px;
                 border-width: {{=sizes.strokeWidth}}px; border-radius: {{=sizes.roundOuter}}px;
+                {{? key.coloredBorder }}
+                  border-color: {{=parms.borderColor}};
+                {{?}}
                 background-color: {{=parms.darkColor}};"
          class="keyborder"></div>
   {{? parms.jShaped}}
     <div style="left: {{=parms.outercapx2}}px; top: {{=parms.outercapy2}}px;
                 width: {{=parms.outercapwidth2}}px; height: {{=parms.outercapheight2}}px;
-                border-width: {{=sizes.strokeWidth}}px; border-radius: {{=sizes.roundOuter}}px;
+                border-width: {{=sizes.strokeWidth}}px; border-radius: {{=sizes.roundOuter}}px; 
+                {{? key.coloredBorder }}
+                  border-color: {{=parms.borderColor}};
+                {{?}}
                 background-color: {{=parms.darkColor}};"
          class="keyborder"></div>
     <div style="left: {{=parms.outercapx + sizes.strokeWidth}}px; top: {{=parms.outercapy + sizes.strokeWidth}}px;
@@ -1232,14 +1239,18 @@ DOT.js Templates
   {{? !key.decal}}
     <div style="left: {{=parms.innercapx}}px; top: {{=parms.innercapy}}px;
                 width: {{=parms.innercapwidth}}px; height: {{=parms.innercapheight}}px;
-                border-style: solid; border-width: {{=sizes.strokeWidth}}px; border-color: rgba(0,0,0,0.1);
+                {{? !parms.disableKeytopBorder }}
+                  border-style: solid; border-width: {{=sizes.strokeWidth}}px; border-color: rgba(0,0,0,0.1);
+                {{?}}
                 background-color: {{=parms.lightColor}};
                 border-radius: {{=sizes.roundInner}}px;"
          class="keytop"></div>
     {{? parms.jShaped && !key.stepped }}
       <div style="left: {{=parms.innercapx2}}px; top: {{=parms.innercapy2}}px;
                   width: {{=parms.innercapwidth2}}px; height: {{=parms.innercapheight2}}px;
-                  border-style: solid; border-width: {{=sizes.strokeWidth}}px; border-color: rgba(0,0,0,0.1); border-radius: {{=sizes.roundInner}}px;
+                  {{? !parms.disableKeytopBorder }}
+                    border-style: solid; border-width: {{=sizes.strokeWidth}}px; border-color: rgba(0,0,0,0.1); border-radius: {{=sizes.roundInner}}px;
+                  {{?}}
                   background-color: {{=parms.lightColor}};
                   background-position: {{=Math.min(parms.innercapx-parms.innercapx2,0)}}px {{=Math.min(parms.innercapy-parms.innercapy2,0)}}px;
                   background-size: {{=Math.max(parms.innercapwidth,parms.innercapwidth2)}}px {{=Math.max(parms.innercapheight,parms.innercapheight2)}}px;"

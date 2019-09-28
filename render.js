@@ -9,16 +9,19 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 	// - padding == distance between text & edge of keycap
 	// - strokeWidth == thickness of the outline strokes
 	// - roundInner/roundOuter == corner roundness for inner/outer borders
+	// - colorCoef == coefficient of color lightning between .keycap and .keytop
+	// - disableKeytopBorder == if defined and true, then keytop has no border
 	var unitSizes = {
 		px : {
 			unit : 54,
 			strokeWidth: 1,
-			"" : { profile: "" , keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 3, bevelOffsetBottom: 3, padding: 3, roundOuter: 5, roundInner: 3 },
-			"DCS" : { profile: "DCS", keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 3, bevelOffsetBottom: 3, padding: 3, roundOuter: 5, roundInner: 3 },
-			"DSA" : { profile: "DSA", keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 0, bevelOffsetBottom: 0, padding: 3, roundOuter: 5, roundInner: 8 },
-			"SA" :  { profile: "SA", keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 2, bevelOffsetBottom: 2, padding: 3, roundOuter: 5, roundInner: 5 },
-			"CHICKLET" :  { profile: "CHICKLET", keySpacing: 3, bevelMargin: 1, bevelOffsetTop: 0, bevelOffsetBottom: 2, padding: 4, roundOuter: 4, roundInner: 4 },
-			"FLAT" : { profile: "FLAT" , keySpacing: 1, bevelMargin: 1, bevelOffsetTop: 0, bevelOffsetBottom: 0, padding: 4, roundOuter: 5, roundInner: 3 },
+			"" : { profile: "" , keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 3, bevelOffsetBottom: 3, padding: 3, roundOuter: 5, roundInner: 3, colorCoef: 1.2 },
+			"DCS" : { profile: "DCS", keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 3, bevelOffsetBottom: 3, padding: 3, roundOuter: 5, roundInner: 3, colorCoef: 1.2 },
+			"DSA" : { profile: "DSA", keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 0, bevelOffsetBottom: 0, padding: 3, roundOuter: 5, roundInner: 8, colorCoef: 1.2 },
+			"SA" :  { profile: "SA", keySpacing: 0, bevelMargin: 6, bevelOffsetTop: 2, bevelOffsetBottom: 2, padding: 3, roundOuter: 5, roundInner: 5, colorCoef: 1.2 },
+			"CHICKLET" :  { profile: "CHICKLET", keySpacing: 3, bevelMargin: 1, bevelOffsetTop: 0, bevelOffsetBottom: 2, padding: 4, roundOuter: 4, roundInner: 4, colorCoef: 1.2 },
+			"FLAT" : { profile: "FLAT" , keySpacing: 1, bevelMargin: 1, bevelOffsetTop: 0, bevelOffsetBottom: 0, padding: 4, roundOuter: 5, roundInner: 3, colorCoef: 1.2 },
+			"PRETTY" : { profile: "PRETTY" , keySpacing: 0, bevelMargin: 5, bevelOffsetTop: 3, bevelOffsetBottom: 3, padding: 3, roundOuter: 5, roundInner: 3, colorCoef: 1.15, disableKeytopBorder: true },
 		},
 		mm : {
 			unit: 19.05,
@@ -29,10 +32,11 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 			"SA" : {  profile: "SA", keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
 			"CHICKLET" : {  profile: "CHICKLET", keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
 			"FLAT" : {  profile: "FLAT" , keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
+			"PRETTY" : {  profile: "PRETTY" , keySpacing: 0.4445, bevelMargin: 3.1115, padding: 0, roundOuter: 1.0, roundInner: 2.0 },
 		}
 	};
 	["px","mm"].forEach(function(unit) {
-		["","DCS","DSA","SA","CHICKLET","FLAT"].forEach(function(profile) {
+		["","DCS","DSA","SA","CHICKLET","FLAT","PRETTY"].forEach(function(profile) {
 			unitSizes[unit][profile].unit = unitSizes[unit].unit;
 			unitSizes[unit][profile].strokeWidth = unitSizes[unit].strokeWidth;
 		});
@@ -47,7 +51,7 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 	}
 
 	function getProfile(key) {
-		return (/\b(SA|DSA|DCS|OEM|CHICKLET|FLAT)\b/.exec(key.profile) || [""])[0];
+		return (/\b(SA|DSA|DCS|OEM|CHICKLET|FLAT|PRETTY)\b/.exec(key.profile) || [""])[0];
 	}
 
 	function getRenderParms(key, sizes) {
@@ -98,7 +102,9 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 		parms.textcapy       = parms.innercapy       + sizes.padding;
 
 		parms.darkColor = key.color;
-		parms.lightColor = lightenColor($color.hex(key.color), 1.2).hex();
+		parms.lightColor = lightenColor($color.hex(key.color), sizes.colorCoef).hex();
+		parms.borderColor = lightenColor($color.hex(key.color), 0.90).hex();
+		parms.disableKeytopBorder = sizes.disableKeytopBorder === true;
 
 		// Rotation matrix about the origin
 		parms.origin_x = sizes.unit * key.rotation_x;
