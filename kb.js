@@ -1082,6 +1082,8 @@
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					selectedKey.x = Math.round10(Math.max(0,selectedKey.x + x),-2);
 					selectedKey.y = Math.round10(Math.max(0,selectedKey.y + y),-2);
+					selectedKey.rotation_x =Math.round10(Math.max(0,selectedKey.rotation_x + x),-2);
+					selectedKey.rotation_y = Math.round10(Math.max(0,selectedKey.rotation_y + y),-2);
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
