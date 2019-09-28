@@ -234,6 +234,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 			}
 			current.textColor = serializeProp(props, "t", ordered.textColor.join("\n").trimEnd(), current.textColor);
 			current.ghost = serializeProp(props, "g", key.ghost, current.ghost);
+			current.coloredBorder = serializeProp(props, "cb", key.coloredBorder, current.coloredBorder);
 			current.profile = serializeProp(props, "p", key.profile, current.profile);
 			current.sm = serializeProp(props, "sm", key.sm, current.sm);
 			current.sb = serializeProp(props, "sb", key.sb, current.sb);
@@ -356,6 +357,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 						if(key.l) { current.stepped = key.l; }
 						if(key.d) { current.decal = key.d; }
 						if(key.g != null) { current.ghost = key.g; }
+						if(key.cb != null) { current.coloredBorder = key.cb; }
 						if(key.sm) { current.sm = key.sm; }
 						if(key.sb) { current.sb = key.sb; }
 						if(key.st) { current.st = key.st; }
