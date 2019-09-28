@@ -107,6 +107,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 		default: { textColor: "#000000", textSize: 3 },   // label defaults
 		color: "#cccccc", profile: "", nub: false,        // cap appearance
 		ghost: false, stepped: false, decal: false,       // miscellaneous options
+		coloredBorder: false,                             // miscellaneous options
 		sm: "", sb:"", st:""                              // switch
 	};
 
