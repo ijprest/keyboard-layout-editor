@@ -1617,6 +1617,10 @@
 				clipCopy.forEach(function(key,i) {
 					key.x += pos.x;
 					key.y += pos.y;
+					if (key.rotation_angle != 0) {
+						key.rotation_x += pos.x;
+						key.rotation_y += pos.y;
+					}
 					renderKey(key);
 					$scope.keys().push(key);
 					$scope.selectedKeys = clipCopy;
