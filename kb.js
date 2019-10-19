@@ -1600,12 +1600,20 @@
 			clipCopy.forEach(function(key) {
 				minx = Math.min(minx, key.x -= clipboard[0].x);
 				miny = Math.min(miny, key.y -= clipboard[0].y);
+				if (key.rotation_angle != 0) {
+					key.rotation_x -= clipboard[0].x;
+					key.rotation_y -= clipboard[0].y;
+				}
 			});
 
 			// Adjust to make sure nothing < 0
 			clipCopy.forEach(function(key) {
 				key.x -= minx;
 				key.y -= miny;
+				if (key.rotation_angle != 0) {
+					key.rotation_x -= minx;
+					key.rotation_y -= miny;
+				}
 				if(key.y>0) { singleRow = false; }
 			});
 
