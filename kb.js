@@ -32,7 +32,7 @@
 		$scope.version = "0.15";
 
 		// Github data
-		$scope.githubClientId = $location.host() === "localhost" ? "8b7b224a9e212c5c17e2" : "631d93caeaa61c9057ab";
+		$scope.githubClientId = "aa8e45492d603a1eedcd";
 		function github(path, method, data) {
 			method = method || "GET";
 			var headers = {};
@@ -104,6 +104,8 @@
 		};
 
 		$scope.save = function(event) {
+			if (!confirm('WARNING! READ THIS CAREFULLY! Saving your layout on this site kle.klava.org you can CORRUPT YOUR LAYOUT GIST for standard keyboard-layout-editor.com! This site used another stupid serialization algorithm which not supported by keyboard-layout-editor.com. Are you sure to continue?'))
+				return;
 			if(!$scope.user || !$scope.user.id) {
 				return;
 			}
@@ -844,6 +846,7 @@
 				},
 				nub : function() { if(!key.decal) key[prop] = value; },
 				ghost : function() { if(!key.decal) key[prop] = value; },
+				coloredBorder : function() { key[prop] = value; },
 				decal : function() { key[prop] = value; key.x2 = key.y2 = 0; key.width2 = key.width; key.height2 = key.height; key.nub = key.stepped = key.ghost = false; },
 				rotation_angle : function() { key.rotation_angle = value; key.rotation_x = $scope.multi.rotation_x; key.rotation_y = $scope.multi.rotation_y; },
 				sm : function() { if(value===$scope.meta.switchMount) value=''; if(value != key.sm) { key.sm = value; key.sb = key.st = ''; } },
@@ -1082,6 +1085,8 @@
 				$scope.selectedKeys.forEach(function(selectedKey) {
 					selectedKey.x = Math.round10(Math.max(0,selectedKey.x + x),-2);
 					selectedKey.y = Math.round10(Math.max(0,selectedKey.y + y),-2);
+					selectedKey.rotation_x =Math.round10(Math.max(0,selectedKey.rotation_x + x),-2);
+					selectedKey.rotation_y = Math.round10(Math.max(0,selectedKey.rotation_y + y),-2);
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -1600,23 +1605,40 @@
 			clipCopy.forEach(function(key) {
 				minx = Math.min(minx, key.x -= clipboard[0].x);
 				miny = Math.min(miny, key.y -= clipboard[0].y);
+				if (key.rotation_angle != 0) {
+					key.rotation_x -= clipboard[0].x;
+					key.rotation_y -= clipboard[0].y;
+				}
 			});
+
+			console.log(minx);
+			console.log(miny);
 
 			// Adjust to make sure nothing < 0
 			clipCopy.forEach(function(key) {
 				key.x -= minx;
 				key.y -= miny;
+				if (key.rotation_angle != 0) {
+					key.rotation_x -= minx;
+					key.rotation_y -= miny;
+				}
 				if(key.y>0) { singleRow = false; }
 			});
 
 			// Figure out where to put the keys
 			var pos = whereToAddNewKeys(!singleRow);
 
+			console.log(pos);
+
 			// Perform the transaction
 			transaction("paste", function() {
 				clipCopy.forEach(function(key,i) {
 					key.x += pos.x;
 					key.y += pos.y;
+					if (key.rotation_angle != 0) {
+						key.rotation_x += pos.x;
+						key.rotation_y += pos.y;
+					}
 					renderKey(key);
 					$scope.keys().push(key);
 					$scope.selectedKeys = clipCopy;
@@ -1659,7 +1681,7 @@
 			}
 
 			if(!userLoginWindow && !$scope.user) {
-				var parms = "&client_id="+ $scope.githubClientId +"&redirect_uri="+ ($location.host() === "localhost" ? "http://localhost:8080/oauth.html" : "http://www.keyboard-layout-editor.com/oauth.html");
+				var parms = "&client_id="+ $scope.githubClientId +"&redirect_uri="+ "https://kle.klava.org/oauth.html";
 				userLoginSecret = (window.performance && window.performance.now ? window.performance.now() : Date.now()).toString() + "_" + (Math.random()).toString();
 				userLoginWindow = window.open("https://github.com/login/oauth/authorize?scope=gist&state="+userLoginSecret+parms,
 					"Sign in with Github", "left="+(window.left+50)+",top="+(window.top+50)+",width=1050,height=630,personalbar=0,toolbar=0,scrollbars=1,resizable=1");
