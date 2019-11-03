@@ -1611,9 +1611,6 @@
 				}
 			});
 
-			console.log(minx);
-			console.log(miny);
-
 			// Adjust to make sure nothing < 0
 			clipCopy.forEach(function(key) {
 				key.x -= minx;
@@ -1627,8 +1624,6 @@
 
 			// Figure out where to put the keys
 			var pos = whereToAddNewKeys(!singleRow);
-
-			console.log(pos);
 
 			// Perform the transaction
 			transaction("paste", function() {
