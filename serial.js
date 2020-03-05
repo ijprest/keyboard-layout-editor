@@ -220,7 +220,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 			current.rotation_x = serializeProp(props, "rx", key.rotation_x, current.rotation_x);
 			current.rotation_y = serializeProp(props, "ry", key.rotation_y, current.rotation_y);
 			current.y += serializeProp(props, "y", Math.round10(key.y-current.y, -4), 0);
-			current.x += serializeProp(props, "x", Math.round10(key.x-current.x, -4), 0) + key.width;
+			current.x += Math.round10(serializeProp(props, "x", Math.round10(key.x-current.x, -4), 0) + key.width, -4);
 			current.color = serializeProp(props, "c", key.color, current.color);
 			if(!ordered.textColor[0]) {
 				ordered.textColor[0] = key.default.textColor;
