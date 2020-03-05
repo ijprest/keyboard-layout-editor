@@ -39,7 +39,7 @@ Required Tools:
 * Grunt: ```npm install -g grunt-cli```
 * Protractor: ```npm install -g protractor```
 * Jasmine: ```npm install -g jasmine```
-* Uglifyjs: ```npm install -g uglifyjs```
+* Uglifyjs: ```npm install -g uglify-js```
 * Stylus: ```npm install -g stylus```
 * Jison: ```npm install -g jison```
 * Git-utils: ```npm install git-utils -g ```

@@ -831,7 +831,7 @@ Nav Bar / Header
           <tr ng-repeat="(k,v) in switchCount()"><td>{{k}}</td><td>{{switchNames[k]}}</td><td>{{v}}</td></tr>
         </table>
        </div>
-      </div> 
+      </div>
      <div class="btn-group btn-group-xs" role="group">
       <br><button type="button" class="btn btn-success" ng-click="printDiv('printSummary')"><i class="fa fa-print"></i> Print summary</button>
      </div>
@@ -1032,7 +1032,7 @@ Options Dialog
             <div class="form-group form-group-sm">
               <div class="input-group input-group-sm hint--top hint--rounded"
                    data-hint="Controls the step size when moving keys around the keyboard layout.">
-                <input id="moveStepEditor" class="form-control" type="number" min="0.05" max="2.5" step="0.05" size="6" ng-model="params.moveStep">
+                <input id="moveStepEditor" class="form-control" type="number" min="0.0005" max="2.5" step="0.0125" size="9" ng-model="params.moveStep">
                 <span class="input-group-addon">units</span>
               </div>
             </div>
@@ -1047,7 +1047,7 @@ Options Dialog
             <div class="form-group form-group-sm">
               <div class="input-group input-group-sm hint--top hint--rounded"
                    data-hint="Controls the step size when resizing keys in the keyboard layout.">
-                <input id="sizeStepEditor" class="form-control" type="number" min="0.05" max="2.5" step="0.05" size="6" ng-model="params.sizeStep">
+                <input id="sizeStepEditor" class="form-control" type="number" min="0.0005" max="2.5" step="0.0125" size="9" ng-model="params.sizeStep">
                 <span class="input-group-addon">units</span>
               </div>
             </div>
