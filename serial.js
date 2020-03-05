@@ -219,8 +219,8 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 			current.rotation_angle = serializeProp(props, "r", key.rotation_angle, current.rotation_angle);
 			current.rotation_x = serializeProp(props, "rx", key.rotation_x, current.rotation_x);
 			current.rotation_y = serializeProp(props, "ry", key.rotation_y, current.rotation_y);
-			current.y += serializeProp(props, "y", key.y-current.y, 0);
-			current.x += serializeProp(props, "x", key.x-current.x, 0) + key.width;
+			current.y += serializeProp(props, "y", Math.round10(key.y-current.y, -4), 0);
+			current.x += serializeProp(props, "x", Math.round10(key.x-current.x, -4), 0) + key.width;
 			current.color = serializeProp(props, "c", key.color, current.color);
 			if(!ordered.textColor[0]) {
 				ordered.textColor[0] = key.default.textColor;
@@ -338,7 +338,7 @@ var $serial = (typeof(exports) !== 'undefined') ? exports : {};
 						if(key.fa) { current.textSize = key.fa; }
 						if(key.p) { current.profile = key.p; }
 						if(key.c) { current.color = key.c; }
-						if(key.t) { 
+						if(key.t) {
 							var split = key.t.split('\n');
 							current.default.textColor = split[0];
 							current.textColor = reorderLabelsIn(split, align);
