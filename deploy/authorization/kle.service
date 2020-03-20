@@ -3,7 +3,7 @@ Description=kle
 
 [Service]
 ExecStartPre=fuser -k 81/tcp
-ExecStart=<absolute_path>/deploy/authorization/server.py --client-id <client_id> --client-secret <client_secret> --port 81
+ExecStart=/home/bouncepaw/src/keyboard-layout-editor/deploy/authorization/server.py --client-id <client_id> --client-secret <client_secret> --port 81
 ExecStopPost=fuser -k 81/tcp
 Restart=on-failure
 

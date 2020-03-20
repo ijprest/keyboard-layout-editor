@@ -6,7 +6,7 @@ All rights reserved.
 <!DOCTYPE html>
 <html ng-app="kbApp">
 <head>
-<title>Keyboard Layout Editor</title>
+<title>Keyboard Layout Editor. Frog Edition</title>
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" media="screen">
 <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
@@ -62,9 +62,14 @@ Nav Bar / Header
       <span class="icon-bar"></span>
     </button>
 
-    <!-- Main branding icon/title -->
-    <a class="navbar-brand" href="#"><i class="fa fa-keyboard-o"></i> keyboard-layout-editor.com</a>
+    <!-- Main branding icon/title.
+      TODO: add frog logo -->
+    <a class="navbar-brand" href="#">
+      <i class="fa fa-keyboard-o"></i>
+      <b>KLE. Frog Edition</b>
+    </a>
   </div>
+
   <div class="collapse navbar-collapse navbar-ex1-collapse">
 
     <!-- Left-aligned NavBar buttons -->
@@ -106,8 +111,7 @@ Nav Bar / Header
     <ul class="nav navbar-nav navbar-right" style="">
       <!-- Options button -->
       <li><a href="#" ng-click="showOptions()"><i class="fa fa-cog"></i> Options</a></li>
-      <!-- Permalink button -->
-      <li><a ng-href="{{getPermalink()}}" target="_blank" ng-click="dirty = false"><i class="fa fa-link"></i> Permalink</a></li>
+      <!-- Permalink button cut away -->
       <!-- User button -->
       <li ng-hide="user"><a href="#" ng-click="userLogin()"><i class="fa fa-github"></i> Sign in with GitHub</a></li>
       <li ng-hide="!user" class="dropdown" dropdown ng-cloak>
@@ -164,12 +168,9 @@ Nav Bar / Header
     <button type="button" class="btn btn-default" ng-class="{disabled:!canCopy()}" ng-click="copy()"><i class="fa fa-copy"></i> Copy</button>
     <button type="button" class="btn btn-default" ng-class="{disabled:!canPaste()}" ng-click="paste()"><i class="fa fa-paste"></i> Paste</button>
   </div>
-  <div class="btn-group" ng-hide="!user || !user.id || !currentGist || isStarred">
-    <button type="button" class="btn btn-default" ng-click="setGistStar(currentGist, true)" ><i class="fa fa-star-o"></i> Star</button>
-  </div>
-  <div class="btn-group" ng-hide="!user || !user.id || !currentGist || !isStarred">
-    <button type="button" class="btn btn-default" ng-click="setGistStar(currentGist, false)" ><i class="fa fa-star"></i> Unstar</button>
-  </div>
+  <!-- Gist star button cut -->
+
+
   <!-- Save button (right aligned) -->
   <div class="btn-group pull-right" ng-hide="user && user.id">
     <button type="button" class="btn btn-success hint--bottom hint--no-animate disabled" data-hint="Sign in to save your layouts.">
@@ -181,6 +182,8 @@ Nav Bar / Header
       <i class="fa fa-save"></i> Save
     </button>
   </div>
+
+  <!-- Download button -->
   <div class="btn-group pull-right" style="margin-right: 4px;" dropdown>
     <button type="button" class="btn btn-success dropdown-toggle" dropdown-toggle><i class="fa fa-download"></i> Download <span class="caret"></span></button>
     <ul class="dropdown-menu" role="menu">
@@ -261,8 +264,8 @@ Nav Bar / Header
     <li ng-class="{active:selTab==1}"><a ng-click="selTab=1" data-toggle="tab"><i class="fa fa-keyboard-o"></i> Keyboard Properties</a></li>
     <li ng-class="{active:selTab==3}"><a ng-click="selTab=3" data-toggle="tab"><i class="fa fa-file-text-o"></i> Custom Styles</a></li>
     <li ng-class="{active:selTab==2}"><a ng-click="selTab=2" data-toggle="tab"><i class="fa fa-code"></i> Raw data</a></li>
-    <li ng-class="{active:selTab==4}"><a ng-click="selTab=4" data-toggle="tab"><i class="fa fa-file-text-o"></i> Summary</a></li>
-    <li ng-class="{active:selTab==5}"><a ng-click="selTab=5" data-toggle="tab"><i class="fa fa-wrench"></i> Tools</a></li>
+    <!-- Summary tab cut -->
+    <li ng-class="{active:selTab==4}"><a ng-click="selTab=4" data-toggle="tab"><i class="fa fa-wrench"></i> Tools</a></li>
   </ul>
   <div id="tab-content" class='col-md-12 col-lg-12 row' ui-keydown="{esc:'focusKb()'}" ng-cloak>
 
@@ -443,6 +446,19 @@ Nav Bar / Header
               <kbd-multi-numbox field="y" size="6" min="0" max="36" step='{{moveStep}}'></kbd-multi-numbox>
               <div class="form-group form-group-sm"> + </div>
               <kbd-multi-numbox field="y2" size="6" min="-6" max="6" step='{{moveStep}}' kbd-disable="multi.decal"></kbd-multi-numbox>
+            </div>
+          </div>
+        </div>
+
+        <!-- Z -->
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3 col-lg-3 text-nowrap" for="z-editor">Z:</label>
+          <div class="col-md-9 col-lg-9">
+            <div class="form-inline hint--top hint--rounded"
+                 data-hint="Specify the Z position of the keycap.">
+              <kbd-multi-numbox field="z" size="6" min="0" max="36" step='{{moveStep}}'></kbd-multi-numbox>
+              <div class="form-group form-group-sm"> + </div>
+              <kbd-multi-numbox field="z2" size="6" min="-6" max="6" step='{{moveStep}}' kbd-disable="multi.decal"></kbd-multi-numbox>
             </div>
           </div>
         </div>
@@ -813,33 +829,9 @@ Nav Bar / Header
       <div id="rawdata-error" class="alert alert-danger" style='margin-top:1em;margin-bottom:0px' ng-class="{hidden:!deserializeException}">{{deserializeException}}</div>
     </div>
 
-    <!-- SUMMARY -->
-    <div id="summary" ng-class="{hidden:selTab!=4}">
-      <div class="col-md-12 col-lg-12 row">
-       <div id='printSummary'>
-        <div>Title: {{meta.name}}</div>
-        <div>Author: {{meta.author}}</div>
-        <table class='summarytable'>
-          <tr><th class='summarytable' colspan='3'>Key sizes summary</th></tr>
-          <tr ng-repeat="(k,v) in keyCount()" class='summarytable'>
-            <td>{{k}}</td>
-            <td><span class="fa fa-square" ng-style="{'color':getTextColor(k)}">&nbsp;</span></td>
-            <td align='right'>{{v}}</td>
-          </tr>
-        </table>
-        <table class='summarytable'>
-          <tr><th colspan='3'>Switches summary</th></tr>
-          <tr ng-repeat="(k,v) in switchCount()"><td>{{k}}</td><td>{{switchNames[k]}}</td><td>{{v}}</td></tr>
-        </table>
-       </div>
-      </div> 
-     <div class="btn-group btn-group-xs" role="group">
-      <br><button type="button" class="btn btn-success" ng-click="printDiv('printSummary')"><i class="fa fa-print"></i> Print summary</button>
-     </div>
-    </div>
+    <!-- Summary tab cut -->
 
-    <div id="tools" ng-class="{hidden:selTab!=5}">
-
+    <div id="tools" ng-class="{hidden:selTab!=4}">
       <div class="col-md-4 col-lg-4 row">
         <h5>Remove Legends:</h5>
         <div class="form-group form-group-sm form-horizontal">
@@ -1416,6 +1408,5 @@ DOT.js Templates
   </svg>
 </script>
 </div>
-<div id='summary_print'></div><!-- just a div to make the summary print work -->
 </body>
 </html>

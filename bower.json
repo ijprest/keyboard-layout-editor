@@ -3,7 +3,8 @@
   "version": "0.12.0",
   "homepage": "http://www.keyboard-layout-editor.com",
   "authors": [
-    "Ian Prest <github.com@ian.prest.ca>"
+    "Ian Prest <github.com@ian.prest.ca>", 
+    "Timur Ismagilov <bouncepaw2@ya.ru>"
   ],
   "description": "A website to edit layouts for physical computer keyboards.",
   "main": "kb.html",
