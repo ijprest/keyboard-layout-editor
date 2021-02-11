@@ -122,6 +122,14 @@
 			[{"w":1.75},"Caps Lock","A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{"w":2.25},"Enter"],
 			[{"w":2.25},"Shift","Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{"w":2.25},"Shift","↑"],
 			[{"w":1.25},"Ctrl","Win",{"w":1.25},"Alt",{"w":6.25},"",{"w":1.25},"Alt",{"w":1.25},"Ctrl",{"w":1.25},"Menu","←","↓","→"]
+		] },
+		{ name: "Sun Type 7", notes: "Original left block scan-codes are Sun-unique and not PC AT compatible by function.", author: "Andrew-phi", "data" : [
+			[{w:2},"Help",{x:0.5},"Esc",{x:1},"F1","F2","F3","F4",{x:0.5},"F5","F6","F7","F8",{x:0.5},"F9","F10","F11","F12",{x:0.25},"Print Screen\nSysRq","Scroll Lock","Pause\nBreak",{x:0.25},"🖵\n🔇","◑-\n🔉","◑+\n🔊",{a:3},"☾",{a:4}],
+			[{y:0.5},"Stop","Again",{x:0.5},"~\n`","!\n1","@\n2","#\n3","$\n4","%\n5","^\n6","&\n7","*\n8","(\n9",")\n0","_\n-","+\n=",{w:2},"← Back Space",{x:0.25},"Insert","Home","Page Up",{x:0.25},"Num Lock","/","*","-"],
+			["Props","Undo",{x:0.5},{w:1.5},"Tab ↹","Q","W","E","R","T","Y","U","I","O","P","{\n[","}\n]",{w:1.5,h:1,x2:0.25,y2:0,w2:1.25,h2:2},"↲ Return",{x:0.25},"Delete","End","Page Down",{x:0.25},"7\nHome","8\n↑","9\nPgUp",{h:2},"+"],
+			["Front","Copy",{x:0.5},{w:1.75},"Caps Lock","A","S","D","F","G","H","J","K","L",":\n;","\"\n'","|\n\\",{x:4.75},"4\n←","5","6\n→"],
+			["Open","Paste",{x:0.5},{w:1.25},"↑ Shift","|\n\\","Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{w:2.75},"↑ Shift",{x:1.25},"↑",{x:1.25},"1\nEnd","2\n↓","3\nPgDn",{h:2},"Enter"],
+			["Find","Cut",{x:0.5},{w:1.25},"Ctrl",{w:1.25},"❖",{w:1.25},"Alt",{a:7,w:7.5},"",{a:4,w:1.25},"Alt",{w:1.25},"❖",{w:1.25},"Layout",{x:0.25},"←","↓","→",{x:0.25,w:2},"0\nIns",".\nDel"]
 		] }
 	],
 
