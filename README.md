@@ -39,7 +39,7 @@ Required Tools:
 * Grunt: ```npm install -g grunt-cli```
 * Protractor: ```npm install -g protractor```
 * Jasmine: ```npm install -g jasmine```
-* Uglifyjs: ```npm install -g uglifyjs```
+* Uglifyjs: ```npm install -g uglify-js```
 * Stylus: ```npm install -g stylus```
 * Jison: ```npm install -g jison```
 * Git-utils: ```npm install git-utils -g ```
@@ -58,6 +58,12 @@ Test:
 * ```webdriver-manager update```
 * ```webdriver-manager start```
 * ```make test```
+
+Run (using Mongoose):
+
+* Install [Mongoose](https://cesanta.com/mongoose.shtml). On Mac you can use ```brew install mongoose```.
+* Run it: ```mongoose -d <root directory>```
+* Open a browser on http://localhost:8080/kb.html
 
 Notes:
 

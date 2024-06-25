@@ -1,0 +1,281 @@
+[
+  {
+    "backcolor": "#dbdbdb",
+    "name": "Magic Keyboard with Numeric Keypad",
+    "author": "Bonkers Builders",
+    "radii": "6px 6px 12px 12px / 18px 18px 12px 12px",
+    "css": "@import url(http://fonts.googleapis.com/css?family=Varela+Round);\n\n#keyboard-bg { \n    background-image: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(0,0,0,0) 10%), \n                      linear-gradient(to right, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%) !important; \n}\n\n.keylabel {\n    font-family: 'volkswagen_serialregular';\n}\n\n/* Strangely, \"Volkswagen Serial\" doesn't have a tilde character */\n.varela { \n    font-family: 'Varela Round'; \n    display: inline-block; \n    font-size: inherit; \n    text-rendering: auto; \n    -webkit-font-smoothing: antialiased; \n    -moz-osx-font-smoothing: grayscale;\n    transform: translate(0, 0);\n}\n.varela-tilde:after { content: \"\\07e\"; }"
+  },
+  [
+    {
+      "t": "#666666",
+      "p": "CHICKLET",
+      "w": 1.55
+    },
+    "\nesc",
+    {
+      "a": 5
+    },
+    "🔅\nF1",
+    "🔆\nF2",
+    "\nF3",
+    "\nF4",
+    "\nF5",
+    "\nF6",
+    "⏪\nF7",
+    "⏵⏸\nF8",
+    "⏩\nF9",
+    "🔈\nF10",
+    "🔉\nF11",
+    "🔊\nF12",
+    {
+      "a": 7
+    },
+    "⏏",
+    {
+      "x": 0.25,
+      "a": 5
+    },
+    "\nF13",
+    "\nF14",
+    "\nF15",
+    {
+      "x": 0.25
+    },
+    "\nF16",
+    "\nF17",
+    "\nF18",
+    "\nF19"
+  ],
+  [
+    {
+      "f": 5,
+      "w": 1.0357
+    },
+    "\n`\n\n\n\n\n~",
+    "!\n1",
+    "@\n2",
+    "#\n3",
+    "$\n4",
+    "%\n5",
+    "^\n6",
+    "&\n7",
+    "*\n8",
+    "(\n9",
+    ")\n0",
+    "_\n-",
+    "+\n=",
+    {
+      "a": 4,
+      "f": 3,
+      "w": 1.5
+    },
+    "\n\n\ndelete",
+    {
+      "x": 0.25,
+      "a": 7
+    },
+    "fn",
+    "home",
+    "page up",
+    {
+      "x": 0.25
+    },
+    "clear",
+    {
+      "f": 5
+    },
+    "=",
+    "/",
+    "*"
+  ],
+  [
+    {
+      "a": 4,
+      "f": 3,
+      "w": 1.5
+    },
+    "\ntab",
+    {
+      "a": 7,
+      "f": 5
+    },
+    "Q",
+    "W",
+    "E",
+    "R",
+    "T",
+    "Y",
+    "U",
+    "I",
+    "O",
+    "P",
+    {
+      "a": 5
+    },
+    "{\n[",
+    "}\n]",
+    "|\n\\",
+    {
+      "x": 0.27999999999999936,
+      "f": 3
+    },
+    "⌦\ndelete",
+    {
+      "a": 7
+    },
+    "end",
+    "page down",
+    {
+      "x": 0.25,
+      "f": 5
+    },
+    "7",
+    "8",
+    "9",
+    "-"
+  ],
+  [
+    {
+      "a": 4,
+      "f": 3,
+      "w": 1.75
+    },
+    "<i class='kb kb-Multimedia-Record'></i>\ncaps lock",
+    {
+      "a": 7,
+      "f": 5
+    },
+    "A",
+    "S",
+    "D",
+    "F",
+    "G",
+    "H",
+    "J",
+    "K",
+    "L",
+    {
+      "a": 5
+    },
+    ":\n;",
+    "\"\n'",
+    {
+      "a": 4,
+      "f": 3,
+      "w": 1.75
+    },
+    "\n\n\nreturn",
+    {
+      "x": 3.539999999999999,
+      "a": 7,
+      "f": 5
+    },
+    "4",
+    "5",
+    "6",
+    {
+      "t": "#000000",
+      "f": 3
+    },
+    "+"
+  ],
+  [
+    {
+      "t": "#666666",
+      "a": 4,
+      "w": 2.25
+    },
+    "\nshift",
+    {
+      "a": 7,
+      "f": 5
+    },
+    "Z",
+    "X",
+    "C",
+    "V",
+    "B",
+    "N",
+    "M",
+    {
+      "a": 5
+    },
+    "<\n,",
+    ">\n.",
+    "?\n/",
+    {
+      "a": 4,
+      "f": 3,
+      "w": 2.25
+    },
+    "\n\n\nshift",
+    {
+      "x": 1.3000000000000007,
+      "a": 7,
+      "f": 5
+    },
+    "↑",
+    {
+      "x": 1.25
+    },
+    "1",
+    "2",
+    "3",
+    {
+      "a": 5,
+      "f": 3,
+      "h": 2
+    },
+    "\nenter"
+  ],
+  [
+    {
+      "a": 4,
+      "w": 1.5
+    },
+    "^\ncontrol",
+    {
+      "w": 1.25
+    },
+    "\n\n⌥\noption",
+    {
+      "w": 1.5
+    },
+    "\n\n⌘\ncommand",
+    {
+      "a": 7,
+      "f": 5,
+      "w": 6
+    },
+    "",
+    {
+      "a": 4,
+      "f": 3,
+      "w": 1.5
+    },
+    "⌘\ncommand",
+    {
+      "w": 1.25
+    },
+    "⌥\noption",
+    {
+      "w": 1.5
+    },
+    "\n\n^\ncontrol",
+    {
+      "x": 0.3000000000000007,
+      "a": 7,
+      "f": 5
+    },
+    "←",
+    "↓",
+    "→",
+    {
+      "x": 0.25,
+      "w": 2
+    },
+    "0",
+    "."
+  ]
+]
