@@ -1,21 +1,21 @@
 keyboard-layout-editor
 ----------------------
-[Keyboard-layout-editor.com](http://www.keyboard-layout-editor.com) (KLE) is a web
-application that enables the editing of keyboard-layouts, i.e., the position
+[Keyboard-layout-editor.com](https://www.keyboard-layout-editor.com) (KLE) is a
+web application that enables the editing of keyboard-layouts, i.e., the position
 and appearance of each physical key.
 
-The motivation for creating this application was a custom keyboard I was 
+The motivation for creating this application was a custom keyboard I was
 designing.  I wanted to be able to experiment quickly with different possible
 layouts and visualize them easily.  The existing graphics tools were capable
 enough, but cumbersome to use for this specific task.
 
-As I sank further into the keyboard-enthusiast scene, I became aware of 
+As I sank further into the keyboard-enthusiast scene, I became aware of
 custom keycap sets that were being created by and for other enthusiasts. The
 ability to specify various details of the visual-appearance of the keycaps
 is an attempt to render these custom keycap sets as accurately as possible
 (within the constraints of HTML/CSS).
 
-Want to interop with with KLE?  Check out sister-project 
+Want to interop with with KLE?  Check out sister-project
 [kle-serial](https://github.com/ijprest/kle-serial), which includes code to
 deserialize saved layouts.
 
@@ -62,7 +62,7 @@ Test:
 Notes:
 
 * You can use any HTTP server for local development; I'm using an ancient
-  version of [Mongoose](https://cesanta.com/mongoose.shtml), but whatever 
+  version of [Mongoose](https://cesanta.com/mongoose.shtml), but whatever
   you've got handy should work.
 * However, if you want to be able to log in to GitHub via OAuth (without
   hacking up the code and registering your own OAuth application), you will

@@ -478,7 +478,7 @@
 			{ "name": "Combining Latin Small Letter T", "html": "<span class='cd'>&#9645;&#877;</span>" },
 			{ "name": "Combining Latin Small Letter V", "html": "<span class='cd'>&#9645;&#878;</span>" },
 			{ "name": "Combining Latin Small Letter X", "html": "<span class='cd'>&#9645;&#879;</span>" }
-		]		
+		]
 	},
 	{
 		"name": "Font Awesome Icons",
@@ -488,7 +488,7 @@
 	},
 	{
 		"name": "Keyboard-Layout-Editor Icons",
-		"href" : "http://www.keyboard-layout-editor.com/",
+		"href" : "https://www.keyboard-layout-editor.com/",
 		"description" : "A selection of commonly used glyphs for keyboards.  All logos are trademarks of their respective owners.",
 		"css": "css/kbd-webfont.css"
 	}
