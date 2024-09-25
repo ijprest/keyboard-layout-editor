@@ -28,12 +28,12 @@
       "w": 1.0357,
       "h": 0.75
     },
-    "\n\n\nF1",
+    "\n\n\nF1\n\n\n\n\n\n🔅",
     {
       "w": 1.0357,
       "h": 0.75
     },
-    "\n\n\nF2",
+    "\n\n\nF2\n\n\n\n\n\n🔆",
     {
       "w": 1.0357,
       "h": 0.75
@@ -58,7 +58,7 @@
       "w": 1.0357,
       "h": 0.75
     },
-    "\n\n\nF7\n\n\n\n\n\n<i class='fa fa-backward'></i>",
+    "\n\n\nF7\n\n\n\n\n\n⏪",
     {
       "fa": [
         0,
@@ -75,7 +75,7 @@
       "w": 1.0357,
       "h": 0.75
     },
-    "\n\n\nF8\n\n\n\n\n\n<i class='fa fa-play'></i><i class='fa fa-pause'></i>",
+    "\n\n\nF8\n\n\n\n\n\n⏵⏸",
     {
       "fa": [
         0,
@@ -86,28 +86,28 @@
       "w": 1.0357,
       "h": 0.75
     },
-    "\n\n\nF9\n\n\n\n\n\n<i class='fa fa-forward'></i>",
+    "\n\n\nF9\n\n\n\n\n\n⏩",
     {
       "w": 1.0357,
       "h": 0.75
     },
-    "\n\n\nF10\n\n\n\n\n\n<i class='fa fa-volume-off'></i>",
+    "\n\n\nF10\n\n\n\n\n\n🔈",
     {
       "w": 1.0357,
       "h": 0.75
     },
-    "\n\n\nF11\n\n\n\n\n\n<i class='fa fa-volume-down'></i>",
+    "\n\n\nF11\n\n\n\n\n\n🔉",
     {
       "w": 1.0357,
       "h": 0.75
     },
-    "\n\n\nF12\n\n\n\n\n\n<i class='fa fa-volume-up'></i>",
+    "\n\n\nF12\n\n\n\n\n\n🔊",
     {
       "a": 7,
       "w": 1.0357,
       "h": 0.75
     },
-    "<i class='fa fa-eject'></i>"
+    "⏏"
   ],
   [
     {
@@ -115,7 +115,7 @@
       "a": 5,
       "f": 5
     },
-    "<i class=\"varela varela-tilde\"></i>\n`",
+    "~\n`",
     "!\n1",
     "@\n2",
     "#\n3",
@@ -242,22 +242,19 @@
     },
     "\nfn",
     {
-      "h": 1.111
-    },
-    "\ncontrol",
-    {
       "fa": [
-        1
-      ],
-      "h": 1.111
-    },
-    "alt\noption",
-    {
-      "fa": [
-        1,
         0,
-        5
+        0,
+        4
       ],
+      "h": 1.111
+    },
+    "\n\n^\ncontrol",
+    {
+      "h": 1.111
+    },
+    "\n\n⌥\noption",
+    {
       "w": 1.25,
       "h": 1.111
     },
@@ -271,21 +268,18 @@
     {
       "a": 4,
       "fa": [
-        5
+        4,
+        0,
+        4
       ],
       "w": 1.25,
       "h": 1.111
     },
     "⌘\ncommand",
     {
-      "fa": [
-        5,
-        0,
-        1
-      ],
       "h": 1.111
     },
-    "\n\nalt\noption",
+    "⌥\noption",
     {
       "x": 1,
       "a": 7,

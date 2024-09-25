@@ -126,7 +126,8 @@
 	],
 
 	"samples" : {
-		"Apple Wireless" : "/samples/apple-wireless.json",
+		"Apple Magic Keyboard" : "/samples/apple-magic-keyboard.json",
+		"Apple Magic Keyboard with Numeric Keypad" : "/samples/apple-magic-keyboard-with-numeric-keypad.json",
 		"GB: CCnG" : "/samples/gb-ccng",
 		"GB: Retro DSA" : "/samples/gb-retro-dsa",
 		"Stealth Black" : "/samples/stealth-black",
