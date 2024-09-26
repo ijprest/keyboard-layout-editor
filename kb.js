@@ -73,8 +73,8 @@
 		$scope.meta = {};
 
 		// Options
-		$scope.sizeStep = 0.25;
-		$scope.moveStep = 0.25;
+		$scope.sizeStep = 0.0125;
+		$scope.moveStep = 0.0125;
 		$scope.rotateStep = 15;
 
 		// The keyboard data
@@ -1080,8 +1080,8 @@
 
 			transaction("move", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					selectedKey.x = Math.round10(Math.max(0,selectedKey.x + x),-2);
-					selectedKey.y = Math.round10(Math.max(0,selectedKey.y + y),-2);
+					selectedKey.x = Math.round10(Math.max(0,selectedKey.x + x),-4);
+					selectedKey.y = Math.round10(Math.max(0,selectedKey.y + y),-4);
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -1097,8 +1097,8 @@
 			}
 			transaction("size", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					update(selectedKey, 'width', validate(selectedKey, 'width', Math.round10(Math.max(1,selectedKey.width + x),-2)));
-					update(selectedKey, 'height', validate(selectedKey, 'height', Math.round10(Math.max(1,selectedKey.height + y),-2)));
+					update(selectedKey, 'width', validate(selectedKey, 'width', Math.round10(Math.max(1,selectedKey.width + x),-4)));
+					update(selectedKey, 'height', validate(selectedKey, 'height', Math.round10(Math.max(1,selectedKey.height + y),-4)));
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
@@ -1131,8 +1131,8 @@
 			}
 			transaction("moveCenter", function() {
 				$scope.selectedKeys.forEach(function(selectedKey) {
-					update(selectedKey, 'rotation_x', validate(selectedKey, 'rotation_x', Math.round10($scope.multi.rotation_x + x,-2)));
-					update(selectedKey, 'rotation_y', validate(selectedKey, 'rotation_y', Math.round10($scope.multi.rotation_y + y,-2)));
+					update(selectedKey, 'rotation_x', validate(selectedKey, 'rotation_x', Math.round10($scope.multi.rotation_x + x,-4)));
+					update(selectedKey, 'rotation_y', validate(selectedKey, 'rotation_y', Math.round10($scope.multi.rotation_y + y,-4)));
 					renderKey(selectedKey);
 				});
 				$scope.multi = angular.copy($scope.selectedKeys.last());
