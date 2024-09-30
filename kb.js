@@ -195,8 +195,11 @@
       console.log(name);
       return name || "keyboard-layout";
     }
+		$scope.getSvg = function() {
+			return $renderKey.fullSVG($scope.keys(), $scope.keyboard.meta, $sanitize);
+		};
 		$scope.downloadSvg = function() {
-			var data = $renderKey.fullSVG($scope.keys(), $scope.keyboard.meta);
+			var data = $scope.getSvg();
 			var blob = new Blob([data], {type:"image/svg+xml"});
 			saveAs(blob, $scope.getFilename()+".svg");
 		};

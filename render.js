@@ -138,7 +138,7 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 	$renderKey.init = function() {
 		keycap_html = doT.template($('#keycap_html').html(), {__proto__: doT.templateSettings, varname:"key, sizes, parms, $sanitize, lightenColor"});
 		keycap_svg = doT.template($('#keycap_svg').html(), {__proto__: doT.templateSettings, varname:"key, sizes, parms, $sanitize, lightenColor", strip:false});
-		keyboard_svg = doT.template($('#keyboard_svg').html(), {__proto__: doT.templateSettings, varname:"parms", strip:false});
+		keyboard_svg = doT.template($('#keyboard_svg').html(), {__proto__: doT.templateSettings, varname:"parms, $sanitize", strip:false});
 	};
 
 	// Given a key, generate the HTML needed to render it
@@ -180,13 +180,13 @@ var $renderKey = (typeof(exports) !== 'undefined') ? exports : {};
 		return keycap_svg(key, sizes, parms, $sanitize, lightenColor);
 	};
 
-	$renderKey.fullSVG = function(keys, metadata) {
+	$renderKey.fullSVG = function(keys, metadata, $sanitize) {
 		// Render all the keys
 		var units = "px";
 	  var bbox = { x: 99999999, y:99999999, x2:-99999999, y2:-99999999 };
 	  var keysSVG = "";
 	  keys.forEach(function(key,index) {	  	
-	  	keysSVG += $renderKey.svg(key, index, bbox, unitSizes[units][getProfile(key)]);
+		keysSVG += $renderKey.svg(key, index, bbox, unitSizes[units][getProfile(key)], $sanitize);
 	  });
 
 	  // Wrap with SVG boilerplate
