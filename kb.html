@@ -1277,7 +1277,18 @@ DOT.js Templates
 </script>
 
 <!-- Keycap Template for SVG-->
-<script type="text/ng-template" id="keycap_svg">
+<script type="text/ng-template" id="keycap_svg">{{
+  let labelTranslations = [
+    [0, 0]  , [0.5, 0]  , [1, 0],
+    [0, 0.5], [0.5, 0.5], [1, 0.5],
+    [0, 1]  , [0.5, 1]  , [1, 1],
+    [0, 1]  , [0.5, 1]  , [1, 1],
+  ];
+  var labelTranslate = (n, width, height) => {
+    let xlat = labelTranslations[n];
+    return "translate(" + (xlat[0] * width) + " " + (xlat[1] * height) + ")";
+  };
+}}
   <g class='{{=key.ghost ? "ghosted" : ""}} {{=key.decal ? "decal" : ""}} keycap' {{? key.rotation_angle }} transform="rotate({{=key.rotation_angle}} {{=parms.origin_x}} {{=parms.origin_y}})" {{?}}>
   {{? !key.decal }}
     {{ /* Outer Border */ }}
@@ -1330,7 +1341,8 @@ DOT.js Templates
     {{?}} {{ /*ghost*/ }}
   {{?}} {{ /*decal*/ }}
   {{? !key.ghost }}
-    <svg x='{{=parms.textcapx}}' y='{{=parms.textcapy}}' width='{{=parms.textcapwidth}}' height='{{=parms.textcapheight}}' class='keylabels'>
+    {{ var viewSize = [parms.textcapwidth, parms.textcapheight]; }}
+    <svg viewBox="0 0 {{=viewSize[0]}} {{=viewSize[1]}}" x='{{=parms.textcapx}}' y='{{=parms.textcapy}}' width='{{=viewSize[0]}}' height='{{=viewSize[1]}}' class='keylabels'>
     {{~key.labels :label:i}}
       {{? label && label != "" }}
         {{ var sanitizedLabel = ""; try { sanitizedLabel = $sanitize(label.replace(/<([^a-zA-Z\/]|$)/,"&lt;$1")); } catch(e) {console.log(e);} }}
@@ -1338,19 +1350,16 @@ DOT.js Templates
           {{ var textSize = key.textSize[i] || key.default.textSize; }}
           {{ var textColor = key.textColor[i] || key.default.textColor; }}
           {{ if(i<9) textColor = lightenColor($color.hex(textColor), 1.2).hex(); }}
-          <text class='keylabel keylabel{{=i}} textsize{{=textSize}}' fill='{{=textColor}}'> {{=sanitizedLabel}} </text>
+          <text transform='{{=labelTranslate(i, ...viewSize)}}' class='keylabel keylabel{{=i}} textsize{{=textSize}}' fill='{{=textColor}}'> {{=sanitizedLabel}} </text>
         {{??}}
           <text>(err)</text>
         {{?}}
       {{?}}
       {{? i==8 }}
+      {{ viewSize[1] = parms.outercapheight - sizes.strokeWidth; }}
       </svg>
-      <svg x="{{=parms.textcapx}}" y="{{=parms.outercapy+sizes.strokeWidth*2}}" width="{{=parms.textcapwidth}}" height="{{=parms.outercapheight-sizes.strokeWidth}}" class='keylabels'>
+      <svg viewBox="0 0 {{=viewSize[0]}} {{=viewSize[1]}}" x="{{=parms.textcapx}}" y="{{=parms.outercapy+sizes.strokeWidth*2}}" width="{{=viewSize[0]}}" height="{{=viewSize[1]}}" class='keylabels'>
       {{?}} {{ /* i==8 */ }}
-    {{~}}
-    </svg>
-    <svg x='{{=parms.textcapx}}' y='{{=parms.textcapy}}' width='{{=parms.textcapwidth}}' height='{{=parms.textcapheight}}' class='keylabels'>
-    {{~key.labels :label:i}}
     {{~}}
     </svg>
   {{?}}
@@ -1363,27 +1372,16 @@ DOT.js Templates
   }} viewBox='0 0 {{=Math.ceil(parms.width+parms.margin*2+parms.padding*2)}} {{=Math.ceil(parms.height+parms.margin*2+parms.padding*2)}}' {{
   }} xmlns='http://www.w3.org/2000/svg' xmlns:xlink="http://www.w3.org/1999/xlink">
   <style type='text/css'>
+    .keycap { font-family: "Helvetica", "Arial", sans-serif; }
     .keycap .border { stroke: black; stroke-width: {{=parms.strokeWidth*2}}; }
     .keycap .inner.border { stroke: rgba(0,0,0,.1); }
-    .keylabel0, .keylabel1, .keylabel2 { dominant-baseline: hanging; }
+    .keylabel0, .keylabel1, .keylabel2 { dominant-baseline: text-before-edge; }
     .keylabel3, .keylabel4, .keylabel5 { dominant-baseline: central; }
-    .keylabel6, .keylabel7, .keylabel8 { dominant-baseline: ideographic; }
+    .keylabel6, .keylabel7, .keylabel8 { dominant-baseline: text-after-edge; }
     .keylabel9, .keylabel10, .keylabel11 { dominant-baseline: ideographic; font-size: 10px !important; max-height: 1em !important; white-space: nowrap; overflow: hidden; }
     .keylabel0, .keylabel3, .keylabel6, .keylabel9  { text-anchor: start; }
     .keylabel1, .keylabel4, .keylabel7, .keylabel10 { text-anchor: middle; }
     .keylabel2, .keylabel5, .keylabel8, .keylabel11 { text-anchor: end; }
-    .keylabel0  { transform: translateX(0%)   translateY(0%); }
-    .keylabel1  { transform: translateX(50%)  translateY(0%); }
-    .keylabel2  { transform: translateX(100%) translateY(0%); }
-    .keylabel3  { transform: translateX(0%)   translateY(50%); }
-    .keylabel4  { transform: translateX(50%)  translateY(50%); }
-    .keylabel5  { transform: translateX(100%) translateY(50%); }
-    .keylabel6  { transform: translateX(0%)   translateY(100%); }
-    .keylabel7  { transform: translateX(50%)  translateY(100%); }
-    .keylabel8  { transform: translateX(100%) translateY(100%); }
-    .keylabel9  { transform: translateX(0%)   translateY(100%); }
-    .keylabel10 { transform: translateX(50%)  translateY(100%); }
-    .keylabel11 { transform: translateX(100%) translateY(100%); }
     .keylabel.textsize1 { font-size: 8px ; line-height: 1em; }
     .keylabel.textsize2 { font-size: 10px; line-height: 1em; }
     .keylabel.textsize3 { font-size: 12px; line-height: 1em; }
