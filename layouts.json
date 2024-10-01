@@ -122,6 +122,13 @@
 			[{"w":1.75},"Caps Lock","A","S","D","F","G","H","J","K","L",":\n;","\"\n'",{"w":2.25},"Enter"],
 			[{"w":2.25},"Shift","Z","X","C","V","B","N","M","<\n,",">\n.","?\n/",{"w":2.25},"Shift","↑"],
 			[{"w":1.25},"Ctrl","Win",{"w":1.25},"Alt",{"w":6.25},"",{"w":1.25},"Alt",{"w":1.25},"Ctrl",{"w":1.25},"Menu","←","↓","→"]
+		] },
+		{ "name" : "Tada68", "data" : [
+			["~\nEsc",{"t":"#000000\n\n\n#ff0000","fa":[0,0,0,2]},"!\n1\n\nF1","@\n2\n\nF2","#\n3\n\nF3","$\n4\n\nF4","%\n5\n\nF5","^\n6\n\nF6","&\n7\n\nF7","*\n8\n\nF8","(\n9\n\nF9",")\n0\n\nF10","_\n-\n\nF11","+\n=\n\nF12",{"w":2},"Backspace\n\n\nDEL","~\n`\n\nIns"],
+			[{"t":"#000000","w":1.5},"Tab","Q",{"t":"#000000\n\n\n#ff0000","f":3},"W\n\n\n<i class='fa fa-long-arrow-up'></i>",{"t":"#000000"},"E","R","T","Y","U","I","O","P","{\n[","}\n]",{"w":1.5},"|\n\\",{"t":"#000000\n\n\n#ff0000"},"Delete\n\n\nHome"],
+			[{"t":"#000000","w":1.75},"Caps Lock",{"t":"#000000\n\n\n#ff0000","f":3},"A\n\n\n<i class='fa fa-long-arrow-left'></i>",{"f":3},"S\n\n\n<i class='fa fa-long-arrow-down'></i>",{"f":3},"D\n\n\n<i class='fa fa-long-arrow-right'></i>",{"t":"#000000"},"F","G","H","J","K","L",":\n;","\"\n'",{"w":2.25},"Enter",{"t":"#000000\n\n\n#ff0000"},"PgUp\n\n\nEnd"],
+			[{"t":"#000000","w":2.25},"Shift","Z","X",{"t":"#000000\n\n\n#ff0000"},"C\n\n\nLED-","V\n\n\nLEDT","B\n\n\nLED+",{"t":"#000000"},"N",{"t":"#000000\n\n\n#ff0000","f":3},"M\n\n\n<i class='kb kb-Multimedia-Volume-Down-1'></i>",{"f":3},"<\n,\n\n<i class='kb kb-Multimedia-Volume-Up-1'></i>",{"f2":0},">\n.\n\n<i class='kb kb-Multimedia-Mute-2'></i>",{"t":"#000000"},"?\n/",{"t":"#000000\n\n\n#ff0000","fa":[0,0,0,2],"w":1.75},"Shift\n\n\nMcL","\n\n\nMmU\n\n\n\n\n\n<i class='fa fa-long-arrow-up'></i>","PgDn\n\n\nMcR"],
+			[{"t":"#000000","w":1.25},"Ctrl",{"w":1.25},"Win",{"w":1.25},"Alt",{"a":7,"w":6.25},"",{"a":4},"Alt",{"t":"#ff0000"},"Fn",{"t":"#000000"},"Ctrl",{"t":"#000000\n\n\n#ff0000"},"\n\n\nMmL\n\n\n\n\n\n<i class='fa fa-long-arrow-left'></i>","\n\n\nMmD\n\n\n\n\n\n<i class='fa fa-long-arrow-down'></i>","\n\n\nMmR\n\n\n\n\n\n<i class='fa fa-long-arrow-right'></i>"]
 		] }
 	],
 
