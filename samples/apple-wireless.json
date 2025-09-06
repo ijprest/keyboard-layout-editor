@@ -4,7 +4,7 @@
     "name": "Apple Wireless Keyboard",
     "author": "Alistair Calder",
     "radii": "6px 6px 12px 12px / 18px 18px 12px 12px",
-    "css": "@import url(http://fonts.googleapis.com/css?family=Varela+Round);\n\n#keyboard-bg { \n    background-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 4%, rgba(255,255,255,0.3) 6%, rgba(0,0,0,0) 10%), \n                      linear-gradient(to right, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%) !important; \n}\n\n.keylabel {\n    font-family: 'volkswagen_serialregular';\n}\n\n/* Strangely, \"Volkswagen Serial\" doesn't have a tilde character */\n.varela { \n    font-family: 'Varela Round'; \n    display: inline-block; \n    font-size: inherit; \n    text-rendering: auto; \n    -webkit-font-smoothing: antialiased; \n    -moz-osx-font-smoothing: grayscale;\n    transform: translate(0, 0);\n}\n.varela-tilde:after { content: \"\\07e\"; }"
+    "css": "@import url(https://fonts.googleapis.com/css?family=Varela+Round);\n\n#keyboard-bg { \n    background-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 4%, rgba(255,255,255,0.3) 6%, rgba(0,0,0,0) 10%), \n                      linear-gradient(to right, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%) !important; \n}\n\n.keylabel {\n    font-family: 'volkswagen_serialregular';\n}\n\n/* Strangely, \"Volkswagen Serial\" doesn't have a tilde character */\n.varela { \n    font-family: 'Varela Round'; \n    display: inline-block; \n    font-size: inherit; \n    text-rendering: auto; \n    -webkit-font-smoothing: antialiased; \n    -moz-osx-font-smoothing: grayscale;\n    transform: translate(0, 0);\n}\n.varela-tilde:after { content: \"\\07e\"; }"
   },
   [
     {
