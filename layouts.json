@@ -135,5 +135,6 @@
 		"Symbolics SpaceCadet" : "/samples/symbolics-spacecadet",
 		"Commodore VIC-20" : "/samples/commodore-vic20",
 		"Programmer's Keyboard": "/samples/pkb.json"
+		"KBD Webfont Symbols": "/samples/kbd-webfont-symbols.json",
 	}
 }
