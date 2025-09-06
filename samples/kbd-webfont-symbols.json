@@ -1,0 +1,1652 @@
+[
+  {
+    "name": "KBD Webfont Symbols",
+    "notes": "Examples of all the symbols available in the \"KBD webfont\" provided by KLE.\n\nFor example, to use the icon with the name \"logo-linux-tux\", write this as a legend:\n<i class='kb kb-logo-linux-tux'></i>\n\nAdditional text can be placed before or after to also have a textual lengend next to the icon.\nThe icons tend to be small.  Adding \"kb-lg\" to the list of classes will make them a little bigger.",
+    "css": ".kb {\n    text-size: 3em;\n}"
+  },
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-windows-7'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-windows-7",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-windows-8'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-windows-8",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-apple'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-apple",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-apple-outline'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-apple-outline",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-vim'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-vim"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-commodore'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-commodore",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-amiga'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-amiga",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-ubuntu_cof'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-ubuntu_cof",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-ubuntu_cof-circle'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-ubuntu_cof-circle",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-tux'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-tux"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-tux-ibm'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-tux-ibm",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-tux-ibm-invert'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-tux-ibm-invert",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-atari'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-atari",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-archlinux'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-archlinux",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-bsd-freebsd'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-bsd-freebsd"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-centos'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-centos",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-winlin-cygwin'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-winlin-cygwin",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-debian'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-debian",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-edubuntu'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-edubuntu",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-fedora'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-fedora"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-gentoo'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-gentoo",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-gnu'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-gnu",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-knoppix'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-knoppix",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-redhat'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-redhat",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-linux-opensuse'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-linux-opensuse"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-logo-android'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "logo-android",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-community-hapster'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "community-hapster",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-community-awesome'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "community-awesome",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-community-awesome-invert'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "community-awesome-invert",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-copyleft'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "copyleft"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-batman'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "batman",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Escape-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Escape-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Escape-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Escape-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Pause-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Pause-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Pause-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Pause-2"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Break-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Break-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Break-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Break-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-PrintScreen-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-PrintScreen-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-PrintScreen-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-PrintScreen-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-ClearScreen-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-ClearScreen-1"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-ClearScreen-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-ClearScreen-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Alternate-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Alternate-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Alternate-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Alternate-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Option-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Option-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Option-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Option-2"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Command-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Command-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Command-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Command-3",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Control-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Control-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Control-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Control-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Control-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Control-3"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Enter-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Enter-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Enter-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Enter-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Return-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Return-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Return-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Return-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Return-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Return-3"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Return-4'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Return-4",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-BackSpace-DeleteLeft-Big'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-BackSpace-DeleteLeft-Big",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-DeleteRight-Big'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-DeleteRight-Big",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-DeleteRight-Small'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-DeleteRight-Small",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-BackSpace-DeleteLeft-Small'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-BackSpace-DeleteLeft-Small"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Insert-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Insert-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Insert-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Insert-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-1-Round-Filled-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "1-Round-Filled-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-1-Round-Filled-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "1-Round-Filled-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-1-Round'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "1-Round"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-A-Round-Filled-Serif'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "A-Round-Filled-Serif",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-A-Round-Filled-SanSerif'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "A-Round-Filled-SanSerif",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-A-Square-Filled-Serif'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "A-Square-Filled-Serif",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-A-Square-Filled-SanSerif'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "A-Square-Filled-SanSerif",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-A-Round-SanSerif'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "A-Round-SanSerif"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Hamburger-Menu'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Hamburger-Menu",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Hourglass-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Hourglass-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Hourglass-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Hourglass-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Stopwatch'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Stopwatch",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Clock'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Clock"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Lock-Closed-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Lock-Closed-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Lock-Open-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Lock-Open-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Lock-Closed-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Lock-Closed-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Lock-Open-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Lock-Open-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Search-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Search-1"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Search-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Search-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Scissors-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Scissors-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Scissors-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Scissors-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Scissors-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Scissors-3",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Undo-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Undo-1"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Undo-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Undo-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Undo-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Undo-3",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Redo-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Redo-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Scroll-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Scroll-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Scroll-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Scroll-2"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Decimal-Separator-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Decimal-Separator-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Decimal-Separator-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Decimal-Separator-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Screen-Dim'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Screen-Dim",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Screen-Bright'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Screen-Bright",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Top-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Top-1"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Top-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Top-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Top-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Top-3",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Top-4'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Top-4",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Bottom-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Bottom-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Bottom-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Bottom-2"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Bottom-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Bottom-3",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Bottom-4'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Bottom-4",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Page-Up-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Page-Up-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Page-Up-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Page-Up-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Page-Up-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Page-Up-3"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Page-Down-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Page-Down-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Page-Down-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Page-Down-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Unicode-Page-Down-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Page-Down-3",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Left'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Left",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Up'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Up"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Right'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Right",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Down'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Down",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Up-Left'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Up-Left",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Up-Right'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Up-Right",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Line-Start'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Line-Start"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Line-End'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Line-End",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Line-Start-End'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Line-Start-End",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Tab-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Tab-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Tab-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Tab-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Left-Circle-Filled'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Left-Circle-Filled"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Up-Circle-Filled'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Up-Circle-Filled",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Right-Circle-Filled'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Right-Circle-Filled",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Arrows-Down-Circle-Filled'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Arrows-Down-Circle-Filled",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Eject'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Eject",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Mute-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Mute-1"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Mute-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Mute-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Mute-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Mute-3",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Mute-4'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Mute-4",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Volume-Down-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Volume-Down-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Volume-Down-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Volume-Down-2"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Volume-Up-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Volume-Up-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Volume-Up-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Volume-Up-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-FastForwar'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-FastForwar",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Rewind'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Rewind",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-FastForward-End'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-FastForward-End"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Rewind-Start'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Rewind-Start",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Play-Pause'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Play-Pause",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Back'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Back",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Play'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Play",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Up'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Up"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Down'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Down",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Pause'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Pause",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Stop'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Stop",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Multimedia-Record'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Multimedia-Record",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Symbol-Ankh'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Symbol-Ankh"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Symbol-Peace'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Symbol-Peace",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Symbol-Alien'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Symbol-Alien",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Symbol-Skull-Bones-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Symbol-Skull-Bones-1",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Symbol-Skull-Bones-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Symbol-Skull-Bones-2",
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Symbol-Keyboard'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Symbol-Keyboard"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='kb kb-Symbol-YinYang'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Symbol-YinYang",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Undo-5'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Undo-5",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Redo-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Redo-2",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Page-Up-5'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Page-Up-5",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Page-Down-5'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Page-Down-5"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Scroll-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Scroll-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Search-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Search-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Command-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Command-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Option-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Option-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-DeleteRight-Big-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-DeleteRight-Big-2"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-BackSpace-DeleteLeft-Big-2'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-BackSpace-DeleteLeft-Big-2",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Insert-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Insert-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Enter-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Enter-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Alternate-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Alternate-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Control-4'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Control-4"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Pause-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Pause-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Break-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Break-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Escape-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Escape-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Undo-4'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Undo-4",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Page-Up-4'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Page-Up-4"
+  ],
+  [
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-Page-Down-4'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-Page-Down-4",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-PrintScreen-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-PrintScreen-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Unicode-ClearScreen-3'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Unicode-ClearScreen-3",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Return-5'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Return-5",
+    {
+      "f": 9
+    },
+    "<li class='mss mss-Warning-1'></li>",
+    {
+      "f": 2,
+      "w": 2
+    },
+    "Warning-1"
+  ]
+]
