@@ -130,9 +130,10 @@
     "\n\n\n\n6\n→",
     {
       "x": 1.75,
+      "a": 7,
       "w": 1.75
     },
-    "\n\n\n\nCaps Lock",
+    "\n\n\n\nCapsLock",
     "\n\n\n\nA",
     "\n\n\n\nS",
     "\n\n\n\nD",
@@ -148,6 +149,9 @@
     "\n\n\n\nJ",
     "\n\n\n\nK",
     "\n\n\n\nL",
+    {
+      "a": 3
+    },
     "\n\n\n\n&nbsp;:\n;&nbsp;",
     "\n\n\n\n&nbsp;\"\n'&nbsp;",
     {
@@ -205,6 +209,7 @@
     "\n\n\n\n&nbsp;.\nDel&nbsp;",
     {
       "x": 1.75,
+      "a": 7,
       "w": 1.25
     },
     "\n\n\n\nCtrl",
@@ -217,14 +222,12 @@
     },
     "\n\n\n\nAlt",
     {
-      "p": "DCS SPACE",
-      "a": 7,
+      "p": "DCSSPACE",
       "w": 6.25
     },
     "",
     {
       "p": "DCS",
-      "a": 3,
       "w": 1.25
     },
     "\n\n\n\nAlt",
@@ -241,7 +244,8 @@
     },
     "\n\n\n\nCtrl",
     {
-      "x": 0.25
+      "x": 0.25,
+      "a": 3
     },
     "\n\n\n\n←",
     "\n\n\n\n↓",
