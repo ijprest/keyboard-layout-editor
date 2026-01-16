@@ -220,13 +220,13 @@ Nav Bar / Header
                  'shift-75': 'nextKey($event)',
                  113: 'focusEditor()',
                  esc: 'unselectAll()',
-                 'ctrl-65': 'selectAll($event)',
-                 'ctrl-67 ctrl-45': 'copy($event)',
-                 'ctrl-88 shift-46': 'cut($event)',
-                 'ctrl-86 shift-45': 'paste($event)',
-                 'ctrl-90' : 'undo()',
-                 'ctrl-shift-90' : 'redo()',
-                 'ctrl-89' : 'redo()' }"
+                 'meta-65 ctrl-65': 'selectAll($event)',
+                 'meta-67 ctrl-67 ctrl-45': 'copy($event)',
+                 'meta-88 ctrl-88 shift-46': 'cut($event)',
+                 'meta-86 ctrl-86 shift-45': 'paste($event)',
+                 'meta-90 ctrl-90' : 'undo()',
+                 'meta-shift-90 ctrl-shift-90' : 'redo()',
+                 'meta-89 ctrl-89' : 'redo()' }"
      ng-mousedown="selectClick($event)"
      ngf-drop="true" ngf-change="uploadJson($files, $event)" ngf-drag-over-class="drag-over">
 
